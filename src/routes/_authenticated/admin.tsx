@@ -14,6 +14,7 @@ import {
   Radio,
   PlaySquare,
   UserCheck,
+  Eye,
   Settings,
 
 
@@ -34,6 +35,7 @@ const menuItems: { title: string; icon: typeof Users; href: string; adminOnly?: 
   { title: "Live Courses", icon: Radio, href: "/admin/live" },
   { title: "Record Lecture", icon: PlaySquare, href: "/admin/recordings" },
   { title: "Students", icon: Users, href: "/admin/students" },
+  { title: "Student View", icon: Eye, href: "/admin/student-view" },
   { title: "Levels & Units", icon: Layers, href: "/admin/sections" },
   { title: "Analytics", icon: BarChart3, href: "/admin/analytics" },
   { title: "Courses", icon: BookOpen, href: "/admin/courses" },
