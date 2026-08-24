@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 import { uploadFile } from "@/lib/storage";
+import { useSiteContent, pickText } from "@/lib/content";
 
 
 export const Route = createFileRoute("/_authenticated/subscription")({
@@ -426,10 +427,10 @@ function SubscriptionPage() {
               <div className="flex items-center justify-between p-4 bg-background/50 backdrop-blur rounded-xl border border-primary/10 shadow-inner">
                 <div>
                   <div className="text-[10px] text-muted-foreground font-black uppercase mb-1">رقم المحفظة / العنوان</div>
-                  <div className="text-xl font-black tracking-widest text-primary">01016177688</div>
+                  <div className="text-xl font-black tracking-widest text-primary">{walletNumber}</div>
                 </div>
                 <Button size="sm" variant="ghost" className="hover:bg-primary/10 font-black" onClick={() => {
-                  navigator.clipboard.writeText('01016177688');
+                  navigator.clipboard.writeText(walletNumber);
                   toast.success("تم نسخ الرقم بنجاح");
                 }}>نسخ</Button>
               </div>
