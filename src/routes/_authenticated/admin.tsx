@@ -15,6 +15,7 @@ import {
   PlaySquare,
   UserCheck,
   Eye,
+  GraduationCap,
   Settings,
 
 
@@ -24,34 +25,49 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAccount } from "@/hooks/useAccount";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getMyCapabilities } from "@/lib/teacher-perms.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
 });
 
-const menuItems: { title: string; icon: typeof Users; href: string; adminOnly?: boolean }[] = [
+const menuItems: { title: string; icon: typeof Users; href: string; adminOnly?: boolean; cap?: string }[] = [
   { title: "Statistics", icon: LayoutDashboard, href: "/admin" },
-  { title: "Registration Requests", icon: UserCheck, href: "/admin/approvals" },
-  { title: "Live Courses", icon: Radio, href: "/admin/live" },
-  { title: "Record Lecture", icon: PlaySquare, href: "/admin/recordings" },
-  { title: "Students", icon: Users, href: "/admin/students" },
+  { title: "Registration Requests", icon: UserCheck, href: "/admin/approvals", cap: "approvals" },
+  { title: "Live Courses", icon: Radio, href: "/admin/live", cap: "live" },
+  { title: "Record Lecture", icon: PlaySquare, href: "/admin/recordings", cap: "recordings" },
+  { title: "Students", icon: Users, href: "/admin/students", cap: "students" },
   { title: "Student View", icon: Eye, href: "/admin/student-view" },
-  { title: "Levels & Units", icon: Layers, href: "/admin/sections" },
-  { title: "Analytics", icon: BarChart3, href: "/admin/analytics" },
-  { title: "Courses", icon: BookOpen, href: "/admin/courses" },
-  { title: "Payment Requests", icon: CreditCard, href: "/admin/payments" },
-  { title: "Dictionary", icon: FileText, href: "/admin/vocabulary" },
-  { title: "Activity Log", icon: HistoryIcon, href: "/admin/logs" },
-  { title: "Notifications", icon: Bell, href: "/admin/notifications" },
+  { title: "Levels & Units", icon: Layers, href: "/admin/sections", cap: "curriculum" },
+  { title: "Analytics", icon: BarChart3, href: "/admin/analytics", cap: "analytics" },
+  { title: "Courses", icon: BookOpen, href: "/admin/courses", cap: "courses" },
+  { title: "Payment Requests", icon: CreditCard, href: "/admin/payments", cap: "payments" },
+  { title: "Dictionary", icon: FileText, href: "/admin/vocabulary", cap: "vocabulary" },
+  { title: "Activity Log", icon: HistoryIcon, href: "/admin/logs", adminOnly: true },
+  { title: "Notifications", icon: Bell, href: "/admin/notifications", cap: "notifications" },
   { title: "Permissions", icon: Shield, href: "/admin/roles", adminOnly: true },
+  { title: "Teacher Permissions", icon: GraduationCap, href: "/admin/teachers", adminOnly: true },
   { title: "Site Content", icon: Settings, href: "/admin/content", adminOnly: true },
 ];
 
 function AdminLayout() {
   const location = useLocation();
   const { data: account, isLoading } = useAccount();
+  const fetchCaps = useServerFn(getMyCapabilities);
+  const { data: myCaps } = useQuery({
+    queryKey: ["my-capabilities"],
+    queryFn: () => fetchCaps(),
+    enabled: !!account?.isStaff,
+  });
 
-  const visibleItems = menuItems.filter((i) => !i.adminOnly || account?.isAdmin);
+  const visibleItems = menuItems.filter((i) => {
+    if (i.adminOnly && !account?.isAdmin) return false;
+    if (account?.isAdmin || myCaps?.isAdmin) return true;
+    if (!i.cap) return true;
+    return (myCaps?.caps ?? []).includes(i.cap);
+  });
 
   const active = (href: string) =>
     href === "/admin" ? location.pathname === "/admin" : location.pathname.startsWith(href);
