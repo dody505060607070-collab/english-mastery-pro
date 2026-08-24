@@ -30,8 +30,8 @@ export type AdminWord = {
 export const listVocabulary = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<AdminWord[]> => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "vocabulary");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("vocabulary")
@@ -46,8 +46,8 @@ export const saveVocabulary = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => wordSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "vocabulary");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const row = {
@@ -80,8 +80,8 @@ export const deleteVocabulary = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "vocabulary");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("vocabulary").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
@@ -93,8 +93,8 @@ export const enrichWord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ word: z.string().trim().min(1).max(80) }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "vocabulary");
     const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) throw new Error("خدمة الذكاء الاصطناعي غير متاحة");
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {

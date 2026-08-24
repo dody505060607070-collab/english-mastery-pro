@@ -23,8 +23,8 @@ const courseInput = z.object({
 export const listCoursesAdmin = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
 
     const [courses, units, lessons, enrollments] = await Promise.all([
       context.supabase.from("courses").select("*").order("order_index").order("created_at", { ascending: false }),
@@ -50,8 +50,8 @@ export const saveCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => courseInput.parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
 
     const { id, ...fields } = data;
     const clean: Record<string, unknown> = { price: 0, discount: 0 };
@@ -82,8 +82,8 @@ export const setCoursePublished = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid(), is_published: z.boolean() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
     const { error } = await context.supabase
       .from("courses")
       .update({ is_published: data.is_published })
@@ -96,8 +96,8 @@ export const deleteCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
     const { error } = await context.supabase.from("courses").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -108,8 +108,8 @@ export const duplicateCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
     const sb = context.supabase;
 
     const { data: src, error } = await sb.from("courses").select("*").eq("id", data.id).single();
@@ -162,8 +162,8 @@ export const reorderCourses = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ ids: z.array(z.string().uuid()).max(500) }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "courses");
     for (let i = 0; i < data.ids.length; i++) {
       await context.supabase.from("courses").update({ order_index: i }).eq("id", data.ids[i]!);
     }
