@@ -2058,63 +2058,6 @@ function Index() {
     },
   });
 
-  const submitPayment = async () => {
-    if (!senderPhone || !receiptFile) {
-      toast.error("يرجى إدخال رقم الهاتف وإرفاق صورة التحويل");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error("يرجى تسجيل الدخول أولاً");
-        window.location.href = '/auth';
-        return;
-      }
-
-      const fileExt = receiptFile.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${user.id}/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('receipts')
-        .upload(filePath, receiptFile);
-
-      if (uploadError) throw uploadError;
-
-      const { data: publicUrl } = supabase.storage
-        .from('receipts')
-        .getPublicUrl(filePath);
-
-      const { error: requestError } = await supabase
-        .from('payment_requests')
-        .insert({
-          user_id: user.id,
-          course_id: selectedCourse.id,
-          amount: selectedCourse.price,
-          payment_method: paymentMethod,
-          sender_phone: senderPhone,
-          screenshot_url: publicUrl.publicUrl,
-          status: 'pending'
-        });
-
-      if (requestError) throw requestError;
-
-      toast.success("تم إرسال طلب الدفع بنجاح. سيتم مراجعته خلال 24 ساعة.");
-      setShowPayment(false);
-      setSelectedCourse(null);
-      // Automatically redirect to the course page after submission
-      // The admin still needs to approve, but the system will now check enrollment
-      // In a real app, we might wait for approval, but we've now added the protective gate.
-      window.location.href = `/course/${selectedCourse.id}`;
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء إرسال الطلب");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20" dir="ltr">
       {/* Dynamic Background Elements */}
