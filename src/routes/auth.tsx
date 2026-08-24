@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { signUpStudent, getMyAccount } from "@/lib/account.functions";
+import { signUpStudent, signUpStaff, getMyAccount } from "@/lib/account.functions";
 import { getPublicCurriculum } from "@/lib/curriculum.functions";
 
 export const Route = createFileRoute("/auth")({
@@ -59,7 +59,7 @@ const signupSchema = z
     phone: z.string().trim().regex(/^[0-9]{10,15}$/, "Invalid phone number"),
     password: z.string().min(6, "Password must be at least 6 characters").max(72),
     confirm: z.string(),
-    sectionId: z.string().uuid("Choose a study level"),
+    sectionId: z.string().optional(),
   })
   .refine((v) => v.password === v.confirm, {
     message: "Passwords do not match",
@@ -92,7 +92,7 @@ function compressImage(file: File): Promise<string> {
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"login" | "signup" | "staff">("login");
   const [loading, setLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -107,6 +107,7 @@ function AuthPage() {
     unitId: "",
   });
   const [photo, setPhoto] = useState<string | null>(null);
+  const staffFileRef = useRef<HTMLInputElement>(null);
 
   // Resume an existing session instead of asking the student to sign in again.
   useEffect(() => {
@@ -205,6 +206,52 @@ function AuthPage() {
     }
   }
 
+  async function onStaffSignup(e: React.FormEvent) {
+    e.preventDefault();
+    if (!/^[0-9]{10,15}$/.test(form.phone.trim())) {
+      toast.error("Invalid phone number");
+      return;
+    }
+    if (form.fullName.trim().length < 3) {
+      toast.error("Name is too short");
+      return;
+    }
+    if (form.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    if (form.password !== form.confirm) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    try {
+      await signUpStaff({
+        data: {
+          fullName: form.fullName,
+          phone: form.phone,
+          password: form.password,
+          avatarBase64: photo,
+        },
+      });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: `${form.phone.trim()}@academy.com`,
+        password: form.password,
+      });
+      if (error) {
+        toast.success("Account created, you can log in now");
+        setMode("login");
+        return;
+      }
+      toast.success("Welcome! Staff account created");
+      navigate({ to: "/admin" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to create account");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function onSignup(e: React.FormEvent) {
     e.preventDefault();
     const parsed = signupSchema.safeParse(form);
@@ -219,7 +266,7 @@ function AuthPage() {
           fullName: form.fullName,
           phone: form.phone,
           password: form.password,
-          sectionId: form.sectionId,
+          sectionId: form.sectionId || null,
           grade: form.grade || null,
           unitId: form.unitId || null,
           avatarBase64: photo,
@@ -262,27 +309,33 @@ function AuthPage() {
       >
         <Card className="border-border/60 shadow-xl">
           <CardHeader className="text-center space-y-2">
-            <div className="mx-auto grid grid-cols-2 gap-1 bg-muted p-1 rounded-2xl w-full max-w-xs mb-2">
-              {(["login", "signup"] as const).map((m) => (
+            <div className="mx-auto grid grid-cols-3 gap-1 bg-muted p-1 rounded-2xl w-full max-w-md mb-2">
+              {(["login", "signup", "staff"] as const).map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => setMode(m)}
-                  className={`py-2 rounded-xl text-sm font-bold transition-all ${
+                  className={`py-2 px-1 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                     mode === m ? "bg-background shadow text-primary" : "text-muted-foreground"
                   }`}
                 >
-                  {m === "login" ? "Login" : "New Student Account"}
+                  {m === "login" ? "Login" : m === "signup" ? "New Student" : "Admin / Teacher"}
                 </button>
               ))}
             </div>
             <CardTitle className="text-2xl font-black">
-              {mode === "login" ? "Welcome Back" : "Create Student Account"}
+              {mode === "login"
+                ? "Welcome Back"
+                : mode === "signup"
+                  ? "Create Student Account"
+                  : "Create Admin or Teacher Account"}
             </CardTitle>
             <CardDescription className="font-medium">
               {mode === "login"
                 ? "Log in to follow your units and academic progress"
-                : "Fill in your details to start your educational journey"}
+                : mode === "signup"
+                  ? "Fill in your details to start your educational journey"
+                  : "Only phone numbers pre-approved by the admin can create a staff account"}
             </CardDescription>
           </CardHeader>
 
@@ -316,7 +369,7 @@ function AuthPage() {
                   Login
                 </Button>
               </form>
-            ) : (
+            ) : mode === "signup" ? (
               <form onSubmit={onSignup} className="space-y-5">
                 <div className="flex flex-col items-center gap-3">
                   <div className="relative">
@@ -449,7 +502,81 @@ function AuthPage() {
                   Create Student Account
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
-                  All new accounts are created as student accounts only.
+                  All new accounts here are created as student accounts only.
+                </p>
+              </form>
+            )}
+
+            {mode === "staff" && (
+              <form onSubmit={onStaffSignup} className="space-y-5">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="h-24 w-24 rounded-3xl overflow-hidden bg-muted border-2 border-dashed border-border flex items-center justify-center">
+                    {photo ? (
+                      <img src={photo} alt="Profile" className="h-full w-full object-cover" />
+                    ) : (
+                      <Camera className="h-8 w-8 text-muted-foreground" />
+                    )}
+                  </div>
+                  <Button type="button" variant="outline" size="sm" onClick={() => staffFileRef.current?.click()}>
+                    <Camera className="h-4 w-4 ml-2" />
+                    {photo ? "Change Photo" : "Choose Photo"}
+                  </Button>
+                  <input
+                    ref={staffFileRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePhoto}
+                  />
+                </div>
+
+                <Field icon={User} label="Full Name">
+                  <Input
+                    value={form.fullName}
+                    onChange={(e) => set("fullName", e.target.value)}
+                    className="h-12"
+                    required
+                  />
+                </Field>
+
+                <Field icon={Phone} label="Phone Number (must be approved by admin)">
+                  <Input
+                    inputMode="numeric"
+                    value={form.phone}
+                    onChange={(e) => set("phone", e.target.value)}
+                    placeholder="010XXXXXXXX"
+                    className="h-12"
+                    required
+                  />
+                </Field>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field icon={Lock} label="Password">
+                    <Input
+                      type="password"
+                      value={form.password}
+                      onChange={(e) => set("password", e.target.value)}
+                      className="h-12"
+                      required
+                    />
+                  </Field>
+                  <Field icon={Lock} label="Confirm Password">
+                    <Input
+                      type="password"
+                      value={form.confirm}
+                      onChange={(e) => set("confirm", e.target.value)}
+                      className="h-12"
+                      required
+                    />
+                  </Field>
+                </div>
+
+                <Button type="submit" className="w-full h-12 text-base font-black" disabled={loading}>
+                  {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus className="h-5 w-5 ml-2" />}
+                  Create Admin / Teacher Account
+                </Button>
+                <p className="text-xs text-center text-muted-foreground">
+                  Your role (admin or teacher) is decided by the admin who approved your number.
                 </p>
               </form>
             )}
