@@ -131,6 +131,8 @@ export const setStudentBlocked = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { assertCan } = await import("@/lib/staff.server");
     await assertCan(context.supabase, context.userId, "students");
+    const { assertNotProtected } = await import("@/lib/staff.server");
+    await assertNotProtected(data.userId);
 
     const { error } = await context.supabase
       .from("profiles")
@@ -144,8 +146,9 @@ export const deleteStudent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ userId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertAdmin } = await import("@/lib/staff.server");
+    const { assertAdmin, assertNotProtected } = await import("@/lib/staff.server");
     await assertAdmin(context.supabase, context.userId);
+    await assertNotProtected(data.userId);
     if (data.userId === context.userId) throw new Error("لا يمكنك حذف حسابك الخاص");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -210,8 +213,9 @@ export const setUserRole = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertAdmin } = await import("@/lib/staff.server");
+    const { assertAdmin, assertNotProtected } = await import("@/lib/staff.server");
     await assertAdmin(context.supabase, context.userId);
+    if (data.role !== "admin") await assertNotProtected(data.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", data.userId);
