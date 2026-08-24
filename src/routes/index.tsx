@@ -2411,18 +2411,28 @@ function Index() {
             <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mt-32 blur-3xl" />
             <div className="absolute bottom-0 right-0 w-64 h-64 bg-black/10 rounded-full -mr-32 -mb-32 blur-3xl" />
             
-            <h2 className="text-3xl md:text-5xl font-black mb-8 relative z-10 px-4">Ready to Start Your Journey?</h2>
-            <p className="text-base md:text-xl opacity-90 mb-12 max-w-2xl mx-auto relative z-10 px-4">
-              Join more than 10,000 students and start developing your English language skills with the best tools and experts.
+            <h2 className="text-3xl md:text-5xl font-black mb-6 relative z-10 px-4">
+              {T("home.cta.title", "Ready to Start Your Journey?")}
+            </h2>
+            <p className="text-base md:text-xl opacity-90 mb-10 max-w-2xl mx-auto relative z-10 px-4">
+              {T("home.cta.description", "Create your account and start learning English with a clear, guided plan.")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-              <Button size="lg" variant="secondary" className="h-16 px-10 text-xl font-black">
-                Register Your Account Now
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-black" asChild>
+                <Link to="/auth">Create your account</Link>
               </Button>
-              <Button size="lg" variant="outline" className="h-16 px-10 text-xl font-black bg-transparent border-white/30 hover:bg-white/10 text-white">
-                Talk to a Consultant
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 text-lg font-black bg-transparent border-white/30 hover:bg-white/10"
+                asChild
+              >
+                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer">
+                  Chat on WhatsApp
+                </a>
               </Button>
             </div>
+
           </motion.div>
         </section>
 
