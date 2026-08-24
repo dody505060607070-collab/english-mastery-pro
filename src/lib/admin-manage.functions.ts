@@ -653,3 +653,70 @@ export const duplicateSection = createServerFn({ method: "POST" })
 
     return { success: true, id: newSection.id };
   });
+
+/* ------------------------------------------------- users & roles (admin) */
+
+export const listAllUsers = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { assertAdmin } = await import("@/lib/staff.server");
+    await assertAdmin(context.supabase, context.userId);
+
+    const { data: rows, error } = await context.supabase
+      .from("profiles")
+      .select("id, full_name, phone, avatar_url, is_blocked, created_at")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+
+    const ids = (rows ?? []).map((r) => r.id);
+    const { data: roles } = ids.length
+      ? await context.supabase.from("user_roles").select("user_id, role").in("user_id", ids)
+      : { data: [] as { user_id: string; role: string }[] };
+
+    return (rows ?? []).map((r) => ({
+      ...r,
+      roles: (roles ?? []).filter((x) => x.user_id === r.id).map((x) => x.role as string),
+    }));
+  });
+
+/** Creates a user with an explicit role (admin only). */
+export const createUserWithRole = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        fullName: z.string().trim().min(3).max(100),
+        phone: z.string().trim().regex(/^[0-9]{10,15}$/),
+        password: z.string().min(6).max(72),
+        role: z.enum(["admin", "teacher", "student"]),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const { assertAdmin } = await import("@/lib/staff.server");
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email: `${data.phone}@academy.com`,
+      password: data.password,
+      email_confirm: true,
+      user_metadata: { full_name: data.fullName, phone: data.phone },
+    });
+    if (error || !created.user) throw new Error("تعذر إنشاء الحساب (قد يكون الرقم مسجلاً)");
+
+    await supabaseAdmin.from("profiles").upsert({
+      id: created.user.id,
+      full_name: data.fullName,
+      phone: data.phone,
+      role: data.role,
+      is_blocked: false,
+      approval_status: "approved",
+      approved_at: new Date().toISOString(),
+    } as never);
+
+    await supabaseAdmin.from("user_roles").delete().eq("user_id", created.user.id);
+    await supabaseAdmin.from("user_roles").insert({ user_id: created.user.id, role: data.role });
+
+    return { success: true };
+  });

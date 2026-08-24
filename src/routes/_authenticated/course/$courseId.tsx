@@ -398,7 +398,7 @@ function CourseViewer() {
                    </Button>
                    {activeLessonIndex < (lessons?.length || 0) - 1 && (
                      <Button variant="secondary" onClick={goToNextLesson}>
-                       الدرس التالي
+                       Next Lesson
                        <ArrowLeft className="mr-2 h-4 w-4" />
                      </Button>
                    )}

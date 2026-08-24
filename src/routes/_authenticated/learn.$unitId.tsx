@@ -123,7 +123,7 @@ function UnitPage() {
         <h1 className="text-xl font-black">تعذر فتح هذه الوحدة</h1>
         <p className="text-muted-foreground">{(error as Error)?.message}</p>
         <Button asChild>
-          <Link to="/learn">وحداتي</Link>
+          <Link to="/learn">My Units</Link>
         </Button>
       </div>
     );
@@ -144,7 +144,7 @@ function UnitPage() {
       <Button variant="ghost" size="sm" asChild className="font-bold">
         <Link to="/learn">
           <ArrowRight className="h-4 w-4 ml-1" />
-          وحداتي
+          My Units
         </Link>
       </Button>
 
@@ -230,7 +230,7 @@ function UnitPage() {
                 disabled={activeIndex >= contents.length - 1}
                 onClick={() => setActiveId(contents[activeIndex + 1]!.id)}
               >
-                التالي <ArrowLeft className="h-4 w-4 mr-1" />
+                Next <ArrowLeft className="h-4 w-4 mr-1" />
               </Button>
             </div>
           </div>

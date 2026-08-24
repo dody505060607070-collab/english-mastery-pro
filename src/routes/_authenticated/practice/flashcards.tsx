@@ -128,7 +128,7 @@ function FlashcardsPage() {
             disabled={currentIndex === vocab.length - 1}
           >
             <span className="relative z-10 flex items-center">
-              التالي
+              Next
               <ChevronLeft className="mr-2 h-6 w-6" />
             </span>
             <div className="absolute inset-0 bg-primary-foreground/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />

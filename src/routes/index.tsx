@@ -1989,6 +1989,7 @@ import { BookOpen, GraduationCap, Users, Star, ArrowLeft, ArrowRight, MessageCir
 import logoAsset from "@/assets/logo-transparent.png.asset.json";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSiteContent, pickText } from "@/lib/content";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -2021,6 +2022,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { data: siteContent } = useSiteContent();
+  const T = (key: string, fallback: string) => pickText(siteContent?.[key], "ar", fallback);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [showPayment, setShowPayment] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'Vodafone Cash' | 'InstaPay'>('Vodafone Cash');
@@ -2198,16 +2201,15 @@ function Index() {
                 Blue Language Academy - #1 Platform in the Arab World
               </span>
               <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mb-6 md:mb-8 leading-[1.2] md:leading-[1.15] bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
-                Master English <br />
-                <span className="text-primary italic">Modern & Interactive</span>
+                {T("home.hero.title", "Master English")} <br />
+                <span className="text-primary italic">{T("home.hero.subtitle", "Modern & Interactive")}</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-4 text-center">
-                A unique educational experience combining modern technology with the best global curricula.
-                Learn, practice, and speak fluently from anywhere in the world.
+                {T("home.hero.description", "A unique educational experience combining modern technology with the best global curricula. Learn, practice, and speak fluently from anywhere in the world.")}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
                 <Button size="lg" className="h-14 md:h-16 px-8 md:px-10 text-lg md:text-xl font-black w-full sm:w-auto shadow-2xl shadow-primary/30 group relative overflow-hidden">
-                  <span className="relative z-10">Register Free Now</span>
+                  <span className="relative z-10">{T("home.hero.cta", "Register Free Now")}</span>
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Button>
                 <Link to="/placement-test" className="w-full sm:w-auto">
@@ -2274,9 +2276,9 @@ function Index() {
                 <h2 className="text-2xl sm:text-4xl font-black mb-8 leading-tight text-center lg:text-right">لماذا <span className="text-primary">Blue Language Academy</span> هي الأفضل؟</h2>
                 <div className="space-y-6">
                   {[
-                    { title: "منهج تفاعلي 100%", desc: "دروس تعتمد على الممارسة وليس فقط التلقين", icon: CheckCircle2 },
-                    { title: "مدربون دوليون", desc: "تعلم من خبراء اللغة المعتمدين دولياً", icon: Users },
-                    { title: "Progress Reports", desc: "Detailed tracking of your learning milestones and achievements.", icon: Award },
+                    { title: T("home.feature1.title", "منهج تفاعلي 100%"), desc: T("home.feature1.desc", "دروس تعتمد على الممارسة وليس فقط التلقين"), icon: CheckCircle2 },
+                    { title: T("home.feature2.title", "مدربون دوليون"), desc: T("home.feature2.desc", "تعلم من خبراء اللغة المعتمدين دولياً"), icon: Users },
+                    { title: T("home.feature3.title", "Progress Reports"), desc: T("home.feature3.desc", "Detailed tracking of your learning milestones and achievements."), icon: Award },
                   ].map((feature, i) => (
                     <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-background/50 transition-colors border border-transparent hover:border-border/40">
                       <div className="bg-primary/10 p-2 rounded-lg h-fit">
@@ -2300,15 +2302,15 @@ function Index() {
                 {/* 3D floating cards decorations */}
                 <div className="absolute -top-6 -right-6 w-32 h-32 glass rounded-2xl shadow-xl animate-bounce-slow flex items-center justify-center flex-col p-4 text-center">
                    <Star className="text-yellow-500 w-8 h-8 mb-2" fill="currentColor" />
-                   <span className="text-xs font-bold">تقييم 4.9/5</span>
+                   <span className="text-xs font-bold">{T("home.rating", "تقييم 4.9/5")}</span>
                 </div>
                 <div className="absolute -bottom-10 -left-10 w-48 h-24 glass rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3 p-4">
                    <div className="bg-green-500/20 p-2 rounded-full">
                      <Users className="text-green-500 w-6 h-6" />
                    </div>
                    <div className="text-right">
-                     <div className="text-sm font-black">+10,000</div>
-                     <div className="text-[10px] text-muted-foreground">طالب نشط حالياً</div>
+                     <div className="text-sm font-black">{T("home.students.count", "+10,000")}</div>
+                     <div className="text-[10px] text-muted-foreground">{T("home.students.label", "طالب نشط حالياً")}</div>
                    </div>
                 </div>
               </div>
@@ -2401,14 +2403,14 @@ function Index() {
                     <Wallet className="h-5 w-5 text-primary" />
                     <div>
                       <div className="text-[10px] text-muted-foreground">رقم المحفظة</div>
-                      <div className="text-lg font-black">01016177688</div>
+                      <div className="text-lg font-black">{T("payment.wallet", "01016177688")}</div>
                     </div>
                   </div>
                   <Button 
                     size="sm" 
                     variant="ghost" 
                     onClick={() => {
-                      navigator.clipboard.writeText('01016177688');
+                      navigator.clipboard.writeText(T("payment.wallet", "01016177688"));
                       toast.success("تم نسخ الرقم");
                     }}
                   >
