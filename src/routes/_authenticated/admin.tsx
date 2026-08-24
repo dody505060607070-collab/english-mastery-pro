@@ -33,24 +33,32 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
 });
 
-const menuItems: { title: string; icon: typeof Users; href: string; adminOnly?: boolean; cap?: string }[] = [
-  { title: "Statistics", icon: LayoutDashboard, href: "/admin" },
-  { title: "Registration Requests", icon: UserCheck, href: "/admin/approvals", cap: "approvals" },
-  { title: "Live Courses", icon: Radio, href: "/admin/live", cap: "live" },
-  { title: "Record Lecture", icon: PlaySquare, href: "/admin/recordings", cap: "recordings" },
-  { title: "Students", icon: Users, href: "/admin/students", cap: "students" },
-  { title: "Student View", icon: Eye, href: "/admin/student-view" },
-  { title: "Levels & Units", icon: Layers, href: "/admin/sections", cap: "curriculum" },
-  { title: "Analytics", icon: BarChart3, href: "/admin/analytics", cap: "analytics" },
-  { title: "Courses", icon: BookOpen, href: "/admin/courses", cap: "courses" },
-  { title: "Payment Requests", icon: CreditCard, href: "/admin/payments", cap: "payments" },
-  { title: "Dictionary", icon: FileText, href: "/admin/vocabulary", cap: "vocabulary" },
-  { title: "Activity Log", icon: HistoryIcon, href: "/admin/logs", adminOnly: true },
-  { title: "Notifications", icon: Bell, href: "/admin/notifications", cap: "notifications" },
-  { title: "Permissions", icon: Shield, href: "/admin/roles", adminOnly: true },
-  { title: "Teacher Permissions", icon: GraduationCap, href: "/admin/teachers", adminOnly: true },
-  { title: "Site Content", icon: Settings, href: "/admin/content", adminOnly: true },
+const menuItems: {
+  title: string;
+  icon: typeof Users;
+  href: string;
+  adminOnly?: boolean;
+  cap?: string;
+  color: string;
+}[] = [
+  { title: "Statistics", icon: LayoutDashboard, href: "/admin", color: "bg-sky-500/12 text-sky-600" },
+  { title: "Registration Requests", icon: UserCheck, href: "/admin/approvals", cap: "approvals", color: "bg-amber-500/12 text-amber-600" },
+  { title: "Live Courses", icon: Radio, href: "/admin/live", cap: "live", color: "bg-rose-500/12 text-rose-600" },
+  { title: "Record Lecture", icon: PlaySquare, href: "/admin/recordings", cap: "recordings", color: "bg-violet-500/12 text-violet-600" },
+  { title: "Students", icon: Users, href: "/admin/students", cap: "students", color: "bg-emerald-500/12 text-emerald-600" },
+  { title: "Student View", icon: Eye, href: "/admin/student-view", color: "bg-cyan-500/12 text-cyan-600" },
+  { title: "Levels & Units", icon: Layers, href: "/admin/sections", cap: "curriculum", color: "bg-indigo-500/12 text-indigo-600" },
+  { title: "Analytics", icon: BarChart3, href: "/admin/analytics", cap: "analytics", color: "bg-teal-500/12 text-teal-600" },
+  { title: "Courses", icon: BookOpen, href: "/admin/courses", cap: "courses", color: "bg-orange-500/12 text-orange-600" },
+  { title: "Payment Requests", icon: CreditCard, href: "/admin/payments", cap: "payments", color: "bg-lime-500/12 text-lime-600" },
+  { title: "Dictionary", icon: FileText, href: "/admin/vocabulary", cap: "vocabulary", color: "bg-pink-500/12 text-pink-600" },
+  { title: "Activity Log", icon: HistoryIcon, href: "/admin/logs", adminOnly: true, color: "bg-slate-500/12 text-slate-600" },
+  { title: "Notifications", icon: Bell, href: "/admin/notifications", cap: "notifications", color: "bg-yellow-500/12 text-yellow-600" },
+  { title: "Permissions", icon: Shield, href: "/admin/roles", adminOnly: true, color: "bg-fuchsia-500/12 text-fuchsia-600" },
+  { title: "Teacher Permissions", icon: GraduationCap, href: "/admin/teachers", adminOnly: true, color: "bg-blue-500/12 text-blue-600" },
+  { title: "Site Content", icon: Settings, href: "/admin/content", adminOnly: true, color: "bg-stone-500/12 text-stone-600" },
 ];
+
 
 function AdminLayout() {
   const location = useLocation();
