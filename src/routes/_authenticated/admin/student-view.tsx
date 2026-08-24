@@ -106,15 +106,27 @@ function StudentViewPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    {u.contents.map((c) => (
-                      <Badge key={c.id} variant="outline" className="font-normal">
-                        {c.content_type}: {c.title}
-                      </Badge>
-                    ))}
+                    {u.contents.map((c) => {
+                      const m = contentMeta(c.content_type);
+                      const col = contentColor(c.content_type);
+                      return (
+                        <span
+                          key={c.id}
+                          className={cn(
+                            "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold",
+                            col.soft,
+                          )}
+                        >
+                          <m.icon className="h-3.5 w-3.5" />
+                          {c.title}
+                        </span>
+                      );
+                    })}
                     {u.contents.length === 0 && (
                       <span className="text-xs text-muted-foreground">No published content.</span>
                     )}
                   </div>
+
                 </div>
               ))}
             </CardContent>
