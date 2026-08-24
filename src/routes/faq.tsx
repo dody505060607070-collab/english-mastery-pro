@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { HelpCircle, CreditCard, LogIn, BookOpen } from "lucide-react";
+import { useSiteContent, pickText } from "@/lib/content";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -21,7 +22,7 @@ const faqData = [
     questions: [
       {
         q: "ما هي طرق الدفع المتاحة؟",
-        a: "نقبل الدفع عبر فودافون كاش (Vodafone Cash) وإنستا باي (InstaPay) على الرقم 01016177688."
+        a: "نقبل الدفع عبر فودافون كاش (Vodafone Cash) وإنستا باي (InstaPay) على الرقم {{wallet}}."
       },
       {
         q: "كيف يتم تفعيل الكورس بعد الدفع؟",
@@ -68,6 +69,9 @@ const faqData = [
 ];
 
 function FAQ() {
+  const { data: siteContent } = useSiteContent();
+  const wallet = pickText(siteContent?.["payment.wallet"], "ar", "01203529460");
+  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201203529460").replace(/[^0-9]/g, "");
   return (
     <div className="min-h-screen bg-background text-foreground py-20" dir="rtl">
       <div className="container max-w-4xl">
@@ -109,7 +113,7 @@ function FAQ() {
                       {item.q}
                     </AccordionTrigger>
                     <AccordionContent className="text-muted-foreground leading-relaxed text-lg pb-6">
-                      {item.a}
+                      {item.a.replace("{{wallet}}", wallet)}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -130,7 +134,7 @@ function FAQ() {
               <a href="/contact">تواصل معنا</a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="https://wa.me/201016177688" target="_blank" rel="noreferrer">واتساب</a>
+              <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">واتساب</a>
             </Button>
           </div>
         </motion.div>

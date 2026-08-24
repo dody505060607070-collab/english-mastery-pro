@@ -7,6 +7,7 @@ import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useSiteContent, pickText } from "@/lib/content";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,6 +20,10 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const { data: siteContent } = useSiteContent();
+  const phone = pickText(siteContent?.["contact.phone"], "ar", "+201203529460");
+  const email = pickText(siteContent?.["contact.email"], "ar", "abanoubeldabee@gmail.com");
+  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201203529460").replace(/[^0-9]/g, "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,7 +62,7 @@ function Contact() {
                   </div>
                   <div>
                     <h4 className="font-bold text-lg">اتصل بنا</h4>
-                    <p className="text-muted-foreground">+20 1016177688</p>
+                    <p className="text-muted-foreground" dir="ltr">{phone}</p>
                   </div>
                 </div>
 
@@ -67,7 +72,7 @@ function Contact() {
                   </div>
                   <div>
                     <h4 className="font-bold text-lg">البريد الإلكتروني</h4>
-                    <p className="text-muted-foreground">info@blueacademy.com</p>
+                    <p className="text-muted-foreground">{email}</p>
                   </div>
                 </div>
 
@@ -99,7 +104,7 @@ function Contact() {
                   هل تحتاج إلى مساعدة سريعة؟ فريقنا متاح للرد على استفساراتك عبر واتساب.
                 </p>
                 <Button variant="secondary" className="w-full font-black py-6" asChild>
-                  <a href="https://wa.me/201016177688" target="_blank" rel="noreferrer">
+                  <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">
                     تواصل عبر واتساب
                   </a>
                 </Button>

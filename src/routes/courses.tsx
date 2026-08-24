@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { EmptyState } from "@/components/EmptyState";
+import { useSiteContent, pickText } from "@/lib/content";
 
 export const Route = createFileRoute("/courses")({
   head: () => ({
@@ -24,6 +25,8 @@ export const Route = createFileRoute("/courses")({
 });
 
 function CoursesPage() {
+  const { data: siteContent } = useSiteContent();
+  const walletNumber = pickText(siteContent?.["payment.wallet"], "ar", "01203529460");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -381,10 +384,10 @@ function CoursesPage() {
               <div className="flex items-center justify-between p-3 bg-background rounded-lg border">
                 <div>
                   <div className="text-[10px] text-muted-foreground uppercase">رقم المحفظة</div>
-                  <div className="text-lg font-black tracking-widest">01016177688</div>
+                  <div className="text-lg font-black tracking-widest">{walletNumber}</div>
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => {
-                  navigator.clipboard.writeText('01016177688');
+                  navigator.clipboard.writeText(walletNumber);
                   toast.success("تم نسخ الرقم");
                 }}>نسخ</Button>
               </div>
