@@ -41,6 +41,23 @@ type ContentRow = {
   data?: unknown;
 };
 
+const TYPE_ORDER = ["reading", "listening", "grammar", "vocabulary", "practice", "task", "test"];
+
+const TYPE_INFO: Record<string, { desc: string; min: number }> = {
+  reading: { desc: "Text, glossary and comprehension questions", min: 12 },
+  listening: { desc: "Audio, transcript and listening tasks", min: 8 },
+  grammar: { desc: "Explanation, form, mistakes and drills", min: 12 },
+  vocabulary: { desc: "Word cards, pronunciation and collocations", min: 10 },
+  practice: { desc: "Mixed skills consolidation quiz", min: 12 },
+  task: { desc: "Productive writing and speaking output", min: 20 },
+  test: { desc: "End of unit assessment", min: 15 },
+};
+
+function orderRank(t: string) {
+  const i = TYPE_ORDER.indexOf(t);
+  return i === -1 ? TYPE_ORDER.length : i;
+}
+
 function parseData(raw: unknown): ExerciseData {
   if (!raw) return {};
   if (typeof raw === "string") {
