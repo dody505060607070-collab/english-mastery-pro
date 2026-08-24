@@ -309,21 +309,25 @@ function ContentPanel({
   const isListening = content.content_type === "listening";
   const isVocab = content.content_type === "vocabulary";
 
+  const color = contentColor(content.content_type);
+
   return (
-    <Card>
+    <Card className="overflow-hidden">
+      <div className={cn("h-1.5 w-full", color.bar)} />
       <CardContent className="p-5 space-y-5">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 text-primary p-2.5 rounded-2xl">
+          <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", color.tile)}>
             <meta.icon className="h-5 w-5" />
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="font-black text-lg truncate">{content.title}</h2>
-            <Badge variant="secondary" className="text-[10px] mt-1">
+            <span className={cn("mt-1 inline-block rounded-full border px-2 py-0.5 text-[10px] font-black", color.soft)}>
               {meta.label}
-            </Badge>
+            </span>
           </div>
           {isDone && <Trophy className="h-5 w-5 text-amber-500" />}
         </div>
+
 
         {image && <img src={image} alt="" className="w-full rounded-2xl border object-cover" loading="lazy" />}
 
