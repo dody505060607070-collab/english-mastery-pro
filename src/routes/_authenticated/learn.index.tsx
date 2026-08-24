@@ -6,10 +6,9 @@ import { z } from "zod";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getLevels, getLevelUnits } from "@/lib/curriculum.functions";
-import { contentMeta } from "@/lib/content-types";
+import { contentMeta, contentColor } from "@/lib/content-types";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({ level: z.string().optional() });
@@ -176,12 +175,24 @@ function LearnPage() {
                             <p className="text-sm text-muted-foreground line-clamp-2">{u.description}</p>
                           )}
                           <div className="flex flex-wrap gap-1.5 mt-2">
-                            {u.types.map((t) => (
-                              <Badge key={t} variant="secondary" className="text-[10px]">
-                                {contentMeta(t).label}
-                              </Badge>
-                            ))}
+                            {u.types.map((t) => {
+                              const m = contentMeta(t);
+                              const col = contentColor(t);
+                              return (
+                                <span
+                                  key={t}
+                                  className={cn(
+                                    "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold",
+                                    col.soft,
+                                  )}
+                                >
+                                  <m.icon className="h-3 w-3" />
+                                  {m.label}
+                                </span>
+                              );
+                            })}
                           </div>
+
                         </div>
                         <div className="text-right shrink-0">
                           <p className="text-xl font-black">{u.progress}%</p>

@@ -14,7 +14,7 @@ import {
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { Progress } from "@/components/ui/progress";
 import { InteractiveText } from "@/components/InteractiveText";
 import { MediaBlock } from "@/components/MediaBlock";
@@ -22,7 +22,7 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
 import { VocabularyDeck } from "@/components/exercise/VocabularyDeck";
 import { getUnitDetail, setContentProgress, submitExercise, setVocabLearned } from "@/lib/curriculum.functions";
-import { contentMeta } from "@/lib/content-types";
+import { contentMeta, contentColor } from "@/lib/content-types";
 import type { ExerciseData, Question, VocabWord } from "@/lib/exercise-types";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
@@ -187,6 +187,7 @@ function UnitPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="ltr">
           {contents.map((c) => {
             const meta = contentMeta(c.content_type);
+            const color = contentColor(c.content_type);
             const info = TYPE_INFO[c.content_type] ?? { desc: meta.label, min: 10 };
             const isDone = done.has(c.id);
             const cData = parseData(c.data);
@@ -198,31 +199,46 @@ function UnitPage() {
                 type="button"
                 onClick={() => setActiveId(c.id)}
                 className={cn(
-                  "text-left rounded-2xl border bg-card p-5 transition hover:shadow-md hover:-translate-y-0.5",
-                  isDone && "border-emerald-500/50",
+                  "group relative overflow-hidden text-left rounded-2xl border bg-card p-5 transition-all hover:shadow-xl hover:-translate-y-1",
+                  isDone ? "border-emerald-500/50" : "border-border/60 hover:border-primary/40",
                 )}
               >
-                <meta.icon className="h-6 w-6 text-primary" />
+                <span className={cn("absolute inset-x-0 top-0 h-1", color.bar)} />
+                <div className="flex items-start justify-between gap-2">
+                  <div className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-2xl", color.tile)}>
+                    <meta.icon className="h-6 w-6" />
+                  </div>
+                  {isDone && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-[10px] font-black text-emerald-600">
+                      <Trophy className="h-3 w-3" /> Done
+                    </span>
+                  )}
+                </div>
                 <p className="mt-3 font-black text-lg">{meta.label}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{info.desc}</p>
-                <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {info.min} min
+                <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{info.desc}</p>
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-bold">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-muted-foreground">
+                    <Clock className="h-3 w-3" /> {info.min} min
                   </span>
                   {count > 0 && (
-                    <span>
+                    <span className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-1", color.soft)}>
                       {count} {c.content_type === "vocabulary" ? "words" : "activities"}
                     </span>
                   )}
-                  {best.length > 0 && <span className="font-bold text-primary">{Math.max(...best)}%</span>}
+                  {best.length > 0 && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-emerald-600">
+                      {Math.max(...best)}%
+                    </span>
+                  )}
                 </div>
-                <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-primary">
-                  Start <ArrowLeft className="h-4 w-4" />
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-black text-primary">
+                  Start <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 </span>
               </button>
             );
           })}
         </div>
+
       ) : (
         <div className="space-y-4">
           <Button variant="ghost" size="sm" className="font-bold" onClick={() => setActiveId(null)}>
@@ -293,21 +309,25 @@ function ContentPanel({
   const isListening = content.content_type === "listening";
   const isVocab = content.content_type === "vocabulary";
 
+  const color = contentColor(content.content_type);
+
   return (
-    <Card>
+    <Card className="overflow-hidden">
+      <div className={cn("h-1.5 w-full", color.bar)} />
       <CardContent className="p-5 space-y-5">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 text-primary p-2.5 rounded-2xl">
+          <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", color.tile)}>
             <meta.icon className="h-5 w-5" />
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="font-black text-lg truncate">{content.title}</h2>
-            <Badge variant="secondary" className="text-[10px] mt-1">
+            <span className={cn("mt-1 inline-block rounded-full border px-2 py-0.5 text-[10px] font-black", color.soft)}>
               {meta.label}
-            </Badge>
+            </span>
           </div>
           {isDone && <Trophy className="h-5 w-5 text-amber-500" />}
         </div>
+
 
         {image && <img src={image} alt="" className="w-full rounded-2xl border object-cover" loading="lazy" />}
 
