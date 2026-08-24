@@ -2264,59 +2264,52 @@ function Index() {
           </div>
         </section>
 
-        {/* Features / Why Us */}
-        <section className="py-24 bg-muted/30 relative">
+        {/* Features / Why Us — fully driven by Admin → Site Content */}
+        {features.length > 0 && (
+        <section className="py-20 bg-muted/30 relative">
           <div className="container">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-2xl sm:text-4xl font-black mb-8 leading-tight text-center lg:text-right">لماذا <span className="text-primary">Blue Language Academy</span> هي الأفضل؟</h2>
-                <div className="space-y-6">
-                  {[
-                    { title: T("home.feature1.title", "منهج تفاعلي 100%"), desc: T("home.feature1.desc", "دروس تعتمد على الممارسة وليس فقط التلقين"), icon: CheckCircle2 },
-                    { title: T("home.feature2.title", "مدربون دوليون"), desc: T("home.feature2.desc", "تعلم من خبراء اللغة المعتمدين دولياً"), icon: Users },
-                    { title: T("home.feature3.title", "Progress Reports"), desc: T("home.feature3.desc", "Detailed tracking of your learning milestones and achievements."), icon: Award },
-                  ].map((feature, i) => (
-                    <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-background/50 transition-colors border border-transparent hover:border-border/40">
-                      <div className="bg-primary/10 p-2 rounded-lg h-fit">
-                        <feature.icon className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl sm:text-4xl font-black mb-8 leading-tight">
+                  Why <span className="text-primary">Blue Language Academy</span>?
+                </h2>
+                <div className="space-y-4">
+                  {features.map((feature, i) => {
+                    const Icon = [CheckCircle2, Users, Award][i % 3] ?? CheckCircle2;
+                    return (
+                      <div key={i} className="flex gap-4 p-4 rounded-2xl bg-background/60 border border-border/40">
+                        <div className="bg-primary/10 p-2 rounded-xl h-fit text-primary">
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-lg mb-1">{feature.title}</h4>
+                          {feature.desc && <p className="text-muted-foreground">{feature.desc}</p>}
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-bold text-lg mb-1">{feature.title}</h4>
-                        <p className="text-muted-foreground">{feature.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
-              
+
               <div className="relative">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-[2rem] shadow-2xl overflow-hidden glass border-white/10 animate-float">
-                   <div className="absolute inset-0 flex items-center justify-center">
-                     <GraduationCap className="w-48 h-48 text-primary/40" />
-                   </div>
-                </div>
-                {/* 3D floating cards decorations */}
-                <div className="absolute -top-6 -right-6 w-32 h-32 glass rounded-2xl shadow-xl animate-bounce-slow flex items-center justify-center flex-col p-4 text-center">
-                   <Star className="text-yellow-500 w-8 h-8 mb-2" fill="currentColor" />
-                   <span className="text-xs font-bold">{T("home.rating", "تقييم 4.9/5")}</span>
-                </div>
-                <div className="absolute -bottom-10 -left-10 w-48 h-24 glass rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3 p-4">
-                   <div className="bg-green-500/20 p-2 rounded-full">
-                     <Users className="text-green-500 w-6 h-6" />
-                   </div>
-                   <div className="text-right">
-                     <div className="text-sm font-black">{T("home.students.count", "+10,000")}</div>
-                     <div className="text-[10px] text-muted-foreground">{T("home.students.label", "طالب نشط حالياً")}</div>
-                   </div>
-                </div>
+                <img
+                  src={learningIllustration}
+                  alt="Online English lesson with a teacher on a laptop"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="w-full rounded-[2rem] border border-border/40 shadow-xl object-cover"
+                />
               </div>
             </div>
           </div>
         </section>
+        )}
+
 
         {/* Course Details Dialog */}
         <Dialog open={!!selectedCourse && !showPayment} onOpenChange={(open) => !open && setSelectedCourse(null)}>
