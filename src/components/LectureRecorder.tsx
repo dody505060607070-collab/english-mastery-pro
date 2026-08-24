@@ -195,6 +195,16 @@ export function LectureRecorder({
   const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
   const [recovering, setRecovering] = useState(false);
   const [attemptNo, setAttemptNo] = useState(0);
+  const [switching, setSwitching] = useState(false);
+  // Live capture pipeline refs — allow swapping the shared tab mid-recording.
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const displayRef = useRef<MediaStream | null>(null);
+  const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
+  const videoElRef = useRef<HTMLVideoElement | null>(null);
+  const paintRef = useRef<number | null>(null);
+
 
   useEffect(() => {
     if (!recording) return;
