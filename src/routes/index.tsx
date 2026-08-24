@@ -2259,7 +2259,7 @@ function Index() {
 
 
         {/* Course Details Dialog */}
-        <Dialog open={!!selectedCourse && !showPayment} onOpenChange={(open) => !open && setSelectedCourse(null)}>
+        <Dialog open={!!selectedCourse} onOpenChange={(open) => !open && setSelectedCourse(null)}>
           <DialogContent className="max-w-2xl font-['Cairo']" dir="rtl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black">{selectedCourse?.title}</DialogTitle>
