@@ -1987,6 +1987,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, GraduationCap, Users, Star, ArrowLeft, ArrowRight, MessageCircle, Briefcase, Globe, Award, CheckCircle2, Phone, ShieldCheck, Wallet, Image as ImageIcon, Info, Sparkles, HelpCircle, MessageSquare, Zap, Flame, Layers } from "lucide-react";
 import logoAsset from "@/assets/logo-transparent.png.asset.json";
+import learningIllustration from "@/assets/learning-illustration.jpg";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteContent, pickText } from "@/lib/content";
@@ -2024,12 +2025,16 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { data: siteContent } = useSiteContent();
   const T = (key: string, fallback: string) => pickText(siteContent?.[key], "ar", fallback);
+  // Features come ONLY from Admin → Site Content: deleting a key removes the item from the site.
+  const features = [1, 2, 3, 4, 5, 6]
+    .map((n) => ({
+      title: pickText(siteContent?.[`home.feature${n}.title`], "ar", ""),
+      desc: pickText(siteContent?.[`home.feature${n}.desc`], "ar", ""),
+    }))
+    .filter((f) => f.title.trim().length > 0);
+  const whatsapp = T("contact.whatsapp", "+201203529460").replace(/[^\d]/g, "");
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
-  const [showPayment, setShowPayment] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'Vodafone Cash' | 'InstaPay'>('Vodafone Cash');
-  const [senderPhone, setSenderPhone] = useState('');
-  const [receiptFile, setReceiptFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const { data: courses, isLoading: coursesLoading } = useQuery({
     queryKey: ["courses"],
@@ -2053,63 +2058,6 @@ function Index() {
       return data;
     },
   });
-
-  const submitPayment = async () => {
-    if (!senderPhone || !receiptFile) {
-      toast.error("يرجى إدخال رقم الهاتف وإرفاق صورة التحويل");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error("يرجى تسجيل الدخول أولاً");
-        window.location.href = '/auth';
-        return;
-      }
-
-      const fileExt = receiptFile.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${user.id}/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('receipts')
-        .upload(filePath, receiptFile);
-
-      if (uploadError) throw uploadError;
-
-      const { data: publicUrl } = supabase.storage
-        .from('receipts')
-        .getPublicUrl(filePath);
-
-      const { error: requestError } = await supabase
-        .from('payment_requests')
-        .insert({
-          user_id: user.id,
-          course_id: selectedCourse.id,
-          amount: selectedCourse.price,
-          payment_method: paymentMethod,
-          sender_phone: senderPhone,
-          screenshot_url: publicUrl.publicUrl,
-          status: 'pending'
-        });
-
-      if (requestError) throw requestError;
-
-      toast.success("تم إرسال طلب الدفع بنجاح. سيتم مراجعته خلال 24 ساعة.");
-      setShowPayment(false);
-      setSelectedCourse(null);
-      // Automatically redirect to the course page after submission
-      // The admin still needs to approve, but the system will now check enrollment
-      // In a real app, we might wait for approval, but we've now added the protective gate.
-      window.location.href = `/course/${selectedCourse.id}`;
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء إرسال الطلب");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20" dir="ltr">
@@ -2264,62 +2212,55 @@ function Index() {
           </div>
         </section>
 
-        {/* Features / Why Us */}
-        <section className="py-24 bg-muted/30 relative">
+        {/* Features / Why Us — fully driven by Admin → Site Content */}
+        {features.length > 0 && (
+        <section className="py-20 bg-muted/30 relative">
           <div className="container">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-2xl sm:text-4xl font-black mb-8 leading-tight text-center lg:text-right">لماذا <span className="text-primary">Blue Language Academy</span> هي الأفضل؟</h2>
-                <div className="space-y-6">
-                  {[
-                    { title: T("home.feature1.title", "منهج تفاعلي 100%"), desc: T("home.feature1.desc", "دروس تعتمد على الممارسة وليس فقط التلقين"), icon: CheckCircle2 },
-                    { title: T("home.feature2.title", "مدربون دوليون"), desc: T("home.feature2.desc", "تعلم من خبراء اللغة المعتمدين دولياً"), icon: Users },
-                    { title: T("home.feature3.title", "Progress Reports"), desc: T("home.feature3.desc", "Detailed tracking of your learning milestones and achievements."), icon: Award },
-                  ].map((feature, i) => (
-                    <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-background/50 transition-colors border border-transparent hover:border-border/40">
-                      <div className="bg-primary/10 p-2 rounded-lg h-fit">
-                        <feature.icon className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl sm:text-4xl font-black mb-8 leading-tight">
+                  Why <span className="text-primary">Blue Language Academy</span>?
+                </h2>
+                <div className="space-y-4">
+                  {features.map((feature, i) => {
+                    const Icon = [CheckCircle2, Users, Award][i % 3] ?? CheckCircle2;
+                    return (
+                      <div key={i} className="flex gap-4 p-4 rounded-2xl bg-background/60 border border-border/40">
+                        <div className="bg-primary/10 p-2 rounded-xl h-fit text-primary">
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-lg mb-1">{feature.title}</h4>
+                          {feature.desc && <p className="text-muted-foreground">{feature.desc}</p>}
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-bold text-lg mb-1">{feature.title}</h4>
-                        <p className="text-muted-foreground">{feature.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
-              
+
               <div className="relative">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-[2rem] shadow-2xl overflow-hidden glass border-white/10 animate-float">
-                   <div className="absolute inset-0 flex items-center justify-center">
-                     <GraduationCap className="w-48 h-48 text-primary/40" />
-                   </div>
-                </div>
-                {/* 3D floating cards decorations */}
-                <div className="absolute -top-6 -right-6 w-32 h-32 glass rounded-2xl shadow-xl animate-bounce-slow flex items-center justify-center flex-col p-4 text-center">
-                   <Star className="text-yellow-500 w-8 h-8 mb-2" fill="currentColor" />
-                   <span className="text-xs font-bold">{T("home.rating", "تقييم 4.9/5")}</span>
-                </div>
-                <div className="absolute -bottom-10 -left-10 w-48 h-24 glass rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3 p-4">
-                   <div className="bg-green-500/20 p-2 rounded-full">
-                     <Users className="text-green-500 w-6 h-6" />
-                   </div>
-                   <div className="text-right">
-                     <div className="text-sm font-black">{T("home.students.count", "+10,000")}</div>
-                     <div className="text-[10px] text-muted-foreground">{T("home.students.label", "طالب نشط حالياً")}</div>
-                   </div>
-                </div>
+                <img
+                  src={learningIllustration}
+                  alt="Online English lesson with a teacher on a laptop"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="w-full rounded-[2rem] border border-border/40 shadow-xl object-cover"
+                />
               </div>
             </div>
           </div>
         </section>
+        )}
+
 
         {/* Course Details Dialog */}
-        <Dialog open={!!selectedCourse && !showPayment} onOpenChange={(open) => !open && setSelectedCourse(null)}>
+        <Dialog open={!!selectedCourse} onOpenChange={(open) => !open && setSelectedCourse(null)}>
           <DialogContent className="max-w-2xl font-['Cairo']" dir="rtl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black">{selectedCourse?.title}</DialogTitle>
@@ -2340,121 +2281,28 @@ function Index() {
               <div className="space-y-4">
                 <h4 className="text-lg font-bold flex items-center gap-2">
                   <Info className="h-5 w-5 text-primary" />
-                  عن الكورس
+                  About the course
                 </h4>
                 <p className="text-muted-foreground leading-relaxed">{selectedCourse?.description}</p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                    <div className="text-xs text-muted-foreground mb-1">السعر</div>
-                    <div className="text-xl font-black">{selectedCourse?.price} ج.م</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                    <div className="text-xs text-muted-foreground mb-1">المستوى</div>
-                    <div className="text-xl font-black">{selectedCourse?.level}</div>
-                  </div>
+                <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
+                  <div className="text-xs text-muted-foreground mb-1">Level</div>
+                  <div className="text-xl font-black">{selectedCourse?.level}</div>
                 </div>
+
               </div>
             </div>
             <DialogFooter>
-              <Button 
-                className="w-full h-12 text-lg font-black"
-                onClick={() => setShowPayment(true)}
-              >
-                اشترك الآن
+              <Button asChild className="w-full h-12 text-lg font-black">
+                <a
+                  href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`I want to join: ${selectedCourse?.title ?? ""}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Contact us on WhatsApp
+                </a>
               </Button>
             </DialogFooter>
-          </DialogContent>
-        </Dialog>
 
-        {/* Payment Dialog */}
-        <Dialog open={showPayment} onOpenChange={setShowPayment}>
-          <DialogContent className="max-w-md font-['Cairo']" dir="rtl">
-            <DialogHeader>
-              <DialogTitle className="text-2xl font-black">تأكيد الاشتراك</DialogTitle>
-              <DialogDescription>
-                يرجى تحويل مبلغ {selectedCourse?.price} ج.م لإتمام التسجيل
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-4">
-                <div className="flex justify-between items-center">
-                  <Label className="font-bold">طريقة الدفع</Label>
-                  <div className="flex gap-2">
-                    <Button 
-                      size="sm" 
-                      variant={paymentMethod === 'Vodafone Cash' ? 'default' : 'outline'}
-                      onClick={() => setPaymentMethod('Vodafone Cash')}
-                      className="text-xs"
-                    >
-                      فودافون كاش
-                    </Button>
-                    <Button 
-                      size="sm"
-                      variant={paymentMethod === 'InstaPay' ? 'default' : 'outline'}
-                      onClick={() => setPaymentMethod('InstaPay')}
-                      className="text-xs"
-                    >
-                      انستا باي
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border/40">
-                  <div className="flex items-center gap-2">
-                    <Wallet className="h-5 w-5 text-primary" />
-                    <div>
-                      <div className="text-[10px] text-muted-foreground">رقم المحفظة</div>
-                      <div className="text-lg font-black">{T("payment.wallet", "01016177688")}</div>
-                    </div>
-                  </div>
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    onClick={() => {
-                      navigator.clipboard.writeText(T("payment.wallet", "01016177688"));
-                      toast.success("تم نسخ الرقم");
-                    }}
-                  >
-                    نسخ
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="font-bold flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-primary" />
-                    الرقم الذي تم التحويل منه
-                  </Label>
-                  <Input 
-                    placeholder="010XXXXXXXX" 
-                    value={senderPhone}
-                    onChange={(e) => setSenderPhone(e.target.value)}
-                    className="font-bold"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-bold flex items-center gap-2">
-                    <ImageIcon className="h-4 w-4 text-primary" />
-                    صورة التحويل (Screenshot)
-                  </Label>
-                  <Input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={(e) => setReceiptFile(e.target.files?.[0] || null)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button 
-                className="w-full h-12 text-lg font-black"
-                disabled={isSubmitting}
-                onClick={submitPayment}
-              >
-                {isSubmitting ? "جاري الإرسال..." : "تأكيد وإرسال"}
-              </Button>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
 
@@ -2508,49 +2356,34 @@ function Index() {
                     </div>
                   </div>
                   <CardHeader>
-                    <div className="flex justify-between items-start mb-2">
-                       <div className="flex flex-col gap-1">
-                         <span className="text-xs font-bold text-primary">{course.course_categories?.name}</span>
-                         <div className="flex items-center gap-1 bg-yellow-500/10 text-yellow-600 text-[10px] font-black px-2 py-0.5 rounded-full w-fit">
-                           <Zap className="h-2.5 w-2.5" />
-                           +500 XP
-                         </div>
-                       </div>
-                       <div className="flex items-center gap-1 text-xs text-yellow-600 font-bold">
-                         <Star className="h-3 w-3" fill="currentColor" />
-                         4.8
-                       </div>
-                    </div>
+                    <span className="text-xs font-bold text-primary">{course.course_categories?.name}</span>
                     <CardTitle className="text-xl font-black group-hover:text-primary transition-colors">{course.title}</CardTitle>
                     <CardDescription className="line-clamp-2 mt-2">{course.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                       <div className="flex items-center gap-1">
-                         <Users className="h-4 w-4" />
-                         1.2k Students
-                       </div>
-                       <div className="flex items-center gap-1">
-                         <Globe className="h-4 w-4" />
-                         English / Arabic
-                       </div>
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary px-2.5 py-1">
+                        <Globe className="h-3.5 w-3.5" />
+                        English / Arabic
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-muted-foreground">
+                        <BookOpen className="h-3.5 w-3.5" />
+                        {course.level}
+                      </span>
                     </div>
                   </CardContent>
-                  <CardFooter className="pt-0 pb-8 px-6 border-t mt-4 pt-4 flex items-center justify-between">
-                    <span className="text-2xl font-black text-foreground">
-                      {course.price === 0 ? 'Free' : `${course.price} EGP`}
-                    </span>
-                    <Button 
-                      className="font-bold shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all"
+                  <CardFooter className="px-6 border-t mt-4 pt-4 pb-6 flex items-center justify-end">
+                    <Button
+                      className="font-bold"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedCourse(course);
-                        setShowPayment(true);
                       }}
                     >
-                      Enroll Now
+                      View details
                     </Button>
                   </CardFooter>
+
                 </Card>
               </motion.div>
             ))}
@@ -2579,18 +2412,28 @@ function Index() {
             <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mt-32 blur-3xl" />
             <div className="absolute bottom-0 right-0 w-64 h-64 bg-black/10 rounded-full -mr-32 -mb-32 blur-3xl" />
             
-            <h2 className="text-3xl md:text-5xl font-black mb-8 relative z-10 px-4">Ready to Start Your Journey?</h2>
-            <p className="text-base md:text-xl opacity-90 mb-12 max-w-2xl mx-auto relative z-10 px-4">
-              Join more than 10,000 students and start developing your English language skills with the best tools and experts.
+            <h2 className="text-3xl md:text-5xl font-black mb-6 relative z-10 px-4">
+              {T("home.cta.title", "Ready to Start Your Journey?")}
+            </h2>
+            <p className="text-base md:text-xl opacity-90 mb-10 max-w-2xl mx-auto relative z-10 px-4">
+              {T("home.cta.description", "Create your account and start learning English with a clear, guided plan.")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-              <Button size="lg" variant="secondary" className="h-16 px-10 text-xl font-black">
-                Register Your Account Now
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-black" asChild>
+                <Link to="/auth">Create your account</Link>
               </Button>
-              <Button size="lg" variant="outline" className="h-16 px-10 text-xl font-black bg-transparent border-white/30 hover:bg-white/10 text-white">
-                Talk to a Consultant
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 text-lg font-black bg-transparent border-white/30 hover:bg-white/10"
+                asChild
+              >
+                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer">
+                  Chat on WhatsApp
+                </a>
               </Button>
             </div>
+
           </motion.div>
         </section>
 

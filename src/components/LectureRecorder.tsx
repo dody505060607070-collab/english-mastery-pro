@@ -195,6 +195,16 @@ export function LectureRecorder({
   const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
   const [recovering, setRecovering] = useState(false);
   const [attemptNo, setAttemptNo] = useState(0);
+  const [switching, setSwitching] = useState(false);
+  // Live capture pipeline refs — allow swapping the shared tab mid-recording.
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const displayRef = useRef<MediaStream | null>(null);
+  const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
+  const videoElRef = useRef<HTMLVideoElement | null>(null);
+  const paintRef = useRef<number | null>(null);
+
 
   useEffect(() => {
     if (!recording) return;
@@ -322,20 +332,25 @@ export function LectureRecorder({
       const dest = ctx.createMediaStreamDestination();
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 512;
+      audioCtxRef.current = ctx;
+      audioDestRef.current = dest;
+      analyserRef.current = analyser;
+      displayRef.current = display;
 
       const attach = (s: MediaStream, gain: number) => {
-        if (s.getAudioTracks().length === 0) return;
+        if (s.getAudioTracks().length === 0) return null;
         const src = ctx.createMediaStreamSource(s);
         const g = ctx.createGain();
         g.gain.value = gain;
         src.connect(g);
         g.connect(dest);
         g.connect(analyser);
+        return { src, gain: g };
       };
 
       if (mic) attach(mic, 1.6);
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      attach(display, 0.8);
+      displayAudioNodesRef.current = attach(display, 0.8);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0) {
@@ -345,8 +360,35 @@ export function LectureRecorder({
         return;
       }
 
-      // Combine video track with the mixed audio track
-      const stream = new MediaStream([...display.getVideoTracks(), ...mixed]);
+      // Video goes through a canvas so the shared tab can be swapped mid-recording
+      // (Google Meet -> YouTube -> Google Meet) without restarting the recorder.
+      const videoEl = document.createElement("video");
+      videoEl.muted = true;
+      videoEl.playsInline = true;
+      videoEl.srcObject = new MediaStream(display.getVideoTracks());
+      await videoEl.play().catch(() => undefined);
+      videoElRef.current = videoEl;
+
+      const frame = document.createElement("canvas");
+      frame.width = 1280;
+      frame.height = 720;
+      const fctx = frame.getContext("2d");
+      const paint = () => {
+        if (fctx && videoElRef.current && videoElRef.current.videoWidth > 0) {
+          const v = videoElRef.current;
+          const scale = Math.min(frame.width / v.videoWidth, frame.height / v.videoHeight);
+          const w = v.videoWidth * scale;
+          const h = v.videoHeight * scale;
+          fctx.fillStyle = "#000";
+          fctx.fillRect(0, 0, frame.width, frame.height);
+          fctx.drawImage(v, (frame.width - w) / 2, (frame.height - h) / 2, w, h);
+        }
+        paintRef.current = requestAnimationFrame(paint);
+      };
+      paint();
+
+      const canvasStream = frame.captureStream(30);
+      const stream = new MediaStream([...canvasStream.getVideoTracks(), ...mixed]);
 
       // live mic level meter so the admin can confirm the sound is captured
       const buf = new Uint8Array(analyser.fftSize);
@@ -382,14 +424,25 @@ export function LectureRecorder({
       chunksRef.current = [];
 
       cleanupRef.current = () => {
+        displayRef.current?.getTracks().forEach((t) => t.stop());
         display.getTracks().forEach((t) => t.stop());
         mic?.getTracks().forEach((t) => t.stop());
         dest.stream.getTracks().forEach((t) => t.stop());
+        canvasStream.getTracks().forEach((t) => t.stop());
         void ctx.close().catch(() => undefined);
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        if (paintRef.current) cancelAnimationFrame(paintRef.current);
         rafRef.current = null;
+        paintRef.current = null;
+        videoElRef.current = null;
+        displayRef.current = null;
+        displayAudioNodesRef.current = null;
+        audioCtxRef.current = null;
+        audioDestRef.current = null;
+        analyserRef.current = null;
         setLevel(0);
       };
+
 
       const backupMeta: BackupMeta = {
         mime,
@@ -578,7 +631,57 @@ export function LectureRecorder({
     }
   }
 
+  /**
+   * Swap the shared tab while recording continues (Meet -> YouTube -> Meet).
+   * The recorder keeps running because video comes from a canvas and audio from
+   * a Web Audio mix; only the source behind them is replaced.
+   */
+  async function switchSource() {
+    const ctx = audioCtxRef.current;
+    const dest = audioDestRef.current;
+    const analyser = analyserRef.current;
+    if (!ctx || !dest || !analyser) return;
+    setSwitching(true);
+    try {
+      const next = await navigator.mediaDevices.getDisplayMedia({
+        video: { frameRate: 30 },
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        ...({ systemAudio: "include", surfaceSwitching: "include" } as Record<string, unknown>),
+      } as DisplayMediaStreamOptions);
+
+      // disconnect old tab audio, keep the mic untouched
+      const old = displayAudioNodesRef.current;
+      if (old) {
+        old.gain.disconnect();
+        old.src.disconnect();
+      }
+      displayAudioNodesRef.current = null;
+      if (next.getAudioTracks().length > 0) {
+        const src = ctx.createMediaStreamSource(next);
+        const g = ctx.createGain();
+        g.gain.value = 0.8;
+        src.connect(g);
+        g.connect(dest);
+        g.connect(analyser);
+        displayAudioNodesRef.current = { src, gain: g };
+      }
+
+      if (videoElRef.current) {
+        videoElRef.current.srcObject = new MediaStream(next.getVideoTracks());
+        await videoElRef.current.play().catch(() => undefined);
+      }
+      displayRef.current?.getTracks().forEach((t) => t.stop());
+      displayRef.current = next;
+      toast.success("Switched the shared tab — recording continues.");
+    } catch {
+      toast.error("Tab switch cancelled — the recording is still running on the previous tab.");
+    } finally {
+      if (mountedRef.current) setSwitching(false);
+    }
+  }
+
   async function downloadBackup() {
+
     const backup = await backupRead();
     if (!backup) return;
     const { blob, ext } = backupBlob(backup.chunks, backup.meta.mime);
@@ -652,13 +755,21 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — every second is backed up automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          The recording captures the tab you shared (your Google Meet tab). No external site such as YouTube is needed
-          for audio — Meet sound comes from the shared tab itself when "Also share tab audio" is enabled.
+          Meet sound comes from the shared tab itself when "Also share tab audio" is enabled. If you open YouTube in
+          another tab, press "Switch shared tab" and pick it — the recording keeps running, then switch back to Meet
+          the same way.
         </p>
       </div>
-      <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-        <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
+          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
+        </Button>
+        <Button size="sm" variant="outline" className="gap-2" disabled={switching} onClick={() => void switchSource()}>
+          {switching ? <Loader2 className="h-4 w-4 animate-spin" /> : <MonitorUp className="h-4 w-4" />}
+          Switch shared tab
+        </Button>
+      </div>
+
     </div>
   ) : (
     <div className="space-y-2">
