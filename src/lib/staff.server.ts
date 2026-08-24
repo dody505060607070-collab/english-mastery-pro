@@ -86,3 +86,15 @@ export async function assertCan(
   if (!isAdmin && !caps.includes(cap)) throw new Error("Forbidden: missing permission " + cap);
   return roles;
 }
+
+/** Phones that can never lose admin, be blocked, or be deleted — by anyone. */
+export const PROTECTED_PHONES = ["01222576172"];
+
+export async function assertNotProtected(userId: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin.from("profiles").select("phone").eq("id", userId).maybeSingle();
+  const phone = String((data as any)?.phone ?? "").replace(/^\+?20/, "0").trim();
+  if (PROTECTED_PHONES.includes(phone)) {
+    throw new Error("هذا الحساب أدمن دائم ولا يمكن تعديله أو حذفه");
+  }
+}
