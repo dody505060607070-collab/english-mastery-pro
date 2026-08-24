@@ -2296,13 +2296,17 @@ function Index() {
               </div>
             </div>
             <DialogFooter>
-              <Button 
-                className="w-full h-12 text-lg font-black"
-                onClick={() => setShowPayment(true)}
-              >
-                اشترك الآن
+              <Button asChild className="w-full h-12 text-lg font-black">
+                <a
+                  href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`I want to join: ${selectedCourse?.title ?? ""}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Contact us on WhatsApp
+                </a>
               </Button>
             </DialogFooter>
+
           </DialogContent>
         </Dialog>
 
