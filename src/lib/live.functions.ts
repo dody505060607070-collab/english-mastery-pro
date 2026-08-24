@@ -30,8 +30,8 @@ export const getLiveSessions = createServerFn({ method: "GET" })
 export const listLiveSessions = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "live");
 
     const { data, error } = await context.supabase
       .from("live_sessions")
@@ -45,8 +45,8 @@ export const saveLiveSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => liveSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "live");
 
     const payload = {
       title: data.title,
@@ -77,8 +77,8 @@ export const setLiveStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid(), isLive: z.boolean() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "live");
     const { error } = await context.supabase
       .from("live_sessions")
       .update({ is_live: data.isLive })
@@ -91,8 +91,8 @@ export const deleteLiveSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "live");
     const { error } = await context.supabase.from("live_sessions").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { success: true };

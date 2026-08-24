@@ -48,8 +48,8 @@ export const listMyPaymentRequests = createServerFn({ method: "GET" })
 export const listPaymentRequests = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "payments");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data, error } = await supabaseAdmin
@@ -81,8 +81,8 @@ export const decidePaymentRequest = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "payments");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: req, error } = await supabaseAdmin
@@ -147,8 +147,8 @@ export const sendNotification = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "payments");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     let targets: string[] = [];

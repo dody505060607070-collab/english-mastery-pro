@@ -53,8 +53,8 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
 export const listRecordings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
 
     const { data, error } = await context.supabase
       .from("lecture_recordings")
@@ -70,8 +70,8 @@ export const listRecordings = createServerFn({ method: "GET" })
 export const listOrphanRecordingFiles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: files, error } = await supabaseAdmin.storage
@@ -106,8 +106,8 @@ export const adoptRecordingFile = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
     const { data: created, error } = await context.supabase
       .from("lecture_recordings")
       .insert({
@@ -140,8 +140,8 @@ export const saveRecording = createServerFn({ method: "POST" })
     }).parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
 
     const payload = {
       title: data.title,
@@ -176,8 +176,8 @@ export const setRecordingPublished = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid(), isPublished: z.boolean() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
     const { error } = await context.supabase
       .from("lecture_recordings")
       .update({ is_published: data.isPublished })
@@ -190,8 +190,8 @@ export const deleteRecording = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "recordings");
     const { error } = await context.supabase.from("lecture_recordings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { success: true };
