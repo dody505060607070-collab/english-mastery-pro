@@ -475,39 +475,60 @@ export function LectureRecorder({
       setSaving(true);
       setUploadProgress(0);
     }
-    try {
-      const file = new File([blob], fileName, { type });
-      const path = await uploadFile("content", file, "recordings", (progress) => {
-        if (mountedRef.current) setUploadProgress(progress);
-      });
-      await saveRecording({
-        data: {
-          title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
-          liveSessionId: liveSessionId || null,
-          sectionId: sectionId || null,
-          videoUrl: path,
-          durationSeconds: duration,
-          status: "ready",
-          isPublished: true,
-        },
-      });
-      // Upload succeeded — safe to remove the incremental backup.
-      await backupClear();
-      URL.revokeObjectURL(recoveryUrl);
-      if (mountedRef.current) setRecovery(null);
-      toast.success("Lecture recording saved with audio");
-      onSaved?.();
-    } catch (e) {
-      // Upload failed: keep the IndexedDB backup so the session can be recovered
-      // after a reload, and offer the in-memory download too.
-      toast.error(`Upload failed — the backup is kept on this device for recovery. ${(e as Error).message}`);
-    } finally {
-      if (mountedRef.current) {
-        setSaving(false);
-        setUploadProgress(0);
+    // Auto-upload with retries so the teacher never has to download + re-upload manually.
+    let lastError: Error | null = null;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      try {
+        if (mountedRef.current) setAttemptNo(attempt);
+        const file = new File([blob], fileName, { type });
+        const path = await uploadFile("content", file, "recordings", (progress) => {
+          if (mountedRef.current) setUploadProgress(progress);
+        });
+        await saveRecording({
+          data: {
+            title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
+            liveSessionId: liveSessionId || null,
+            sectionId: sectionId || null,
+            videoUrl: path,
+            durationSeconds: duration,
+            status: "ready",
+            isPublished: true,
+          },
+        });
+        await backupClear();
+        URL.revokeObjectURL(recoveryUrl);
+        if (mountedRef.current) {
+          setRecovery(null);
+          setUnfinished(null);
+        }
+        toast.success("Lecture recording uploaded and published automatically");
+        onSaved?.();
+        lastError = null;
+        break;
+      } catch (e) {
+        lastError = e as Error;
+        if (attempt < 4) {
+          toast.warning(`Upload attempt ${attempt} failed — retrying automatically…`);
+          await new Promise((r) => setTimeout(r, attempt * 3000));
+        }
       }
-      finalizingRef.current = false;
     }
+    if (lastError) {
+      // All retries failed: surface the on-device backup so it can be retried or downloaded.
+      const backup = await backupRead();
+      if (backup && mountedRef.current) {
+        setUnfinished({ meta: backup.meta, size: backup.chunks.reduce((s, c) => s + c.size, 0) });
+      }
+      toast.error(
+        `Automatic upload failed. Use "Retry upload" — the recording is safe on this device. ${lastError.message}`,
+      );
+    }
+    if (mountedRef.current) {
+      setSaving(false);
+      setUploadProgress(0);
+      setAttemptNo(0);
+    }
+    finalizingRef.current = false;
   }
 
   async function recoverBackup() {
