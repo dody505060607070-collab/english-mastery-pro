@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
 });
 
-const menuItems = [
+const menuItems: { title: string; icon: typeof Users; href: string; adminOnly?: boolean }[] = [
   { title: "Statistics", icon: LayoutDashboard, href: "/admin" },
   { title: "Registration Requests", icon: UserCheck, href: "/admin/approvals" },
   { title: "Live Courses", icon: Radio, href: "/admin/live" },
@@ -41,13 +41,15 @@ const menuItems = [
   { title: "Dictionary", icon: FileText, href: "/admin/vocabulary" },
   { title: "Activity Log", icon: HistoryIcon, href: "/admin/logs" },
   { title: "Notifications", icon: Bell, href: "/admin/notifications" },
-  { title: "Permissions", icon: Shield, href: "/admin/roles" },
-  { title: "Site Content", icon: Settings, href: "/admin/content" },
+  { title: "Permissions", icon: Shield, href: "/admin/roles", adminOnly: true },
+  { title: "Site Content", icon: Settings, href: "/admin/content", adminOnly: true },
 ];
 
 function AdminLayout() {
   const location = useLocation();
   const { data: account, isLoading } = useAccount();
+
+  const visibleItems = menuItems.filter((i) => !i.adminOnly || account?.isAdmin);
 
   const active = (href: string) =>
     href === "/admin" ? location.pathname === "/admin" : location.pathname.startsWith(href);
@@ -84,7 +86,7 @@ function AdminLayout() {
         </div>
 
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          {menuItems.map((item) => (
+          {visibleItems.map((item) => (
             <Link
               key={item.href}
               to={item.href}
@@ -114,13 +116,13 @@ function AdminLayout() {
       <main className="flex-1 min-w-0">
         <header className="h-16 border-b bg-background/70 backdrop-blur-md sticky top-0 z-20 flex items-center px-4 md:px-8">
           <h2 className="text-base md:text-lg font-black">
-            {menuItems.find((i) => active(i.href))?.title || "Admin Panel"}
+            {visibleItems.find((i) => active(i.href))?.title || "Admin Panel"}
           </h2>
         </header>
 
         <div className="md:hidden border-b overflow-x-auto">
           <div className="flex gap-2 p-3 w-max">
-            {menuItems.map((item) => (
+            {visibleItems.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
