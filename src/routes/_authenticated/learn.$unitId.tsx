@@ -1,12 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  Circle,
+  Clock,
   Loader2,
   Eye,
   EyeOff,
@@ -41,6 +40,23 @@ type ContentRow = {
   data?: unknown;
 };
 
+const TYPE_ORDER = ["reading", "listening", "grammar", "vocabulary", "practice", "task", "test"];
+
+const TYPE_INFO: Record<string, { desc: string; min: number }> = {
+  reading: { desc: "Text, glossary and comprehension questions", min: 12 },
+  listening: { desc: "Audio, transcript and listening tasks", min: 8 },
+  grammar: { desc: "Explanation, form, mistakes and drills", min: 12 },
+  vocabulary: { desc: "Word cards, pronunciation and collocations", min: 10 },
+  practice: { desc: "Mixed skills consolidation quiz", min: 12 },
+  task: { desc: "Productive writing and speaking output", min: 20 },
+  test: { desc: "End of unit assessment", min: 15 },
+};
+
+function orderRank(t: string) {
+  const i = TYPE_ORDER.indexOf(t);
+  return i === -1 ? TYPE_ORDER.length : i;
+}
+
 function parseData(raw: unknown): ExerciseData {
   if (!raw) return {};
   if (typeof raw === "string") {
@@ -64,11 +80,14 @@ function UnitPage() {
     retry: false,
   });
 
-  const contents = (data?.contents ?? []) as ContentRow[];
+  const contents = useMemo(
+    () =>
+      [...((data?.contents ?? []) as ContentRow[])].sort(
+        (a, b) => orderRank(a.content_type) - orderRank(b.content_type),
+      ),
+    [data],
+  );
 
-  useEffect(() => {
-    if (!activeId && contents.length) setActiveId(contents[0]!.id);
-  }, [contents, activeId]);
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["unit-detail", unitId] });
@@ -164,44 +183,51 @@ function UnitPage() {
             لا يوجد محتوى منشور في هذه الوحدة بعد
           </CardContent>
         </Card>
+      ) : !active ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="ltr">
+          {contents.map((c) => {
+            const meta = contentMeta(c.content_type);
+            const info = TYPE_INFO[c.content_type] ?? { desc: meta.label, min: 10 };
+            const isDone = done.has(c.id);
+            const cData = parseData(c.data);
+            const count = (cData.questions?.length ?? 0) + (cData.words?.length ?? 0);
+            const best = attempts.filter((a) => a.content_id === c.id).map((a) => a.percentage);
+            return (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => setActiveId(c.id)}
+                className={cn(
+                  "text-left rounded-2xl border bg-card p-5 transition hover:shadow-md hover:-translate-y-0.5",
+                  isDone && "border-emerald-500/50",
+                )}
+              >
+                <meta.icon className="h-6 w-6 text-primary" />
+                <p className="mt-3 font-black text-lg">{meta.label}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{info.desc}</p>
+                <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5" /> {info.min} min
+                  </span>
+                  {count > 0 && (
+                    <span>
+                      {count} {c.content_type === "vocabulary" ? "words" : "activities"}
+                    </span>
+                  )}
+                  {best.length > 0 && <span className="font-bold text-primary">{Math.max(...best)}%</span>}
+                </div>
+                <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-primary">
+                  Start <ArrowLeft className="h-4 w-4" />
+                </span>
+              </button>
+            );
+          })}
+        </div>
       ) : (
-        <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
-          <aside className="space-y-2 lg:sticky lg:top-4 lg:self-start">
-            {contents.map((c, i) => {
-              const meta = contentMeta(c.content_type);
-              const isDone = done.has(c.id);
-              const best = attempts.filter((a) => a.content_id === c.id).map((a) => a.percentage);
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setActiveId(c.id)}
-                  className={cn(
-                    "w-full flex items-center gap-3 rounded-2xl border p-3 text-right transition",
-                    c.id === activeId ? "border-primary bg-primary/10" : "hover:bg-muted/60",
-                    isDone && c.id !== activeId && "border-emerald-500/40",
-                  )}
-                >
-                  <div className="bg-primary/10 text-primary p-2 rounded-xl shrink-0">
-                    <meta.icon className="h-4 w-4" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-black text-sm truncate">{c.title}</p>
-                    <p className="text-[11px] text-muted-foreground">
-                      {i + 1}. {meta.label}
-                      {best.length ? ` • ${Math.max(...best)}%` : ""}
-                    </p>
-                  </div>
-                  {isDone ? (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground shrink-0" />
-                  )}
-                </button>
-              );
-            })}
-          </aside>
-
+        <div className="space-y-4">
+          <Button variant="ghost" size="sm" className="font-bold" onClick={() => setActiveId(null)}>
+            <ArrowRight className="h-4 w-4 ml-1" /> All sections
+          </Button>
           <div className="space-y-4">
             {active && (
               <ContentPanel
