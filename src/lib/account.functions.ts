@@ -13,7 +13,7 @@ const signUpSchema = z.object({
   fullName: z.string().trim().min(3).max(100),
   phone: z.string().trim().regex(phoneRegex),
   password: z.string().min(6).max(72),
-  sectionId: z.string().uuid(),
+  sectionId: z.string().uuid().optional().nullable(),
   grade: z.string().trim().max(60).optional().nullable(),
   unitId: z.string().uuid().optional().nullable(),
   // data URL of the selected photo
