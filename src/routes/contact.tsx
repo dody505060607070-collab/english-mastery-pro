@@ -21,9 +21,9 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const { data: siteContent } = useSiteContent();
-  const phone = pickText(siteContent?.["contact.phone"], "ar", "+201203529460");
+  const phone = pickText(siteContent?.["contact.phone"], "ar", "+201035851426");
   const email = pickText(siteContent?.["contact.email"], "ar", "abanoubeldabee@gmail.com");
-  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201203529460").replace(/[^0-9]/g, "");
+  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201035851426").replace(/[^0-9]/g, "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {

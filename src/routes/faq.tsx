@@ -70,8 +70,8 @@ const faqData = [
 
 function FAQ() {
   const { data: siteContent } = useSiteContent();
-  const wallet = pickText(siteContent?.["payment.wallet"], "ar", "01203529460");
-  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201203529460").replace(/[^0-9]/g, "");
+  const wallet = pickText(siteContent?.["payment.wallet"], "ar", "01035851426");
+  const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201035851426").replace(/[^0-9]/g, "");
   return (
     <div className="min-h-screen bg-background text-foreground py-20" dir="rtl">
       <div className="container max-w-4xl">

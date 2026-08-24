@@ -50,7 +50,7 @@ const PLANS = [
 
 function SubscriptionPage() {
   const { data: siteContent } = useSiteContent();
-  const walletNumber = pickText(siteContent?.["payment.wallet"], "ar", "01203529460");
+  const walletNumber = pickText(siteContent?.["payment.wallet"], "ar", "01035851426");
   const queryClient = useQueryClient();
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [showPayment, setShowPayment] = useState(false);

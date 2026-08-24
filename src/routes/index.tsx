@@ -2032,7 +2032,7 @@ function Index() {
       desc: pickText(siteContent?.[`home.feature${n}.desc`], "ar", ""),
     }))
     .filter((f) => f.title.trim().length > 0);
-  const whatsapp = T("contact.whatsapp", "+201203529460").replace(/[^\d]/g, "");
+  const whatsapp = T("contact.whatsapp", "+201035851426").replace(/[^\d]/g, "");
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
 
@@ -2542,7 +2542,7 @@ function Index() {
               </li>
               <li className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-primary" />
-                <span>{T("contact.phone", "+201203529460")}</span>
+                <span>{T("contact.phone", "+201035851426")}</span>
               </li>
             </ul>
           </div>
