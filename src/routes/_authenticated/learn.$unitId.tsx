@@ -1,12 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  Circle,
+  Clock,
   Loader2,
   Eye,
   EyeOff,
