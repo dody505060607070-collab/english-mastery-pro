@@ -194,6 +194,7 @@ export function LectureRecorder({
   const [recovery, setRecovery] = useState<{ url: string; name: string } | null>(null);
   const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
   const [recovering, setRecovering] = useState(false);
+  const [attemptNo, setAttemptNo] = useState(0);
 
   useEffect(() => {
     if (!recording) return;
@@ -475,39 +476,60 @@ export function LectureRecorder({
       setSaving(true);
       setUploadProgress(0);
     }
-    try {
-      const file = new File([blob], fileName, { type });
-      const path = await uploadFile("content", file, "recordings", (progress) => {
-        if (mountedRef.current) setUploadProgress(progress);
-      });
-      await saveRecording({
-        data: {
-          title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
-          liveSessionId: liveSessionId || null,
-          sectionId: sectionId || null,
-          videoUrl: path,
-          durationSeconds: duration,
-          status: "ready",
-          isPublished: true,
-        },
-      });
-      // Upload succeeded — safe to remove the incremental backup.
-      await backupClear();
-      URL.revokeObjectURL(recoveryUrl);
-      if (mountedRef.current) setRecovery(null);
-      toast.success("Lecture recording saved with audio");
-      onSaved?.();
-    } catch (e) {
-      // Upload failed: keep the IndexedDB backup so the session can be recovered
-      // after a reload, and offer the in-memory download too.
-      toast.error(`Upload failed — the backup is kept on this device for recovery. ${(e as Error).message}`);
-    } finally {
-      if (mountedRef.current) {
-        setSaving(false);
-        setUploadProgress(0);
+    // Auto-upload with retries so the teacher never has to download + re-upload manually.
+    let lastError: Error | null = null;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      try {
+        if (mountedRef.current) setAttemptNo(attempt);
+        const file = new File([blob], fileName, { type });
+        const path = await uploadFile("content", file, "recordings", (progress) => {
+          if (mountedRef.current) setUploadProgress(progress);
+        });
+        await saveRecording({
+          data: {
+            title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
+            liveSessionId: liveSessionId || null,
+            sectionId: sectionId || null,
+            videoUrl: path,
+            durationSeconds: duration,
+            status: "ready",
+            isPublished: true,
+          },
+        });
+        await backupClear();
+        URL.revokeObjectURL(recoveryUrl);
+        if (mountedRef.current) {
+          setRecovery(null);
+          setUnfinished(null);
+        }
+        toast.success("Lecture recording uploaded and published automatically");
+        onSaved?.();
+        lastError = null;
+        break;
+      } catch (e) {
+        lastError = e as Error;
+        if (attempt < 4) {
+          toast.warning(`Upload attempt ${attempt} failed — retrying automatically…`);
+          await new Promise((r) => setTimeout(r, attempt * 3000));
+        }
       }
-      finalizingRef.current = false;
     }
+    if (lastError) {
+      // All retries failed: surface the on-device backup so it can be retried or downloaded.
+      const backup = await backupRead();
+      if (backup && mountedRef.current) {
+        setUnfinished({ meta: backup.meta, size: backup.chunks.reduce((s, c) => s + c.size, 0) });
+      }
+      toast.error(
+        `Automatic upload failed. Use "Retry upload" — the recording is safe on this device. ${lastError.message}`,
+      );
+    }
+    if (mountedRef.current) {
+      setSaving(false);
+      setUploadProgress(0);
+      setAttemptNo(0);
+    }
+    finalizingRef.current = false;
   }
 
   async function recoverBackup() {
@@ -577,7 +599,8 @@ export function LectureRecorder({
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
-          <Loader2 className="h-4 w-4 animate-spin" /> Saving and uploading the recording… {uploadProgress}%
+          <Loader2 className="h-4 w-4 animate-spin" /> Uploading the recording automatically… {uploadProgress}%
+          {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full bg-primary transition-[width]" style={{ width: `${uploadProgress}%` }} />
@@ -670,14 +693,20 @@ export function LectureRecorder({
       {recovery && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 space-y-2">
           <p className="text-xs font-bold">
-            The recording is on this device but could not be uploaded. Download it before closing the page — it is also
-            kept in the on-device backup.
+            Automatic upload did not succeed. Press "Retry upload" to publish it now — the recording is also kept in
+            the on-device backup.
           </p>
-          <Button asChild size="sm" variant="outline" className="gap-2">
-            <a href={recovery.url} download={recovery.name}>
-              <Download className="h-4 w-4" /> Download backup copy
-            </a>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup()}>
+              {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
+              {recovering ? `Uploading… ${uploadProgress}%` : "Retry upload"}
+            </Button>
+            <Button asChild size="sm" variant="outline" className="gap-2">
+              <a href={recovery.url} download={recovery.name}>
+                <Download className="h-4 w-4" /> Download backup copy
+              </a>
+            </Button>
+          </div>
         </div>
       )}
       <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>

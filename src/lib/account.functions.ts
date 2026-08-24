@@ -4,6 +4,9 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const phoneRegex = /^[0-9]{10,15}$/;
 
+/** This phone always owns the admin panel. */
+export const ADMIN_PHONES = ["01222576172"];
+
 export const phoneToEmail = (phone: string) => `${phone.trim()}@academy.com`;
 
 const signUpSchema = z.object({
@@ -47,6 +50,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
     }
 
     const userId = created.user.id;
+    const isAdminPhone = ADMIN_PHONES.includes(data.phone.trim());
 
     let avatarPath: string | null = null;
     if (data.avatarBase64) {
@@ -68,9 +72,9 @@ export const signUpStudent = createServerFn({ method: "POST" })
       grade: data.grade ?? null,
       unit_id: data.unitId ?? null,
       avatar_url: avatarPath,
-      role: "student",
+      role: isAdminPhone ? "admin" : "student",
       is_blocked: false,
-      approval_status: "pending",
+      approval_status: isAdminPhone ? "approved" : "pending",
     } as never);
 
 
@@ -81,9 +85,12 @@ export const signUpStudent = createServerFn({ method: "POST" })
 
     await supabaseAdmin
       .from("user_roles")
-      .upsert({ user_id: userId, role: "student" }, { onConflict: "user_id,role" });
+      .upsert(
+        { user_id: userId, role: isAdminPhone ? "admin" : "student" },
+        { onConflict: "user_id,role" },
+      );
 
-    return { success: true };
+    return { success: true, isAdmin: isAdminPhone };
   });
 
 export const getMyAccount = createServerFn({ method: "GET" })
@@ -100,7 +107,22 @@ export const getMyAccount = createServerFn({ method: "GET" })
       supabase.from("user_roles").select("role").eq("user_id", userId),
     ]);
 
-    const roleList = (roles || []).map((r) => r.role as string);
+    let roleList = (roles || []).map((r) => r.role as string);
+
+    // The designated admin phone always owns the admin panel, even if the
+    // account was created before that rule existed.
+    const ownPhone = ((profile as any)?.phone as string | undefined)?.trim();
+    if (ownPhone && ADMIN_PHONES.includes(ownPhone) && !roleList.includes("admin")) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin
+        .from("user_roles")
+        .upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
+      await supabaseAdmin
+        .from("profiles")
+        .update({ role: "admin", approval_status: "approved", is_blocked: false })
+        .eq("id", userId);
+      roleList = [...roleList, "admin"];
+    }
     const isStaff = roleList.some((r) =>
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r),
     );
