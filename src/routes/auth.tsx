@@ -505,7 +505,7 @@ function AuthPage() {
                   All new accounts here are created as student accounts only.
                 </p>
               </form>
-            )}
+            ) : null}
 
             {mode === "staff" && (
               <form onSubmit={onStaffSignup} className="space-y-5">
