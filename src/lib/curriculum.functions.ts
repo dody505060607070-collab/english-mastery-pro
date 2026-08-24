@@ -121,10 +121,15 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     const section = (unit as any).sections as
       | { id: string; name: string; is_visible: boolean; is_locked: boolean }
       | null;
-    // Levels are NOT sequential: any level that is visible and unlocked is open to every
-    // active learner. Only an explicit admin lock (or hiding) blocks access.
-    if (!isStaff && (!section || section.is_visible === false || section.is_locked === true)) {
-      throw new Error("هذا المستوى مقفل حالياً، تواصل مع الإدارة لفتحه");
+    // A student may only open units of the level the admin assigned to them,
+    // and only while that level is visible and unlocked.
+    if (!isStaff) {
+      if (!section || section.is_visible === false || section.is_locked === true) {
+        throw new Error("هذا المستوى مقفل حالياً، تواصل مع الإدارة لفتحه");
+      }
+      if (!profile?.section_id || profile.section_id !== (unit as any).section_id) {
+        throw new Error("ليس لديك صلاحية الوصول لهذا المحتوى");
+      }
     }
 
     let query = supabase
