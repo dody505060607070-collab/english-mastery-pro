@@ -68,7 +68,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
       id: userId,
       full_name: data.fullName,
       phone: data.phone,
-      section_id: data.sectionId,
+      section_id: data.sectionId ?? null,
       grade: data.grade ?? null,
       unit_id: data.unitId ?? null,
       avatar_url: avatarPath,
