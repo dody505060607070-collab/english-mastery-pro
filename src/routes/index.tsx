@@ -2280,19 +2280,14 @@ function Index() {
               <div className="space-y-4">
                 <h4 className="text-lg font-bold flex items-center gap-2">
                   <Info className="h-5 w-5 text-primary" />
-                  عن الكورس
+                  About the course
                 </h4>
                 <p className="text-muted-foreground leading-relaxed">{selectedCourse?.description}</p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                    <div className="text-xs text-muted-foreground mb-1">السعر</div>
-                    <div className="text-xl font-black">{selectedCourse?.price} ج.م</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                    <div className="text-xs text-muted-foreground mb-1">المستوى</div>
-                    <div className="text-xl font-black">{selectedCourse?.level}</div>
-                  </div>
+                <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
+                  <div className="text-xs text-muted-foreground mb-1">Level</div>
+                  <div className="text-xl font-black">{selectedCourse?.level}</div>
                 </div>
+
               </div>
             </div>
             <DialogFooter>
