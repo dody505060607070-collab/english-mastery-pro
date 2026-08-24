@@ -6,7 +6,6 @@ import { z } from "zod";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getLevels, getLevelUnits } from "@/lib/curriculum.functions";
 import { contentMeta, contentColor } from "@/lib/content-types";
