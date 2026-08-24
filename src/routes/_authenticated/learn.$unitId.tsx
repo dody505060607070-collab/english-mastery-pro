@@ -81,11 +81,14 @@ function UnitPage() {
     retry: false,
   });
 
-  const contents = (data?.contents ?? []) as ContentRow[];
+  const contents = useMemo(
+    () =>
+      [...((data?.contents ?? []) as ContentRow[])].sort(
+        (a, b) => orderRank(a.content_type) - orderRank(b.content_type),
+      ),
+    [data],
+  );
 
-  useEffect(() => {
-    if (!activeId && contents.length) setActiveId(contents[0]!.id);
-  }, [contents, activeId]);
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["unit-detail", unitId] });
