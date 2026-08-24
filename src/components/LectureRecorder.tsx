@@ -194,6 +194,7 @@ export function LectureRecorder({
   const [recovery, setRecovery] = useState<{ url: string; name: string } | null>(null);
   const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
   const [recovering, setRecovering] = useState(false);
+  const [attemptNo, setAttemptNo] = useState(0);
 
   useEffect(() => {
     if (!recording) return;
@@ -598,7 +599,8 @@ export function LectureRecorder({
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
-          <Loader2 className="h-4 w-4 animate-spin" /> Saving and uploading the recording… {uploadProgress}%
+          <Loader2 className="h-4 w-4 animate-spin" /> Uploading the recording automatically… {uploadProgress}%
+          {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full bg-primary transition-[width]" style={{ width: `${uploadProgress}%` }} />
@@ -691,14 +693,20 @@ export function LectureRecorder({
       {recovery && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 space-y-2">
           <p className="text-xs font-bold">
-            The recording is on this device but could not be uploaded. Download it before closing the page — it is also
-            kept in the on-device backup.
+            Automatic upload did not succeed. Press "Retry upload" to publish it now — the recording is also kept in
+            the on-device backup.
           </p>
-          <Button asChild size="sm" variant="outline" className="gap-2">
-            <a href={recovery.url} download={recovery.name}>
-              <Download className="h-4 w-4" /> Download backup copy
-            </a>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup()}>
+              {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
+              {recovering ? `Uploading… ${uploadProgress}%` : "Retry upload"}
+            </Button>
+            <Button asChild size="sm" variant="outline" className="gap-2">
+              <a href={recovery.url} download={recovery.name}>
+                <Download className="h-4 w-4" /> Download backup copy
+              </a>
+            </Button>
+          </div>
         </div>
       )}
       <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
