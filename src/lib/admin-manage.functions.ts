@@ -63,8 +63,8 @@ export const listStudents = createServerFn({ method: "GET" })
       .parse(data ?? {}),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "students");
 
     let query = context.supabase
       .from("profiles")
@@ -106,8 +106,8 @@ export const updateStudent = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "students");
 
     const patch: {
       full_name?: string;
@@ -129,8 +129,8 @@ export const setStudentBlocked = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ userId: z.string().uuid(), blocked: z.boolean() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "students");
 
     const { error } = await context.supabase
       .from("profiles")
@@ -168,8 +168,8 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "students");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
@@ -228,8 +228,8 @@ export const setUserRole = createServerFn({ method: "POST" })
 export const listSections = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
 
     const [{ data: sections }, { data: units }, { data: students }] = await Promise.all([
       context.supabase.from("sections").select("*").order("order_index"),
@@ -259,8 +259,8 @@ export const saveSection = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
     const supabase = context.supabase;
 
     if (data.id) {
@@ -300,8 +300,8 @@ export const deleteSection = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
 
     const { error } = await context.supabase.from("sections").delete().eq("id", data.id);
     if (error) throw new Error("لا يمكن حذف القسم، تأكد من نقل الطلاب والوحدات أولاً");
@@ -314,8 +314,8 @@ export const reorderSections = createServerFn({ method: "POST" })
     z.object({ items: z.array(z.object({ id: z.string().uuid(), order_index: z.number().int() })) }).parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
 
     for (const item of data.items) {
       await context.supabase.from("sections").update({ order_index: item.order_index }).eq("id", item.id);
@@ -329,8 +329,8 @@ export const listUnits = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ sectionId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
 
     const [{ data: section }, { data: units }] = await Promise.all([
       context.supabase.from("sections").select("*").eq("id", data.sectionId).maybeSingle(),
@@ -370,8 +370,8 @@ export const saveUnit = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
     const supabase = context.supabase;
 
     if (data.id) {
@@ -410,8 +410,8 @@ export const deleteUnit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
 
     await context.supabase.from("unit_contents").delete().eq("unit_id", data.id);
     const { error } = await context.supabase.from("units").delete().eq("id", data.id);
@@ -423,8 +423,8 @@ export const duplicateUnit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
     const supabase = context.supabase;
 
     const { data: unit } = await supabase.from("units").select("*").eq("id", data.id).maybeSingle();
@@ -468,8 +468,8 @@ export const reorderUnits = createServerFn({ method: "POST" })
     z.object({ items: z.array(z.object({ id: z.string().uuid(), order_index: z.number().int() })) }).parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
     for (const item of data.items) {
       await context.supabase.from("units").update({ order_index: item.order_index }).eq("id", item.id);
     }
@@ -482,8 +482,8 @@ export const listUnitContents = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ unitId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "content");
 
     const [{ data: unit }, { data: contents }] = await Promise.all([
       context.supabase
@@ -514,8 +514,8 @@ export const saveUnitContent = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "content");
     const supabase = context.supabase;
 
     if (data.id) {
@@ -560,8 +560,8 @@ export const deleteUnitContent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "content");
     const { error } = await context.supabase.from("unit_contents").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { success: true };
@@ -573,8 +573,8 @@ export const reorderUnitContents = createServerFn({ method: "POST" })
     z.object({ items: z.array(z.object({ id: z.string().uuid(), order_index: z.number().int() })) }).parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "content");
     for (const item of data.items) {
       await context.supabase.from("unit_contents").update({ order_index: item.order_index }).eq("id", item.id);
     }
@@ -586,8 +586,8 @@ export const duplicateSection = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid(), name: z.string().trim().min(1).max(80).optional() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "curriculum");
     const supabase = context.supabase;
 
     const { data: section } = await supabase.from("sections").select("*").eq("id", data.id).maybeSingle();
