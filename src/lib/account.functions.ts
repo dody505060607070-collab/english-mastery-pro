@@ -107,7 +107,22 @@ export const getMyAccount = createServerFn({ method: "GET" })
       supabase.from("user_roles").select("role").eq("user_id", userId),
     ]);
 
-    const roleList = (roles || []).map((r) => r.role as string);
+    let roleList = (roles || []).map((r) => r.role as string);
+
+    // The designated admin phone always owns the admin panel, even if the
+    // account was created before that rule existed.
+    const ownPhone = ((profile as any)?.phone as string | undefined)?.trim();
+    if (ownPhone && ADMIN_PHONES.includes(ownPhone) && !roleList.includes("admin")) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin
+        .from("user_roles")
+        .upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
+      await supabaseAdmin
+        .from("profiles")
+        .update({ role: "admin", approval_status: "approved", is_blocked: false })
+        .eq("id", userId);
+      roleList = [...roleList, "admin"];
+    }
     const isStaff = roleList.some((r) =>
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r),
     );
