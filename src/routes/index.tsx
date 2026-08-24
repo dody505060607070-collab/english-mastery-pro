@@ -1987,6 +1987,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, GraduationCap, Users, Star, ArrowLeft, ArrowRight, MessageCircle, Briefcase, Globe, Award, CheckCircle2, Phone, ShieldCheck, Wallet, Image as ImageIcon, Info, Sparkles, HelpCircle, MessageSquare, Zap, Flame, Layers } from "lucide-react";
 import logoAsset from "@/assets/logo-transparent.png.asset.json";
+import learningIllustration from "@/assets/learning-illustration.jpg";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteContent, pickText } from "@/lib/content";
