@@ -22,7 +22,7 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
 import { VocabularyDeck } from "@/components/exercise/VocabularyDeck";
 import { getUnitDetail, setContentProgress, submitExercise, setVocabLearned } from "@/lib/curriculum.functions";
-import { contentMeta } from "@/lib/content-types";
+import { contentMeta, contentColor } from "@/lib/content-types";
 import type { ExerciseData, Question, VocabWord } from "@/lib/exercise-types";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
