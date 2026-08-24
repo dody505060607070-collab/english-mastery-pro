@@ -8,6 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, EyeOff, Loader2, Lock, PlaySquare } from "lucide-react";
 
 import { getStudentView } from "@/lib/student-view.functions";
+import { contentMeta, contentColor } from "@/lib/content-types";
+import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/admin/student-view")({
   component: StudentViewPage,
