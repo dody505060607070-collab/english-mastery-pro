@@ -111,22 +111,31 @@ function AdminLayout() {
           </Link>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          {visibleItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group",
-                active(item.href)
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                  : "hover:bg-primary/5 text-muted-foreground hover:text-primary",
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span className="font-bold text-sm">{item.title}</span>
-            </Link>
-          ))}
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+          {visibleItems.map((item) => {
+            const isActive = active(item.href);
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all",
+                  isActive ? "bg-primary/10 text-primary" : "hover:bg-muted/70 text-muted-foreground",
+                )}
+              >
+                <span
+                  className={cn(
+                    "grid h-9 w-9 shrink-0 place-items-center rounded-xl transition-transform",
+                    item.color,
+                    isActive && "scale-105 shadow-sm",
+                  )}
+                >
+                  <item.icon className="h-4.5 w-4.5" />
+                </span>
+                <span className={cn("font-bold text-sm truncate", isActive && "text-foreground")}>{item.title}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="p-4 border-t">
@@ -140,8 +149,17 @@ function AdminLayout() {
       </aside>
 
       <main className="flex-1 min-w-0">
-        <header className="h-16 border-b bg-background/70 backdrop-blur-md sticky top-0 z-20 flex items-center px-4 md:px-8">
-          <h2 className="text-base md:text-lg font-black">
+        <header className="h-16 border-b bg-background/70 backdrop-blur-md sticky top-0 z-20 flex items-center gap-3 px-4 md:px-8">
+          {(() => {
+            const cur = visibleItems.find((i) => active(i.href));
+            const Icon = cur?.icon ?? LayoutDashboard;
+            return (
+              <span className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-xl", cur?.color ?? "bg-primary/10 text-primary")}>
+                <Icon className="h-4.5 w-4.5" />
+              </span>
+            );
+          })()}
+          <h2 className="text-base md:text-lg font-black truncate">
             {visibleItems.find((i) => active(i.href))?.title || "Admin Panel"}
           </h2>
         </header>
@@ -153,15 +171,19 @@ function AdminLayout() {
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap",
-                  active(item.href) ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+                  "inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap border",
+                  active(item.href)
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card text-muted-foreground border-border/60",
                 )}
               >
+                <item.icon className="h-3.5 w-3.5" />
                 {item.title}
               </Link>
             ))}
           </div>
         </div>
+
 
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
           <Outlet />
