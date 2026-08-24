@@ -10,8 +10,8 @@ export const listAccountRequests = createServerFn({ method: "GET" })
       .parse(data ?? {}),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "approvals");
 
     let query = context.supabase
       .from("profiles")
@@ -40,8 +40,8 @@ export const setAccountApproval = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "approvals");
 
     const { error } = await context.supabase
       .from("profiles")
@@ -58,8 +58,8 @@ export const setAccountApproval = createServerFn({ method: "POST" })
 export const countPendingAccounts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { assertStaff } = await import("@/lib/staff.server");
-    await assertStaff(context.supabase, context.userId);
+    const { assertCan } = await import("@/lib/staff.server");
+    await assertCan(context.supabase, context.userId, "approvals");
     const { count } = await context.supabase
       .from("profiles")
       .select("id", { count: "exact", head: true })
