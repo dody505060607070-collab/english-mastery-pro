@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 const phoneRegex = /^[0-9]{10,15}$/;
 
 /** This phone always owns the admin panel. */
-export const ADMIN_PHONES = ["01222576172"];
+export const ADMIN_PHONES = ["01222576172", "01203529460"];
 
 export const phoneToEmail = (phone: string) => `${phone.trim()}@academy.com`;
 

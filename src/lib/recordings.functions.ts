@@ -6,11 +6,26 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export const getStudentRecordings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
+    const [{ data: profile }, { data: roles }] = await Promise.all([
+      context.supabase.from("profiles").select("section_id").eq("id", context.userId).maybeSingle(),
+      context.supabase.from("user_roles").select("role").eq("user_id", context.userId),
+    ]);
+    const isStaff = (roles ?? []).some((r) =>
+      ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
+    );
+
+    let query = context.supabase
       .from("lecture_recordings")
       .select("id, title, description, video_url, duration_seconds, recorded_at, section_id, sections:section_id (name)")
       .eq("is_published", true)
       .order("recorded_at", { ascending: false });
+    // Students only see recordings for the level they were granted (or global ones).
+    if (!isStaff) {
+      query = profile?.section_id
+        ? query.or(`section_id.is.null,section_id.eq.${profile.section_id}`)
+        : query.is("section_id", null);
+    }
+    const { data, error } = await query;
     if (error) throw new Error(error.message);
     const recordings = data ?? [];
     const paths = recordings.flatMap((recording) =>
