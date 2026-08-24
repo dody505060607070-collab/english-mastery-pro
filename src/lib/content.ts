@@ -24,10 +24,20 @@ export function useSiteContent() {
   });
 }
 
-export function pickText(v: ContentValue | undefined, lang: Lang, fallback = ""): string {
-  if (!v) return fallback;
+export function pickText(
+  v: ContentValue | string | number | undefined,
+  lang: Lang,
+  fallback = "",
+): string {
+  if (v === undefined || v === null) return fallback;
+  if (typeof v === "string") return v.trim() ? v : fallback;
+  if (typeof v === "number") return String(v);
   const raw = v[lang] ?? v.ar ?? v.en ?? v.value;
-  return typeof raw === "string" && raw.trim() ? raw : fallback;
+  return typeof raw === "string" && raw.trim()
+    ? raw
+    : typeof raw === "number"
+      ? String(raw)
+      : fallback;
 }
 
 export function pickList(v: ContentValue | undefined, lang: Lang): ContentItem[] {

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/courses")({
 
 function CoursesPage() {
   const { data: siteContent } = useSiteContent();
-  const walletNumber = pickText(siteContent?.["payment.wallet"], "ar", "01203529460");
+  const walletNumber = pickText(siteContent?.["payment.wallet"], "ar", "01035851426");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
