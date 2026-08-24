@@ -13,7 +13,7 @@ const signUpSchema = z.object({
   fullName: z.string().trim().min(3).max(100),
   phone: z.string().trim().regex(phoneRegex),
   password: z.string().min(6).max(72),
-  sectionId: z.string().uuid(),
+  sectionId: z.string().uuid().optional().nullable(),
   grade: z.string().trim().max(60).optional().nullable(),
   unitId: z.string().uuid().optional().nullable(),
   // data URL of the selected photo
@@ -68,7 +68,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
       id: userId,
       full_name: data.fullName,
       phone: data.phone,
-      section_id: data.sectionId,
+      section_id: data.sectionId ?? null,
       grade: data.grade ?? null,
       unit_id: data.unitId ?? null,
       avatar_url: avatarPath,
@@ -192,3 +192,142 @@ export const adminExists = createServerFn({ method: "GET" }).handler(async () =>
     .in("role", ["admin", "super_admin"]);
   return { exists: (count ?? 0) > 0 };
 });
+
+/* -------------------------------------------------- staff signup allowlist */
+
+const STAFF_KEY = "staff.allowed_phones";
+export type StaffAllowEntry = { phone: string; role: "admin" | "teacher" };
+
+async function readStaffAllowlist() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("site_content" as never)
+    .select("value")
+    .eq("key", STAFF_KEY)
+    .maybeSingle();
+  const raw = (data as { value?: unknown } | null)?.value;
+  const list = Array.isArray(raw) ? raw : [];
+  return list
+    .filter((e): e is StaffAllowEntry => !!e && typeof (e as StaffAllowEntry).phone === "string")
+    .map((e) => ({ phone: String(e.phone).trim(), role: e.role === "admin" ? "admin" : "teacher" }) as StaffAllowEntry);
+}
+
+async function requireAdmin(supabase: { rpc: Function }, userId: string) {
+  const { data } = await (supabase as any).rpc("has_role", { _user_id: userId, _role: "admin" });
+  if (!data) throw new Error("هذا الإجراء للمدير فقط");
+}
+
+/** Admin-only: list phones allowed to self-register as admin/teacher. */
+export const listStaffPhones = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await requireAdmin(context.supabase, context.userId);
+    return await readStaffAllowlist();
+  });
+
+/** Admin-only: replace the allowlist. */
+export const saveStaffPhones = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        entries: z
+          .array(
+            z.object({
+              phone: z.string().trim().regex(phoneRegex),
+              role: z.enum(["admin", "teacher"]),
+            }),
+          )
+          .max(200),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await requireAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const seen = new Set<string>();
+    const entries = data.entries.filter((e) => !seen.has(e.phone) && seen.add(e.phone));
+    const { error } = await supabaseAdmin
+      .from("site_content" as never)
+      .upsert({ key: STAFF_KEY, value: entries } as never);
+    if (error) throw new Error(error.message);
+    return { success: true, entries };
+  });
+
+/** Public: is this phone allowed to create a staff account? */
+export const checkStaffPhone = createServerFn({ method: "POST" })
+  .inputValidator((data) => z.object({ phone: z.string().trim().regex(phoneRegex) }).parse(data))
+  .handler(async ({ data }) => {
+    const phone = data.phone.trim();
+    if (ADMIN_PHONES.includes(phone)) return { allowed: true, role: "admin" as const };
+    const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
+    return entry ? { allowed: true, role: entry.role } : { allowed: false, role: null };
+  });
+
+/** Self sign-up for admins/teachers whose phone was pre-approved by an admin. */
+export const signUpStaff = createServerFn({ method: "POST" })
+  .inputValidator((data) =>
+    z
+      .object({
+        fullName: z.string().trim().min(3).max(100),
+        phone: z.string().trim().regex(phoneRegex),
+        password: z.string().min(6).max(72),
+        avatarBase64: z.string().max(4_000_000).optional().nullable(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    const phone = data.phone.trim();
+    let role: "admin" | "teacher" | null = ADMIN_PHONES.includes(phone) ? "admin" : null;
+    if (!role) {
+      const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
+      role = entry?.role ?? null;
+    }
+    if (!role) throw new Error("هذا الرقم غير مصرح له بإنشاء حساب مدير أو مدرس");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+      email: phoneToEmail(phone),
+      password: data.password,
+      email_confirm: true,
+      user_metadata: { full_name: data.fullName, phone },
+    });
+    if (createError || !created.user) {
+      const msg = (createError?.message || "").toLowerCase();
+      if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
+      throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+    }
+    const userId = created.user.id;
+
+    let avatarPath: string | null = null;
+    if (data.avatarBase64) {
+      const decoded = decodeDataUrl(data.avatarBase64);
+      if (decoded) {
+        const path = `${userId}/avatar-${Date.now()}.${decoded.ext}`;
+        const { error: upErr } = await supabaseAdmin.storage
+          .from("avatars")
+          .upload(path, decoded.bytes, { contentType: decoded.mime, upsert: true });
+        if (!upErr) avatarPath = path;
+      }
+    }
+
+    const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
+      id: userId,
+      full_name: data.fullName,
+      phone,
+      avatar_url: avatarPath,
+      role,
+      is_blocked: false,
+      approval_status: "approved",
+    } as never);
+    if (profileError) {
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+      throw new Error("تعذر حفظ البيانات");
+    }
+
+    await supabaseAdmin
+      .from("user_roles")
+      .upsert({ user_id: userId, role }, { onConflict: "user_id,role" });
+
+    return { success: true, role };
+  });

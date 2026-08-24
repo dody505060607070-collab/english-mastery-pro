@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Plus, Shield, ShieldAlert, Users } from "lucide-react";
+import { Loader2, Plus, Shield, ShieldAlert, Users, Phone, Trash2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { listAllUsers, createUserWithRole, setUserRole } from "@/lib/admin-manage.functions";
+import { listStaffPhones, saveStaffPhones } from "@/lib/account.functions";
 import { useAccount } from "@/hooks/useAccount";
 
 export const Route = createFileRoute("/_authenticated/admin/roles")({
@@ -57,6 +58,39 @@ function AdminRoles() {
     queryFn: () => listAllUsers(),
     enabled: !!account?.isAdmin,
   });
+
+  const [newPhone, setNewPhone] = useState("");
+  const [newPhoneRole, setNewPhoneRole] = useState<"admin" | "teacher">("teacher");
+
+  const { data: staffPhones } = useQuery({
+    queryKey: ["staff-allowed-phones"],
+    queryFn: () => listStaffPhones(),
+    enabled: !!account?.isAdmin,
+  });
+
+  const savePhones = useMutation({
+    mutationFn: (entries: { phone: string; role: "admin" | "teacher" }[]) =>
+      saveStaffPhones({ data: { entries } }),
+    onSuccess: () => {
+      toast.success("تم تحديث الأرقام المصرح لها");
+      setNewPhone("");
+      qc.invalidateQueries({ queryKey: ["staff-allowed-phones"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const addPhone = () => {
+    const phone = newPhone.trim();
+    if (!/^[0-9]{10,15}$/.test(phone)) {
+      toast.error("رقم غير صحيح");
+      return;
+    }
+    const next = [
+      ...(staffPhones ?? []).filter((e) => e.phone !== phone),
+      { phone, role: newPhoneRole },
+    ];
+    savePhones.mutate(next);
+  };
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["admin-all-users"] });
@@ -139,6 +173,63 @@ function AdminRoles() {
           </Card>
         ))}
       </div>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Phone className="h-4 w-4" /> أرقام مصرح لها بإنشاء حساب مدير / مدرس
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            أي رقم هنا يقدر يعمل Sign Up من صفحة الدخول كـ Admin / Teacher. أي رقم تاني مش هيقدر.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex gap-2 flex-wrap">
+            <Input
+              className="h-11 max-w-52"
+              placeholder="01xxxxxxxxx"
+              dir="ltr"
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+            />
+            <Select value={newPhoneRole} onValueChange={(v) => setNewPhoneRole(v as "admin" | "teacher")}>
+              <SelectTrigger className="h-11 w-36">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="admin">مدير</SelectItem>
+                <SelectItem value="teacher">مدرس</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button className="h-11 gap-2" onClick={addPhone} disabled={savePhones.isPending}>
+              {savePhones.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+              OK
+            </Button>
+          </div>
+          {(staffPhones ?? []).length === 0 ? (
+            <p className="text-sm text-muted-foreground font-bold">لا توجد أرقام مضافة.</p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {(staffPhones ?? []).map((e) => (
+                <div key={e.phone} className="flex items-center gap-2 rounded-xl border px-3 py-2">
+                  <span dir="ltr" className="font-bold text-sm">{e.phone}</span>
+                  <Badge variant="secondary">{e.role === "admin" ? "مدير" : "مدرس"}</Badge>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      savePhones.mutate((staffPhones ?? []).filter((x) => x.phone !== e.phone))
+                    }
+                    className="text-destructive"
+                    aria-label="حذف"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader className="pb-3 flex-row items-center justify-between gap-3">
