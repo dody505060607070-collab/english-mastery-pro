@@ -755,13 +755,21 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — every second is backed up automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          The recording captures the tab you shared (your Google Meet tab). No external site such as YouTube is needed
-          for audio — Meet sound comes from the shared tab itself when "Also share tab audio" is enabled.
+          Meet sound comes from the shared tab itself when "Also share tab audio" is enabled. If you open YouTube in
+          another tab, press "Switch shared tab" and pick it — the recording keeps running, then switch back to Meet
+          the same way.
         </p>
       </div>
-      <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-        <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
+          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
+        </Button>
+        <Button size="sm" variant="outline" className="gap-2" disabled={switching} onClick={() => void switchSource()}>
+          {switching ? <Loader2 className="h-4 w-4 animate-spin" /> : <MonitorUp className="h-4 w-4" />}
+          Switch shared tab
+        </Button>
+      </div>
+
     </div>
   ) : (
     <div className="space-y-2">
