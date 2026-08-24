@@ -2024,12 +2024,16 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { data: siteContent } = useSiteContent();
   const T = (key: string, fallback: string) => pickText(siteContent?.[key], "ar", fallback);
+  // Features come ONLY from Admin → Site Content: deleting a key removes the item from the site.
+  const features = [1, 2, 3, 4, 5, 6]
+    .map((n) => ({
+      title: pickText(siteContent?.[`home.feature${n}.title`], "ar", ""),
+      desc: pickText(siteContent?.[`home.feature${n}.desc`], "ar", ""),
+    }))
+    .filter((f) => f.title.trim().length > 0);
+  const whatsapp = T("contact.whatsapp", "+201203529460").replace(/[^\d]/g, "");
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
-  const [showPayment, setShowPayment] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'Vodafone Cash' | 'InstaPay'>('Vodafone Cash');
-  const [senderPhone, setSenderPhone] = useState('');
-  const [receiptFile, setReceiptFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const { data: courses, isLoading: coursesLoading } = useQuery({
     queryKey: ["courses"],
