@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getLevels, getLevelUnits } from "@/lib/curriculum.functions";
-import { contentMeta } from "@/lib/content-types";
+import { contentMeta, contentColor } from "@/lib/content-types";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({ level: z.string().optional() });
