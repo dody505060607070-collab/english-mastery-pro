@@ -261,7 +261,7 @@ function FreePractice() {
               onClick={nextWord}
               disabled={currentIndex === vocab.length - 1}
             >
-              التالي
+              Next
               <ChevronLeft className="mr-2 h-6 w-6" />
             </Button>
           </div>

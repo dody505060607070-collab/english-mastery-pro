@@ -307,7 +307,7 @@ function PlacementTestPage() {
             disabled={!currentQuestion || !answers[currentQuestion.id] || mutation.isPending}
           >
             <span className="relative z-10 flex items-center">
-              {mutation.isPending ? "جاري الإرسال..." : (currentStep === questions.length - 1 ? "إنهاء الاختبار" : "التالي")}
+              {mutation.isPending ? "جاري الإرسال..." : (currentStep === questions.length - 1 ? "إنهاء الاختبار" : "Next")}
               {currentStep < questions.length - 1 && <ChevronLeft className="mr-2 h-5 w-5" />}
             </span>
             <div className="absolute inset-0 bg-primary-foreground/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
