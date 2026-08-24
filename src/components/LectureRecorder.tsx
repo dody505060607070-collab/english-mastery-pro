@@ -631,7 +631,57 @@ export function LectureRecorder({
     }
   }
 
+  /**
+   * Swap the shared tab while recording continues (Meet -> YouTube -> Meet).
+   * The recorder keeps running because video comes from a canvas and audio from
+   * a Web Audio mix; only the source behind them is replaced.
+   */
+  async function switchSource() {
+    const ctx = audioCtxRef.current;
+    const dest = audioDestRef.current;
+    const analyser = analyserRef.current;
+    if (!ctx || !dest || !analyser) return;
+    setSwitching(true);
+    try {
+      const next = await navigator.mediaDevices.getDisplayMedia({
+        video: { frameRate: 30 },
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        ...({ systemAudio: "include", surfaceSwitching: "include" } as Record<string, unknown>),
+      } as DisplayMediaStreamOptions);
+
+      // disconnect old tab audio, keep the mic untouched
+      const old = displayAudioNodesRef.current;
+      if (old) {
+        old.gain.disconnect();
+        old.src.disconnect();
+      }
+      displayAudioNodesRef.current = null;
+      if (next.getAudioTracks().length > 0) {
+        const src = ctx.createMediaStreamSource(next);
+        const g = ctx.createGain();
+        g.gain.value = 0.8;
+        src.connect(g);
+        g.connect(dest);
+        g.connect(analyser);
+        displayAudioNodesRef.current = { src, gain: g };
+      }
+
+      if (videoElRef.current) {
+        videoElRef.current.srcObject = new MediaStream(next.getVideoTracks());
+        await videoElRef.current.play().catch(() => undefined);
+      }
+      displayRef.current?.getTracks().forEach((t) => t.stop());
+      displayRef.current = next;
+      toast.success("Switched the shared tab — recording continues.");
+    } catch {
+      toast.error("Tab switch cancelled — the recording is still running on the previous tab.");
+    } finally {
+      if (mountedRef.current) setSwitching(false);
+    }
+  }
+
   async function downloadBackup() {
+
     const backup = await backupRead();
     if (!backup) return;
     const { blob, ext } = backupBlob(backup.chunks, backup.meta.mime);
