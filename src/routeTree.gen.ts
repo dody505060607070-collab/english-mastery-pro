@@ -39,6 +39,7 @@ import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRecordingsRouteImport } from './routes/_authenticated/admin/recordings'
 import { Route as AuthenticatedAdminResourcesRouteImport } from './routes/_authenticated/admin/resources'
 import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated/admin/roles'
+import { Route as AuthenticatedAdminStudentViewRouteImport } from './routes/_authenticated/admin/student-view'
 import { Route as AuthenticatedAdminStudentsRouteImport } from './routes/_authenticated/admin/students'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin/users'
 import { Route as AuthenticatedAdminVocabularyRouteImport } from './routes/_authenticated/admin/vocabulary'
@@ -214,6 +215,12 @@ const AuthenticatedAdminRolesRoute = AuthenticatedAdminRolesRouteImport.update({
   path: '/roles',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminStudentViewRoute =
+  AuthenticatedAdminStudentViewRouteImport.update({
+    id: '/student-view',
+    path: '/student-view',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminStudentsRoute =
   AuthenticatedAdminStudentsRouteImport.update({
     id: '/students',
@@ -337,6 +344,7 @@ export interface FileRoutesByFullPath {
   '/admin/recordings': typeof AuthenticatedAdminRecordingsRoute
   '/admin/resources': typeof AuthenticatedAdminResourcesRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
+  '/admin/student-view': typeof AuthenticatedAdminStudentViewRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vocabulary': typeof AuthenticatedAdminVocabularyRoute
@@ -382,6 +390,7 @@ export interface FileRoutesByTo {
   '/admin/recordings': typeof AuthenticatedAdminRecordingsRoute
   '/admin/resources': typeof AuthenticatedAdminResourcesRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
+  '/admin/student-view': typeof AuthenticatedAdminStudentViewRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vocabulary': typeof AuthenticatedAdminVocabularyRoute
@@ -431,6 +440,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/recordings': typeof AuthenticatedAdminRecordingsRoute
   '/_authenticated/admin/resources': typeof AuthenticatedAdminResourcesRoute
   '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
+  '/_authenticated/admin/student-view': typeof AuthenticatedAdminStudentViewRoute
   '/_authenticated/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/vocabulary': typeof AuthenticatedAdminVocabularyRoute
@@ -480,6 +490,7 @@ export interface FileRouteTypes {
     | '/admin/recordings'
     | '/admin/resources'
     | '/admin/roles'
+    | '/admin/student-view'
     | '/admin/students'
     | '/admin/users'
     | '/admin/vocabulary'
@@ -525,6 +536,7 @@ export interface FileRouteTypes {
     | '/admin/recordings'
     | '/admin/resources'
     | '/admin/roles'
+    | '/admin/student-view'
     | '/admin/students'
     | '/admin/users'
     | '/admin/vocabulary'
@@ -573,6 +585,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/recordings'
     | '/_authenticated/admin/resources'
     | '/_authenticated/admin/roles'
+    | '/_authenticated/admin/student-view'
     | '/_authenticated/admin/students'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/vocabulary'
@@ -816,6 +829,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRolesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/student-view': {
+      id: '/_authenticated/admin/student-view'
+      path: '/student-view'
+      fullPath: '/admin/student-view'
+      preLoaderRoute: typeof AuthenticatedAdminStudentViewRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/students': {
       id: '/_authenticated/admin/students'
       path: '/students'
@@ -942,6 +962,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminRecordingsRoute: typeof AuthenticatedAdminRecordingsRoute
   AuthenticatedAdminResourcesRoute: typeof AuthenticatedAdminResourcesRoute
   AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
+  AuthenticatedAdminStudentViewRoute: typeof AuthenticatedAdminStudentViewRoute
   AuthenticatedAdminStudentsRoute: typeof AuthenticatedAdminStudentsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVocabularyRoute: typeof AuthenticatedAdminVocabularyRoute
@@ -964,6 +985,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminRecordingsRoute: AuthenticatedAdminRecordingsRoute,
   AuthenticatedAdminResourcesRoute: AuthenticatedAdminResourcesRoute,
   AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
+  AuthenticatedAdminStudentViewRoute: AuthenticatedAdminStudentViewRoute,
   AuthenticatedAdminStudentsRoute: AuthenticatedAdminStudentsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVocabularyRoute: AuthenticatedAdminVocabularyRoute,
