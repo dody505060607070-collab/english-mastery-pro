@@ -113,7 +113,7 @@ function FAQ() {
                       {item.q}
                     </AccordionTrigger>
                     <AccordionContent className="text-muted-foreground leading-relaxed text-lg pb-6">
-                      {item.a}
+                      {item.a.replace("{{wallet}}", wallet)}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
