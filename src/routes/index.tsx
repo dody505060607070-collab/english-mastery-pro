@@ -2360,49 +2360,34 @@ function Index() {
                     </div>
                   </div>
                   <CardHeader>
-                    <div className="flex justify-between items-start mb-2">
-                       <div className="flex flex-col gap-1">
-                         <span className="text-xs font-bold text-primary">{course.course_categories?.name}</span>
-                         <div className="flex items-center gap-1 bg-yellow-500/10 text-yellow-600 text-[10px] font-black px-2 py-0.5 rounded-full w-fit">
-                           <Zap className="h-2.5 w-2.5" />
-                           +500 XP
-                         </div>
-                       </div>
-                       <div className="flex items-center gap-1 text-xs text-yellow-600 font-bold">
-                         <Star className="h-3 w-3" fill="currentColor" />
-                         4.8
-                       </div>
-                    </div>
+                    <span className="text-xs font-bold text-primary">{course.course_categories?.name}</span>
                     <CardTitle className="text-xl font-black group-hover:text-primary transition-colors">{course.title}</CardTitle>
                     <CardDescription className="line-clamp-2 mt-2">{course.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                       <div className="flex items-center gap-1">
-                         <Users className="h-4 w-4" />
-                         1.2k Students
-                       </div>
-                       <div className="flex items-center gap-1">
-                         <Globe className="h-4 w-4" />
-                         English / Arabic
-                       </div>
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary px-2.5 py-1">
+                        <Globe className="h-3.5 w-3.5" />
+                        English / Arabic
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-muted-foreground">
+                        <BookOpen className="h-3.5 w-3.5" />
+                        {course.level}
+                      </span>
                     </div>
                   </CardContent>
-                  <CardFooter className="pt-0 pb-8 px-6 border-t mt-4 pt-4 flex items-center justify-between">
-                    <span className="text-2xl font-black text-foreground">
-                      {course.price === 0 ? 'Free' : `${course.price} EGP`}
-                    </span>
-                    <Button 
-                      className="font-bold shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all"
+                  <CardFooter className="px-6 border-t mt-4 pt-4 pb-6 flex items-center justify-end">
+                    <Button
+                      className="font-bold"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedCourse(course);
-                        setShowPayment(true);
                       }}
                     >
-                      Enroll Now
+                      View details
                     </Button>
                   </CardFooter>
+
                 </Card>
               </motion.div>
             ))}
