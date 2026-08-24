@@ -2542,7 +2542,7 @@ function Index() {
               </li>
               <li className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-primary" />
-                <span>+20 1016177688</span>
+                <span>{T("contact.phone", "+201203529460")}</span>
               </li>
             </ul>
           </div>
