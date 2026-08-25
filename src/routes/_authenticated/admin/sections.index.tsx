@@ -53,7 +53,7 @@ function SectionsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteSection({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف المستوى");
+      toast.success("Level deleted");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -62,7 +62,7 @@ function SectionsPage() {
   const duplicate = useMutation({
     mutationFn: (id: string) => duplicateSection({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم نسخ المستوى بوحداته ومحتواه (مخفي حتى تراجعه)");
+      toast.success("Level duplicated with its units and content (hidden until you review it)");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -96,11 +96,11 @@ function SectionsPage() {
     <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <p className="text-sm text-muted-foreground font-bold">
-          كل مستوى مستقل تماماً — لا يشترط إنهاء مستوى لفتح آخر. تحكّم هنا في الإظهار والقفل والترتيب والنسخ.
+          Each level is completely independent — finishing one level is not required to unlock another. Control visibility, locking, order, and duplication here.
         </p>
         <Button onClick={() => setEditing({ name: "", description: "", is_visible: true, is_locked: false } as any)}>
           <Plus className="h-4 w-4 ml-2" />
-          مستوى جديد
+          New Level
         </Button>
       </div>
 
@@ -120,30 +120,30 @@ function SectionsPage() {
                     </div>
                     <div>
                       <p className="font-black text-lg">{s.name}</p>
-                      <p className="text-xs text-muted-foreground">{s.description || "بدون وصف"}</p>
+                      <p className="text-xs text-muted-foreground">{s.description || "No description"}</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <Badge variant={s.is_visible ? "secondary" : "outline"} className="gap-1">
                       {s.is_visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
-                      {s.is_visible ? "ظاهر" : "مخفي"}
+                      {s.is_visible ? "Visible" : "Hidden"}
                     </Badge>
                     <Badge variant={(s as any).is_locked ? "destructive" : "secondary"} className="gap-1">
                       {(s as any).is_locked ? <Lock className="h-3 w-3" /> : <Unlock className="h-3 w-3" />}
-                      {(s as any).is_locked ? "مقفل" : "مفتوح"}
+                      {(s as any).is_locked ? "Locked" : "Open"}
                     </Badge>
                   </div>
                 </div>
 
                 <div className="flex gap-4 text-xs font-bold text-muted-foreground">
-                  <span>{s.unitCount} وحدة</span>
-                  <span>{s.studentCount} طالب</span>
+                  <span>{s.unitCount} unit</span>
+                  <span>{s.studentCount} student</span>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-1">
                   <Button size="sm" asChild>
                     <Link to="/admin/sections/$sectionId" params={{ sectionId: s.id }}>
-                      الوحدات
+                      Units
                       <ArrowLeft className="h-4 w-4 mr-1" />
                     </Link>
                   </Button>
@@ -153,7 +153,7 @@ function SectionsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    title={s.is_visible ? "إخفاء" : "إظهار"}
+                    title={s.is_visible ? "Hide" : "Show"}
                     onClick={() => toggle.mutate({ ...s, patch: { is_visible: !s.is_visible } })}
                   >
                     {s.is_visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -161,7 +161,7 @@ function SectionsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    title={(s as any).is_locked ? "فتح للطلاب" : "قفل"}
+                    title={(s as any).is_locked ? "Open for students" : "Lock"}
                     onClick={() => toggle.mutate({ ...s, patch: { is_locked: !(s as any).is_locked } })}
                   >
                     {(s as any).is_locked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
@@ -169,23 +169,23 @@ function SectionsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    title="نسخ المستوى"
+                    title="Duplicate Level"
                     disabled={duplicate.isPending}
                     onClick={() => duplicate.mutate(s.id)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" title="لأعلى" onClick={() => move(i, -1)}>
+                  <Button size="sm" variant="outline" title="Up" onClick={() => move(i, -1)}>
                     <ChevronUp className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" title="لأسفل" onClick={() => move(i, 1)}>
+                  <Button size="sm" variant="outline" title="Down" onClick={() => move(i, 1)}>
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                   <Button
                     size="sm"
                     variant="destructive"
                     onClick={() => {
-                      if (confirm(`حذف المستوى "${s.name}"؟`)) remove.mutate(s.id);
+                      if (confirm(`Delete level "${s.name}"?`)) remove.mutate(s.id);
                     }}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -221,7 +221,7 @@ function SectionDialog({ section, onClose }: { section: Partial<Section>; onClos
         },
       }),
     onSuccess: () => {
-      toast.success("تم الحفظ");
+      toast.success("Saved");
       qc.invalidateQueries({ queryKey: ["admin-sections"] });
       onClose();
     },
@@ -232,36 +232,36 @@ function SectionDialog({ section, onClose }: { section: Partial<Section>; onClos
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent dir="ltr">
         <DialogHeader>
-          <DialogTitle className="font-black">{section.id ? "تعديل المستوى" : "مستوى جديد"}</DialogTitle>
+          <DialogTitle className="font-black">{section.id ? "Edit Level" : "New Level"}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">اسم المستوى</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="مثال: B1.1" />
+            <Label className="font-bold">Level Name</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Example: B1.1" />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الوصف</Label>
+            <Label className="font-bold">Description</Label>
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
-            <Label className="font-bold">ظاهر للطلاب</Label>
+            <Label className="font-bold">Visible للطلاب</Label>
             <Switch checked={visible} onCheckedChange={setVisible} />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
             <div>
-              <Label className="font-bold">مقفل</Label>
-              <p className="text-[11px] text-muted-foreground font-bold">الطلاب يرونه لكن لا يستطيعون الدخول</p>
+              <Label className="font-bold">Locked</Label>
+              <p className="text-[11px] text-muted-foreground font-bold">Students can see it but cannot enter</p>
             </div>
             <Switch checked={locked} onCheckedChange={setLocked} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => save.mutate()} disabled={save.isPending || !name.trim()}>
             {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            حفظ
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>
