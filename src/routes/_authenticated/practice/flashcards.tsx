@@ -55,12 +55,12 @@ function FlashcardsPage() {
   const current = vocab[currentIndex];
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 font-['Cairo']" dir="rtl">
+    <div className="min-h-screen bg-background py-12 px-4 font-['Outfit']" dir="ltr">
       <div className="container max-w-2xl mx-auto space-y-12">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 font-black text-primary">
             <GraduationCap className="h-6 w-6" />
-            <span>بطاقات تعليمية</span>
+            <span>Flashcards</span>
           </div>
           <div className="text-sm font-bold text-muted-foreground">
             {currentIndex + 1} / {vocab.length}
@@ -76,7 +76,7 @@ function FlashcardsPage() {
             {/* Front Side */}
             <div className="absolute inset-0 backface-hidden">
               <ThreeDCard className="w-full h-full flex flex-col items-center justify-center p-12 text-center border-primary/20 shadow-2xl">
-                <span className="text-primary font-bold text-sm uppercase tracking-widest mb-4">كلمة اليوم</span>
+                <span className="text-primary font-bold text-sm uppercase tracking-widest mb-4">Word of the Day</span>
                 <h2 className="text-5xl font-black">{current?.word}</h2>
                 <Button 
                   variant="ghost" 
@@ -91,7 +91,7 @@ function FlashcardsPage() {
                 </Button>
                 <div className="mt-12 text-muted-foreground text-sm font-bold flex items-center gap-2">
                   <RotateCcw className="h-4 w-4" />
-                  اضغط للقلب
+                  Tap to flip
                 </div>
               </ThreeDCard>
             </div>
@@ -99,11 +99,11 @@ function FlashcardsPage() {
             {/* Back Side */}
             <div className="absolute inset-0 backface-hidden rotate-y-180">
               <ThreeDCard className="w-full h-full flex flex-col items-center justify-center p-12 text-center border-accent/20 shadow-2xl bg-accent/5">
-                <span className="text-accent font-bold text-sm uppercase tracking-widest mb-4">الترجمة</span>
+                <span className="text-accent font-bold text-sm uppercase tracking-widest mb-4">Translation</span>
                 <h2 className="text-5xl font-black text-accent">{current?.translation}</h2>
                 <div className="mt-12 text-muted-foreground text-sm font-bold flex items-center gap-2">
                   <RotateCcw className="h-4 w-4" />
-                  اضغط للعودة
+                  Tap to go back
                 </div>
               </ThreeDCard>
             </div>

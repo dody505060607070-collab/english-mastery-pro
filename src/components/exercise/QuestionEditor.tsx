@@ -29,10 +29,10 @@ export function QuestionEditor({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <Label className="font-black">الأسئلة ({questions.length})</Label>
+        <Label className="font-black">Questions ({questions.length})</Label>
         <Select onValueChange={(v) => onChange([...questions, newQuestion(v as QuestionType)])}>
           <SelectTrigger className="w-56">
-            <SelectValue placeholder="+ إضافة سؤال" />
+            <SelectValue placeholder="+ Add question" />
           </SelectTrigger>
           <SelectContent>
             {Object.entries(QUESTION_TYPE_LABELS).map(([k, label]) => (
@@ -59,7 +59,7 @@ export function QuestionEditor({
                 className="w-20 h-8"
                 value={q.points ?? 1}
                 onChange={(e) => update(i, { points: Number(e.target.value) || 1 })}
-                title="الدرجة"
+                title="Points"
               />
               <div className="flex gap-1">
                 <Button
@@ -91,7 +91,7 @@ export function QuestionEditor({
             <Textarea
               dir="auto"
               rows={2}
-              placeholder="نص السؤال"
+              placeholder="Question text"
               value={q.prompt}
               onChange={(e) => update(i, { prompt: e.target.value })}
             />
@@ -121,7 +121,7 @@ export function QuestionEditor({
                             patch.answer = q.answer.map((a) => (a === old ? e.target.value : a));
                           update(i, patch);
                         }}
-                        placeholder={`الخيار ${OPTION_LETTERS[oi]}`}
+                        placeholder={`Option ${OPTION_LETTERS[oi]}`}
                       />
                       <Button
                         type="button"
@@ -139,7 +139,7 @@ export function QuestionEditor({
                           }
                         }}
                       >
-                        صحيح
+                        Correct
                       </Button>
                       <Button
                         type="button"
@@ -159,7 +159,7 @@ export function QuestionEditor({
                   size="sm"
                   onClick={() => update(i, { options: [...(q.options ?? []), ""] })}
                 >
-                  <Plus className="h-4 w-4 ml-1" /> خيار
+                  <Plus className="h-4 w-4 ml-1" /> Option
                 </Button>
               </div>
             )}
@@ -179,7 +179,7 @@ export function QuestionEditor({
             {q.type === "fill" && (
               <Input
                 dir="auto"
-                placeholder="الإجابة الصحيحة (افصل البدائل بـ | )"
+                placeholder="Correct answer (separate alternatives with |)"
                 value={typeof q.answer === "string" ? q.answer : ""}
                 onChange={(e) => update(i, { answer: e.target.value })}
               />
@@ -189,14 +189,14 @@ export function QuestionEditor({
               <div className="space-y-2">
                 <Input
                   dir="ltr"
-                  placeholder="الجملة الصحيحة (الكلمات مفصولة بمسافة)"
+                  placeholder="Correct sentence (words separated by space)"
                   value={Array.isArray(q.answer) ? q.answer.join(" ") : ""}
                   onChange={(e) => {
                     const tokens = e.target.value.split(/\s+/).filter(Boolean);
                     update(i, { answer: tokens, tokens });
                   }}
                 />
-                <p className="text-[11px] text-muted-foreground">سيتم خلط الكلمات تلقائياً أمام الطالب.</p>
+                <p className="text-[11px] text-muted-foreground">Words will be shuffled automatically for the student.</p>
               </div>
             )}
 
@@ -206,7 +206,7 @@ export function QuestionEditor({
                   <div key={pi} className="flex items-center gap-2">
                     <Input
                       dir="auto"
-                      placeholder="العمود الأيمن"
+                      placeholder="Right column"
                       value={p.left}
                       onChange={(e) => {
                         const pairs = [...(q.pairs ?? [])];
@@ -217,7 +217,7 @@ export function QuestionEditor({
                     <span>↔</span>
                     <Input
                       dir="auto"
-                      placeholder="المطابق"
+                      placeholder="Matching item"
                       value={p.right}
                       onChange={(e) => {
                         const pairs = [...(q.pairs ?? [])];
@@ -242,7 +242,7 @@ export function QuestionEditor({
                   size="sm"
                   onClick={() => update(i, { pairs: [...(q.pairs ?? []), { left: "", right: "" }] })}
                 >
-                  <Plus className="h-4 w-4 ml-1" /> زوج
+                  <Plus className="h-4 w-4 ml-1" /> Pair
                 </Button>
               </div>
             )}
