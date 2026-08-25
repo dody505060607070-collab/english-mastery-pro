@@ -55,7 +55,7 @@ function UnitContentPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteUnitContent({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم الحذف");
+      toast.success("Deleted");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -91,18 +91,18 @@ function UnitContentPage() {
             <Button variant="ghost" size="sm" asChild>
               <Link to="/admin/sections/$sectionId" params={{ sectionId }}>
                 <ArrowRight className="h-4 w-4 ml-1" />
-                الوحدات
+                Units
               </Link>
             </Button>
           ) : null}
           <div>
-            <h1 className="text-xl font-black">{data?.unit?.title ?? "محتوى الوحدة"}</h1>
+            <h1 className="text-xl font-black">{data?.unit?.title ?? "Unit Content"}</h1>
             <p className="text-xs text-muted-foreground">{(data?.unit as any)?.sections?.name}</p>
           </div>
         </div>
         <Button onClick={() => setEditing({ content_type: "grammar", title: "", body: "", is_published: true })}>
           <Plus className="h-4 w-4 ml-2" />
-          عنصر محتوى
+          Content Item
         </Button>
       </div>
 
@@ -113,7 +113,7 @@ function UnitContentPage() {
       ) : contents.length === 0 ? (
         <Card>
           <CardContent className="py-14 text-center text-muted-foreground font-bold">
-            لا يوجد محتوى داخل هذه الوحدة بعد
+            No content in this unit yet
           </CardContent>
         </Card>
       ) : (
@@ -130,7 +130,7 @@ function UnitContentPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="font-black truncate">{c.title}</p>
                       <Badge variant="secondary">{meta.label}</Badge>
-                      {!c.is_published && <Badge variant="outline">مسودة</Badge>}
+                      {!c.is_published && <Badge variant="outline">Draft</Badge>}
                     </div>
                     {c.media_url && (
                       <p className="text-xs text-muted-foreground truncate mt-1">{c.media_url}</p>
@@ -155,7 +155,7 @@ function UnitContentPage() {
                       size="icon"
                       variant="destructive"
                       onClick={() => {
-                        if (confirm("حذف هذا العنصر؟")) remove.mutate(c.id);
+                        if (confirm("Delete this item?")) remove.mutate(c.id);
                       }}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -230,7 +230,7 @@ function ContentDialog({
         },
       }),
     onSuccess: () => {
-      toast.success("تم الحفظ");
+      toast.success("تم الSave");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -240,11 +240,11 @@ function ContentDialog({
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent dir="ltr" className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-black">{content.id ? "تعديل المحتوى" : "محتوى جديد"}</DialogTitle>
+          <DialogTitle className="font-black">{content.id ? "Edit Content" : "New Content"}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">نوع المحتوى</Label>
+            <Label className="font-bold">Content Type</Label>
             <Select value={type} onValueChange={setType}>
               <SelectTrigger>
                 <SelectValue />
@@ -259,15 +259,15 @@ function ContentDialog({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">العنوان</Label>
+            <Label className="font-bold">Title</Label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الشرح / النص</Label>
+            <Label className="font-bold">Explanation / Text</Label>
             <Textarea value={body} onChange={(e) => setBody(e.target.value)} rows={8} />
           </div>
           <FileUploadField
-            label="الوسائط (فيديو / صوت / PDF / صورة)"
+            label="Media (video / audio / PDF / image)"
             value={mediaUrl}
             onChange={setMediaUrl}
             bucket="content"
@@ -286,7 +286,7 @@ function ContentDialog({
           {type === "listening" && (
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-2 sm:col-span-2">
-                <Label className="font-bold">النص المسموع (Transcript)</Label>
+                <Label className="font-bold">Listening Text (Transcript)</Label>
                 <Textarea
                   dir="ltr"
                   rows={5}
@@ -295,7 +295,7 @@ function ContentDialog({
                 />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold">أقصى عدد مرات استماع (اختياري)</Label>
+                <Label className="font-bold">Max listen count (optional)</Label>
                 <Input
                   type="number"
                   min={1}
@@ -309,14 +309,14 @@ function ContentDialog({
           {type === "vocabulary" && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="font-black">الكلمات ({words.length})</Label>
+                <Label className="font-black">Words ({words.length})</Label>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => patch({ words: [...words, { word: "", translation: "", example: "" }] })}
                 >
-                  <Plus className="h-4 w-4 ml-1" /> كلمة
+                  <Plus className="h-4 w-4 ml-1" /> Word
                 </Button>
               </div>
               {words.map((w: VocabWord, i: number) => (
@@ -333,7 +333,7 @@ function ContentDialog({
                       }}
                     />
                     <Input
-                      placeholder="المعنى بالعربية"
+                      placeholder="Translation"
                       value={w.translation ?? ""}
                       onChange={(e) => {
                         const next = [...words];
@@ -362,7 +362,7 @@ function ContentDialog({
                     }}
                   />
                   <Input
-                    placeholder="ترجمة الجملة"
+                    placeholder="Sentence translation"
                     value={w.example_ar ?? ""}
                     onChange={(e) => {
                       const next = [...words];
@@ -371,7 +371,7 @@ function ContentDialog({
                     }}
                   />
                   <FileUploadField
-                    label="صورة الكلمة (اختياري)"
+                    label="صورة الWord (اختياري)"
                     value={w.image_url ?? ""}
                     onChange={(v) => {
                       const next = [...words];
@@ -383,7 +383,7 @@ function ContentDialog({
                     folder={`units/${unitId}/vocab`}
                   />
                   <FileUploadField
-                    label="نطق الكلمة (صوت اختياري)"
+                    label="نطق الWord (صوت اختياري)"
                     value={w.word_audio ?? ""}
                     onChange={(v) => {
                       const next = [...words];
@@ -395,7 +395,7 @@ function ContentDialog({
                     folder={`units/${unitId}/vocab`}
                   />
                   <FileUploadField
-                    label="نطق الجملة (صوت اختياري)"
+                    label="Sentence pronunciation (optional audio)"
                     value={w.sentence_audio ?? ""}
                     onChange={(v) => {
                       const next = [...words];
@@ -423,7 +423,7 @@ function ContentDialog({
           {type === "test" && (
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="space-y-2">
-                <Label className="font-bold">مدة الاختبار (دقيقة)</Label>
+                <Label className="font-bold">Test duration (minutes)</Label>
                 <Input
                   type="number"
                   value={exercise.time_limit_minutes ?? ""}
@@ -431,7 +431,7 @@ function ContentDialog({
                 />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold">درجة النجاح %</Label>
+                <Label className="font-bold">Passing score %</Label>
                 <Input
                   type="number"
                   value={exercise.pass_score ?? ""}
@@ -439,7 +439,7 @@ function ContentDialog({
                 />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold">عدد المحاولات</Label>
+                <Label className="font-bold">Number of attempts</Label>
                 <Input
                   type="number"
                   value={exercise.attempts_allowed ?? ""}
@@ -457,17 +457,17 @@ function ContentDialog({
           )}
 
           <div className="flex items-center justify-between rounded-xl border p-3">
-            <Label className="font-bold">منشور للطلاب</Label>
+            <Label className="font-bold">Published for students</Label>
             <Switch checked={published} onCheckedChange={setPublished} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => save.mutate()} disabled={save.isPending || !title.trim()}>
             {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            حفظ
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>
