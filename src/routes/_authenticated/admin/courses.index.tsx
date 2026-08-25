@@ -319,7 +319,7 @@ function AdminCoursesPage() {
                   </div>
                   <div className="rounded-lg bg-muted/60 p-2">
                     <div className="font-black">{course.students_count}</div>
-                    <div className="text-muted-foreground">طالب</div>
+                    <div className="text-muted-foreground">students</div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between border-t pt-3 text-sm">
@@ -352,7 +352,7 @@ function AdminCoursesPage() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>{draft.id ? "Edit Course" : "إضافة New Course"}</DialogTitle>
+            <DialogTitle>{draft.id ? "Edit Course" : "Add New Course"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
@@ -360,7 +360,7 @@ function AdminCoursesPage() {
               <Input
                 value={draft.title}
                 onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-                placeholder="مثال: English Basics"
+                placeholder="e.g. English Basics"
               />
             </div>
             <div className="space-y-2">
@@ -408,7 +408,7 @@ function AdminCoursesPage() {
                 <Input
                   value={draft.target_students}
                   onChange={(e) => setDraft({ ...draft, target_students: e.target.value })}
-                  placeholder="مثال: Grade 4 students"
+                  placeholder="e.g. Grade 4 students"
                 />
               </div>
               <div className="space-y-2">
@@ -416,11 +416,11 @@ function AdminCoursesPage() {
                 <Input
                   value={draft.duration_text}
                   onChange={(e) => setDraft({ ...draft, duration_text: e.target.value })}
-                  placeholder="مثال: 8 weeks"
+                  placeholder="e.g. 8 weeks"
                 />
               </div>
               <div className="space-y-2">
-                <Label>السعر (EGP)</Label>
+                <Label>Price (EGP)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -429,7 +429,7 @@ function AdminCoursesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>الخصم (EGP)</Label>
+                <Label>Discount (EGP)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -480,10 +480,10 @@ function AdminCoursesPage() {
       <Dialog open={!!confirmDelete} onOpenChange={(v) => !v && setConfirmDelete(null)}>
         <DialogContent className="font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>Delete الكورس</DialogTitle>
+            <DialogTitle>Delete Course</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            سيCourse deleted وكل ما يتبعه من وحدات ودروس. لا يمكن التراجع.
+            The course and all its units and lessons will be deleted. This cannot be undone.
           </p>
           <DialogFooter className="gap-2">
             <Button variant="outline" className="rounded-xl" onClick={() => setConfirmDelete(null)}>
@@ -495,7 +495,7 @@ function AdminCoursesPage() {
               disabled={remove.isPending}
               onClick={() => confirmDelete && remove.mutate(confirmDelete)}
             >
-              {remove.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete نهائي"}
+              {remove.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete permanently"}
             </Button>
           </DialogFooter>
         </DialogContent>

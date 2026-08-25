@@ -197,7 +197,7 @@ function CourseContentManager() {
           ...u,
           lessons: [...u.lessons, {
             id: `new-lesson-${Date.now()}`,
-            title: 'Lesson جديد',
+            title: 'New Lesson',
             order_index: u.lessons.length,
             lesson_type: 'Vocabulary'
           }]

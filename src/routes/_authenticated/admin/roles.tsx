@@ -141,7 +141,7 @@ function AdminRoles() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl font-black flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" /> الأدوار وPermissions
+            <Shield className="h-5 w-5 text-primary" /> Roles & Permissions
           </h1>
           <p className="text-sm text-muted-foreground">
             Add an admin, teacher, or student, and change any user’s role at any time.

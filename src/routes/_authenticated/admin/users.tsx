@@ -145,20 +145,20 @@ function AdminUsers() {
                       <DropdownMenuSeparator className="bg-white/10" />
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'admin' })}>
                         <ShieldCheck className="ml-2 h-4 w-4 text-red-500" />
-                        تعيين كAdmin
+                        Make Admin
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'teacher' })}>
                         <ShieldCheck className="ml-2 h-4 w-4 text-blue-500" />
-                        تعيين كTeacher
+                        Make Teacher
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'student' })}>
                         <ShieldCheck className="ml-2 h-4 w-4" />
-                        تعيين كStudent
+                        Make Student
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-white/10" />
                       <DropdownMenuItem className="text-red-500">
                         <UserX className="ml-2 h-4 w-4" />
-                        حظر User
+                        Ban User
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

@@ -185,7 +185,7 @@ function AdminRecordingsPage() {
             <PlaySquare className="h-5 w-5 text-primary" /> Record Lecture
           </h1>
           <p className="text-sm text-muted-foreground">
-            ارفع فيديو الLecture من ملفات هاتفك مباشرة، أو سجّل الشاشة من المتصفح أثناء الـ Live.
+            Upload a lecture video from your device, or record your screen from the browser during the live session.
           </p>
         </div>
         <Button onClick={() => setDraft({ ...emptyDraft })} className="gap-2">
@@ -200,11 +200,11 @@ function AdminRecordingsPage() {
       <Card className="border-destructive/30">
         <CardContent className="p-4 flex flex-col md:flex-row md:items-end gap-3">
           <div className="flex-1 space-y-1.5">
-            <Label>عنوان الLecture الجاري تسجيلها</Label>
+            <Label>Title of the lecture being recorded</Label>
             <Input
               value={quickTitle}
               onChange={(e) => setQuickTitle(e.target.value)}
-              placeholder="حصة مباشرة - Unit 1"
+              placeholder="Live session - Unit 1"
             />
           </div>
           <LectureRecorder title={quickTitle} onSaved={invalidate} />

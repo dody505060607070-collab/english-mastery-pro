@@ -103,7 +103,7 @@ function AdminVocabulary() {
               <TableRow>
                 <TableCell colSpan={6} className="py-14 text-center text-muted-foreground">
                   <FileText className="mx-auto mb-2 h-6 w-6" />
-                  لا توجد كلمات بعد — اضغط "Add Word".
+                  No words yet — click "Add Word".
                 </TableCell>
               </TableRow>
             ) : (
@@ -145,7 +145,7 @@ function AdminVocabulary() {
                         size="sm"
                         className="h-8 w-8 p-0"
                         onClick={() => {
-                          if (confirm(`حذف Word "${item.word}"؟`)) remove.mutate(item.id);
+                          if (confirm(`Delete word "${item.word}"?`)) remove.mutate(item.id);
                         }}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -217,7 +217,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">Word (بالإنجليزية)</Label>
+            <Label className="font-bold">Word (English)</Label>
             <div className="flex gap-2">
               <Input dir="ltr" value={word} onChange={(e) => setWord(e.target.value)} placeholder="apple" />
               <Button
@@ -257,7 +257,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
           </div>
           <div className="space-y-2">
             <Label className="font-bold">Example (Arabic)</Label>
-            <Input value={exampleAr} onChange={(e) => setExampleAr(e.target.value)} placeholder="أكلت Appleة طازجة." />
+            <Input value={exampleAr} onChange={(e) => setExampleAr(e.target.value)} placeholder="Arabic example sentence" />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
             <Label className="font-bold">Premium Word</Label>
