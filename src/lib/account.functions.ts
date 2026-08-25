@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
-import { ADMIN_PHONES, decodeDataUrl, readStaffAllowlist, requireAdmin, saveStaffAllowlist } from "@/lib/account.server";
+import { ADMIN_PHONES, decodeDataUrl, findAuthUserByEmail, readStaffAllowlist, requireAdmin, saveStaffAllowlist, toProfileRole } from "@/lib/account.server";
 export type { StaffAllowEntry } from "@/lib/account.server";
 
 /** Public signup — always creates a STUDENT account, never an admin. */
@@ -286,9 +286,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
         throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
       }
-      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      if (listError) throw new Error(listError.message);
-      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      user = await findAuthUserByEmail(supabaseAdmin, email);
       if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
@@ -316,7 +314,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       full_name: data.fullName,
       phone,
       avatar_url: avatarPath,
-      role,
+      role: toProfileRole(role),
       is_blocked: false,
       approval_status: "approved",
     } as never);

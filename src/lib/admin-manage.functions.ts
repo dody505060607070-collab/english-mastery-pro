@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
+import { findAuthUserByEmail, toProfileRole } from "@/lib/account.server";
 
 /* ------------------------------------------------------------------ stats */
 
@@ -191,9 +192,7 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
         throw new Error("تعذر إنشاء الحساب");
       }
-      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      if (listError) throw new Error(listError.message);
-      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      user = await findAuthUserByEmail(supabaseAdmin, email);
       if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
@@ -251,7 +250,7 @@ export const setUserRole = createServerFn({ method: "POST" })
       .from("user_roles")
       .insert({ user_id: data.userId, role: data.role });
     if (error) throw new Error(error.message);
-    await supabaseAdmin.from("profiles").update({ role: data.role }).eq("id", data.userId);
+    await supabaseAdmin.from("profiles").update({ role: toProfileRole(data.role) }).eq("id", data.userId);
     return { success: true };
   });
 
@@ -744,9 +743,7 @@ export const createUserWithRole = createServerFn({ method: "POST" })
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
         throw new Error("تعذر إنشاء الحساب");
       }
-      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      if (listError) throw new Error(listError.message);
-      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      user = await findAuthUserByEmail(supabaseAdmin, email);
       if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
@@ -760,7 +757,7 @@ export const createUserWithRole = createServerFn({ method: "POST" })
       id: user.id,
       full_name: data.fullName,
       phone,
-      role: data.role,
+      role: toProfileRole(data.role),
       is_blocked: false,
       approval_status: "approved",
       approved_at: new Date().toISOString(),
