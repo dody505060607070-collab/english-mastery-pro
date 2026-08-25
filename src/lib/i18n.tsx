@@ -42,9 +42,9 @@ interface LangContextValue {
 
 const LanguageContext = createContext<LangContextValue>({
   lang: "en",
-  dir: "rtl",
+  dir: "ltr",
   setLang: () => {},
-  t: (k) => dict[k].ar,
+  t: (k) => dict[k].en,
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -52,7 +52,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem("app-lang", "en");
+      const saved = window.localStorage.getItem("app-lang");
+      if (saved === "ar" || saved === "en") setLangState(saved);
     } catch {
       /* ignore */
     }
