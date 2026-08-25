@@ -153,8 +153,8 @@ function backupBlob(chunks: Blob[], mime: string) {
 
 /**
  * Records the lecture from the admin's browser. The capture source is whatever
- * the teacher picks in the browser picker — intended to be the Google Meet tab
- * (with "Also share tab audio" enabled so Meet's own sound is recorded).
+ * the teacher picks in the browser picker — intended to be the entire screen
+ * (with system audio enabled so Meet and any shared media are recorded).
  * Nothing external (YouTube etc.) needs to be opened for audio to work.
  *
  * Audio is mixed through the Web Audio API because MediaRecorder only records
@@ -375,16 +375,25 @@ export function LectureRecorder({
 
       // live mic level meter so the admin can confirm the sound is captured
       const buf = new Uint8Array(analyser.fftSize);
+      let lastUiUpdate = 0;
+      let wasSilent = false;
       const tick = () => {
         analyser.getByteTimeDomainData(buf);
         let peak = 0;
         for (let i = 0; i < buf.length; i++) peak = Math.max(peak, Math.abs((buf[i] ?? 128) - 128) / 128);
-        setLevel(peak);
         if (peak > 0.02) {
           loudAtRef.current = Date.now();
-          setSilent(false);
-        } else if (Date.now() - loudAtRef.current > 5000) {
-          setSilent(true);
+        }
+        const now = performance.now();
+        const isSilent = Date.now() - loudAtRef.current > 5000;
+        // Keep the canvas smooth, but avoid re-rendering the whole recorder at 60fps.
+        if (now - lastUiUpdate >= 100) {
+          setLevel(peak);
+          lastUiUpdate = now;
+        }
+        if (isSilent !== wasSilent) {
+          setSilent(isSilent);
+          wasSilent = isSilent;
         }
         drawWave(canvasRef.current, buf, peak);
         rafRef.current = requestAnimationFrame(tick);
