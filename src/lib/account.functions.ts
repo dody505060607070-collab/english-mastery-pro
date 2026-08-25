@@ -8,7 +8,7 @@ export const ADMIN_PHONES = ["01222576172", "01203529460"];
 
 const signUpSchema = z.object({
   fullName: z.string().trim().min(3).max(100),
-  phone: z.string().trim().regex(phoneRegex),
+  phone: z.string().trim().min(10),
   password: z.string().min(6).max(72),
   sectionId: z.string().uuid().optional().nullable(),
   grade: z.string().trim().max(60).optional().nullable(),
@@ -224,7 +224,11 @@ async function readStaffAllowlist() {
   const list = Array.isArray(raw) ? raw : [];
   return list
     .filter((e): e is StaffAllowEntry => !!e && typeof (e as StaffAllowEntry).phone === "string")
-      phone: normalizePhone(String(e.phone)), role: e.role === "admin" ? "admin" : "teacher" }) as StaffAllowEntry);
+    .map((e) => ({
+      phone: normalizePhone(String(e.phone)),
+      role: e.role === "admin" ? "admin" : "teacher",
+    }) as StaffAllowEntry)
+    .filter((e) => phoneRegex.test(e.phone));
 }
 
 async function requireAdmin(supabase: { rpc: Function }, userId: string) {
@@ -273,7 +277,7 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
 
 /** Public: is this phone allowed to create a staff account? */
 export const checkStaffPhone = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({ phone: z.string().trim().regex(phoneRegex) }).parse(data))
+  .inputValidator((data) => z.object({ phone: z.string().trim().min(10) }).parse(data))
   .handler(async ({ data }) => {
     const phone = normalizePhone(data.phone);
     if (ADMIN_PHONES.includes(phone)) return { allowed: true, role: "admin" as const };
@@ -287,7 +291,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
     z
       .object({
         fullName: z.string().trim().min(3).max(100),
-        phone: z.string().trim().regex(phoneRegex),
+        phone: z.string().trim().min(10),
         password: z.string().min(6).max(72),
         avatarBase64: z.string().max(4_000_000).optional().nullable(),
       })

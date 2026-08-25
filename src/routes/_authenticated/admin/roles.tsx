@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { listAllUsers, createUserWithRole, setUserRole } from "@/lib/admin-manage.functions";
 import { listStaffPhones, saveStaffPhones } from "@/lib/account.functions";
 import { useAccount } from "@/hooks/useAccount";
+import { normalizePhone, phoneRegex } from "@/lib/phone";
 
 export const Route = createFileRoute("/_authenticated/admin/roles")({
   head: () => ({
@@ -80,8 +81,8 @@ function AdminRoles() {
   });
 
   const addPhone = () => {
-    const phone = newPhone.trim();
-    if (!/^[0-9]{10,15}$/.test(phone)) {
+    const phone = normalizePhone(newPhone);
+    if (!phoneRegex.test(phone)) {
       toast.error("رقم غير صحيح");
       return;
     }
