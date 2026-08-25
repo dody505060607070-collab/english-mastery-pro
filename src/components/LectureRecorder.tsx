@@ -19,8 +19,8 @@ function fmt(sec: number) {
 /** Picks the best container/codec the current browser can actually record. */
 function pickMime() {
   const candidates = [
-    "video/webm;codecs=vp9,opus",
     "video/webm;codecs=vp8,opus",
+    "video/webm;codecs=vp9,opus",
     "video/webm",
     "video/mp4;codecs=avc1,mp4a.40.2",
   ];
@@ -316,21 +316,29 @@ export function LectureRecorder({
       }
       finalizingRef.current = false;
 
-      // Capture the entire screen once. This keeps Meet, YouTube, and any other app
-      // visible without requesting a new permission whenever the teacher changes tabs.
+      // Chrome tab capture is the only cross-device browser path that reliably
+      // includes Google Meet / YouTube audio. Entire Screen frequently has no
+      // system-audio track (especially on macOS), even when video capture works.
       const display = await navigator.mediaDevices.getDisplayMedia({
-        video: { frameRate: { ideal: 24, max: 24 }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: {
+          frameRate: { ideal: 30, max: 30 },
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          displaySurface: "browser",
+        },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
         ...({
           systemAudio: "include",
-          surfaceSwitching: "exclude",
-          monitorTypeSurfaces: "include",
+          surfaceSwitching: "include",
+          monitorTypeSurfaces: "exclude",
+          preferCurrentTab: false,
           selfBrowserSurface: "exclude",
         } as Record<string, unknown>),
       } as DisplayMediaStreamOptions);
 
       const displayHasAudio = display.getAudioTracks().some((track) => track.readyState === "live");
       setHasSystemAudio(displayHasAudio);
+      const capturedSurface = display.getVideoTracks()[0]?.getSettings().displaySurface;
 
       // 2. Request microphone separately to avoid failing the whole capture if mic is denied.
       let mic: MediaStream | null = null;
@@ -354,7 +362,11 @@ export function LectureRecorder({
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
       if (!displayHasAudio) {
-        toast.warning("Screen audio is not available on this device. Your microphone will still be recorded.");
+        toast.warning(
+          capturedSurface === "browser"
+            ? "Tab audio was not enabled. Stop and select the Google Meet tab, then enable 'Also share tab audio'."
+            : "This source has no audio. Stop and select the Google Meet Chrome tab instead of a window or screen.",
+        );
       }
 
       // 3. Mix audio tracks properly (MediaRecorder only supports ONE audio track)
@@ -447,7 +459,7 @@ export function LectureRecorder({
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
         audioBitsPerSecond: 128000,
-        videoBitsPerSecond: 2_500_000,
+          videoBitsPerSecond: 3_500_000,
       });
       chunksRef.current = [];
 
@@ -514,7 +526,7 @@ export function LectureRecorder({
           ? "Recording started with microphone and shared audio"
           : micHasAudio
             ? "Recording started with microphone audio"
-            : "Recording started with shared audio",
+            : "Recording started with Google Meet tab audio",
       );
     } catch (error) {
       void ctx.close().catch(() => undefined);
@@ -725,7 +737,7 @@ export function LectureRecorder({
             <p>1) Click the lock icon next to the site URL in the browser.</p>
             <p>2) Enable "Microphone" and choose Allow.</p>
             <p>3) Make sure the mic is not muted in device settings.</p>
-            <p>4) For YouTube/Meet sound, share a Chrome tab and enable "Also share tab audio"; Entire Screen audio depends on the computer and browser.</p>
+            <p>4) Select the Google Meet Chrome tab — not Entire Screen or Window — and enable "Also share tab audio".</p>
           </div>
         )}
       </div>
@@ -734,8 +746,8 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          The microphone is recorded independently. System audio is added only when Chrome shows and you enable
-          "Share system audio" or "Also share tab audio" in the share dialog.
+          The microphone is recorded independently. Google Meet and YouTube sound requires selecting the Google Meet
+          Chrome tab and enabling "Also share tab audio" in the share dialog.
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
@@ -795,7 +807,7 @@ export function LectureRecorder({
         </div>
       )}
       <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture (Entire Screen)
+        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record Google Meet tab
       </Button>
     </div>
   );
