@@ -1,13 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-
-const phoneRegex = /^[0-9]{10,15}$/;
+import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
 
 /** This phone always owns the admin panel. */
 export const ADMIN_PHONES = ["01222576172", "01203529460"];
-
-export const phoneToEmail = (phone: string) => `${phone.trim()}@academy.com`;
 
 const signUpSchema = z.object({
   fullName: z.string().trim().min(3).max(100),
@@ -34,13 +31,14 @@ export const signUpStudent = createServerFn({ method: "POST" })
   .inputValidator((data) => signUpSchema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const email = phoneToEmail(data.phone);
+    const phone = normalizePhone(data.phone);
+    const email = phoneToEmail(phone);
 
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password: data.password,
       email_confirm: true,
-      user_metadata: { full_name: data.fullName, phone: data.phone },
+      user_metadata: { full_name: data.fullName, phone },
     });
 
     if (createError || !created.user) {
@@ -50,7 +48,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
     }
 
     const userId = created.user.id;
-    const isAdminPhone = ADMIN_PHONES.includes(data.phone.trim());
+    const isAdminPhone = ADMIN_PHONES.includes(phone);
 
     let avatarPath: string | null = null;
     if (data.avatarBase64) {
@@ -67,7 +65,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
     const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
       id: userId,
       full_name: data.fullName,
-      phone: data.phone,
+      phone,
       section_id: data.sectionId ?? null,
       grade: data.grade ?? null,
       unit_id: data.unitId ?? null,
@@ -147,18 +145,35 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     z
       .object({
         fullName: z.string().trim().min(3).max(100).optional(),
+        phone: z.string().trim().optional(),
         avatarPath: z.string().max(300).optional().nullable(),
       })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const patch: { full_name?: string; avatar_url?: string | null } = {};
+    const patch: { full_name?: string; phone?: string; avatar_url?: string | null } = {};
     if (data.fullName !== undefined) patch.full_name = data.fullName;
+    const phone = data.phone !== undefined ? normalizePhone(data.phone) : undefined;
+    if (phone !== undefined) {
+      if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
+      patch.phone = phone;
+    }
     if (data.avatarPath !== undefined) patch.avatar_url = data.avatarPath;
     if (Object.keys(patch).length === 0) return { success: true };
 
     const { error } = await context.supabase.from("profiles").update(patch).eq("id", context.userId);
     if (error) throw new Error(error.message);
+    if (phone !== undefined || data.fullName !== undefined) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(context.userId, {
+        ...(phone !== undefined ? { email: phoneToEmail(phone), email_confirm: true } : {}),
+        user_metadata: {
+          ...(data.fullName !== undefined ? { full_name: data.fullName } : {}),
+          ...(phone !== undefined ? { phone } : {}),
+        },
+      });
+      if (authError) throw new Error(authError.message);
+    }
     return { success: true };
   });
 
@@ -209,7 +224,7 @@ async function readStaffAllowlist() {
   const list = Array.isArray(raw) ? raw : [];
   return list
     .filter((e): e is StaffAllowEntry => !!e && typeof (e as StaffAllowEntry).phone === "string")
-    .map((e) => ({ phone: String(e.phone).trim(), role: e.role === "admin" ? "admin" : "teacher" }) as StaffAllowEntry);
+      phone: normalizePhone(String(e.phone)), role: e.role === "admin" ? "admin" : "teacher" }) as StaffAllowEntry);
 }
 
 async function requireAdmin(supabase: { rpc: Function }, userId: string) {
@@ -246,7 +261,9 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
     await requireAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const seen = new Set<string>();
-    const entries = data.entries.filter((e) => !seen.has(e.phone) && seen.add(e.phone));
+    const entries = data.entries
+      .map((e) => ({ ...e, phone: normalizePhone(e.phone) }))
+      .filter((e) => phoneRegex.test(e.phone) && !seen.has(e.phone) && seen.add(e.phone));
     const { error } = await supabaseAdmin
       .from("site_content" as never)
       .upsert({ key: STAFF_KEY, value: entries } as never);
@@ -258,7 +275,7 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
 export const checkStaffPhone = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({ phone: z.string().trim().regex(phoneRegex) }).parse(data))
   .handler(async ({ data }) => {
-    const phone = data.phone.trim();
+    const phone = normalizePhone(data.phone);
     if (ADMIN_PHONES.includes(phone)) return { allowed: true, role: "admin" as const };
     const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
     return entry ? { allowed: true, role: entry.role } : { allowed: false, role: null };
@@ -277,7 +294,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data }) => {
-    const phone = data.phone.trim();
+    const phone = normalizePhone(data.phone);
     let role: "admin" | "teacher" | null = ADMIN_PHONES.includes(phone) ? "admin" : null;
     if (!role) {
       const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
