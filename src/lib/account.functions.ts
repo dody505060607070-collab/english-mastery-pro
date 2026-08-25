@@ -310,18 +310,32 @@ export const signUpStaff = createServerFn({ method: "POST" })
     if (!role) throw new Error("هذا الرقم غير مصرح له بإنشاء حساب مدير أو مدرس");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const email = phoneToEmail(phone);
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: phoneToEmail(phone),
+      email,
       password: data.password,
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    if (createError || !created.user) {
+    let user = created.user;
+    const wasExisting = !!createError;
+    if (createError || !user) {
       const msg = (createError?.message || "").toLowerCase();
-      if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
-      throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+      if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
+        throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+      }
+      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (listError) throw new Error(listError.message);
+      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        password: data.password,
+        email_confirm: true,
+        user_metadata: { full_name: data.fullName, phone },
+      });
+      if (updateError) throw new Error(updateError.message);
     }
-    const userId = created.user.id;
+    const userId = user.id;
 
     let avatarPath: string | null = null;
     if (data.avatarBase64) {
@@ -345,7 +359,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       approval_status: "approved",
     } as never);
     if (profileError) {
-      await supabaseAdmin.auth.admin.deleteUser(userId);
+      if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
       throw new Error("تعذر حفظ البيانات");
     }
 
@@ -353,7 +367,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       .from("user_roles")
       .upsert({ user_id: userId, role }, { onConflict: "user_id,role" });
     if (roleError) {
-      await supabaseAdmin.auth.admin.deleteUser(userId);
+      if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
       throw new Error("تعذر حفظ الصلاحية");
     }
 
