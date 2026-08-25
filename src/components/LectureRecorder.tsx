@@ -289,6 +289,13 @@ export function LectureRecorder({
       toast.error("Your browser does not support screen recording. Use Chrome on a computer.");
       return;
     }
+    // AudioContext must be created/resumed while the Record button's user gesture
+    // is still active. Creating it after the share + microphone permission dialogs
+    // can leave Chrome's mixer suspended, producing a video with a silent audio track.
+    const Ctx: typeof AudioContext =
+      window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const ctx = new Ctx();
+    const initialResume = ctx.state === "suspended" ? ctx.resume().catch(() => undefined) : Promise.resolve();
     try {
       // Never silently discard an interrupted session: it must be recovered or deleted first.
       const existing = await backupRead();
@@ -297,6 +304,7 @@ export function LectureRecorder({
         if (size >= 1000) {
           if (mountedRef.current) setUnfinished({ meta: existing.meta, size });
           toast.error("An unfinished recording backup exists — recover or delete it before starting a new one.");
+          void ctx.close().catch(() => undefined);
           return;
         }
         await backupClear();
@@ -340,6 +348,7 @@ export function LectureRecorder({
       loudAtRef.current = Date.now();
       if (!micHasAudio && !displayHasAudio) {
         display.getTracks().forEach((track) => track.stop());
+        void ctx.close().catch(() => undefined);
         toast.error("No audio permission was granted. Allow the microphone, or share a Chrome tab with tab audio enabled.");
         return;
       }
@@ -349,9 +358,7 @@ export function LectureRecorder({
       }
 
       // 3. Mix audio tracks properly (MediaRecorder only supports ONE audio track)
-      const Ctx: typeof AudioContext =
-        window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = new Ctx();
+      await initialResume;
       if (ctx.state === "suspended") await ctx.resume().catch(() => undefined);
       const dest = ctx.createMediaStreamDestination();
       const analyser = ctx.createAnalyser();
@@ -384,7 +391,23 @@ export function LectureRecorder({
         return;
       }
 
-      const stream = new MediaStream([...display.getVideoTracks(), ...mixed]);
+      // If Chrome still refuses to run Web Audio, never create a known-silent
+      // recording: use Meet/system audio directly, or the microphone as fallback.
+      // Chrome MediaRecorder reliably records the first audio track in this stream.
+      const recorderAudio =
+        ctx.state === "running"
+          ? mixed
+          : displayHasAudio
+            ? display.getAudioTracks().slice(0, 1)
+            : mic?.getAudioTracks().slice(0, 1) ?? [];
+      if (ctx.state !== "running") {
+        toast.warning(
+          displayHasAudio
+            ? "Audio mixer was blocked by Chrome — recording Google Meet audio directly."
+            : "Audio mixer was blocked by Chrome — recording microphone audio directly.",
+        );
+      }
+      const stream = new MediaStream([...display.getVideoTracks(), ...recorderAudio]);
 
       // live mic level meter so the admin can confirm the sound is captured
       const buf = new Uint8Array(analyser.fftSize);
@@ -494,6 +517,7 @@ export function LectureRecorder({
             : "Recording started with shared audio",
       );
     } catch (error) {
+      void ctx.close().catch(() => undefined);
       const message =
         error instanceof DOMException && error.name === "NotAllowedError"
           ? "Screen share was cancelled or denied"
