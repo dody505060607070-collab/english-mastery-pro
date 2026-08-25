@@ -167,9 +167,9 @@ function BlockView({ block }: { block: Block }) {
   return (
     <div className="space-y-2">
       {block.items.map((it, i) => (
-        <div key={i} className="rounded-xl border border-rose-500/25 bg-rose-500/5 px-3 py-2">
-          <p className="text-sm font-bold text-rose-600 line-through">{it.wrong}</p>
-          {it.right && <p className="text-sm font-bold text-emerald-600">{it.right}</p>}
+        <div key={i} className="rounded-xl border border-primary/25 bg-primary/5 px-3 py-2">
+          <p className="text-sm font-bold text-muted-foreground line-through">{it.wrong}</p>
+          {it.right && <p className="text-sm font-bold text-primary">{it.right}</p>}
         </div>
       ))}
     </div>
