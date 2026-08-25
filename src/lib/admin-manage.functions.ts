@@ -178,16 +178,33 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
     const phone = normalizePhone(data.phone);
     if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
 
+    const email = phoneToEmail(phone);
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
-      email: phoneToEmail(phone),
+      email,
       password: data.password,
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    if (error || !created.user) throw new Error("تعذر إنشاء الحساب (قد يكون الرقم مسجلاً)");
+    let user = created.user;
+    if (error || !user) {
+      const msg = (error?.message ?? "").toLowerCase();
+      if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
+        throw new Error("تعذر إنشاء الحساب");
+      }
+      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (listError) throw new Error(listError.message);
+      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        password: data.password,
+        email_confirm: true,
+        user_metadata: { full_name: data.fullName, phone },
+      });
+      if (updateError) throw new Error(updateError.message);
+    }
 
     const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
-      id: created.user.id,
+      id: user.id,
       full_name: data.fullName,
       phone,
       section_id: data.sectionId,
@@ -198,15 +215,15 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
       approved_at: new Date().toISOString(),
     } as never);
     if (profileError) {
-      await supabaseAdmin.auth.admin.deleteUser(created.user.id);
+      if (!error) await supabaseAdmin.auth.admin.deleteUser(user.id);
       throw new Error(profileError.message);
     }
 
     const { error: roleError } = await supabaseAdmin
       .from("user_roles")
-      .upsert({ user_id: created.user.id, role: "student" }, { onConflict: "user_id,role" });
+      .upsert({ user_id: user.id, role: "student" }, { onConflict: "user_id,role" });
     if (roleError) {
-      await supabaseAdmin.auth.admin.deleteUser(created.user.id);
+      if (!error) await supabaseAdmin.auth.admin.deleteUser(user.id);
       throw new Error(roleError.message);
     }
 
@@ -714,16 +731,33 @@ export const createUserWithRole = createServerFn({ method: "POST" })
     const phone = normalizePhone(data.phone);
     if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
 
+    const email = phoneToEmail(phone);
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
-      email: phoneToEmail(phone),
+      email,
       password: data.password,
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    if (error || !created.user) throw new Error("تعذر إنشاء الحساب (قد يكون الرقم مسجلاً)");
+    let user = created.user;
+    if (error || !user) {
+      const msg = (error?.message ?? "").toLowerCase();
+      if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
+        throw new Error("تعذر إنشاء الحساب");
+      }
+      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (listError) throw new Error(listError.message);
+      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        password: data.password,
+        email_confirm: true,
+        user_metadata: { full_name: data.fullName, phone },
+      });
+      if (updateError) throw new Error(updateError.message);
+    }
 
     const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
-      id: created.user.id,
+      id: user.id,
       full_name: data.fullName,
       phone,
       role: data.role,
@@ -732,14 +766,14 @@ export const createUserWithRole = createServerFn({ method: "POST" })
       approved_at: new Date().toISOString(),
     } as never);
     if (profileError) {
-      await supabaseAdmin.auth.admin.deleteUser(created.user.id);
+      if (!error) await supabaseAdmin.auth.admin.deleteUser(user.id);
       throw new Error(profileError.message);
     }
 
-    await supabaseAdmin.from("user_roles").delete().eq("user_id", created.user.id);
-    const { error: roleError } = await supabaseAdmin.from("user_roles").insert({ user_id: created.user.id, role: data.role });
+    await supabaseAdmin.from("user_roles").delete().eq("user_id", user.id);
+    const { error: roleError } = await supabaseAdmin.from("user_roles").insert({ user_id: user.id, role: data.role });
     if (roleError) {
-      await supabaseAdmin.auth.admin.deleteUser(created.user.id);
+      if (!error) await supabaseAdmin.auth.admin.deleteUser(user.id);
       throw new Error(roleError.message);
     }
 

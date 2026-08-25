@@ -32,6 +32,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
     const email = phoneToEmail(phone);
 
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -109,7 +110,7 @@ export const getMyAccount = createServerFn({ method: "GET" })
 
     // The designated admin phone always owns the admin panel, even if the
     // account was created before that rule existed.
-    const ownPhone = ((profile as any)?.phone as string | undefined)?.trim();
+    const ownPhone = normalizePhone(((profile as any)?.phone as string | undefined) ?? "");
     if (ownPhone && ADMIN_PHONES.includes(ownPhone) && !roleList.includes("admin")) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       await supabaseAdmin
@@ -253,7 +254,7 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
         entries: z
           .array(
             z.object({
-              phone: z.string().trim().regex(phoneRegex),
+              phone: z.string().trim().min(10),
               role: z.enum(["admin", "teacher"]),
             }),
           )
@@ -280,6 +281,7 @@ export const checkStaffPhone = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({ phone: z.string().trim().min(10) }).parse(data))
   .handler(async ({ data }) => {
     const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) return { allowed: false, role: null };
     if (ADMIN_PHONES.includes(phone)) return { allowed: true, role: "admin" as const };
     const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
     return entry ? { allowed: true, role: entry.role } : { allowed: false, role: null };
@@ -299,6 +301,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
     let role: "admin" | "teacher" | null = ADMIN_PHONES.includes(phone) ? "admin" : null;
     if (!role) {
       const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
@@ -346,9 +349,13 @@ export const signUpStaff = createServerFn({ method: "POST" })
       throw new Error("تعذر حفظ البيانات");
     }
 
-    await supabaseAdmin
+    const { error: roleError } = await supabaseAdmin
       .from("user_roles")
       .upsert({ user_id: userId, role }, { onConflict: "user_id,role" });
+    if (roleError) {
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+      throw new Error("تعذر حفظ الصلاحية");
+    }
 
     return { success: true, role };
   });

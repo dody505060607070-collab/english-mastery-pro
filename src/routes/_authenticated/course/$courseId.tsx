@@ -387,14 +387,14 @@ function CourseViewer() {
                    disabled={activeLessonIndex <= 0}
                  >
                    <ArrowRight className="ml-2 h-4 w-4" />
-                   الدرس السابق
+                   Previous Lesson
                  </Button>
                  <div className="flex gap-2">
                    <Button 
                      onClick={() => completeMutation.mutate(activeLesson.id)}
                      disabled={isCompleted(activeLesson.id) || completeMutation.isPending}
                    >
-                     {isCompleted(activeLesson.id) ? "مكتمل ✓" : "تحديد كمكتمل"}
+                     {isCompleted(activeLesson.id) ? "Completed ✓" : "Mark as Completed"}
                    </Button>
                    {activeLessonIndex < (lessons?.length || 0) - 1 && (
                      <Button variant="secondary" onClick={goToNextLesson}>
