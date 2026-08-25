@@ -33,13 +33,14 @@ export const signUpStudent = createServerFn({ method: "POST" })
       user_metadata: { full_name: data.fullName, phone },
     });
 
-    if (createError || !created.user) {
+    const createdUser = created?.user ?? null;
+    if (createError || !createdUser) {
       const msg = (createError?.message || "").toLowerCase();
       if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
       throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
     }
 
-    const userId = created.user.id;
+    const userId = createdUser.id;
     const isAdminPhone = ADMIN_PHONES.includes(phone);
 
     let avatarPath: string | null = null;
@@ -278,7 +279,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    let user = created.user;
+    let user = created?.user ?? null;
     const wasExisting = !!createError;
     if (createError || !user) {
       const msg = (createError?.message || "").toLowerCase();

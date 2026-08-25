@@ -185,7 +185,7 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    let user = created.user;
+    let user = created?.user ?? null;
     if (error || !user) {
       const msg = (error?.message ?? "").toLowerCase();
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
@@ -738,7 +738,7 @@ export const createUserWithRole = createServerFn({ method: "POST" })
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    let user = created.user;
+    let user = created?.user ?? null;
     if (error || !user) {
       const msg = (error?.message ?? "").toLowerCase();
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
