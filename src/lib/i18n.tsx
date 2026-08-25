@@ -52,12 +52,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem("app-lang");
-      if (saved === "ar" || saved === "en") setLangState(saved);
+      window.localStorage.setItem("app-lang", "en");
     } catch {
       /* ignore */
     }
   }, []);
+
 
   useEffect(() => {
     document.documentElement.lang = lang;
