@@ -8,8 +8,8 @@ import { useSiteContent, pickText } from "@/lib/content";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "الأسئلة الشائعة | Blue Language Academy" },
-      { name: "description", content: "إجابات على الأسئلة الشائعة حول أكاديمية Blue Language Academy، الدفع، والدخول" },
+      { title: "FAQ | Blue Language" },
+      { name: "description", content: "Answers to frequently asked questions about Blue Language Academy, payment, and sign-in" },
     ],
   }),
   component: FAQ,
@@ -17,52 +17,52 @@ export const Route = createFileRoute("/faq")({
 
 const faqData = [
   {
-    category: "الدفع والاشتراكات",
+    category: "Payments & Subscriptions",
     icon: CreditCard,
     questions: [
       {
-        q: "ما هي طرق الدفع المتاحة؟",
-        a: "نقبل الدفع عبر فودافون كاش (Vodafone Cash) وإنستا باي (InstaPay) على الرقم {{wallet}}."
+        q: "What payment methods are available?",
+        a: "We accept payment via Vodafone Cash and InstaPay to the number {{wallet}}."
       },
       {
-        q: "كيف يتم تفعيل الكورس بعد الدفع؟",
-        a: "بعد إرسال صورة التحويل ورقم الهاتف عبر نموذج الدفع، يقوم فريق الإدارة بمراجعة الطلب وتفعيل الكورس في حسابك خلال 24 ساعة كحد أقصى."
+        q: "How is the course activated after payment?",
+        a: "After sending the transfer screenshot and phone number via the payment form, our admin team reviews the request and activates the course on your account within 24 hours at most."
       },
       {
-        q: "هل يمكنني استرداد المبلغ بعد الشراء؟",
-        a: "وفقاً لشروط الاستخدام، لا يمكن استرداد المبالغ بعد تفعيل الكورس نظراً لطبيعة المحتوى الرقمي، ولكن يمكننا مساعدتك في حال واجهت أي مشكلة تقنية."
+        q: "Can I get a refund after purchasing?",
+        a: "According to our terms of use, refunds are not possible after the course has been activated due to the nature of digital content, but we can help you if you encounter any technical issue."
       }
     ]
   },
   {
-    category: "الدخول والحساب",
+    category: "Sign-in & Account",
     icon: LogIn,
     questions: [
       {
-        q: "كيف يمكنني إنشاء حساب جديد؟",
-        a: "يمكنك إنشاء حساب باستخدام رقم هاتفك المحمول. ستصلك رسالة تأكيد أو يمكنك تعيين كلمة مرور مباشرة للبدء."
+        q: "How can I create a new account?",
+        a: "You can create an account using your mobile phone number. You will receive a confirmation message, or you can set a password directly to get started."
       },
       {
-        q: "ماذا أفعل إذا نسيت كلمة المرور؟",
-        a: "يمكنك التواصل مع الدعم الفني عبر واتساب لمساعدتك في استعادة الوصول إلى حسابك بسرعة."
+        q: "What should I do if I forget my password?",
+        a: "You can contact technical support via WhatsApp to help you quickly regain access to your account."
       },
       {
-        q: "هل يمكنني فتح حسابي من أكثر من جهاز؟",
-        a: "يسمح بفتح الحساب من جهازين كحد أقصى لضمان أمان حسابك وجودة التجربة التعليمية."
+        q: "Can I access my account from more than one device?",
+        a: "You can access your account from up to two devices to ensure account security and a quality learning experience."
       }
     ]
   },
   {
-    category: "الدراسة والمحتوى",
+    category: "Study & Content",
     icon: BookOpen,
     questions: [
       {
-        q: "هل الكورسات مسجلة أم مباشرة؟",
-        a: "معظم الكورسات لدينا مسجلة بجودة عالية لتمكنك من المذاكرة في أي وقت، مع وجود جلسات مباشرة دورية للرد على الاستفسارات."
+        q: "Are the courses recorded or live?",
+        a: "Most of our courses are recorded in high quality so you can study anytime, with periodic live sessions to answer questions."
       },
       {
-        q: "هل أحصل على شهادة بعد الانتهاور؟",
-        a: "نعم، بمجرد إكمال جميع دروس الكورس واجتياز الاختبارات، يمكنك تحميل شهادة إتمام معتمدة من الأكاديمية بصيغة PDF."
+        q: "Do I get a certificate after finishing?",
+        a: "Yes, once you complete all the course lessons and pass the quizzes, you can download a certified completion certificate from the academy as a PDF."
       }
     ]
   }
@@ -73,7 +73,7 @@ function FAQ() {
   const wallet = pickText(siteContent?.["payment.wallet"], "ar", "01035851426");
   const wa = pickText(siteContent?.["contact.whatsapp"], "ar", "+201035851426").replace(/[^0-9]/g, "");
   return (
-    <div className="min-h-screen bg-background text-foreground py-20" dir="rtl">
+    <div className="min-h-screen bg-background text-foreground py-20" dir="ltr">
       <div className="container max-w-4xl">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -83,9 +83,9 @@ function FAQ() {
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-2xl text-primary mb-6">
             <HelpCircle className="w-10 h-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-black mb-4">الأسئلة الشائعة</h1>
+          <h1 className="text-4xl md:text-5xl font-black mb-4">Frequently Asked Questions</h1>
           <p className="text-muted-foreground text-lg">
-            كل ما تحتاج معرفته عن المنصة والاشتراكات في مكان واحد
+            Everything you need to know about the platform and subscriptions, all in one place
           </p>
         </motion.div>
 
@@ -109,7 +109,7 @@ function FAQ() {
                     value={`item-${idx}-${qIdx}`}
                     className="glass border-border/40 px-6 rounded-xl overflow-hidden"
                   >
-                    <AccordionTrigger className="text-right font-bold hover:no-underline py-6">
+                    <AccordionTrigger className="text-left font-bold hover:no-underline py-6">
                       {item.q}
                     </AccordionTrigger>
                     <AccordionContent className="text-muted-foreground leading-relaxed text-lg pb-6">
@@ -127,14 +127,14 @@ function FAQ() {
           whileInView={{ opacity: 1 }}
           className="mt-20 p-8 rounded-3xl bg-primary/5 border border-primary/10 text-center"
         >
-          <h3 className="text-xl font-bold mb-4">لم تجد إجابة لسؤالك؟</h3>
-          <p className="text-muted-foreground mb-8">نحن هنا للمساعدة في أي وقت</p>
+          <h3 className="text-xl font-bold mb-4">Didn't find an answer to your question?</h3>
+          <p className="text-muted-foreground mb-8">We are here to help anytime</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" asChild>
-              <a href="/contact">تواصل معنا</a>
+              <a href="/contact">Contact Us</a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">واتساب</a>
+              <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">WhatsApp</a>
             </Button>
           </div>
         </motion.div>

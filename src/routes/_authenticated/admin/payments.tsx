@@ -20,25 +20,25 @@ import { useMediaUrl } from "@/lib/storage";
 export const Route = createFileRoute("/_authenticated/admin/payments")({
   head: () => ({
     meta: [
-      { title: "طلبات الدفع — لوحة الإدارة" },
-      { name: "description", content: "مراجعة إيصالات الدفع وتفعيل اشتراكات الطلاب." },
-      { property: "og:title", content: "طلبات الدفع — لوحة الإدارة" },
-      { property: "og:description", content: "مراجعة إيصالات الدفع وتفعيل اشتراكات الطلاب." },
+      { title: "Payment Requests — Admin Panel" },
+      { name: "description", content: "Review payment receipts and activate student subscriptions." },
+      { property: "og:title", content: "Payment Requests — Admin Panel" },
+      { property: "og:description", content: "Review payment receipts and activate student subscriptions." },
     ],
   }),
   component: PaymentsPage,
 });
 
 const statusLabel: Record<string, string> = {
-  pending: "قيد المراجعة",
-  approved: "مقبول",
-  rejected: "مرفوض",
+  pending: "Pending",
+  approved: "Approved",
+  rejected: "Rejected",
 };
 
 function ReceiptPreview({ path }: { path: string }) {
   const url = useMediaUrl(path, "receipts");
   if (!url) return <Loader2 className="h-5 w-5 animate-spin" />;
-  return <img src={url} alt="إيصال الدفع" className="max-h-[60vh] w-full rounded-xl border object-contain" />;
+  return <img src={url} alt="Payment Receipt" className="max-h-[60vh] w-full rounded-xl border object-contain" />;
 }
 
 function PaymentsPage() {
@@ -55,7 +55,7 @@ function PaymentsPage() {
     mutationFn: (v: { id: string; decision: "approved" | "rejected" }) =>
       decidePaymentRequest({ data: v }),
     onSuccess: () => {
-      toast.success("تم تحديث حالة الطلب");
+      toast.success("Request status updated");
       qc.invalidateQueries({ queryKey: ["admin-payments"] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -74,12 +74,12 @@ function PaymentsPage() {
   const pending = rows.filter((r) => r.status === "pending");
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-black">طلبات الدفع</h1>
+          <h1 className="text-2xl font-black">Payment Requests</h1>
           <p className="text-muted-foreground text-sm">
-            {pending.length} طلب بانتظار المراجعة من إجمالي {rows.length}
+            {pending.length} requests awaiting review out of a total of {rows.length}
           </p>
         </div>
         <div className="relative w-full sm:w-72">
@@ -87,7 +87,7 @@ function PaymentsPage() {
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="ابحث باسم الطالب أو رقمه"
+            placeholder="Search by student name or number"
             className="pr-9"
           />
         </div>
@@ -101,7 +101,7 @@ function PaymentsPage() {
         <Card>
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center text-muted-foreground">
             <Receipt className="h-10 w-10" />
-            <p>لا توجد طلبات دفع حتى الآن.</p>
+            <p>No payment requests yet.</p>
           </CardContent>
         </Card>
       ) : (
@@ -110,7 +110,7 @@ function PaymentsPage() {
             <Card key={r.id} className="overflow-hidden">
               <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 pb-3">
                 <CardTitle className="text-base font-black">
-                  {r.student?.full_name ?? "طالب"}{" "}
+                  {r.student?.full_name ?? "Student"}{" "}
                   <span className="text-muted-foreground font-normal" dir="ltr">
                     {r.student?.phone ?? ""}
                   </span>
@@ -130,26 +130,26 @@ function PaymentsPage() {
               <CardContent className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-1 text-sm">
                   <p>
-                    <span className="text-muted-foreground">الكورس: </span>
+                    <span className="text-muted-foreground">Course: </span>
                     {(r.courses as { title?: string } | null)?.title ?? r.plan_name ?? "—"}
                   </p>
                   <p>
-                    <span className="text-muted-foreground">المبلغ: </span>
-                    {Number(r.amount).toLocaleString("ar-EG")} جنيه
+                    <span className="text-muted-foreground">Amount: </span>
+                    {Number(r.amount).toLocaleString("en-US")} EGP
                   </p>
                   <p>
-                    <span className="text-muted-foreground">وسيلة الدفع: </span>
+                    <span className="text-muted-foreground">Payment method: </span>
                     {r.payment_method ?? "—"}
                   </p>
                   <p dir="ltr" className="text-start">
-                    <span className="text-muted-foreground">من رقم: </span>
+                    <span className="text-muted-foreground">From number: </span>
                     {r.sender_phone}
                   </p>
                 </div>
                 <div className="flex flex-wrap items-start gap-2">
                   <Button variant="outline" size="sm" onClick={() => setPreview(r.screenshot_url)}>
                     <Receipt className="h-4 w-4" />
-                    <span className="mr-1">عرض الإيصال</span>
+                    <span className="mr-1">View Receipt</span>
                   </Button>
                   {r.status === "pending" && (
                     <>
@@ -159,7 +159,7 @@ function PaymentsPage() {
                         disabled={decide.isPending}
                       >
                         <Check className="h-4 w-4" />
-                        <span className="mr-1">قبول وتفعيل</span>
+                        <span className="mr-1">Approve & Activate</span>
                       </Button>
                       <Button
                         size="sm"
@@ -168,7 +168,7 @@ function PaymentsPage() {
                         disabled={decide.isPending}
                       >
                         <X className="h-4 w-4" />
-                        <span className="mr-1">رفض</span>
+                        <span className="mr-1">Reject</span>
                       </Button>
                     </>
                   )}
@@ -180,14 +180,14 @@ function PaymentsPage() {
       )}
 
       <Dialog open={!!preview} onOpenChange={(o) => !o && setPreview(null)}>
-        <DialogContent dir="rtl" className="max-w-2xl">
+        <DialogContent dir="ltr" className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>إيصال الدفع</DialogTitle>
+            <DialogTitle>Payment Receipt</DialogTitle>
           </DialogHeader>
           {preview && <ReceiptPreview path={preview} />}
           <DialogFooter>
             <Button variant="outline" onClick={() => setPreview(null)}>
-              إغلاق
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>

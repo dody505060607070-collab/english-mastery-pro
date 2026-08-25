@@ -30,7 +30,7 @@ export const synthesizeSpeech = createServerFn({ method: "POST" })
       const { data: signed } = await supabaseAdmin.storage
         .from("content")
         .createSignedUrl(path, 60 * 60 * 24 * 7);
-      if (!signed?.signedUrl) throw new Error("تعذر تجهيز رابط الصوت");
+      if (!signed?.signedUrl) throw new Error("Could not prepare the audio link");
       return signed.signedUrl;
     };
 
@@ -44,7 +44,7 @@ export const synthesizeSpeech = createServerFn({ method: "POST" })
     }
 
     const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) throw new Error("خدمة الصوت غير متاحة حاليًا");
+    if (!apiKey) throw new Error("Voice service is currently unavailable");
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
       method: "POST",
@@ -61,13 +61,13 @@ export const synthesizeSpeech = createServerFn({ method: "POST" })
 
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
-      if (res.status === 429) throw new Error("الخدمة مشغولة الآن، حاول بعد قليل");
-      if (res.status === 402) throw new Error("رصيد خدمة الصوت غير كافٍ، تواصل مع الإدارة");
-      throw new Error(`تعذر إنشاء الصوت (${res.status}) ${detail.slice(0, 120)}`);
+      if (res.status === 429) throw new Error("The service is busy right now, try again shortly");
+      if (res.status === 402) throw new Error("Insufficient voice service credit, contact the administration");
+      throw new Error(`Could not generate audio (${res.status}) ${detail.slice(0, 120)}`);
     }
 
     const bytes = new Uint8Array(await res.arrayBuffer());
-    if (!bytes.byteLength) throw new Error("لم يتم إنشاء ملف صوتي");
+    if (!bytes.byteLength) throw new Error("No audio file was generated");
 
     const path = `tts/${id}.mp3`;
     const up = await supabaseAdmin.storage.from("content").upload(path, bytes, {

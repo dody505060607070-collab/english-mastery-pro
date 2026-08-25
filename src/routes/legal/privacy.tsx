@@ -9,44 +9,44 @@ export const Route = createFileRoute("/legal/privacy")({
 
 function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-background font-['Cairo']" dir="rtl">
+    <div className="min-h-screen bg-background font-['Outfit']" dir="ltr">
       <main className="container py-24 max-w-4xl">
         <div className="flex items-center gap-4 mb-12">
           <div className="bg-primary/10 p-3 rounded-2xl">
             <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-black">سياسة الخصوصية</h1>
-            <p className="text-muted-foreground mt-2">تاريخ التحديث: 14 أغسطس 2026</p>
+            <h1 className="text-4xl font-black">Privacy Policy</h1>
+            <p className="text-muted-foreground mt-2">Last updated: August 14, 2026</p>
           </div>
         </div>
 
-        <div className="prose prose-lg dark:prose-invert max-w-none space-y-8 text-right">
+        <div className="prose prose-lg dark:prose-invert max-w-none space-y-8 text-left">
           <section>
-            <h2 className="text-2xl font-black mb-4">1. مقدمة</h2>
+            <h2 className="text-2xl font-black mb-4">1. Introduction</h2>
             <p className="text-muted-foreground leading-relaxed">
-              نحن في Blue Language Academy نولي اهتماماً كبيراً لخصوصيتك. توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك الشخصية عند استخدامك لمنصتنا.
+              At Blue Language, we take your privacy very seriously. This policy explains how we collect, use, and protect your personal information when you use our platform.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-black mb-4">2. المعلومات التي نجمعها</h2>
+            <h2 className="text-2xl font-black mb-4">2. Information We Collect</h2>
             <p className="text-muted-foreground leading-relaxed">
-              نجمع المعلومات التي تقدمها لنا مباشرة عند إنشاء حساب أو الاشتراك في كورس، بما في ذلك رقم الهاتف، الاسم، وصور التحويلات المالية.
+              We collect the information you provide directly when creating an account or enrolling in a course, including your phone number, name, and payment transfer screenshots.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-black mb-4">3. كيف نستخدم معلوماتك</h2>
+            <h2 className="text-2xl font-black mb-4">3. How We Use Your Information</h2>
             <p className="text-muted-foreground leading-relaxed">
-              نستخدم معلوماتك لتوفير وتحسين خدماتنا، ومعالجة طلبات الاشتراك، والتواصل معك بشأن تقدمك الدراسي، ولأغراض الأمان والتحقق.
+              We use your information to provide and improve our services, process enrollment requests, communicate with you about your academic progress, and for security and verification purposes.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-black mb-4">4. حماية البيانات</h2>
+            <h2 className="text-2xl font-black mb-4">4. Data Protection</h2>
             <p className="text-muted-foreground leading-relaxed">
-              نحن نطبق إجراءات أمنية تقنية وتنظيمية لحماية بياناتك من الوصول غير المصرح به أو التغيير أو الإفصاح.
+              We implement technical and organizational security measures to protect your data from unauthorized access, alteration, or disclosure.
             </p>
           </section>
         </div>
@@ -55,7 +55,7 @@ function PrivacyPage() {
           <Link to="/">
             <Button variant="ghost" className="gap-2">
               <ArrowRight className="h-4 w-4" />
-              العودة للرئيسية
+              Back to Home
             </Button>
           </Link>
         </div>

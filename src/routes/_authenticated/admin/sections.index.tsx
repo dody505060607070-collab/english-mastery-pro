@@ -93,7 +93,7 @@ function SectionsPage() {
   };
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <p className="text-sm text-muted-foreground font-bold">
           كل مستوى مستقل تماماً — لا يشترط إنهاء مستوى لفتح آخر. تحكّم هنا في الإظهار والقفل والترتيب والنسخ.
@@ -230,7 +230,7 @@ function SectionDialog({ section, onClose }: { section: Partial<Section>; onClos
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl">
+      <DialogContent dir="ltr">
         <DialogHeader>
           <DialogTitle className="font-black">{section.id ? "تعديل المستوى" : "مستوى جديد"}</DialogTitle>
         </DialogHeader>

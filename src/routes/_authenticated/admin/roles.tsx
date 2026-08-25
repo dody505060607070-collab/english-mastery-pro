@@ -19,7 +19,7 @@ import { normalizePhone, phoneRegex } from "@/lib/phone";
 export const Route = createFileRoute("/_authenticated/admin/roles")({
   head: () => ({
     meta: [
-      { title: "Roles & Permissions | Blue Language Academy" },
+      { title: "Roles & Permissions | Blue Language" },
       { name: "description", content: "Manage admin, teacher and student permissions" },
     ],
   }),
@@ -30,19 +30,19 @@ type Role = "admin" | "teacher" | "student";
 
 const ROLE_META: Record<Role, { label: string; color: string; can: string[] }> = {
   admin: {
-    label: "مدير (Admin)",
+    label: "Administrator (Admin)",
     color: "bg-orange-500",
-    can: ["تحكم كامل", "إدارة المدرسين والطلاب", "الصلاحيات", "تعديل الواجهة", "المدفوعات"],
+    can: ["Full control", "Manage teachers and students", "Permissions", "Edit interface", "Payments"],
   },
   teacher: {
-    label: "مدرس (Teacher)",
+    label: "Teacher",
     color: "bg-blue-500",
-    can: ["رؤية الطلاب", "إضافة المحتوى", "تعديل المحتوى", "الليف والتسجيلات", "القاموس"],
+    can: ["View students", "Add content", "Edit content", "Live and recordings", "Dictionary"],
   },
   student: {
-    label: "طالب (Student)",
+    label: "Student",
     color: "bg-slate-500",
-    can: ["الدروس والوحدات", "التمارين والاختبارات", "التقدم والنقاط"],
+    can: ["Lessons and units", "Exercises and quizzes", "Progress and points"],
   },
 };
 
@@ -73,7 +73,7 @@ function AdminRoles() {
     mutationFn: (entries: { phone: string; role: "admin" | "teacher" }[]) =>
       saveStaffPhones({ data: { entries } }),
     onSuccess: () => {
-      toast.success("تم تحديث الأرقام المصرح لها");
+      toast.success("Authorized numbers updated");
       setNewPhone("");
       qc.invalidateQueries({ queryKey: ["staff-allowed-phones"] });
     },
@@ -83,7 +83,7 @@ function AdminRoles() {
   const addPhone = () => {
     const phone = normalizePhone(newPhone);
     if (!phoneRegex.test(phone)) {
-      toast.error("رقم غير صحيح");
+      toast.error("Invalid number");
       return;
     }
     const next = [
@@ -101,7 +101,7 @@ function AdminRoles() {
   const create = useMutation({
     mutationFn: (f: typeof emptyForm) => createUserWithRole({ data: f }),
     onSuccess: () => {
-      toast.success("تم إنشاء الحساب");
+      toast.success("Account created");
       setForm(null);
       invalidate();
     },
@@ -111,7 +111,7 @@ function AdminRoles() {
   const changeRole = useMutation({
     mutationFn: (v: { userId: string; role: Role }) => setUserRole({ data: v }),
     onSuccess: () => {
-      toast.success("تم تحديث الصلاحية");
+      toast.success("Role updated");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -129,26 +129,26 @@ function AdminRoles() {
 
   if (account && !account.isAdmin) {
     return (
-      <div className="py-20 text-center space-y-3" dir="rtl">
+      <div className="py-20 text-center space-y-3" dir="ltr">
         <ShieldAlert className="h-10 w-10 mx-auto text-destructive" />
-        <p className="font-bold">هذا القسم للمدير فقط</p>
+        <p className="font-bold">This section is for administrators only</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 font-['Cairo']" dir="rtl">
+    <div className="space-y-6 font-['Outfit']" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl font-black flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" /> الأدوار والصلاحيات
+            <Shield className="h-5 w-5 text-primary" /> الأدوار وPermissions
           </h1>
           <p className="text-sm text-muted-foreground">
-            أضف مدير أو مدرس أو طالب، وغيّر صلاحية أي مستخدم في أي وقت.
+            Add an admin, teacher, or student, and change any user’s role at any time.
           </p>
         </div>
         <Button className="gap-2" onClick={() => setForm({ ...emptyForm })}>
-          <Plus className="h-4 w-4" /> إضافة مستخدم بصلاحية
+          <Plus className="h-4 w-4" /> Add User with Role
         </Button>
       </div>
 
@@ -178,10 +178,10 @@ function AdminRoles() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Phone className="h-4 w-4" /> أرقام مصرح لها بإنشاء حساب مدير / مدرس
+            <Phone className="h-4 w-4" /> Numbers authorized to create an admin / teacher account
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            أي رقم هنا يقدر يعمل Sign Up من صفحة الدخول كـ Admin / Teacher. أي رقم تاني مش هيقدر.
+            Any number here can sign up from the login page as Admin / Teacher. Any other number cannot.
           </p>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -198,8 +198,8 @@ function AdminRoles() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="admin">مدير</SelectItem>
-                <SelectItem value="teacher">مدرس</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="teacher">Teacher</SelectItem>
               </SelectContent>
             </Select>
             <Button className="h-11 gap-2" onClick={addPhone} disabled={savePhones.isPending}>
@@ -208,20 +208,20 @@ function AdminRoles() {
             </Button>
           </div>
           {(staffPhones ?? []).length === 0 ? (
-            <p className="text-sm text-muted-foreground font-bold">لا توجد أرقام مضافة.</p>
+            <p className="text-sm text-muted-foreground font-bold">No numbers added.</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {(staffPhones ?? []).map((e) => (
                 <div key={e.phone} className="flex items-center gap-2 rounded-xl border px-3 py-2">
                   <span dir="ltr" className="font-bold text-sm">{e.phone}</span>
-                  <Badge variant="secondary">{e.role === "admin" ? "مدير" : "مدرس"}</Badge>
+                  <Badge variant="secondary">{e.role === "admin" ? "Admin" : "Teacher"}</Badge>
                   <button
                     type="button"
                     onClick={() =>
                       savePhones.mutate((staffPhones ?? []).filter((x) => x.phone !== e.phone))
                     }
                     className="text-destructive"
-                    aria-label="حذف"
+                    aria-label="Delete"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -235,11 +235,11 @@ function AdminRoles() {
       <Card>
         <CardHeader className="pb-3 flex-row items-center justify-between gap-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Users className="h-4 w-4" /> كل المستخدمين
+            <Users className="h-4 w-4" /> All Users
           </CardTitle>
           <Input
             className="h-10 max-w-56"
-            placeholder="بحث بالاسم أو الرقم"
+            placeholder="Search by name or number"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -250,7 +250,7 @@ function AdminRoles() {
               <Loader2 className="h-6 w-6 animate-spin text-primary" />
             </div>
           ) : filtered.length === 0 ? (
-            <p className="py-10 text-center text-muted-foreground font-bold">لا يوجد مستخدمون.</p>
+            <p className="py-10 text-center text-muted-foreground font-bold">No users found.</p>
           ) : (
             <div className="space-y-2">
               {filtered.map((u) => {
@@ -264,12 +264,12 @@ function AdminRoles() {
                     className="flex items-center gap-3 rounded-xl border p-3 flex-wrap"
                   >
                     <div className="flex-1 min-w-40">
-                      <p className="font-bold truncate">{u.full_name || "بدون اسم"}</p>
+                      <p className="font-bold truncate">{u.full_name || "No name"}</p>
                       <p className="text-xs text-muted-foreground" dir="ltr">
                         {u.phone}
                       </p>
                     </div>
-                    {u.is_blocked && <Badge variant="destructive">محظور</Badge>}
+                    {u.is_blocked && <Badge variant="destructive">Blocked</Badge>}
                     {isSuper ? (
                       <Badge className="bg-red-500">super_admin</Badge>
                     ) : (
@@ -282,9 +282,9 @@ function AdminRoles() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="admin">مدير</SelectItem>
-                          <SelectItem value="teacher">مدرس</SelectItem>
-                          <SelectItem value="student">طالب</SelectItem>
+                          <SelectItem value="admin">Admin</SelectItem>
+                          <SelectItem value="teacher">Teacher</SelectItem>
+                          <SelectItem value="student">Student</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -297,21 +297,21 @@ function AdminRoles() {
       </Card>
 
       <Dialog open={!!form} onOpenChange={(o) => !o && setForm(null)}>
-        <DialogContent className="font-['Cairo']" dir="rtl">
+        <DialogContent className="font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>إضافة مستخدم جديد</DialogTitle>
+            <DialogTitle>Add New User</DialogTitle>
           </DialogHeader>
           {form && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label>الاسم الكامل</Label>
+                <Label>Full Name</Label>
                 <Input
                   value={form.fullName}
                   onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>رقم الهاتف (يُستخدم لتسجيل الدخول)</Label>
+                <Label>Phone Number (used for login)</Label>
                 <Input
                   dir="ltr"
                   value={form.phone}
@@ -319,7 +319,7 @@ function AdminRoles() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>كلمة السر</Label>
+                <Label>Password</Label>
                 <Input
                   dir="ltr"
                   value={form.password}
@@ -327,7 +327,7 @@ function AdminRoles() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>الصلاحية</Label>
+                <Label>Role</Label>
                 <Select
                   value={form.role}
                   onValueChange={(v) => setForm({ ...form, role: v as Role })}
@@ -336,9 +336,9 @@ function AdminRoles() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="admin">مدير</SelectItem>
-                    <SelectItem value="teacher">مدرس</SelectItem>
-                    <SelectItem value="student">طالب</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="teacher">Teacher</SelectItem>
+                    <SelectItem value="student">Student</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -346,7 +346,7 @@ function AdminRoles() {
           )}
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setForm(null)}>
-              إلغاء
+              Cancel
             </Button>
             <Button
               onClick={() => form && create.mutate(form)}
@@ -358,7 +358,7 @@ function AdminRoles() {
               }
             >
               {create.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-              إنشاء
+              Create
             </Button>
           </DialogFooter>
         </DialogContent>

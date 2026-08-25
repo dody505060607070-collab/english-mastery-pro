@@ -217,9 +217,9 @@ function Dashboard() {
       </div>
       <MyCurriculumCard />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8">
         {enrollments && enrollments.length > 0 && (
-          <Card className="md:col-span-2 border-none shadow-xl bg-gradient-to-r from-primary/10 via-background to-primary/5 p-8 rounded-[2rem]">
+          <Card className="border-none shadow-xl bg-gradient-to-r from-primary/10 via-background to-primary/5 p-8 rounded-[2rem]">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex-1 space-y-4 w-full">
                 <div className="flex items-center gap-3">
@@ -337,103 +337,8 @@ function Dashboard() {
           </Card>
         )}
 
-        {/* Leaderboard Section */}
-        <Card className="border-none shadow-xl bg-gradient-to-br from-primary/5 to-background p-6 rounded-[2rem]">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-yellow-500/20 p-2 rounded-lg">
-              <Trophy className="h-5 w-5 text-yellow-600" />
-            </div>
-            <h2 className="text-xl font-black">Leaderboard</h2>
-          </div>
-          <div className="space-y-4">
-            {leaderboard?.map((entry: any, index: number) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={cn(
-                  "flex items-center gap-3 p-3 rounded-xl transition-all border border-transparent",
-                  index === 0 ? "bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border-yellow-500/30 shadow-lg shadow-yellow-500/10" : 
-                  index === 1 ? "bg-gradient-to-r from-slate-300/20 to-slate-300/5 border-slate-300/30 shadow-lg shadow-slate-300/10" :
-                  index === 2 ? "bg-gradient-to-r from-amber-700/20 to-amber-700/5 border-amber-700/30 shadow-lg shadow-amber-700/10" :
-                  "hover:bg-primary/5"
-                )}
-              >
-                <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center font-black text-sm relative",
-                  index === 0 ? "bg-yellow-500 text-white" : 
-                  index === 1 ? "bg-slate-400 text-white" :
-                  index === 2 ? "bg-amber-700 text-white" :
-                  "bg-primary/10 text-primary"
-                )}>
-                  {index + 1}
-                  {index < 3 && <Trophy className="absolute -top-1 -right-1 h-3 w-3 animate-bounce" />}
-                </div>
-                <div className="flex-1">
-                  <div className="font-bold text-sm truncate">{entry.profiles?.full_name || "Unknown Student"}</div>
-                  <div className="text-[10px] text-muted-foreground">Level {entry.level}</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-black text-xs text-primary">{entry.xp} XP</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <Button variant="ghost" className="w-full mt-4 font-bold text-primary text-xs" onClick={() => {}}>
-            Show All
-          </Button>
-        </Card>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-primary/10 to-primary/5 group hover:scale-[1.02] transition-transform">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary/20 transition-colors" />
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">Enrolled Courses</CardTitle>
-            <BookOpen className="h-5 w-5 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-black text-primary">{enrollments?.length || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 group hover:scale-[1.02] transition-transform">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-500/10 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-yellow-500/20 transition-colors" />
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">Earned Certificates</CardTitle>
-            <Trophy className="h-5 w-5 text-yellow-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-black text-yellow-600">{certificatesCount}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-green-500/10 to-green-500/5 group hover:scale-[1.02] transition-transform">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-green-500/20 transition-colors" />
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">Membership Status</CardTitle>
-            <Award className="h-5 w-5 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl font-black text-green-600">Active</div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-blue-500/10 to-blue-500/5 group hover:scale-[1.02] transition-transform cursor-pointer" onClick={() => window.location.href='/subscription'}>
-          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-blue-500/20 transition-colors" />
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-bold text-muted-foreground">Manage Subscription</CardTitle>
-            <GraduationCap className="h-5 w-5 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm font-black text-blue-600">View Details</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Activity Calendar Section */}
-      <ActivityCalendar logs={activityLogs || []} />
 
       <CertificatesGallery />
 

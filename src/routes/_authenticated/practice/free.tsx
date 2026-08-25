@@ -100,21 +100,21 @@ function FreePractice() {
   if (!vocab || vocab.length === 0) return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <EmptyState 
-        title="لا توجد كلمات!"
-        description="لا توجد كلمات متاحة في قسم التدريب المجاني حالياً. يرجى مراجعة قسم التدريب الاحترافي أو العودة لاحقاً."
+        title="No words!"
+        description="No words are available in the free practice section right now. Please check the premium practice section or come back later."
         icon="book"
-        actionText="العودة للرئيسية"
+        actionText="Back to Home"
         onAction={() => window.location.href = '/'}
       />
     </div>
   );
 
   const current = vocab[currentIndex];
-  if (!current) return <div className="min-h-screen flex items-center justify-center font-bold text-2xl">خطأ في تحميل الكلمة.</div>;
+  if (!current) return <div className="min-h-screen flex items-center justify-center font-bold text-2xl">Error loading the word.</div>;
 
   return (
     <AnimatePresence>
-      <div className="min-h-screen bg-background py-12 px-4 font-['Cairo']" dir="rtl">
+      <div className="min-h-screen bg-background py-12 px-4 font-['Outfit']" dir="ltr">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -124,7 +124,7 @@ function FreePractice() {
           <div className="flex items-center justify-between">
             <Button variant="ghost" className="font-bold" onClick={() => window.history.back()}>
               <ChevronRight className="ml-2 h-5 w-5" />
-              رجوع
+              Back
             </Button>
             <div className="text-lg font-black text-primary">
               {currentIndex + 1} / {vocab.length}
@@ -143,7 +143,7 @@ function FreePractice() {
               >
                 <ThreeDCard className="p-8 md:p-12 text-center space-y-6 md:space-y-8 min-h-[350px] md:min-h-[400px] flex flex-col justify-center border-primary/20 shadow-2xl shadow-primary/10">
                   <div className="space-y-2">
-                    <span className="text-primary font-bold text-xs md:text-sm uppercase tracking-widest">المفردات</span>
+                    <span className="text-primary font-bold text-xs md:text-sm uppercase tracking-widest">Vocabulary</span>
                     <h2 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-foreground break-words">
                       {current.word}
                     </h2>
@@ -188,7 +188,7 @@ function FreePractice() {
                           className="w-full space-y-2 p-4 rounded-2xl bg-muted/50 border border-primary/10"
                         >
                           <div className="flex justify-between items-center">
-                            <span className="text-sm font-bold text-muted-foreground">نتيجة النطق:</span>
+                            <span className="text-sm font-bold text-muted-foreground">Pronunciation Score:</span>
                             <span className={cn(
                               "text-2xl font-black",
                               result.score >= 80 ? "text-green-500" : result.score >= 50 ? "text-yellow-500" : "text-red-500"
@@ -198,7 +198,7 @@ function FreePractice() {
                           </div>
                           <p className="text-sm text-center font-bold text-primary">{result.feedback}</p>
                           <div className="text-xs text-muted-foreground italic">
-                            لقد قلت: "{result.transcript}"
+                            You said: "{result.transcript}"
                           </div>
                         </motion.div>
                       )}
@@ -211,7 +211,7 @@ function FreePractice() {
                       onClick={() => setShowHistory(!showHistory)}
                     >
                       <History className="w-4 h-4" />
-                      سجل المحاولات ({attempts?.length || 0})
+                      Attempt History ({attempts?.length || 0})
                     </Button>
                   </div>
 
@@ -223,10 +223,10 @@ function FreePractice() {
                         exit={{ height: 0, opacity: 0 }}
                         className="mt-6 space-y-2 overflow-hidden"
                       >
-                        <div className="text-right text-xs font-bold text-muted-foreground mb-2">آخر المحاولات:</div>
+                        <div className="text-right text-xs font-bold text-muted-foreground mb-2">Recent Attempts:</div>
                         {attempts.slice(0, 3).map((attempt: any) => (
                           <div key={attempt.id} className="flex justify-between items-center p-2 rounded-lg bg-background/50 text-xs">
-                            <span className="text-muted-foreground">{new Date(attempt.created_at).toLocaleTimeString('ar-EG')}</span>
+                            <span className="text-muted-foreground">{new Date(attempt.created_at).toLocaleTimeString('en-US')}</span>
                             <span className="font-bold">"{attempt.spoken_text}"</span>
                             <span className={cn(
                               "font-black px-2 py-0.5 rounded-full",
@@ -271,9 +271,9 @@ function FreePractice() {
                <BookOpen className="w-6 h-6" />
              </div>
              <div className="space-y-2">
-               <h4 className="font-bold text-lg">نصيحة تعليمية</h4>
+               <h4 className="font-bold text-lg">Learning Tip</h4>
                <p className="text-muted-foreground">
-                 استمع إلى الكلمة أكثر من مرة وحاول تكرارها بصوت عالٍ. الربط بين الكلمة ومعناها بالعربي يساعد في الحفظ السريع.
+                 Listen to the word more than once and try repeating it out loud. Connecting the word with its meaning helps with quick memorization.
                </p>
              </div>
           </div>

@@ -50,10 +50,10 @@ function QuizPage() {
     onSuccess: (correctCount) => {
       setScore(correctCount || 0);
       setSubmitted(true);
-      toast.success("تم تسليم الاختبار بنجاح");
+      toast.success("Quiz submitted successfully");
     },
     onError: () => {
-      toast.error("تعذر تسليم الاختبار");
+      toast.error("Could not submit the quiz");
     }
   });
 
@@ -63,7 +63,7 @@ function QuizPage() {
     const isSuccess = percentage >= 50;
     
     return (
-      <div className="container max-w-2xl py-20 text-center space-y-8 font-['Cairo'] animate-in zoom-in-95 duration-500" dir="rtl">
+      <div className="container max-w-2xl py-20 text-center space-y-8 font-['Outfit'] animate-in zoom-in-95 duration-500" dir="ltr">
         <div className="flex justify-center relative">
           <div className={cn(
             "absolute inset-0 blur-3xl opacity-20 rounded-full",
@@ -79,8 +79,8 @@ function QuizPage() {
         </div>
         
         <div className="space-y-2">
-          <h1 className="text-4xl font-black">{isSuccess ? "عمل رائع! تهانينا" : "حاول مرة أخرى"}</h1>
-          <p className="text-2xl text-muted-foreground font-bold">نتيجتك: {score} من {questions?.length}</p>
+          <h1 className="text-4xl font-black">{isSuccess ? "Great job! Congratulations" : "Try Again"}</h1>
+          <p className="text-2xl text-muted-foreground font-bold">Your score: {score} out of {questions?.length}</p>
         </div>
 
         <div className="relative h-6 bg-muted rounded-full overflow-hidden shadow-inner max-w-md mx-auto">
@@ -97,11 +97,11 @@ function QuizPage() {
 
         <div className="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" className="h-14 px-10 text-xl font-black shadow-xl shadow-primary/20" onClick={() => window.history.back()}>
-            العودة للدرس
+            Back to Lesson
           </Button>
           {!isSuccess && (
             <Button size="lg" variant="outline" className="h-14 px-10 text-xl font-black" onClick={() => window.location.reload()}>
-              إعادة الاختبار
+              Retake Quiz
             </Button>
           )}
         </div>
@@ -110,16 +110,16 @@ function QuizPage() {
   }
 
   return (
-    <div className="container max-w-3xl py-12 space-y-8" dir="rtl">
+    <div className="container max-w-3xl py-12 space-y-8" dir="ltr">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">{quiz?.title}</h1>
-        <p className="text-muted-foreground">أجب على جميع الأسئلة بعناية</p>
+        <p className="text-muted-foreground">Answer all questions carefully</p>
       </div>
 
       {questions?.map((q, idx) => (
         <Card key={q.id}>
           <CardHeader>
-            <CardTitle className="text-lg">سؤال {idx + 1}: {q.question_text}</CardTitle>
+            <CardTitle className="text-lg">Question {idx + 1}: {q.question_text}</CardTitle>
           </CardHeader>
           <CardContent>
             <RadioGroup 
@@ -144,7 +144,7 @@ function QuizPage() {
           disabled={Object.keys(answers).length < (questions?.length || 0) || submitMutation.isPending}
           onClick={() => submitMutation.mutate()}
         >
-          {submitMutation.isPending ? "جاري التسليم..." : "تسليم الإجابات"}
+          {submitMutation.isPending ? "Submitting..." : "Submit Answers"}
         </Button>
       </div>
     </div>

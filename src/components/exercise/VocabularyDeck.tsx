@@ -25,14 +25,14 @@ export function VocabularyDeck({
   const progress = words.length ? Math.round((words.filter((w) => learnedSet.has(w.word.toLowerCase())).length / words.length) * 100) : 0;
 
   if (!words.length) {
-    return <p className="text-sm font-bold text-muted-foreground text-center py-6">لا توجد كلمات بعد</p>;
+    return <p className="text-sm font-bold text-muted-foreground text-center py-6">No words yet</p>;
   }
 
   return (
     <div className="space-y-4">
       <div className="space-y-1">
         <div className="flex justify-between text-xs font-bold">
-          <span>الكلمات المتقنة</span>
+          <span>Mastered words</span>
           <span className="text-primary">{progress}%</span>
         </div>
         <Progress value={progress} className="h-2" />
@@ -149,7 +149,7 @@ function WordCard({
 
           <div className="flex gap-2">
             <Button variant="outline" size="sm" className="flex-1 font-bold" onClick={() => setFlipped((f) => !f)}>
-              {flipped ? "إخفاء المعنى" : "إظهار المعنى"}
+              {flipped ? "Hide meaning" : "Show meaning"}
             </Button>
             <Button
               size="sm"
@@ -158,7 +158,7 @@ function WordCard({
               onClick={() => onToggle?.(word.word, !isLearned)}
             >
               <Check className="h-4 w-4 ml-1" />
-              {isLearned ? "متقنة" : "تعلمتها"}
+              {isLearned ? "Mastered" : "Learned it"}
             </Button>
           </div>
 

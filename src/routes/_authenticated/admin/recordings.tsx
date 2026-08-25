@@ -40,7 +40,7 @@ function OrphanFilesCard({ onAdopted }: { onAdopted: () => void }) {
   const adopt = useMutation({
     mutationFn: (v: { path: string; title: string }) => adoptRecordingFile({ data: v }),
     onSuccess: () => {
-      toast.success("تم استرجاع المحاضرة ونشرها");
+      toast.success("Lecture recovered and published");
       refetch();
       onAdopted();
     },
@@ -54,19 +54,19 @@ function OrphanFilesCard({ onAdopted }: { onAdopted: () => void }) {
       <CardContent className="p-4 space-y-3">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div>
-            <p className="font-black">ملفات مرفوعة غير مرتبطة بمحاضرة</p>
+            <p className="font-black">Uploaded files not linked to a lecture</p>
             <p className="text-xs text-muted-foreground">
-              لو تسجيل قديم مش ظاهر للطلاب، اضغط "استرجاع" جنب الملف بحجمه ووقته.
+              If an old recording is not visible to students, click "Recover" next to the file with its size and time.
             </p>
           </div>
           <Button size="sm" variant="outline" onClick={() => refetch()} disabled={isLoading}>
-            تحديث
+            Refresh
           </Button>
         </div>
         {isLoading ? (
           <Loader2 className="h-5 w-5 animate-spin text-primary" />
         ) : files.length === 0 ? (
-          <p className="text-sm font-bold text-muted-foreground">لا توجد ملفات غير مرتبطة.</p>
+          <p className="text-sm font-bold text-muted-foreground">No unlinked files.</p>
         ) : (
           <div className="space-y-2">
             {files.map((f: any) => (
@@ -76,8 +76,8 @@ function OrphanFilesCard({ onAdopted }: { onAdopted: () => void }) {
                     {f.name}
                   </p>
                   <p className="text-[11px] text-muted-foreground">
-                    {(f.size / (1024 * 1024)).toFixed(1)} ميجابايت ·{" "}
-                    {f.created_at ? new Date(f.created_at).toLocaleString("ar-EG") : "—"}
+                    {(f.size / (1024 * 1024)).toFixed(1)} MB ·{" "}
+                    {f.created_at ? new Date(f.created_at).toLocaleString("en-US") : "—"}
                   </p>
                 </div>
                 <Button
@@ -87,13 +87,13 @@ function OrphanFilesCard({ onAdopted }: { onAdopted: () => void }) {
                   onClick={() =>
                     adopt.mutate({
                       path: f.path,
-                      title: `محاضرة ${
-                        f.created_at ? new Date(f.created_at).toLocaleDateString("ar-EG") : f.name
+                      title: `Lecture ${
+                        f.created_at ? new Date(f.created_at).toLocaleDateString("en-US") : f.name
                       }`,
                     })
                   }
                 >
-                  استرجاع ونشر
+                  Recover & Publish
                 </Button>
               </div>
             ))}
@@ -155,7 +155,7 @@ function AdminRecordingsPage() {
         },
       }),
     onSuccess: () => {
-      toast.success("تم حفظ التسجيل");
+      toast.success("Recording saved");
       setDraft(null);
       invalidate();
     },
@@ -171,25 +171,25 @@ function AdminRecordingsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteRecording({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف التسجيل");
+      toast.success("Recording deleted");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl font-black flex items-center gap-2">
-            <PlaySquare className="h-5 w-5 text-primary" /> تسجيل محاضرة
+            <PlaySquare className="h-5 w-5 text-primary" /> Record Lecture
           </h1>
           <p className="text-sm text-muted-foreground">
-            ارفع فيديو المحاضرة من ملفات هاتفك مباشرة، أو سجّل الشاشة من المتصفح أثناء الـ Live.
+            ارفع فيديو الLecture من ملفات هاتفك مباشرة، أو سجّل الشاشة من المتصفح أثناء الـ Live.
           </p>
         </div>
         <Button onClick={() => setDraft({ ...emptyDraft })} className="gap-2">
-          <Plus className="h-4 w-4" /> إضافة تسجيل
+          <Plus className="h-4 w-4" /> Add Recording
         </Button>
       </div>
 
@@ -200,7 +200,7 @@ function AdminRecordingsPage() {
       <Card className="border-destructive/30">
         <CardContent className="p-4 flex flex-col md:flex-row md:items-end gap-3">
           <div className="flex-1 space-y-1.5">
-            <Label>عنوان المحاضرة الجاري تسجيلها</Label>
+            <Label>عنوان الLecture الجاري تسجيلها</Label>
             <Input
               value={quickTitle}
               onChange={(e) => setQuickTitle(e.target.value)}
@@ -218,7 +218,7 @@ function AdminRecordingsPage() {
       ) : !data || data.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="py-16 text-center text-muted-foreground font-bold">
-            لا توجد تسجيلات بعد.
+            No recordings yet.
           </CardContent>
         </Card>
       ) : (
@@ -230,14 +230,14 @@ function AdminRecordingsPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-black truncate">{r.title}</p>
                     {r.is_published ? (
-                      <Badge className="bg-emerald-600 text-white">منشور</Badge>
+                      <Badge className="bg-emerald-600 text-white">Published</Badge>
                     ) : (
-                      <Badge variant="secondary">مخفي</Badge>
+                      <Badge variant="secondary">Hidden</Badge>
                     )}
                     {r.sections?.name && <Badge variant="outline">{r.sections.name}</Badge>}
                   </div>
                   <p className="text-xs text-muted-foreground truncate" dir="ltr">
-                    {r.video_url || "بدون ملف بعد"}
+                    {r.video_url || "No file yet"}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -248,7 +248,7 @@ function AdminRecordingsPage() {
                     onClick={() => togglePublish.mutate({ id: r.id, isPublished: !r.is_published })}
                   >
                     {r.is_published ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    {r.is_published ? "إخفاء" : "نشر"}
+                    {r.is_published ? "Hide" : "Publish"}
                   </Button>
                   <Button
                     size="sm"
@@ -277,22 +277,22 @@ function AdminRecordingsPage() {
       )}
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
-        <DialogContent className="font-['Cairo']" dir="rtl">
+        <DialogContent className="font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>{draft?.id ? "تعديل التسجيل" : "تسجيل جديد"}</DialogTitle>
+            <DialogTitle>{draft?.id ? "Edit Recording" : "New Recording"}</DialogTitle>
           </DialogHeader>
           {draft && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label>عنوان المحاضرة</Label>
+                <Label>Lecture Title</Label>
                 <Input
                   value={draft.title}
                   onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-                  placeholder="محاضرة Unit 1"
+                  placeholder="Lecture Unit 1"
                 />
               </div>
               <FileUploadField
-                label="ملف الفيديو من الجهاز (أو رابط خارجي)"
+                label="Video file from device (or external link)"
                 value={draft.videoUrl}
                 onChange={(v) => setDraft({ ...draft, videoUrl: v })}
                 bucket="content"
@@ -300,13 +300,13 @@ function AdminRecordingsPage() {
                 folder="recordings"
               />
               <div className="space-y-1.5">
-                <Label>المستوى (اختياري)</Label>
+                <Label>Level (optional)</Label>
                 <Select value={draft.sectionId} onValueChange={(v) => setDraft({ ...draft, sectionId: v })}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">كل الطلاب</SelectItem>
+                    <SelectItem value="all">All Students</SelectItem>
                     {(sectionsQuery.data ?? []).map((s: any) => (
                       <SelectItem key={s.id} value={s.id}>
                         {s.name}
@@ -316,7 +316,7 @@ function AdminRecordingsPage() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label>وصف مختصر</Label>
+                <Label>Short Description</Label>
                 <Textarea
                   value={draft.description}
                   onChange={(e) => setDraft({ ...draft, description: e.target.value })}
@@ -327,11 +327,11 @@ function AdminRecordingsPage() {
           )}
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setDraft(null)}>
-              إلغاء
+              Cancel
             </Button>
             <Button onClick={() => draft && save.mutate(draft)} disabled={save.isPending || !draft?.title}>
               {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-              حفظ
+              Save
             </Button>
           </DialogFooter>
         </DialogContent>

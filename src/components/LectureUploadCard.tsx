@@ -33,7 +33,7 @@ export function LectureUploadCard({
     const file = files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024 * 1024) {
-      toast.error("الحد الأقصى 2 جيجابايت");
+      toast.error("Maximum size is 2GB");
       return;
     }
     setBusy(true);
@@ -51,7 +51,7 @@ export function LectureUploadCard({
           status: "ready",
         },
       });
-      toast.success("تم رفع المحاضرة ونشرها للطلاب");
+      toast.success("Lecture uploaded and published to students");
       setTitle("");
       setFileName("");
       onSaved?.();
@@ -71,14 +71,14 @@ export function LectureUploadCard({
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center gap-2">
           <Smartphone className="h-5 w-5 text-primary" />
-          <p className="font-black">رفع محاضرة من ملفات الهاتف</p>
+          <p className="font-black">Upload a lecture from phone files</p>
         </div>
         <div className="space-y-1.5">
-          <Label>عنوان المحاضرة (اختياري)</Label>
+          <Label>Lecture title (optional)</Label>
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="محاضرة Unit 1"
+            placeholder="Unit 1 lecture"
             disabled={busy}
           />
         </div>
@@ -90,7 +90,7 @@ export function LectureUploadCard({
             onClick={() => galleryRef.current?.click()}
             disabled={busy}
           >
-            <Video className="h-5 w-5" /> فيديو من الجهاز
+            <Video className="h-5 w-5" /> Video from device
           </Button>
           <Button
             type="button"
@@ -99,7 +99,7 @@ export function LectureUploadCard({
             onClick={() => cameraRef.current?.click()}
             disabled={busy}
           >
-            <Camera className="h-5 w-5" /> تصوير بالكاميرا
+            <Camera className="h-5 w-5" /> Record with camera
           </Button>
           <Button
             type="button"
@@ -108,7 +108,7 @@ export function LectureUploadCard({
             onClick={() => imageRef.current?.click()}
             disabled={busy}
           >
-            <ImageIcon className="h-5 w-5" /> صورة / ملف
+            <ImageIcon className="h-5 w-5" /> Image / file
           </Button>
         </div>
 
@@ -116,13 +116,13 @@ export function LectureUploadCard({
           <div className="space-y-1">
             <Progress value={progress} className="h-2" />
             <p className="text-xs font-bold text-muted-foreground flex items-center gap-2">
-              <Loader2 className="h-3 w-3 animate-spin" /> جاري رفع {fileName} … {progress}%
+              <Loader2 className="h-3 w-3 animate-spin" /> Uploading {fileName} … {progress}%
             </p>
           </div>
         )}
 
         <p className="text-xs text-muted-foreground">
-          يدعم الفيديوهات الكبيرة حتى 2 جيجابايت، ويكمل الرفع تلقائياً لو انقطع النت.
+          Supports large videos up to 2GB, and resumes automatically if the connection drops.
         </p>
 
         <input

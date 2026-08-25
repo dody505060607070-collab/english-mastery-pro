@@ -96,7 +96,7 @@ export const enrichWord = createServerFn({ method: "POST" })
     const { assertCan } = await import("@/lib/staff.server");
     await assertCan(context.supabase, context.userId, "vocabulary");
     const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) throw new Error("خدمة الذكاء الاصطناعي غير متاحة");
+    if (!apiKey) throw new Error("AI service is unavailable");
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -112,10 +112,10 @@ export const enrichWord = createServerFn({ method: "POST" })
         ],
       }),
     });
-    if (!res.ok) throw new Error("تعذر جلب البيانات، حاول مرة أخرى");
+    if (!res.ok) throw new Error("Could not fetch the data, try again");
     const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const match = (json.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("تعذر تحليل النتيجة");
+    if (!match) throw new Error("Could not parse the result");
     const parsed = JSON.parse(match[0]) as Record<string, string>;
     return {
       translation: parsed["translation"] ?? "",

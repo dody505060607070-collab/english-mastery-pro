@@ -76,7 +76,7 @@ Give 1-3 senses. Always include at least one example per sense with its Arabic t
 
 async function askAI(word: string): Promise<DictEntry> {
   const apiKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey) throw new Error("خدمة القاموس غير متاحة حاليًا");
+  if (!apiKey) throw new Error("Dictionary service is currently unavailable");
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -88,8 +88,8 @@ async function askAI(word: string): Promise<DictEntry> {
       ],
     }),
   });
-  if (res.status === 429) throw new Error("الخدمة مشغولة الآن، حاول بعد لحظات");
-  if (!res.ok) throw new Error("تعذر جلب معنى الكلمة، حاول مرة أخرى");
+  if (res.status === 429) throw new Error("The service is busy right now, try again in a moment");
+  if (!res.ok) throw new Error("Could not fetch the word's meaning, try again");
   const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
   const raw = json.choices?.[0]?.message?.content ?? "";
   const match = raw.match(/\{[\s\S]*\}/);
@@ -107,7 +107,7 @@ export const lookupEntry = createServerFn({ method: "POST" })
   .inputValidator((data) => wordSchema.parse(data))
   .handler(async ({ data, context }): Promise<DictEntry> => {
     const word = normalize(data.word);
-    if (!word) throw new Error("اكتب كلمة إنجليزية صحيحة");
+    if (!word) throw new Error("Type a valid English word");
 
     const cached = await context.supabase
       .from("translation_cache")

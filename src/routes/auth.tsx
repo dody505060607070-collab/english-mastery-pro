@@ -37,12 +37,12 @@ import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Login & Student Sign Up | Blue Language Academy" },
+      { title: "Login & Student Sign Up | Blue Language" },
       {
         name: "description",
         content: "Create a new student account or log in to track your study units and English learning progress.",
       },
-      { property: "og:title", content: "Login | Blue Language Academy" },
+      { property: "og:title", content: "Login | Blue Language" },
       {
         property: "og:description",
         content: "Free Student Account: Choose your level and unit and start learning immediately.",
@@ -300,7 +300,7 @@ function AuthPage() {
         <div className="bg-primary p-2.5 rounded-2xl shadow-lg shadow-primary/25 group-hover:scale-105 transition-transform">
           <GraduationCap className="h-7 w-7 text-primary-foreground" />
         </div>
-        <span className="text-2xl font-black">Blue Language Academy</span>
+        <span className="text-2xl font-black">Blue Language</span>
       </Link>
 
       <motion.div

@@ -11,10 +11,10 @@ import { useAccount } from "@/hooks/useAccount";
 export const Route = createFileRoute("/admin-setup")({
   head: () => ({
     meta: [
-      { title: "تفعيل حساب المدير | Blue Language Academy" },
-      { name: "description", content: "خطوة لمرة واحدة لتفعيل أول حساب إدارة على منصة الأكاديمية." },
-      { property: "og:title", content: "تفعيل حساب المدير" },
-      { property: "og:description", content: "تفعيل أول حساب إدارة للمنصة." },
+      { title: "Activate Admin Account | Blue Language" },
+      { name: "description", content: "A one-time step to activate the first admin account on the academy platform." },
+      { property: "og:title", content: "Activate Admin Account" },
+      { property: "og:description", content: "Activate the first admin account for the platform." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
@@ -31,7 +31,7 @@ function AdminSetup() {
   const promote = useMutation({
     mutationFn: () => bootstrapAdmin(),
     onSuccess: async () => {
-      toast.success("تم تفعيل حساب المدير");
+      toast.success("Admin account activated");
       await refetch();
       navigate({ to: "/admin" });
     },
@@ -39,13 +39,13 @@ function AdminSetup() {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 font-['Cairo']" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center p-6 font-['Outfit']" dir="ltr">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <ShieldCheck className="h-12 w-12 text-primary mx-auto mb-2" />
-          <CardTitle className="text-2xl font-black">تفعيل أول حساب إدارة</CardTitle>
+          <CardTitle className="text-2xl font-black">Activate First Admin Account</CardTitle>
           <CardDescription className="font-medium">
-            تعمل هذه الصفحة مرة واحدة فقط: تمنح الحساب الذي سجلت دخوله صلاحيات المدير عندما لا يوجد مدير على المنصة.
+            This page works only once: it grants the account you are signed in with admin permissions when there is no admin on the platform.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -55,13 +55,13 @@ function AdminSetup() {
             </div>
           ) : !account ? (
             <Button className="w-full font-black" asChild>
-              <Link to="/auth">سجل الدخول أولاً</Link>
+              <Link to="/auth">Sign in first</Link>
             </Button>
           ) : existsQuery.data?.exists ? (
             <div className="space-y-3 text-center">
-              <p className="font-bold text-muted-foreground">يوجد مدير مفعّل بالفعل على المنصة.</p>
+              <p className="font-bold text-muted-foreground">An admin is already activated on the platform.</p>
               <Button className="w-full font-black" asChild>
-                <Link to={account.isStaff ? "/admin" : "/dashboard"}>المتابعة</Link>
+                <Link to={account.isStaff ? "/admin" : "/dashboard"}>Continue</Link>
               </Button>
             </div>
           ) : (
@@ -71,7 +71,7 @@ function AdminSetup() {
               disabled={promote.isPending}
             >
               {promote.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-              تفعيل حسابي كمدير
+              Activate My Account as Admin
             </Button>
           )}
         </CardContent>

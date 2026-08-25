@@ -57,21 +57,21 @@ function NotificationsAdmin() {
         } 
       }),
     onSuccess: () => {
-      toast.success("تم إرسال الإشعار بنجاح");
+      toast.success("Notification sent successfully");
       setTitle("");
       setMessage("");
       setScheduledFor("");
       setSelectedUserId("");
     },
     onError: (error) => {
-      toast.error("فشل إرسال الإشعار: " + error.message);
+      toast.error("Failed to send notification: " + error.message);
     }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !message) {
-      toast.error("يرجى إكمال جميع الحقول المطلوبة");
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -99,14 +99,14 @@ function NotificationsAdmin() {
   };
 
   return (
-    <div className="space-y-8 font-['Cairo']" dir="rtl">
+    <div className="space-y-8 font-['Outfit']" dir="ltr">
       <div className="flex items-center gap-3">
         <div className="p-3 bg-primary/10 rounded-2xl">
           <Bell className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">إدارة الإشعارات</h1>
-          <p className="text-muted-foreground">أرسل تنبيهات وإشعارات للطلاب والمستخدمين</p>
+          <h1 className="text-2xl font-bold">Notifications Management</h1>
+          <p className="text-muted-foreground">Send alerts and notifications to students and users</p>
         </div>
       </div>
 
@@ -117,14 +117,14 @@ function NotificationsAdmin() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Send className="h-5 w-5 text-primary" />
-                إرسال إشعار جديد
+                Send New Notification
               </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label>المستهدفين</Label>
+                    <Label>Targets</Label>
                     <div className="flex gap-2">
                       <Button
                         type="button"
@@ -133,7 +133,7 @@ function NotificationsAdmin() {
                         onClick={() => setTargetType("all")}
                       >
                         <Users className="ml-2 h-4 w-4" />
-                        جميع الطلاب
+                        All Students
                       </Button>
                       <Button
                         type="button"
@@ -142,7 +142,7 @@ function NotificationsAdmin() {
                         onClick={() => setTargetType("single")}
                       >
                         <User className="ml-2 h-4 w-4" />
-                        مستخدم محدد
+                        Specific User
                       </Button>
                     </div>
                   </div>
@@ -155,10 +155,10 @@ function NotificationsAdmin() {
                         exit={{ opacity: 0, y: -10 }}
                         className="space-y-2"
                       >
-                        <Label>اختر المستخدم</Label>
+                        <Label>Choose a user</Label>
                         <Select value={selectedUserId} onValueChange={setSelectedUserId}>
                           <SelectTrigger className="rounded-xl glass border-white/20">
-                            <SelectValue placeholder="بحث عن مستخدم..." />
+                            <SelectValue placeholder="Search for a user..." />
                           </SelectTrigger>
                           <SelectContent className="glass border-white/20">
                             {users?.map((user) => (
@@ -174,24 +174,24 @@ function NotificationsAdmin() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="title">عنوان الإشعار</Label>
+                  <Label htmlFor="title">Notification Title</Label>
                   <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="مثال: تحديث جديد في الكورس"
+                    placeholder="e.g. New update in the course"
                     className="rounded-xl glass border-white/20"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">محتوى الإشعار</Label>
+                  <Label htmlFor="message">Notification Content</Label>
                   <Textarea
                     id="message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="اكتب تفاصيل الإشعار هنا..."
+                    placeholder="Write the notification details here..."
                     rows={4}
                     className="rounded-xl glass border-white/20"
                     required
@@ -200,22 +200,22 @@ function NotificationsAdmin() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label>نوع الإشعار</Label>
+                    <Label>Notification Type</Label>
                     <Select value={type} onValueChange={(v: any) => setType(v)}>
                       <SelectTrigger className="rounded-xl glass border-white/20">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="glass border-white/20">
-                        <SelectItem value="info">معلومة (أزرق)</SelectItem>
-                        <SelectItem value="success">نجاح (أخضر)</SelectItem>
-                        <SelectItem value="warning">تنبيه (أصفر)</SelectItem>
-                        <SelectItem value="error">خطأ (أحمر)</SelectItem>
+                        <SelectItem value="info">Info (blue)</SelectItem>
+                        <SelectItem value="success">Success (green)</SelectItem>
+                        <SelectItem value="warning">Warning (yellow)</SelectItem>
+                        <SelectItem value="error">Error (red)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="scheduled">توقيت الإرسال (اختياري)</Label>
+                    <Label htmlFor="scheduled">Send Time (optional)</Label>
                     <div className="relative">
                       <Input
                         id="scheduled"
@@ -234,7 +234,7 @@ function NotificationsAdmin() {
                   className="w-full rounded-xl py-6 text-lg font-bold shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
                   disabled={mutation.isPending}
                 >
-                  {mutation.isPending ? "جاري الإرسال..." : "إرسال الآن"}
+                  {mutation.isPending ? "Sending..." : "Send Now"}
                   <Send className="mr-2 h-5 w-5" />
                 </Button>
               </form>
@@ -245,20 +245,20 @@ function NotificationsAdmin() {
         <div className="space-y-6">
           <Card className="glass border-none shadow-xl">
             <CardHeader>
-              <CardTitle className="text-lg">نصائح للإرسال</CardTitle>
+              <CardTitle className="text-lg">Sending Tips</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <div className="flex gap-3">
                 <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-                <p>استخدم عناوين واضحة وجذابة لجذب انتباه الطلاب.</p>
+                <p>Use clear and engaging titles to catch students' attention.</p>
               </div>
               <div className="flex gap-3">
                 <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-                <p>تجنب الإرسال المتكرر للإشعارات حتى لا ينزعج المستخدمون.</p>
+                <p>Avoid sending notifications too frequently to prevent annoying users.</p>
               </div>
               <div className="flex gap-3">
                 <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-                <p>يمكنك جدولة الإشعارات ليتم إرسالها في وقت ذروة نشاط الطلاب.</p>
+                <p>You can schedule notifications to be sent during peak student activity times.</p>
               </div>
             </CardContent>
           </Card>
@@ -268,7 +268,7 @@ function NotificationsAdmin() {
               <div className="h-12 w-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
                 <Users className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-bold">إجمالي المستخدمين</h3>
+              <h3 className="font-bold">Total Users</h3>
               <p className="text-3xl font-black text-primary">{users?.length || 0}</p>
             </CardContent>
           </Card>

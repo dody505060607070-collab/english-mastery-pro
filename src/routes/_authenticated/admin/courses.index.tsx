@@ -111,7 +111,7 @@ function AdminCoursesPage() {
         },
       }),
     onSuccess: () => {
-      toast.success(draft.id ? "تم تحديث الكورس" : "تم إنشاء الكورس");
+      toast.success(draft.id ? "Course updated" : "Course created");
       setOpen(false);
       setDraft(emptyDraft);
       invalidate();
@@ -122,7 +122,7 @@ function AdminCoursesPage() {
   const publish = useMutation({
     mutationFn: (v: { id: string; is_published: boolean }) => setCoursePublished({ data: v }),
     onSuccess: () => {
-      toast.success("تم تحديث حالة النشر");
+      toast.success("Publish status updated");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -131,7 +131,7 @@ function AdminCoursesPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteCourse({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف الكورس");
+      toast.success("Course deleted");
       setConfirmDelete(null);
       invalidate();
     },
@@ -141,7 +141,7 @@ function AdminCoursesPage() {
   const dup = useMutation({
     mutationFn: (id: string) => duplicateCourse({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم إنشاء نسخة كمسودة");
+      toast.success("Draft copy created");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -180,12 +180,12 @@ function AdminCoursesPage() {
   const finalPrice = Math.max(0, Number(draft.price || 0) - Number(draft.discount || 0));
 
   return (
-    <div className="space-y-6 font-['Cairo']" dir="rtl">
+    <div className="space-y-6 font-['Outfit']" dir="ltr">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">إدارة الكورسات</h1>
+          <h1 className="text-2xl font-bold">Course Management</h1>
           <p className="text-sm text-muted-foreground">
-            {courses.length} كورس — {courses.filter((c) => c.is_published).length} منشور
+            {courses.length} courses — {courses.filter((c) => c.is_published).length} published
           </p>
         </div>
         <Button
@@ -196,7 +196,7 @@ function AdminCoursesPage() {
           }}
         >
           <Plus className="h-4 w-4" />
-          كورس جديد
+          New Course
         </Button>
       </div>
 
@@ -205,7 +205,7 @@ function AdminCoursesPage() {
         <div className="relative flex-1">
           <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="بحث عن كورس..."
+            placeholder="Search for a course..."
             className="pr-10 rounded-xl"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -215,18 +215,18 @@ function AdminCoursesPage() {
           <SelectTrigger className="w-full rounded-xl sm:w-40">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="font-['Cairo']">
-            <SelectItem value="all">كل الحالات</SelectItem>
-            <SelectItem value="published">منشور</SelectItem>
-            <SelectItem value="draft">مسودة</SelectItem>
+          <SelectContent className="font-['Outfit']">
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="published">Published</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
           </SelectContent>
         </Select>
         <Select value={level} onValueChange={setLevel}>
           <SelectTrigger className="w-full rounded-xl sm:w-36">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="font-['Cairo']">
-            <SelectItem value="all">كل المستويات</SelectItem>
+          <SelectContent className="font-['Outfit']">
+            <SelectItem value="all">All Levels</SelectItem>
             {LEVELS.map((l) => (
               <SelectItem key={l} value={l}>
                 {l}
@@ -243,7 +243,7 @@ function AdminCoursesPage() {
       ) : filtered.length === 0 ? (
         <div className="rounded-3xl border border-dashed py-20 text-center">
           <BookOpen className="mx-auto mb-4 h-12 w-12 text-muted-foreground opacity-30" />
-          <p className="text-muted-foreground">لا توجد كورسات مطابقة.</p>
+          <p className="text-muted-foreground">No matching courses.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -252,7 +252,7 @@ function AdminCoursesPage() {
               {course.thumbnail_url && (
                 <img
                   src={course.thumbnail_url}
-                  alt={`غلاف كورس ${course.title}`}
+                  alt={`cover for course ${course.title}`}
                   loading="lazy"
                   className="h-32 w-full object-cover"
                 />
@@ -266,38 +266,38 @@ function AdminCoursesPage() {
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="font-['Cairo']">
+                    <DropdownMenuContent align="end" className="font-['Outfit']">
                       <DropdownMenuItem asChild>
                         <Link to="/admin/courses/$courseId/content" params={{ courseId: course.id }}>
                           <Layout className="ml-2 h-4 w-4" />
-                          إدارة الوحدات والدروس
+                          Manage Units & Lessons
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => openEdit(course)}>
                         <Edit className="ml-2 h-4 w-4" />
-                        تعديل بيانات الكورس
+                        Edit Course Data
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => dup.mutate(course.id)}>
                         <Copy className="ml-2 h-4 w-4" />
-                        نسخ الكورس
+                        Duplicate Course
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => publish.mutate({ id: course.id, is_published: !course.is_published })}
                       >
                         {course.is_published ? (
                           <>
-                            <EyeOff className="ml-2 h-4 w-4" /> إلغاء النشر
+                            <EyeOff className="ml-2 h-4 w-4" /> Unpublish
                           </>
                         ) : (
                           <>
-                            <Eye className="ml-2 h-4 w-4" /> نشر الكورس
+                            <Eye className="ml-2 h-4 w-4" /> Publish Course
                           </>
                         )}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="text-destructive" onClick={() => setConfirmDelete(course.id)}>
                         <Trash2 className="ml-2 h-4 w-4" />
-                        حذف
+                        Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -311,11 +311,11 @@ function AdminCoursesPage() {
                 <div className="grid grid-cols-3 gap-2 text-center text-xs">
                   <div className="rounded-lg bg-muted/60 p-2">
                     <div className="font-black">{course.units_count}</div>
-                    <div className="text-muted-foreground">وحدة</div>
+                    <div className="text-muted-foreground">unit</div>
                   </div>
                   <div className="rounded-lg bg-muted/60 p-2">
                     <div className="font-black">{course.lessons_count}</div>
-                    <div className="text-muted-foreground">درس</div>
+                    <div className="text-muted-foreground">lesson</div>
                   </div>
                   <div className="rounded-lg bg-muted/60 p-2">
                     <div className="font-black">{course.students_count}</div>
@@ -324,23 +324,23 @@ function AdminCoursesPage() {
                 </div>
                 <div className="flex items-center justify-between border-t pt-3 text-sm">
                   <Badge variant={course.is_published ? "default" : "secondary"}>
-                    {course.is_published ? "منشور" : "مسودة"}
+                    {course.is_published ? "Published" : "Draft"}
                   </Badge>
                   <span className="font-bold text-primary">
                     {Number(course.price) === 0
-                      ? "مجاني"
-                      : `${Math.max(0, Number(course.price) - Number(course.discount ?? 0))} ج.م`}
+                      ? "Free"
+                      : `${Math.max(0, Number(course.price) - Number(course.discount ?? 0))} EGP`}
                   </span>
                 </div>
                 <Button asChild variant="outline" className="w-full rounded-xl gap-2">
                   <Link to="/admin/courses/$courseId/content" params={{ courseId: course.id }}>
                     <Layers className="h-4 w-4" />
-                    الوحدات والدروس
+                    Units & Lessons
                   </Link>
                 </Button>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <Users className="h-3 w-3" />
-                  {course.students_count} مشترك
+                  {course.students_count} subscribers
                 </div>
               </CardContent>
             </Card>
@@ -350,29 +350,29 @@ function AdminCoursesPage() {
 
       {/* Create / edit dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto font-['Cairo']" dir="rtl">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>{draft.id ? "تعديل الكورس" : "إضافة كورس جديد"}</DialogTitle>
+            <DialogTitle>{draft.id ? "Edit Course" : "إضافة New Course"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label>اسم الكورس *</Label>
+              <Label>Course Name *</Label>
               <Input
                 value={draft.title}
                 onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-                placeholder="مثال: أساسيات اللغة الإنجليزية"
+                placeholder="مثال: English Basics"
               />
             </div>
             <div className="space-y-2">
-              <Label>وصف مختصر</Label>
+              <Label>Short Description</Label>
               <Input
                 value={draft.short_description}
                 onChange={(e) => setDraft({ ...draft, short_description: e.target.value })}
-                placeholder="سطر واحد يظهر في بطاقة الكورس"
+                placeholder="One line shown on the course card"
               />
             </div>
             <div className="space-y-2">
-              <Label>الوصف الكامل</Label>
+              <Label>Full Description</Label>
               <Textarea
                 value={draft.description}
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
@@ -381,12 +381,12 @@ function AdminCoursesPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>المستوى</Label>
+                <Label>Level</Label>
                 <Select value={draft.level} onValueChange={(v) => setDraft({ ...draft, level: v })}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="font-['Cairo']">
+                  <SelectContent className="font-['Outfit']">
                     {LEVELS.map((l) => (
                       <SelectItem key={l} value={l}>
                         {l}
@@ -396,7 +396,7 @@ function AdminCoursesPage() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>التصنيف</Label>
+                <Label>Category</Label>
                 <Input
                   value={draft.category}
                   onChange={(e) => setDraft({ ...draft, category: e.target.value })}
@@ -404,23 +404,23 @@ function AdminCoursesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>الفئة المستهدفة</Label>
+                <Label>Target Group</Label>
                 <Input
                   value={draft.target_students}
                   onChange={(e) => setDraft({ ...draft, target_students: e.target.value })}
-                  placeholder="مثال: طلاب Grade 4"
+                  placeholder="مثال: Grade 4 students"
                 />
               </div>
               <div className="space-y-2">
-                <Label>مدة الكورس</Label>
+                <Label>Course Duration</Label>
                 <Input
                   value={draft.duration_text}
                   onChange={(e) => setDraft({ ...draft, duration_text: e.target.value })}
-                  placeholder="مثال: 8 أسابيع"
+                  placeholder="مثال: 8 weeks"
                 />
               </div>
               <div className="space-y-2">
-                <Label>السعر (ج.م)</Label>
+                <Label>السعر (EGP)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -429,7 +429,7 @@ function AdminCoursesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>الخصم (ج.م)</Label>
+                <Label>الخصم (EGP)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -439,10 +439,10 @@ function AdminCoursesPage() {
               </div>
             </div>
             <div className="rounded-xl bg-muted/60 p-3 text-sm">
-              السعر النهائي: <span className="font-black text-primary">{finalPrice} ج.م</span>
+              Final Price: <span className="font-black text-primary">{finalPrice} EGP</span>
             </div>
             <div className="space-y-2">
-              <Label>رابط صورة الغلاف</Label>
+              <Label>Cover Image Link</Label>
               <Input
                 dir="ltr"
                 value={draft.thumbnail_url}
@@ -452,8 +452,8 @@ function AdminCoursesPage() {
             </div>
             <div className="flex items-center justify-between rounded-xl border p-3">
               <div>
-                <Label>نشر الكورس</Label>
-                <p className="text-xs text-muted-foreground">المسودات لا تظهر للطلاب</p>
+                <Label>Publish Course</Label>
+                <p className="text-xs text-muted-foreground">Drafts are not visible to students</p>
               </div>
               <Switch
                 checked={draft.is_published}
@@ -463,14 +463,14 @@ function AdminCoursesPage() {
           </div>
           <DialogFooter className="gap-2">
             <Button variant="outline" className="rounded-xl" onClick={() => setOpen(false)}>
-              إلغاء
+              Cancel
             </Button>
             <Button
               className="rounded-xl"
               disabled={save.isPending || !draft.title.trim()}
               onClick={() => save.mutate()}
             >
-              {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : draft.id ? "حفظ التعديلات" : "إنشاء"}
+              {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : draft.id ? "Save Changes" : "Create"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -478,16 +478,16 @@ function AdminCoursesPage() {
 
       {/* Delete confirm */}
       <Dialog open={!!confirmDelete} onOpenChange={(v) => !v && setConfirmDelete(null)}>
-        <DialogContent className="font-['Cairo']" dir="rtl">
+        <DialogContent className="font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>حذف الكورس</DialogTitle>
+            <DialogTitle>Delete الكورس</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            سيتم حذف الكورس وكل ما يتبعه من وحدات ودروس. لا يمكن التراجع.
+            سيCourse deleted وكل ما يتبعه من وحدات ودروس. لا يمكن التراجع.
           </p>
           <DialogFooter className="gap-2">
             <Button variant="outline" className="rounded-xl" onClick={() => setConfirmDelete(null)}>
-              إلغاء
+              Cancel
             </Button>
             <Button
               variant="destructive"
@@ -495,7 +495,7 @@ function AdminCoursesPage() {
               disabled={remove.isPending}
               onClick={() => confirmDelete && remove.mutate(confirmDelete)}
             >
-              {remove.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "حذف نهائي"}
+              {remove.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete نهائي"}
             </Button>
           </DialogFooter>
         </DialogContent>

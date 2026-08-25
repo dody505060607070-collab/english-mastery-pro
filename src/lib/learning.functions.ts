@@ -17,7 +17,7 @@ export const lookupWord = createServerFn({ method: "POST" })
   .inputValidator((data) => wordSchema.parse(data))
   .handler(async ({ data, context }): Promise<WordInfo> => {
     const word = data.word.toLowerCase().replace(/[^a-z'-]/g, "");
-    if (!word) throw new Error("كلمة غير صالحة");
+    if (!word) throw new Error("Invalid word");
 
     const cached = await context.supabase
       .from("translation_cache")
@@ -27,7 +27,7 @@ export const lookupWord = createServerFn({ method: "POST" })
     if (cached.data) return cached.data as WordInfo;
 
     const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) throw new Error("خدمة الترجمة غير متاحة حاليًا");
+    if (!apiKey) throw new Error("Translation service is currently unavailable");
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -45,7 +45,7 @@ export const lookupWord = createServerFn({ method: "POST" })
       }),
     });
 
-    if (!res.ok) throw new Error("تعذر جلب الترجمة، حاول مرة أخرى");
+    if (!res.ok) throw new Error("Could not fetch the translation, try again");
     const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const raw = json.choices?.[0]?.message?.content ?? "";
     const match = raw.match(/\{[\s\S]*\}/);

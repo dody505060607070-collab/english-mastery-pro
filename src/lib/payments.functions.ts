@@ -11,7 +11,7 @@ export const createPaymentRequest = createServerFn({ method: "POST" })
         courseId: z.string().uuid(),
         amount: z.number().nonnegative(),
         paymentMethod: z.string().trim().min(2).max(50),
-        senderPhone: z.string().trim().regex(/^\d{10,15}$/, "رقم غير صالح"),
+        senderPhone: z.string().trim().regex(/^\d{10,15}$/, "Invalid number"),
         screenshotPath: z.string().trim().min(1).max(500),
         planName: z.string().trim().max(80).optional(),
       })
@@ -91,7 +91,7 @@ export const decidePaymentRequest = createServerFn({ method: "POST" })
       .eq("id", data.id)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    if (!req) throw new Error("الطلب غير موجود");
+    if (!req) throw new Error("Request not found");
 
     await supabaseAdmin
       .from("payment_requests")
@@ -103,7 +103,7 @@ export const decidePaymentRequest = createServerFn({ method: "POST" })
       })
       .eq("id", data.id);
 
-    const courseTitle = (req.courses as { title?: string } | null)?.title ?? "الكورس";
+    const courseTitle = (req.courses as { title?: string } | null)?.title ?? "the course";
 
     if (data.decision === "approved" && req.user_id && req.course_id) {
       await supabaseAdmin
@@ -122,11 +122,11 @@ export const decidePaymentRequest = createServerFn({ method: "POST" })
     if (req.user_id) {
       await supabaseAdmin.from("notifications").insert({
         user_id: req.user_id,
-        title: data.decision === "approved" ? "تم تفعيل اشتراكك" : "تم رفض طلب الدفع",
+        title: data.decision === "approved" ? "Your subscription has been activated" : "Your payment request was rejected",
         message:
           data.decision === "approved"
-            ? `تم قبول الدفع وتفعيل «${courseTitle}». يمكنك بدء التعلم الآن.`
-            : `تم رفض طلب الدفع الخاص بـ «${courseTitle}».${data.note ? ` السبب: ${data.note}` : ""}`,
+            ? `Your payment has been accepted and «${courseTitle}» is now active. You can start learning now.`
+            : `Your payment request for «${courseTitle}» was rejected.${data.note ? ` Reason: ${data.note}` : ""}`,
         type: data.decision === "approved" ? "success" : "warning",
       });
     }

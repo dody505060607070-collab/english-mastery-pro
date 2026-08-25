@@ -52,10 +52,10 @@ function PlacementTestPage() {
     onSuccess: (data) => {
       setResultData(data);
       setShowResult(true);
-      toast.success("تم إكمال الاختبار بنجاح! تم تحديد مستواك.");
+      toast.success("Test completed successfully! Your level has been determined.");
     },
     onError: () => {
-      toast.error("فشل إرسال الاختبار. يرجى المحاولة مرة أخرى.");
+      toast.error("Failed to submit the test. Please try again.");
     }
   });
 
@@ -99,7 +99,7 @@ function PlacementTestPage() {
     const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
 
     return (
-      <div className="min-h-screen bg-background py-12 px-4 font-['Cairo']" dir="rtl">
+      <div className="min-h-screen bg-background py-12 px-4 font-['Outfit']" dir="ltr">
         <div className="container max-w-4xl mx-auto space-y-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -109,8 +109,8 @@ function PlacementTestPage() {
             <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-6">
               <Trophy className="h-12 w-12 text-primary animate-bounce" />
             </div>
-            <h1 className="text-4xl font-black">تهانينا! لقد أنهيت الاختبار</h1>
-            <p className="text-xl text-muted-foreground">تم تحديد مستواك الدراسي بناءً على إجاباتك</p>
+            <h1 className="text-4xl font-black">Congratulations! You finished the test</h1>
+            <p className="text-xl text-muted-foreground">Your level has been determined based on your answers</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -123,10 +123,10 @@ function PlacementTestPage() {
                   <Star className="h-6 w-6 text-white fill-white" />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold">مستواك الحالي</h3>
-              <p className="text-muted-foreground">أنت الآن جاهز لبدء رحلتك التعليمية في هذا المستوى</p>
+              <h3 className="text-2xl font-bold">Your Current Level</h3>
+              <p className="text-muted-foreground">You are now ready to start your learning journey at this level</p>
               <Button size="lg" className="w-full rounded-2xl h-14 font-black text-lg" onClick={() => navigate({ to: "/dashboard" })}>
-                اذهب إلى لوحة التحكم
+                Go to Dashboard
                 <ArrowRight className="mr-2 h-6 w-6" />
               </Button>
             </ThreeDCard>
@@ -134,7 +134,7 @@ function PlacementTestPage() {
             <ThreeDCard className="p-8 space-y-6 min-h-[400px]">
               <h3 className="text-2xl font-bold flex items-center gap-2">
                 <GraduationCap className="h-6 w-6 text-primary" />
-                تحليل الأداء
+                Performance Analysis
               </h3>
               <div className="h-[250px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +171,7 @@ function PlacementTestPage() {
             <Card className="bg-green-500/5 border-green-500/20 rounded-3xl p-8">
               <h4 className="text-xl font-bold text-green-600 mb-4 flex items-center gap-2">
                 <CheckCircle2 className="h-6 w-6" />
-                نقاط القوة
+                Strengths
               </h4>
               <ul className="space-y-3">
                 {resultData.strengths.map((s: string) => (
@@ -185,7 +185,7 @@ function PlacementTestPage() {
             <Card className="bg-red-500/5 border-red-500/20 rounded-3xl p-8">
               <h4 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
                 <BookOpen className="h-6 w-6" />
-                نقاط الضعف
+                Weaknesses
               </h4>
               <ul className="space-y-3">
                 {resultData.weaknesses.map((w: string) => (
@@ -209,7 +209,7 @@ function PlacementTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 font-['Cairo']" dir="rtl">
+    <div className="min-h-screen bg-background py-12 px-4 font-['Outfit']" dir="ltr">
       <div className="container max-w-2xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -217,8 +217,8 @@ function PlacementTestPage() {
               <GraduationCap className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-xl font-black">اختبار تحديد المستوى</h1>
-              <p className="text-sm text-muted-foreground font-bold">أجب على الأسئلة بدقة</p>
+              <h1 className="text-xl font-black">Placement Test</h1>
+              <p className="text-sm text-muted-foreground font-bold">Answer the questions carefully</p>
             </div>
           </div>
           <div className="text-right">
@@ -255,7 +255,7 @@ function PlacementTestPage() {
                 <div className="mb-6 p-4 bg-muted rounded-2xl border-2 border-dashed border-primary/30">
                   <audio key={currentQuestion.audio_url} controls className="w-full">
                     <source src={currentQuestion.audio_url} type="audio/mpeg" />
-                    متصفحك لا يدعم تشغيل الصوت.
+                    Your browser does not support audio playback.
                   </audio>
                 </div>
               )}
@@ -307,7 +307,7 @@ function PlacementTestPage() {
             disabled={!currentQuestion || !answers[currentQuestion.id] || mutation.isPending}
           >
             <span className="relative z-10 flex items-center">
-              {mutation.isPending ? "جاري الإرسال..." : (currentStep === questions.length - 1 ? "إنهاء الاختبار" : "Next")}
+              {mutation.isPending ? "Submitting..." : (currentStep === questions.length - 1 ? "Finish Test" : "Next")}
               {currentStep < questions.length - 1 && <ChevronLeft className="mr-2 h-5 w-5" />}
             </span>
             <div className="absolute inset-0 bg-primary-foreground/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />

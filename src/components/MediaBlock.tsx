@@ -20,7 +20,7 @@ export function MediaBlock({ path, kind }: { path?: string | null; kind?: string
   if (!url)
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> جارٍ تحميل الملف...
+        <Loader2 className="h-4 w-4 animate-spin" /> Loading file...
       </div>
     );
 
@@ -55,7 +55,7 @@ export function MediaBlock({ path, kind }: { path?: string | null; kind?: string
         <iframe src={url} className="h-[70vh] w-full rounded-2xl border" title="pdf" />
         <Button asChild variant="outline" size="sm">
           <a href={url} target="_blank" rel="noreferrer">
-            فتح الملف في نافذة جديدة
+            Open file in a new window
           </a>
         </Button>
       </div>
@@ -65,7 +65,7 @@ export function MediaBlock({ path, kind }: { path?: string | null; kind?: string
   return (
     <Button asChild variant="outline">
       <a href={url} target="_blank" rel="noreferrer" className="gap-2">
-        <FileText className="h-4 w-4" /> تحميل الملف
+        <FileText className="h-4 w-4" /> Download file
       </a>
     </Button>
   );

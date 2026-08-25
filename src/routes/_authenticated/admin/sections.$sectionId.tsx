@@ -51,7 +51,7 @@ function SectionUnitsPage() {
   });
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="sm" asChild>
@@ -173,7 +173,7 @@ function UnitDialog({
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl">
+      <DialogContent dir="ltr">
         <DialogHeader>
           <DialogTitle className="font-black">{unit.id ? "تعديل الوحدة" : "وحدة جديدة"}</DialogTitle>
         </DialogHeader>

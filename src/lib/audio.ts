@@ -123,7 +123,7 @@ export function pauseAudio() {
 export function resumeAudio() {
   const a = element();
   if (!a) return;
-  void a.play().catch(() => emit({ status: "error", error: "تعذر تشغيل الصوت" }));
+  void a.play().catch(() => emit({ status: "error", error: "Could not play the audio" }));
 }
 
 export function setAudioVolume(v: number) {
@@ -146,7 +146,7 @@ export function seekAudio(t: number) {
 
 async function playUrlInternal(url: string, owner: string, id: number) {
   const a = element();
-  if (!a) throw new Error("الصوت غير مدعوم في هذا المتصفح");
+  if (!a) throw new Error("Audio is not supported in this browser");
   if (id !== requestId) return;
   a.src = url;
   a.volume = state.volume;
@@ -164,7 +164,7 @@ export async function playUrl(url: string, owner = "url") {
     await playUrlInternal(url, owner, id);
   } catch (e) {
     if (id !== requestId) return;
-    emit({ status: "error", owner, error: (e as Error).message || "تعذر تشغيل الصوت" });
+    emit({ status: "error", owner, error: (e as Error).message || "Could not play the audio" });
     throw e;
   }
 }
@@ -185,7 +185,7 @@ function browserSpeak(text: string, owner: string): boolean {
     if (voice) utter.voice = voice;
     utter.onstart = () => emit({ status: "playing", owner, error: null });
     utter.onend = () => emit({ status: "idle", owner: null });
-    utter.onerror = () => emit({ status: "error", owner, error: "تعذر تشغيل الصوت" });
+    utter.onerror = () => emit({ status: "error", owner, error: "Could not play the audio" });
     window.speechSynthesis.speak(utter);
     return true;
   } catch {
@@ -226,7 +226,7 @@ export async function playText(text: string, owner = "tts", voice?: string) {
   } catch (e) {
     if (id !== requestId) return;
     if (browserSpeak(clean, owner)) return;
-    emit({ status: "error", owner, error: (e as Error).message || "تعذر تشغيل الصوت" });
+    emit({ status: "error", owner, error: (e as Error).message || "Could not play the audio" });
   }
 }
 

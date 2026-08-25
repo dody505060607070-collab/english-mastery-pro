@@ -151,7 +151,7 @@ export const deleteStudent = createServerFn({ method: "POST" })
     const { assertAdmin, assertNotProtected } = await import("@/lib/staff.server");
     await assertAdmin(context.supabase, context.userId);
     await assertNotProtected(data.userId);
-    if (data.userId === context.userId) throw new Error("لا يمكنك حذف حسابك الخاص");
+    if (data.userId === context.userId) throw new Error("You cannot delete your own account");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
@@ -177,7 +177,7 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
     await assertCan(context.supabase, context.userId, "students");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const phone = normalizePhone(data.phone);
-    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
+    if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
 
     const email = phoneToEmail(phone);
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
@@ -190,10 +190,10 @@ export const createStudentByAdmin = createServerFn({ method: "POST" })
     if (error || !user) {
       const msg = (error?.message ?? "").toLowerCase();
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
-        throw new Error("تعذر إنشاء الحساب");
+        throw new Error("Could not create the account");
       }
       user = await findAuthUserByEmail(supabaseAdmin, email);
-      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      if (!user) throw new Error("The number is already registered but we couldn't fix it automatically");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
         email_confirm: true,
@@ -335,7 +335,7 @@ export const deleteSection = createServerFn({ method: "POST" })
     await assertCan(context.supabase, context.userId, "curriculum");
 
     const { error } = await context.supabase.from("sections").delete().eq("id", data.id);
-    if (error) throw new Error("لا يمكن حذف القسم، تأكد من نقل الطلاب والوحدات أولاً");
+    if (error) throw new Error("Cannot delete the section, make sure students and units are moved out first");
     return { success: true };
   });
 
@@ -459,21 +459,21 @@ export const duplicateUnit = createServerFn({ method: "POST" })
     const supabase = context.supabase;
 
     const { data: unit } = await supabase.from("units").select("*").eq("id", data.id).maybeSingle();
-    if (!unit) throw new Error("الوحدة غير موجودة");
+    if (!unit) throw new Error("Unit not found");
 
     const { data: newUnit, error } = await supabase
       .from("units")
       .insert({
         section_id: unit.section_id,
         course_id: unit.course_id,
-        title: `${unit.title} (نسخة)`,
+        title: `${unit.title} (copy)`,
         description: unit.description,
         order_index: (unit.order_index ?? 0) + 1,
         is_active: false,
       })
       .select()
       .single();
-    if (error || !newUnit) throw new Error(error?.message ?? "تعذر النسخ");
+    if (error || !newUnit) throw new Error(error?.message ?? "Could not duplicate");
 
     const { data: contents } = await supabase.from("unit_contents").select("*").eq("unit_id", data.id);
     if (contents?.length) {
@@ -622,7 +622,7 @@ export const duplicateSection = createServerFn({ method: "POST" })
     const supabase = context.supabase;
 
     const { data: section } = await supabase.from("sections").select("*").eq("id", data.id).maybeSingle();
-    if (!section) throw new Error("المستوى غير موجود");
+    if (!section) throw new Error("Level not found");
 
     const { data: last } = await supabase
       .from("sections")
@@ -634,7 +634,7 @@ export const duplicateSection = createServerFn({ method: "POST" })
     const { data: newSection, error } = await supabase
       .from("sections")
       .insert({
-        name: data.name ?? `${section.name} (نسخة)`,
+        name: data.name ?? `${section.name} (copy)`,
         description: section.description,
         order_index: (last?.order_index ?? 0) + 1,
         is_visible: false,
@@ -642,7 +642,7 @@ export const duplicateSection = createServerFn({ method: "POST" })
       })
       .select()
       .single();
-    if (error || !newSection) throw new Error(error?.message ?? "تعذر نسخ المستوى");
+    if (error || !newSection) throw new Error(error?.message ?? "Could not duplicate the level");
 
     const { data: units } = await supabase
       .from("units")
@@ -728,7 +728,7 @@ export const createUserWithRole = createServerFn({ method: "POST" })
     await assertAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const phone = normalizePhone(data.phone);
-    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
+    if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
 
     const email = phoneToEmail(phone);
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
@@ -741,10 +741,10 @@ export const createUserWithRole = createServerFn({ method: "POST" })
     if (error || !user) {
       const msg = (error?.message ?? "").toLowerCase();
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
-        throw new Error("تعذر إنشاء الحساب");
+        throw new Error("Could not create the account");
       }
       user = await findAuthUserByEmail(supabaseAdmin, email);
-      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      if (!user) throw new Error("The number is already registered but we couldn't fix it automatically");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
         email_confirm: true,

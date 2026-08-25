@@ -84,7 +84,7 @@ function UnitContentPage() {
   const sectionId = (data?.unit as any)?.section_id as string | undefined;
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
           {sectionId ? (
@@ -238,7 +238,7 @@ function ContentDialog({
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl" className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent dir="ltr" className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-black">{content.id ? "تعديل المحتوى" : "محتوى جديد"}</DialogTitle>
         </DialogHeader>

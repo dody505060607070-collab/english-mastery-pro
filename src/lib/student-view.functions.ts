@@ -17,7 +17,7 @@ export const getStudentView = createServerFn({ method: "GET" })
 
     const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
     const isStaff = (roles ?? []).some((r) => STAFF_ROLES.includes(r.role as string));
-    if (!isStaff) throw new Error("غير مصرح");
+    if (!isStaff) throw new Error("Not authorized");
 
     const { data: sections } = await supabase
       .from("sections")

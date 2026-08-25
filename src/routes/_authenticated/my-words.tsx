@@ -10,12 +10,12 @@ import { SpeakButton } from "@/components/InteractiveText";
 export const Route = createFileRoute("/_authenticated/my-words")({
   head: () => ({
     meta: [
-      { title: "قاموسي — كلماتي المحفوظة" },
-      { name: "description", content: "راجع الكلمات الإنجليزية التي حفظتها مع الترجمة والنطق والأمثلة." },
-      { property: "og:title", content: "قاموسي — كلماتي المحفوظة" },
+      { title: "My Dictionary — Saved Words" },
+      { name: "description", content: "Review the English words you have saved with translation, pronunciation and examples." },
+      { property: "og:title", content: "My Dictionary — Saved Words" },
       {
         property: "og:description",
-        content: "راجع الكلمات الإنجليزية التي حفظتها مع الترجمة والنطق والأمثلة.",
+        content: "Review the English words you have saved with translation, pronunciation and examples.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -31,14 +31,14 @@ function MyWordsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteMyWord({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم الحذف");
+      toast.success("Deleted");
       qc.invalidateQueries({ queryKey: ["my-words"] });
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
   return (
-    <div className="min-h-screen bg-background font-['Cairo'] p-4 pb-24" dir="rtl">
+    <div className="min-h-screen bg-background font-['Outfit'] p-4 pb-24" dir="ltr">
       <div className="mx-auto max-w-2xl space-y-5">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -47,11 +47,11 @@ function MyWordsPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-2xl font-black">قاموسي</h1>
-            <p className="text-sm text-muted-foreground">{data.length} كلمة محفوظة</p>
+            <h1 className="text-2xl font-black">My Dictionary</h1>
+            <p className="text-sm text-muted-foreground">{data.length} saved words</p>
           </div>
           <Button variant="outline" size="sm" asChild className="mr-auto rounded-xl">
-            <Link to="/dictionary">القاموس</Link>
+            <Link to="/dictionary">Dictionary</Link>
           </Button>
         </div>
 
@@ -63,9 +63,9 @@ function MyWordsPage() {
           <Card>
             <CardContent className="flex flex-col items-center gap-2 py-16 text-center text-muted-foreground">
               <BookMarked className="h-10 w-10" />
-              <p>لم تحفظ أي كلمة بعد. اضغط مرتين على أي كلمة داخل الدروس، أو ابحث في القاموس لإضافتها هنا.</p>
+              <p>You haven't saved any word yet. Double-tap any word inside lessons, or search the dictionary to add it here.</p>
               <Button asChild className="mt-2 rounded-xl">
-                <Link to="/dictionary">افتح القاموس</Link>
+                <Link to="/dictionary">Open Dictionary</Link>
               </Button>
             </CardContent>
           </Card>
@@ -99,7 +99,7 @@ function MyWordsPage() {
                     )}
                     {w.example_ar && <p className="text-xs text-muted-foreground">{w.example_ar}</p>}
                     <p className="text-[11px] text-muted-foreground/70">
-                      أُضيفت {new Date(w.created_at).toLocaleDateString("ar-EG")}
+                      Added {new Date(w.created_at).toLocaleDateString("en-US")}
                     </p>
                   </div>
                   <Button
