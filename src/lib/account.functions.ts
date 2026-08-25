@@ -2,33 +2,24 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
-
-/** This phone always owns the admin panel. */
-export const ADMIN_PHONES = ["01222576172", "01203529460"];
-
-const signUpSchema = z.object({
-  fullName: z.string().trim().min(3).max(100),
-  phone: z.string().trim().min(10),
-  password: z.string().min(6).max(72),
-  sectionId: z.string().uuid().optional().nullable(),
-  grade: z.string().trim().max(60).optional().nullable(),
-  unitId: z.string().uuid().optional().nullable(),
-  // data URL of the selected photo
-  avatarBase64: z.string().max(4_000_000).optional().nullable(),
-});
-
-function decodeDataUrl(dataUrl: string) {
-  const match = /^data:(image\/[a-zA-Z+]+);base64,(.+)$/.exec(dataUrl);
-  if (!match) return null;
-  const mime = match[1]!;
-  const bytes = Uint8Array.from(atob(match[2]!), (c) => c.charCodeAt(0));
-  if (bytes.byteLength > 3_000_000) return null;
-  return { mime, bytes, ext: mime.split("/")[1]!.replace("jpeg", "jpg") };
-}
+import { ADMIN_PHONES, decodeDataUrl, readStaffAllowlist, requireAdmin, saveStaffAllowlist } from "@/lib/account.server";
+export type { StaffAllowEntry } from "@/lib/account.server";
 
 /** Public signup — always creates a STUDENT account, never an admin. */
 export const signUpStudent = createServerFn({ method: "POST" })
-  .inputValidator((data) => signUpSchema.parse(data))
+  .inputValidator((data) =>
+    z
+      .object({
+        fullName: z.string().trim().min(3).max(100),
+        phone: z.string().trim().min(10),
+        password: z.string().min(6).max(72),
+        sectionId: z.string().uuid().optional().nullable(),
+        grade: z.string().trim().max(60).optional().nullable(),
+        unitId: z.string().uuid().optional().nullable(),
+        avatarBase64: z.string().max(4_000_000).optional().nullable(),
+      })
+      .parse(data),
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const phone = normalizePhone(data.phone);
@@ -211,32 +202,6 @@ export const adminExists = createServerFn({ method: "GET" }).handler(async () =>
 
 /* -------------------------------------------------- staff signup allowlist */
 
-const STAFF_KEY = "staff.allowed_phones";
-export type StaffAllowEntry = { phone: string; role: "admin" | "teacher" };
-
-async function readStaffAllowlist() {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin
-    .from("site_content" as never)
-    .select("value")
-    .eq("key", STAFF_KEY)
-    .maybeSingle();
-  const raw = (data as { value?: unknown } | null)?.value;
-  const list = Array.isArray(raw) ? raw : [];
-  return list
-    .filter((e): e is StaffAllowEntry => !!e && typeof (e as StaffAllowEntry).phone === "string")
-    .map((e) => ({
-      phone: normalizePhone(String(e.phone)),
-      role: e.role === "admin" ? "admin" : "teacher",
-    }) as StaffAllowEntry)
-    .filter((e) => phoneRegex.test(e.phone));
-}
-
-async function requireAdmin(supabase: { rpc: Function }, userId: string) {
-  const { data } = await (supabase as any).rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (!data) throw new Error("هذا الإجراء للمدير فقط");
-}
-
 /** Admin-only: list phones allowed to self-register as admin/teacher. */
 export const listStaffPhones = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -264,15 +229,11 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await requireAdmin(context.supabase, context.userId);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const seen = new Set<string>();
     const entries = data.entries
       .map((e) => ({ ...e, phone: normalizePhone(e.phone) }))
       .filter((e) => phoneRegex.test(e.phone) && !seen.has(e.phone) && seen.add(e.phone));
-    const { error } = await supabaseAdmin
-      .from("site_content" as never)
-      .upsert({ key: STAFF_KEY, value: entries } as never);
-    if (error) throw new Error(error.message);
+    await saveStaffAllowlist(entries);
     return { success: true, entries };
   });
 
