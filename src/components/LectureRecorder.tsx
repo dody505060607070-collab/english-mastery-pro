@@ -676,7 +676,7 @@ export function LectureRecorder({
       </div>
       <div className="rounded-lg border border-primary/30 bg-primary/5 p-3 text-xs font-bold">
         <p className="flex items-center gap-1.5">
-          <MonitorUp className="h-4 w-4 text-primary" /> Recording now — every second is backed up automatically.
+          <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
           Choose "Entire screen" once and enable "Share system audio" in Chrome. Meet, YouTube, and other apps will then
