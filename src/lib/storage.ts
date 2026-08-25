@@ -24,7 +24,7 @@ async function uploadResumable(
   const { Upload } = await import("tus-js-client");
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
-  if (!token) throw new Error("انتهت الجلسة، سجّل الدخول مرة أخرى");
+  if (!token) throw new Error("Session expired, please sign in again");
 
   await new Promise<void>((resolve, reject) => {
     const upload = new Upload(file, {

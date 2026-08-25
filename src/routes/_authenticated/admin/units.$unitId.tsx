@@ -230,7 +230,7 @@ function ContentDialog({
         },
       }),
     onSuccess: () => {
-      toast.success("تم الSave");
+      toast.success("Saved");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -371,7 +371,7 @@ function ContentDialog({
                     }}
                   />
                   <FileUploadField
-                    label="صورة الWord (اختياري)"
+                    label="Word image (optional)"
                     value={w.image_url ?? ""}
                     onChange={(v) => {
                       const next = [...words];
@@ -383,7 +383,7 @@ function ContentDialog({
                     folder={`units/${unitId}/vocab`}
                   />
                   <FileUploadField
-                    label="نطق الWord (صوت اختياري)"
+                    label="Word pronunciation (optional audio)"
                     value={w.word_audio ?? ""}
                     onChange={(v) => {
                       const next = [...words];

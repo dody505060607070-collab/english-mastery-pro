@@ -41,14 +41,14 @@ interface LangContextValue {
 }
 
 const LanguageContext = createContext<LangContextValue>({
-  lang: "ar",
+  lang: "en",
   dir: "rtl",
   setLang: () => {},
   t: (k) => dict[k].ar,
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("ar");
+  const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
     try {
