@@ -35,7 +35,7 @@ function SectionUnitsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteUnit({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف الوحدة");
+      toast.success("Unit deleted");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -44,7 +44,7 @@ function SectionUnitsPage() {
   const duplicate = useMutation({
     mutationFn: (id: string) => duplicateUnit({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم نسخ الوحدة");
+      toast.success("Unit duplicated");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -57,14 +57,14 @@ function SectionUnitsPage() {
           <Button variant="ghost" size="sm" asChild>
             <Link to="/admin/sections">
               <ArrowRight className="h-4 w-4 ml-1" />
-              المراحل
+              Levels
             </Link>
           </Button>
-          <h1 className="text-xl font-black">{data?.section?.name ?? "الوحدات"}</h1>
+          <h1 className="text-xl font-black">{data?.section?.name ?? "Units"}</h1>
         </div>
         <Button onClick={() => setEditing({ title: "", description: "", is_active: true })}>
           <Plus className="h-4 w-4 ml-2" />
-          وحدة جديدة
+          New Unit
         </Button>
       </div>
 
@@ -75,7 +75,7 @@ function SectionUnitsPage() {
       ) : (data?.units.length ?? 0) === 0 ? (
         <Card>
           <CardContent className="py-14 text-center text-muted-foreground font-bold">
-            لا توجد وحدات في هذه المرحلة بعد
+            No units in this level yet
           </CardContent>
         </Card>
       ) : (
@@ -89,16 +89,16 @@ function SectionUnitsPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-black truncate">{u.title}</p>
-                    {!u.is_active && <Badge variant="outline">غير مفعّلة</Badge>}
+                    {!u.is_active && <Badge variant="outline">Inactive</Badge>}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {u.contentCount} عنصر • {u.publishedCount} منشور
+                    {u.contentCount} item • {u.publishedCount} published
                   </p>
                 </div>
                 <div className="flex gap-2 flex-wrap">
                   <Button size="sm" asChild>
                     <Link to="/admin/units/$unitId" params={{ unitId: u.id }}>
-                      المحتوى
+                      Content
                     </Link>
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => setEditing(u)}>
@@ -111,7 +111,7 @@ function SectionUnitsPage() {
                     size="sm"
                     variant="destructive"
                     onClick={() => {
-                      if (confirm(`حذف الوحدة "${u.title}"؟`)) remove.mutate(u.id);
+                      if (confirm(`Delete unit "${u.title}"?`)) remove.mutate(u.id);
                     }}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -165,7 +165,7 @@ function UnitDialog({
         },
       }),
     onSuccess: () => {
-      toast.success("تم الحفظ");
+      toast.success("Saved");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -175,29 +175,29 @@ function UnitDialog({
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent dir="ltr">
         <DialogHeader>
-          <DialogTitle className="font-black">{unit.id ? "تعديل الوحدة" : "وحدة جديدة"}</DialogTitle>
+          <DialogTitle className="font-black">{unit.id ? "Edit Unit" : "New Unit"}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">عنوان الوحدة</Label>
+            <Label className="font-bold">Unit Title</Label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Unit 1: Greetings" />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الوصف</Label>
+            <Label className="font-bold">Description</Label>
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
-            <Label className="font-bold">مفعّلة للطلاب</Label>
+            <Label className="font-bold">Active for students</Label>
             <Switch checked={active} onCheckedChange={setActive} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => save.mutate()} disabled={save.isPending || !title.trim()}>
             {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            حفظ
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>

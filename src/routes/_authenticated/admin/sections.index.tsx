@@ -244,7 +244,7 @@ function SectionDialog({ section, onClose }: { section: Partial<Section>; onClos
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
-            <Label className="font-bold">Visible للطلاب</Label>
+            <Label className="font-bold">Visible to students</Label>
             <Switch checked={visible} onCheckedChange={setVisible} />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
