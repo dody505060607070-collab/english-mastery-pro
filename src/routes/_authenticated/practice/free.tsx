@@ -253,7 +253,7 @@ function FreePractice() {
               disabled={currentIndex === 0}
             >
               <ChevronRight className="ml-2 h-6 w-6" />
-              السابق
+              Previous
             </Button>
             <Button 
               size="lg" 

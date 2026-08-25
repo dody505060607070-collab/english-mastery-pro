@@ -409,7 +409,7 @@ function ProfilePage() {
                         {/* Summary Stats Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                           {[
-                            { label: 'الدروس المكتملة', value: progressStats?.totalCompleted || 0, icon: CheckCircle, color: 'text-green-500' },
+                            { label: 'Completed Lessons', value: progressStats?.totalCompleted || 0, icon: CheckCircle, color: 'text-green-500' },
                             { label: 'متوسط الاختبارات', value: `${progressStats?.avgQuizScore || 0}%`, icon: Activity, color: 'text-blue-500' },
                             { label: 'دقة النطق', value: `${progressStats?.avgPronScore || 0}%`, icon: TrendingUp, color: 'text-purple-500' },
                             { label: 'النقاط المكتسبة', value: (progressStats?.totalCompleted || 0) * 10, icon: Star, color: 'text-yellow-500' },
@@ -482,7 +482,7 @@ function ProfilePage() {
                               <div key={e.id} className="bg-background/40 p-4 rounded-2xl border border-primary/5 space-y-3">
                                 <div className="flex justify-between font-bold text-sm">
                                   <span>{e.courses?.title}</span>
-                                  <span className="text-primary">100% مكتمل</span>
+                                  <span className="text-primary">100% Completed</span>
                                 </div>
                                 <div className="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
                                   <motion.div 
