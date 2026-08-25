@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/learn/")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Study Units | Blue Language Academy" },
+      { title: "Study Units | Blue Language" },
       { name: "description", content: "Choose any language level directly and track your eight units and progress." },
       { property: "og:title", content: "Study Units" },
       { property: "og:description", content: "Choose your level from A1.1 to C1 and enter its units directly." },

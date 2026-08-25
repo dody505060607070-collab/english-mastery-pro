@@ -29,7 +29,7 @@ export function SpeakButton({ text, className }: { text: string; className?: str
     <button
       type="button"
       onClick={() => speak(text, owner)}
-      aria-label={`نطق ${text}`}
+      aria-label={`Pronounce ${text}`}
       className={cn(
         "inline-flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition touch-manipulation",
         active && "bg-primary text-primary-foreground",
@@ -62,7 +62,7 @@ function WordChip({ word }: { word: string }) {
           ...(info?.example ? { example: info.example } : {}),
         },
       }),
-    onSuccess: () => toast.success("تمت الإضافة إلى قاموسي"),
+    onSuccess: () => toast.success("Added to my dictionary"),
     onError: (e: Error) => toast.error(e.message),
   });
 
@@ -95,7 +95,7 @@ function WordChip({ word }: { word: string }) {
         </div>
         {lookup.isPending && (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" /> جارٍ الترجمة...
+            <Loader2 className="h-4 w-4 animate-spin" /> Translating...
           </p>
         )}
         {info && (
@@ -117,7 +117,7 @@ function WordChip({ word }: { word: string }) {
               ) : (
                 <Plus className="h-4 w-4" />
               )}
-              <span className="mr-1">إضافة إلى قاموسي</span>
+              <span className="mr-1">Add to my dictionary</span>
             </Button>
           </>
         )}

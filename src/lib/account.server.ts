@@ -38,7 +38,7 @@ export async function readStaffAllowlist() {
 
 export async function requireAdmin(supabase: { rpc: Function }, userId: string) {
   const { data } = await (supabase as any).rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (!data) throw new Error("هذا الإجراء للمدير فقط");
+  if (!data) throw new Error("This action is admin only");
 }
 
 export async function saveStaffAllowlist(entries: StaffAllowEntry[]) {

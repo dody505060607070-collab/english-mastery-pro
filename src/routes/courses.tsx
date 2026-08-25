@@ -17,8 +17,8 @@ import { useSiteContent, pickText } from "@/lib/content";
 export const Route = createFileRoute("/courses")({
   head: () => ({
     meta: [
-      { title: "كافة الدورات | Blue Language Academy" },
-      { name: "description", content: "تصفح كافة دورات اللغة الإنجليزية المقدمة من Blue Language Academy" },
+      { title: "All Courses | Blue Language" },
+      { name: "description", content: "Browse all English language courses offered by Blue Language" },
     ],
   }),
   component: CoursesPage,
@@ -68,7 +68,7 @@ function CoursesPage() {
 
   const submitPayment = async () => {
     if (!senderPhone || !receiptFile) {
-      toast.error("يرجى إدخال رقم الهاتف وإرفاق صورة التحويل");
+      toast.error("Please enter your phone number and attach the transfer screenshot");
       return;
     }
 
@@ -76,7 +76,7 @@ function CoursesPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        toast.error("يرجى تسجيل الدخول أولاً");
+        toast.error("Please sign in first");
         window.location.href = '/auth';
         return;
       }
@@ -109,11 +109,11 @@ function CoursesPage() {
 
       if (requestError) throw requestError;
 
-      toast.success("تم إرسال طلب الدفع بنجاح. سيتم مراجعته خلال 24 ساعة.");
+      toast.success("Payment request sent successfully. It will be reviewed within 24 hours.");
       setShowPayment(false);
       setSelectedCourse(null);
     } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء إرسال الطلب");
+      toast.error(error.message || "An error occurred while submitting the request");
     } finally {
       setIsSubmitting(false);
     }
@@ -123,8 +123,8 @@ function CoursesPage() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background font-['Cairo']" 
-      dir="rtl"
+      className="min-h-screen bg-background font-['Outfit']" 
+      dir="ltr"
     >
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
@@ -138,11 +138,11 @@ function CoursesPage() {
              <div className="bg-primary p-1.5 rounded-lg">
                 <GraduationCap className="h-6 w-6 text-primary-foreground" />
              </div>
-             <span>Blue Language Academy</span>
+             <span>Blue Language</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link to="/auth">
-              <Button variant="ghost" className="font-bold">دخول</Button>
+              <Button variant="ghost" className="font-bold">Sign in</Button>
             </Link>
           </div>
         </div>
@@ -150,9 +150,9 @@ function CoursesPage() {
 
       <main className="container py-12 space-y-12">
         <div className="text-center space-y-4">
-          <h1 className="text-3xl md:text-5xl font-black">استكشف كافة الدورات</h1>
+          <h1 className="text-3xl md:text-5xl font-black">Explore All Courses</h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto px-4">
-            اختر دورتك التدريبية المفضلة وابدأ رحلة التميز في اللغة الإنجليزية مع أفضل المحاضرين.
+            Choose your favorite course and start your journey to excellence in English with the best instructors.
           </p>
         </div>
 
@@ -162,7 +162,7 @@ function CoursesPage() {
             <div className="sm:col-span-2 relative">
               <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input 
-                placeholder="ابحث عن كورس..." 
+                placeholder="Search for a course..." 
                 className="pr-10 h-12 font-bold"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -172,10 +172,10 @@ function CoursesPage() {
             <div className="space-y-2">
               <Select value={selectedLevel} onValueChange={setSelectedLevel}>
                 <SelectTrigger className="h-12 font-bold">
-                  <SelectValue placeholder="المستوى" />
+                  <SelectValue placeholder="Level" />
                 </SelectTrigger>
-                <SelectContent className="font-['Cairo']" dir="rtl">
-                  <SelectItem value="all">كل المستويات</SelectItem>
+                <SelectContent className="font-['Outfit']" dir="ltr">
+                  <SelectItem value="all">All Levels</SelectItem>
                   {['A1.1', 'A1.2', 'A2.1', 'A2.2', 'B1.1', 'B1.2', 'B2.1', 'B2.2', 'C1.1', 'C1.2', 'C2.1', 'C2.2'].map(lvl => (
                     <SelectItem key={lvl} value={lvl}>{lvl}</SelectItem>
                   ))}
@@ -186,10 +186,10 @@ function CoursesPage() {
             <div className="space-y-2">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="h-12 font-bold">
-                  <SelectValue placeholder="القسم" />
+                  <SelectValue placeholder="Category" />
                 </SelectTrigger>
-                <SelectContent className="font-['Cairo']" dir="rtl">
-                  <SelectItem value="all">كل الأقسام</SelectItem>
+                <SelectContent className="font-['Outfit']" dir="ltr">
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories?.map(cat => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                   ))}
@@ -262,7 +262,7 @@ function CoursesPage() {
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                          <div className="flex items-center gap-1">
                            <Users className="h-4 w-4" />
-                           1.2k طالب
+                           1.2k students
                          </div>
                          {course.duration_text && (
                            <div className="flex items-center gap-1">
@@ -274,7 +274,7 @@ function CoursesPage() {
                     </CardContent>
                     <CardFooter className="pt-0 pb-8 px-6 border-t mt-4 pt-4 flex items-center justify-between">
                       <span className="text-2xl font-black text-foreground">
-                        {course.price === 0 ? 'مجاناً' : `${course.price} ج.م`}
+                        {course.price === 0 ? 'Free' : `${course.price} EGP`}
                       </span>
                       <Button 
                         className="font-bold shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all"
@@ -284,7 +284,7 @@ function CoursesPage() {
                           setShowPayment(true);
                         }}
                       >
-                        اشترك الآن
+                        Enroll Now
                       </Button>
                     </CardFooter>
                   </Card>
@@ -294,10 +294,10 @@ function CoursesPage() {
             {filteredCourses?.length === 0 && (
               <div className="col-span-full">
                 <EmptyState 
-                  title="لا توجد دورات!"
-                  description="لم يتم العثور على أي دورات تطابق معايير البحث الحالية. حاول تغيير الفلاتر أو البحث عن شيء آخر."
+                  title="No courses found!"
+                  description="No courses matched your current search criteria. Try changing the filters or searching for something else."
                   icon="search"
-                  actionText="إعادة تعيين البحث"
+                  actionText="Reset Search"
                   onAction={() => {
                     setSearchQuery("");
                     setSelectedLevel("all");
@@ -312,7 +312,7 @@ function CoursesPage() {
 
       {/* Reused Payment Dialogs */}
       <Dialog open={!!selectedCourse && !showPayment} onOpenChange={(open) => !open && setSelectedCourse(null)}>
-        <DialogContent className="max-w-2xl font-['Cairo']" dir="rtl">
+        <DialogContent className="max-w-2xl font-['Outfit']" dir="ltr">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black">{selectedCourse?.title}</DialogTitle>
             <DialogDescription>
@@ -330,15 +330,15 @@ function CoursesPage() {
               )}
             </div>
             <div className="space-y-4">
-              <h4 className="text-lg font-bold">عن الكورس</h4>
+              <h4 className="text-lg font-bold">About the Course</h4>
               <p className="text-muted-foreground leading-relaxed">{selectedCourse?.description}</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                  <div className="text-xs text-muted-foreground mb-1">السعر</div>
-                  <div className="text-xl font-black">{selectedCourse?.price} ج.م</div>
+                  <div className="text-xs text-muted-foreground mb-1">Price</div>
+                  <div className="text-xl font-black">{selectedCourse?.price} EGP</div>
                 </div>
                 <div className="p-4 rounded-xl bg-muted/50 border border-border/40">
-                  <div className="text-xs text-muted-foreground mb-1">المستوى</div>
+                  <div className="text-xs text-muted-foreground mb-1">Level</div>
                   <div className="text-xl font-black">{selectedCourse?.level}</div>
                 </div>
               </div>
@@ -346,67 +346,67 @@ function CoursesPage() {
           </div>
           <DialogFooter>
             <Button className="w-full h-12 text-lg font-black" onClick={() => setShowPayment(true)}>
-              اشترك الآن
+              Enroll Now
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       <Dialog open={showPayment} onOpenChange={setShowPayment}>
-        <DialogContent className="max-w-md font-['Cairo']" dir="rtl">
+        <DialogContent className="max-w-md font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black">تأكيد الاشتراك</DialogTitle>
+            <DialogTitle className="text-2xl font-black">Confirm Enrollment</DialogTitle>
             <DialogDescription>
-              يرجى تحويل مبلغ {selectedCourse?.price} ج.م لإتمام التسجيل
+              Please transfer {selectedCourse?.price} EGP to complete enrollment
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-4">
               <div className="flex justify-between items-center">
-                <Label className="font-bold">طريقة الدفع</Label>
+                <Label className="font-bold">Payment Method</Label>
                 <div className="flex gap-2">
                   <Button 
                     size="sm" 
                     variant={paymentMethod === 'Vodafone Cash' ? 'default' : 'outline'}
                     onClick={() => setPaymentMethod('Vodafone Cash')}
                   >
-                    فودافون كاش
+                    Vodafone Cash
                   </Button>
                   <Button 
                     size="sm"
                     variant={paymentMethod === 'InstaPay' ? 'default' : 'outline'}
                     onClick={() => setPaymentMethod('InstaPay')}
                   >
-                    انستا باي
+                    InstaPay
                   </Button>
                 </div>
               </div>
               <div className="flex items-center justify-between p-3 bg-background rounded-lg border">
                 <div>
-                  <div className="text-[10px] text-muted-foreground uppercase">رقم المحفظة</div>
+                  <div className="text-[10px] text-muted-foreground uppercase">Wallet Number</div>
                   <div className="text-lg font-black tracking-widest">{walletNumber}</div>
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => {
                   navigator.clipboard.writeText(walletNumber);
-                  toast.success("تم نسخ الرقم");
-                }}>نسخ</Button>
+                  toast.success("Number copied");
+                }}>Copy</Button>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label className="font-bold">الرقم الذي تم التحويل منه</Label>
+                <Label className="font-bold">Number the transfer was sent from</Label>
                 <Input placeholder="010XXXXXXXX" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold">صورة التحويل (Screenshot)</Label>
+                <Label className="font-bold">Transfer Screenshot</Label>
                 <Input type="file" accept="image/*" onChange={(e) => setReceiptFile(e.target.files?.[0] || null)} />
               </div>
             </div>
           </div>
           <DialogFooter>
             <Button className="w-full h-12 text-lg font-black" disabled={isSubmitting} onClick={submitPayment}>
-              {isSubmitting ? "جاري الإرسال..." : "تأكيد وإرسال"}
+              {isSubmitting ? "Sending..." : "Confirm and Submit"}
             </Button>
           </DialogFooter>
         </DialogContent>

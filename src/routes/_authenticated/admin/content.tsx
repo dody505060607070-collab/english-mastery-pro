@@ -22,7 +22,7 @@ import {
 export const Route = createFileRoute("/_authenticated/admin/content")({
   head: () => ({
     meta: [
-      { title: "Site Content Management | Blue Language Academy" },
+      { title: "Site Content Management | Blue Language" },
       {
         name: "description",
         content: "Edit homepage text, site name, and footer in Arabic and English",
@@ -252,7 +252,7 @@ function AdminContentPage() {
                       <div className="space-y-1">
                         <Label>Arabic</Label>
                         <Textarea
-                          dir="rtl"
+                          dir="ltr"
                           rows={2}
                           value={typeof value?.ar === "string" ? value.ar : ""}
                           onChange={(e) => update(key, { ...value, ar: e.target.value })}

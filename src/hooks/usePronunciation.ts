@@ -54,7 +54,7 @@ export const usePronunciation = (targetWord: string) => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     
     if (!SpeechRecognition) {
-      toast.error("متصفحك لا يدعم خاصية التعرف على الصوت.");
+      toast.error("Your browser does not support speech recognition.");
       return;
     }
 
@@ -73,10 +73,10 @@ export const usePronunciation = (targetWord: string) => {
         const transcript = event.results[0][0].transcript;
         const score = calculateSimilarity(transcript, targetWord);
         
-        let feedback = "حاول مرة أخرى!";
-        if (score >= 90) feedback = "ممتاز! نطق صحيح تماماً";
-        else if (score >= 70) feedback = "جيد جداً، استمر في التدريب";
-        else if (score >= 40) feedback = "جيد، لكن يحتاج لبعض التحسين";
+        let feedback = "Try again!";
+        if (score >= 90) feedback = "Excellent! Perfect pronunciation";
+        else if (score >= 70) feedback = "Very good, keep practicing";
+        else if (score >= 40) feedback = "Good, but needs some improvement";
 
         setResult({ score, transcript, feedback });
       }
@@ -85,7 +85,7 @@ export const usePronunciation = (targetWord: string) => {
     recognition.onerror = (event: any) => {
       console.error('Speech recognition error', event.error);
       setIsRecording(false);
-      toast.error("حدث خطأ أثناء تسجيل الصوت.");
+      toast.error("An error occurred while recording audio.");
     };
 
     recognition.onend = () => {

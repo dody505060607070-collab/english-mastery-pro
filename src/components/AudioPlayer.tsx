@@ -160,17 +160,17 @@ export function AudioPlayer({
       {errored && (
         <div className="flex items-center justify-between gap-2 rounded-xl bg-destructive/10 px-3 py-2" dir="rtl">
           <p className="text-xs font-bold text-destructive">
-            {audio.error || "تعذر تشغيل الصوت، حاول مرة أخرى"}
+            {audio.error || "Could not play the audio, try again"}
           </p>
           <Button type="button" size="sm" variant="outline" onClick={() => void start()}>
-            إعادة المحاولة
+            Try again
           </Button>
         </div>
       )}
 
       {maxPlays ? (
         <p className="text-[11px] font-bold text-muted-foreground text-center" dir="rtl">
-          {limitReached ? "انتهى عدد مرات الاستماع المسموح بها" : `مرات الاستماع المتبقية: ${maxPlays - plays}`}
+          {limitReached ? "The allowed number of listens has ended" : `Listens remaining: ${maxPlays - plays}`}
         </p>
       ) : null}
     </div>

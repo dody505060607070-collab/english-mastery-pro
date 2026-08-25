@@ -11,7 +11,7 @@ import { detectPlatform, embedUrl, platformLabel, watchUrl } from "@/lib/stream"
 export const Route = createFileRoute("/_authenticated/live")({
   head: () => ({
     meta: [
-      { title: "Live Courses | Blue Language Academy" },
+      { title: "Live Courses | Blue Language" },
       { name: "description", content: "Watch live English classes directly within the platform via YouTube or TikTok." },
       { property: "og:title", content: "Live Sessions - Interactive Learning" },
       { property: "og:description", content: "Interactive live sessions to learn English." },

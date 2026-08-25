@@ -90,7 +90,7 @@ function AdminLogs() {
     link.href = URL.createObjectURL(blob);
     link.download = `activity_logs_${format(new Date(), "yyyyMMdd")}.csv`;
     link.click();
-    toast.success("تم تصدير ملف CSV بنجاح");
+    toast.success("CSV file exported successfully");
   };
 
   const exportToPDF = () => {
@@ -109,24 +109,24 @@ function AdminLogs() {
       styles: { font: "courier" },
     });
     doc.save(`activity_logs_${format(new Date(), "yyyyMMdd")}.pdf`);
-    toast.success("تم تصدير ملف PDF بنجاح");
+    toast.success("PDF file exported successfully");
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500 font-['Cairo']" dir="rtl">
+    <div className="space-y-6 animate-in fade-in duration-500 font-['Outfit']" dir="ltr">
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div>
-          <h1 className="text-2xl font-bold">سجل النشاطات (Activity Logs)</h1>
-          <p className="text-muted-foreground text-sm">تتبع جميع العمليات التي يقوم بها المسؤولون والمستخدمون.</p>
+          <h1 className="text-2xl font-bold">Activity Log</h1>
+          <p className="text-muted-foreground text-sm">Track all operations performed by admins and users.</p>
         </div>
         <div className="flex gap-2 w-full md:w-auto">
           <Button variant="outline" className="rounded-xl gap-2 glass border-white/20" onClick={exportToCSV}>
             <FileDown className="h-4 w-4" />
-            تصدير CSV
+            Export CSV
           </Button>
           <Button variant="outline" className="rounded-xl gap-2 glass border-white/20" onClick={exportToPDF}>
             <Download className="h-4 w-4" />
-            تصدير PDF
+            Export PDF
           </Button>
         </div>
       </div>
@@ -137,7 +137,7 @@ function AdminLogs() {
             <div className="relative col-span-1 md:col-span-2">
               <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
-                placeholder="بحث بالمستخدم أو العملية..." 
+                placeholder="Search by user or action..." 
                 className="pr-10 rounded-xl glass border-white/20"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -146,25 +146,25 @@ function AdminLogs() {
             <Select value={actionFilter} onValueChange={setActionFilter}>
               <SelectTrigger className="rounded-xl glass border-white/20">
                 <Activity className="ml-2 h-4 w-4 text-muted-foreground" />
-                <SelectValue placeholder="نوع العملية" />
+                <SelectValue placeholder="Action Type" />
               </SelectTrigger>
-              <SelectContent className="glass border-white/20 font-['Cairo']">
-                <SelectItem value="all">جميع العمليات</SelectItem>
-                <SelectItem value="CREATE_COURSE">إنشاء كورس</SelectItem>
-                <SelectItem value="UPDATE_ROLE">تعديل صلاحية</SelectItem>
-                <SelectItem value="DELETE_USER">حذف مستخدم</SelectItem>
+              <SelectContent className="glass border-white/20 font-['Outfit']">
+                <SelectItem value="all">All Actions</SelectItem>
+                <SelectItem value="CREATE_COURSE">Create Course</SelectItem>
+                <SelectItem value="UPDATE_ROLE">Update Role</SelectItem>
+                <SelectItem value="DELETE_USER">Delete User</SelectItem>
               </SelectContent>
             </Select>
             <Select value={dateRange} onValueChange={setDateRange}>
               <SelectTrigger className="rounded-xl glass border-white/20">
                 <Calendar className="ml-2 h-4 w-4 text-muted-foreground" />
-                <SelectValue placeholder="الفترة الزمنية" />
+                <SelectValue placeholder="Time Period" />
               </SelectTrigger>
-              <SelectContent className="glass border-white/20 font-['Cairo']">
-                <SelectItem value="all">كل الأوقات</SelectItem>
-                <SelectItem value="today">اليوم</SelectItem>
-                <SelectItem value="week">آخر أسبوع</SelectItem>
-                <SelectItem value="month">آخر شهر</SelectItem>
+              <SelectContent className="glass border-white/20 font-['Outfit']">
+                <SelectItem value="all">All Time</SelectItem>
+                <SelectItem value="today">Today</SelectItem>
+                <SelectItem value="week">Last Week</SelectItem>
+                <SelectItem value="month">Last Month</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -175,11 +175,11 @@ function AdminLogs() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent border-white/10">
-              <TableHead className="text-right">المستخدم</TableHead>
-              <TableHead className="text-right">العملية</TableHead>
-              <TableHead className="text-right">النوع</TableHead>
-              <TableHead className="text-right">التاريخ</TableHead>
-              <TableHead className="text-right">التفاصيل</TableHead>
+              <TableHead className="text-right">User</TableHead>
+              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="text-right">Type</TableHead>
+              <TableHead className="text-right">Date</TableHead>
+              <TableHead className="text-right">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -69,7 +69,7 @@ function ProfilePage() {
 
       // Process progress for chart
       const progressByDate = progress?.reduce((acc: any, curr) => {
-        const date = new Date(curr.last_accessed_at ?? Date.now()).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+        const date = new Date(curr.last_accessed_at ?? Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         acc[date] = (acc[date] || 0) + 1;
         return acc;
       }, {});
@@ -100,10 +100,10 @@ function ProfilePage() {
       queryClient.invalidateQueries({ queryKey: ["my-account"] });
       queryClient.invalidateQueries({ queryKey: ["admin-all-users"] });
       queryClient.invalidateQueries({ queryKey: ["admin-teacher-perms"] });
-      toast.success("تم تحديث الملف الشخصي بنجاح");
+      toast.success("Profile updated successfully");
     },
     onError: (error: any) => {
-      toast.error("حدث خطأ أثناء التحديث: " + error.message);
+      toast.error("An error occurred while updating: " + error.message);
     }
   });
 
@@ -113,17 +113,17 @@ function ProfilePage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("تم تغيير كلمة المرور بنجاح");
+      toast.success("Password changed successfully");
     },
     onError: (error: any) => {
-      toast.error("حدث خطأ: " + error.message);
+      toast.error("An error occurred: " + error.message);
     }
   });
 
   const updateGoalsMutation = useMutation({
     mutationFn: async (goals: { daily_goal_xp: number; daily_goal_lessons: number }) => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("لم يتم العثور على الجلسة");
+      if (!user) throw new Error("Session not found");
       
       const { error } = await supabase
         .from("profiles")
@@ -138,10 +138,10 @@ function ProfilePage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("تم تحديث الأهداف بنجاح");
+      toast.success("Goals updated successfully");
     },
     onError: (error: any) => {
-      toast.error("حدث خطأ أثناء تحديث الأهداف: " + error.message);
+      toast.error("An error occurred while updating goals: " + error.message);
     }
   });
 
@@ -152,7 +152,7 @@ function ProfilePage() {
 
   if (isProfileLoading || isEnrollmentsLoading) {
     return (
-      <div className="container py-24 text-center font-['Cairo']" dir="rtl">
+      <div className="container py-24 text-center font-['Outfit']" dir="ltr">
         <div className="animate-pulse space-y-8 max-w-2xl mx-auto">
           <div className="h-32 w-32 bg-primary/10 rounded-full mx-auto" />
           <div className="h-8 w-48 bg-primary/10 rounded-lg mx-auto" />
@@ -166,7 +166,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-['Cairo'] pb-24" dir="rtl">
+    <div className="min-h-screen bg-background text-foreground font-['Outfit'] pb-24" dir="ltr">
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-[10%] left-[10%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px] animate-pulse" />
@@ -177,9 +177,9 @@ function ProfilePage() {
         <div className="container flex h-16 items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => window.location.href='/dashboard'} className="gap-2 font-bold">
             <ArrowRight className="h-4 w-4" />
-            العودة للوحة التحكم
+            Back to Dashboard
           </Button>
-          <div className="font-black text-xl text-primary">إعدادات الحساب</div>
+          <div className="font-black text-xl text-primary">Account Settings</div>
         </div>
       </header>
 
@@ -188,10 +188,10 @@ function ProfilePage() {
           {/* Sidebar Nav */}
           <aside className="w-full md:w-64 space-y-2">
             {[
-              { id: 'details', label: 'البيانات الشخصية', icon: User },
-              { id: 'security', label: 'الأمان', icon: Lock },
-              { id: 'subscription', label: 'الاشتراك والتقدم', icon: CreditCard },
-              { id: 'goals', label: 'أهداف اليوم', icon: Target },
+              { id: 'details', label: 'Personal Details', icon: User },
+              { id: 'security', label: 'Security', icon: Lock },
+              { id: 'subscription', label: 'Subscription & Progress', icon: CreditCard },
+              { id: 'goals', label: "Today's Goals", icon: Target },
             ].map((item) => (
               <Button
                 key={item.id}
@@ -213,7 +213,7 @@ function ProfilePage() {
                 onClick={handleLogout}
               >
                 <LogOut className="h-5 w-5" />
-                تسجيل الخروج
+                Log Out
               </Button>
             </div>
           </aside>
@@ -239,9 +239,9 @@ function ProfilePage() {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <CardTitle className="text-2xl font-black">{profile?.full_name || "مستخدم جديد"}</CardTitle>
+                          <CardTitle className="text-2xl font-black">{profile?.full_name || "New User"}</CardTitle>
                           <CardDescription className="font-bold">
-                            {profile?.role === 'admin' ? 'مدير المنصة' : 'طالب مجتهد'}
+                            {profile?.role === 'admin' ? 'Platform Admin' : 'Diligent Student'}
                           </CardDescription>
                         </div>
                       </div>
@@ -257,17 +257,17 @@ function ProfilePage() {
                       }}>
                         <div className="space-y-4">
                           <div className="space-y-2">
-                            <Label htmlFor="full_name" className="font-bold">الاسم بالكامل</Label>
+                            <Label htmlFor="full_name" className="font-bold">Full Name</Label>
                             <Input 
                               id="full_name" 
                               name="full_name" 
                               defaultValue={profile?.full_name || ""} 
                               className="h-12 rounded-xl focus:ring-primary/20 bg-background/50"
-                              placeholder="أدخل اسمك الكامل"
+                              placeholder="Enter your full name"
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="phone" className="font-bold">رقم الهاتف</Label>
+                            <Label htmlFor="phone" className="font-bold">Phone Number</Label>
                             <div className="relative">
                               <Phone className="absolute right-3 top-4 h-4 w-4 text-muted-foreground" />
                               <Input 
@@ -284,7 +284,7 @@ function ProfilePage() {
                             className="w-full h-12 rounded-xl font-black text-lg shadow-lg shadow-primary/20 mt-4" 
                             disabled={updateProfileMutation.isPending}
                           >
-                            {updateProfileMutation.isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
+                            {updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
                           </Button>
                         </div>
                       </form>
@@ -300,8 +300,8 @@ function ProfilePage() {
                           <KeyRound className="h-6 w-6 text-primary" />
                         </div>
                         <div>
-                          <CardTitle className="text-2xl font-black">تغيير كلمة المرور</CardTitle>
-                          <CardDescription className="font-bold">حافظ على أمان حسابك بكلمة مرور قوية</CardDescription>
+                          <CardTitle className="text-2xl font-black">Change Password</CardTitle>
+                          <CardDescription className="font-bold">Keep your account secure with a strong password</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
@@ -313,18 +313,18 @@ function ProfilePage() {
                         const confirmPass = formData.get("confirm_password") as string;
                         
                         if (newPass !== confirmPass) {
-                          toast.error("كلمات المرور غير متطابقة");
+                          toast.error("Passwords do not match");
                           return;
                         }
                         if (newPass.length < 6) {
-                          toast.error("كلمة المرور يجب أن لا تقل عن 6 أحرف");
+                          toast.error("Password must be at least 6 characters");
                           return;
                         }
                         updatePasswordMutation.mutate(newPass);
                       }}>
                         <div className="space-y-4">
                           <div className="space-y-2">
-                            <Label className="font-bold">كلمة المرور الجديدة</Label>
+                            <Label className="font-bold">New Password</Label>
                             <Input 
                               type="password" 
                               name="new_password"
@@ -333,7 +333,7 @@ function ProfilePage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="font-bold">تأكيد كلمة المرور</Label>
+                            <Label className="font-bold">Confirm Password</Label>
                             <Input 
                               type="password" 
                               name="confirm_password"
@@ -346,7 +346,7 @@ function ProfilePage() {
                             className="w-full h-12 rounded-xl font-black text-lg shadow-lg shadow-primary/20 mt-4"
                             disabled={updatePasswordMutation.isPending}
                           >
-                            {updatePasswordMutation.isPending ? "جاري التحديث..." : "تحديث كلمة المرور"}
+                            {updatePasswordMutation.isPending ? "Updating..." : "Update Password"}
                           </Button>
                         </div>
                       </form>
@@ -363,21 +363,21 @@ function ProfilePage() {
                             <CreditCard className="h-6 w-6 text-primary" />
                           </div>
                           <div>
-                            <CardTitle className="text-2xl font-black">حالة الاشتراك</CardTitle>
-                            <CardDescription className="font-bold">تفاصيل عضويتك الحالية</CardDescription>
+                            <CardTitle className="text-2xl font-black">Subscription Status</CardTitle>
+                            <CardDescription className="font-bold">Details of your current membership</CardDescription>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent className="pt-8">
                         <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6">
                           <div className="text-center md:text-right">
-                            <div className="text-sm font-bold text-muted-foreground mb-1">الخطة الحالية</div>
-                            <div className="text-2xl font-black text-primary">{(profile as any)?.subscription?.plan_name || 'العضوية المجانية'}</div>
+                            <div className="text-sm font-bold text-muted-foreground mb-1">Current Plan</div>
+                            <div className="text-2xl font-black text-primary">{(profile as any)?.subscription?.plan_name || 'Free Membership'}</div>
                           </div>
                           <div className="flex flex-col md:flex-row items-center gap-4">
                             <div className="bg-green-500/10 text-green-600 px-4 py-2 rounded-full font-black flex items-center gap-2">
                               <ShieldCheck className="h-5 w-5" />
-                              نشط
+                              Active
                             </div>
                             <Button 
                               variant="outline" 
@@ -385,7 +385,7 @@ function ProfilePage() {
                               onClick={() => window.location.href = '/subscription'}
                             >
                               <Settings className="h-4 w-4" />
-                              إدارة الاشتراك
+                              Manage Subscription
                             </Button>
                           </div>
                         </div>
@@ -400,8 +400,8 @@ function ProfilePage() {
                             <GraduationCap className="h-6 w-6 text-primary" />
                           </div>
                           <div>
-                            <CardTitle className="text-2xl font-black">التقدم في الكورسات</CardTitle>
-                            <CardDescription className="font-bold">نظرة عامة على رحلتك التعليمية</CardDescription>
+                            <CardTitle className="text-2xl font-black">Course Progress</CardTitle>
+                            <CardDescription className="font-bold">An overview of your learning journey</CardDescription>
                           </div>
                         </div>
                       </CardHeader>
@@ -410,9 +410,9 @@ function ProfilePage() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                           {[
                             { label: 'Completed Lessons', value: progressStats?.totalCompleted || 0, icon: CheckCircle, color: 'text-green-500' },
-                            { label: 'متوسط الاختبارات', value: `${progressStats?.avgQuizScore || 0}%`, icon: Activity, color: 'text-blue-500' },
-                            { label: 'دقة النطق', value: `${progressStats?.avgPronScore || 0}%`, icon: TrendingUp, color: 'text-purple-500' },
-                            { label: 'النقاط المكتسبة', value: (progressStats?.totalCompleted || 0) * 10, icon: Star, color: 'text-yellow-500' },
+                            { label: 'Average Quiz Score', value: `${progressStats?.avgQuizScore || 0}%`, icon: Activity, color: 'text-blue-500' },
+                            { label: 'Pronunciation Accuracy', value: `${progressStats?.avgPronScore || 0}%`, icon: TrendingUp, color: 'text-purple-500' },
+                            { label: 'Points Earned', value: (progressStats?.totalCompleted || 0) * 10, icon: Star, color: 'text-yellow-500' },
                           ].map((stat, i) => (
                             <div key={i} className="bg-background/50 p-4 rounded-2xl border border-primary/5 text-center space-y-1">
                               <stat.icon className={cn("h-5 w-5 mx-auto mb-1", stat.color)} />
@@ -426,7 +426,7 @@ function ProfilePage() {
                         <div className="space-y-4">
                           <h3 className="font-black text-lg flex items-center gap-2">
                             <Activity className="h-5 w-5 text-primary" />
-                            نشاط التعلم (آخر 7 أيام)
+                            Learning Activity (Last 7 Days)
                           </h3>
                           <div className="h-[250px] w-full bg-background/30 rounded-2xl p-4 border border-primary/5">
                             <ResponsiveContainer width="100%" height="100%">
@@ -475,7 +475,7 @@ function ProfilePage() {
                         <div className="space-y-4">
                           <h3 className="font-black text-lg flex items-center gap-2">
                             <GraduationCap className="h-5 w-5 text-primary" />
-                            تفاصيل الكورسات
+                            Course Details
                           </h3>
                           {enrollments && enrollments.length > 0 ? (
                             enrollments.map((e: any) => (
@@ -495,7 +495,7 @@ function ProfilePage() {
                             ))
                           ) : (
                             <div className="text-center py-8 text-muted-foreground font-bold">
-                              لم تبدأ أي كورس بعد
+                              You haven't started any course yet
                             </div>
                           )}
                         </div>
@@ -512,8 +512,8 @@ function ProfilePage() {
                           <Target className="h-6 w-6 text-primary" />
                         </div>
                         <div>
-                          <CardTitle className="text-2xl font-black">أهدافك اليومية</CardTitle>
-                          <CardDescription className="font-bold">حدد أهدافك لتتبع تقدمك بفعالية</CardDescription>
+                          <CardTitle className="text-2xl font-black">Your Daily Goals</CardTitle>
+                          <CardDescription className="font-bold">Set your goals to track your progress effectively</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
@@ -528,7 +528,7 @@ function ProfilePage() {
                       }}>
                         <div className="space-y-6">
                           <div className="space-y-3">
-                            <Label className="font-bold text-lg">هدف النقاط (XP) يومياً</Label>
+                            <Label className="font-bold text-lg">Daily XP Goal</Label>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                               {[50, 100, 200, 500].map((val) => (
                                 <Button
@@ -552,7 +552,7 @@ function ProfilePage() {
                               ))}
                             </div>
                             <div className="pt-2">
-                              <Label htmlFor="daily_goal_xp" className="text-sm font-bold text-muted-foreground">أو أدخل رقماً مخصصاً</Label>
+                              <Label htmlFor="daily_goal_xp" className="text-sm font-bold text-muted-foreground">Or enter a custom number</Label>
                               <Input 
                                 id="daily_goal_xp"
                                 name="daily_goal_xp"
@@ -564,7 +564,7 @@ function ProfilePage() {
                           </div>
 
                           <div className="space-y-3">
-                            <Label className="font-bold text-lg">هدف الدروس يومياً</Label>
+                            <Label className="font-bold text-lg">Daily Lessons Goal</Label>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                               {[1, 2, 3, 5].map((val) => (
                                 <Button
@@ -579,12 +579,12 @@ function ProfilePage() {
                                     });
                                   }}
                                 >
-                                  {val} {val === 1 ? 'درس' : 'دروس'}
+                                  {val} {val === 1 ? 'lesson' : 'lessons'}
                                 </Button>
                               ))}
                             </div>
                             <div className="pt-2">
-                              <Label htmlFor="daily_goal_lessons" className="text-sm font-bold text-muted-foreground">أو أدخل عدداً مخصصاً</Label>
+                              <Label htmlFor="daily_goal_lessons" className="text-sm font-bold text-muted-foreground">Or enter a custom number</Label>
                               <Input 
                                 id="daily_goal_lessons"
                                 name="daily_goal_lessons"
@@ -600,7 +600,7 @@ function ProfilePage() {
                             className="w-full h-14 rounded-xl font-black text-xl shadow-lg shadow-primary/20 mt-4"
                             disabled={updateGoalsMutation.isPending}
                           >
-                            {updateGoalsMutation.isPending ? "جاري الحفظ..." : "حفظ الأهداف اليومية"}
+                            {updateGoalsMutation.isPending ? "Saving..." : "Save Daily Goals"}
                           </Button>
                         </div>
                       </form>

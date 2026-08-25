@@ -46,13 +46,13 @@ export const Route = createFileRoute("/_authenticated/admin/courses/$courseId/co
 });
 
 const LESSON_TYPES = [
-  { value: 'Grammar', label: 'قواعد', icon: BookOpen },
-  { value: 'Listening', label: 'استماع', icon: Headphones },
-  { value: 'Reading', label: 'قراءة', icon: Eye },
-  { value: 'Vocabulary', label: 'كلمات', icon: Type },
-  { value: 'Practice', label: 'تدريب', icon: Activity },
-  { value: 'Tasks', label: 'مهام', icon: ClipboardCheck },
-  { value: 'Test', label: 'اختبار', icon: FileText },
+  { value: 'Grammar', label: 'Grammar', icon: BookOpen },
+  { value: 'Listening', label: 'Listening', icon: Headphones },
+  { value: 'Reading', label: 'Reading', icon: Eye },
+  { value: 'Vocabulary', label: 'Words', icon: Type },
+  { value: 'Practice', label: 'Practice', icon: Activity },
+  { value: 'Tasks', label: 'Tasks', icon: ClipboardCheck },
+  { value: 'Test', label: 'Test', icon: FileText },
 ];
 
 function SortableLesson({ id, title, type, onDelete, onEdit, onTypeChange }: any) {
@@ -77,7 +77,7 @@ function SortableLesson({ id, title, type, onDelete, onEdit, onTypeChange }: any
           <SelectTrigger className="w-[110px] h-8 text-xs glass border-white/10">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="glass font-['Cairo']">
+          <SelectContent className="glass font-['Outfit']">
             {LESSON_TYPES.map(t => (
               <SelectItem key={t.value} value={t.value} className="text-xs">{t.label}</SelectItem>
             ))}
@@ -108,7 +108,7 @@ function SortableUnit({ id, title, children, onDelete, onEdit, onAddLesson }: an
           className="bg-transparent border-none focus-visible:ring-0 font-bold p-0 h-auto text-lg flex-1"
         />
         <Button variant="outline" size="sm" onClick={onAddLesson} className="h-8 rounded-lg gap-1 text-xs border-primary/20 hover:bg-primary/10">
-          <Plus size={14} /> درس
+          <Plus size={14} /> Lesson
         </Button>
         <Button variant="ghost" size="icon" onClick={onDelete} className="text-muted-foreground hover:text-destructive">
           <Trash2 size={18} />
@@ -173,17 +173,17 @@ function CourseContentManager() {
         }))
       };
       await updateStructureFn({ data: payload });
-      toast.success("تم حفظ التغييرات بنجاح");
+      toast.success("Changes saved successfully");
       queryClient.invalidateQueries({ queryKey: ['admin-course-content'] });
     } catch (error: any) {
-      toast.error("فشل الحفظ: " + error.message);
+      toast.error("Save failed: " + error.message);
     }
   };
 
   const addUnit = () => {
     const newUnit = {
       id: `new-unit-${Date.now()}`,
-      title: 'وحدة جديدة',
+      title: 'New Unit',
       order_index: localUnits.length,
       lessons: []
     };
@@ -197,7 +197,7 @@ function CourseContentManager() {
           ...u,
           lessons: [...u.lessons, {
             id: `new-lesson-${Date.now()}`,
-            title: 'درس جديد',
+            title: 'New Lesson',
             order_index: u.lessons.length,
             lesson_type: 'Vocabulary'
           }]
@@ -236,23 +236,23 @@ function CourseContentManager() {
     }
   };
 
-  if (isLoading) return <div className="p-8 text-center animate-pulse font-['Cairo']">جاري تحميل محتوى الكورس...</div>;
+  if (isLoading) return <div className="p-8 text-center animate-pulse font-['Outfit']">Loading course content...</div>;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 font-['Cairo']" dir="rtl">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']" dir="ltr">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">محتوى الكورس: {course?.title}</h1>
-          <p className="text-muted-foreground text-sm">قم بتنظيم الوحدات والدروس وترتيبها بشكل احترافي.</p>
+          <h1 className="text-2xl font-bold">Course Content: {course?.title}</h1>
+          <p className="text-muted-foreground text-sm">Organize and arrange units and lessons professionally.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={addUnit} className="rounded-xl gap-2 border-primary/20">
             <Plus size={18} />
-            إضافة وحدة
+            Add Unit
           </Button>
           <Button onClick={handleSave} className="rounded-xl gap-2 shadow-lg shadow-primary/20">
             <Save size={18} />
-            حفظ التغييرات
+            Save Changes
           </Button>
         </div>
       </div>
@@ -303,11 +303,11 @@ function CourseContentManager() {
             <div className="bg-primary/10 p-4 rounded-full mb-4">
               <FileText size={32} className="text-primary" />
             </div>
-            <h3 className="text-lg font-bold">لا توجد وحدات حالياً</h3>
-            <p className="text-muted-foreground mb-6">ابدأ بإضافة أول وحدة لتنظيم دروسك.</p>
+            <h3 className="text-lg font-bold">No units yet</h3>
+            <p className="text-muted-foreground mb-6">Start by adding your first unit to organize your lessons.</p>
             <Button onClick={addUnit} className="rounded-xl gap-2">
               <Plus size={18} />
-              إضافة وحدة
+              Add Unit
             </Button>
           </CardContent>
         </Card>

@@ -118,7 +118,7 @@ export const duplicateCourse = createServerFn({ method: "POST" })
     const { id: _id, created_at: _c, updated_at: _u, ...rest } = src as Record<string, unknown> as any;
     const { data: copy, error: cErr } = await sb
       .from("courses")
-      .insert({ ...rest, title: `${src.title} (نسخة)`, is_published: false })
+      .insert({ ...rest, title: `${src.title} (Copy)`, is_published: false })
       .select()
       .single();
     if (cErr) throw new Error(cErr.message);

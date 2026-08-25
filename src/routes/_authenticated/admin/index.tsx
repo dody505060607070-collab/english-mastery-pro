@@ -26,16 +26,16 @@ function AdminHome() {
   }
 
   const cards = [
-    { title: "إجمالي الطلاب", value: data.totalStudents, icon: Users, tone: "text-primary" },
-    { title: "طلاب نشطون", value: data.activeStudents, icon: GraduationCap, tone: "text-emerald-600" },
-    { title: "طلاب محظورون", value: data.blockedStudents, icon: UserX, tone: "text-destructive" },
-    { title: "المراحل", value: data.sections, icon: Layers, tone: "text-primary" },
-    { title: "الوحدات", value: data.units, icon: BookOpen, tone: "text-primary" },
-    { title: "عناصر المحتوى", value: data.contents, icon: FileText, tone: "text-primary" },
+    { title: "Total Students", value: data.totalStudents, icon: Users, tone: "text-primary" },
+    { title: "Active Students", value: data.activeStudents, icon: GraduationCap, tone: "text-emerald-600" },
+    { title: "Blocked Students", value: data.blockedStudents, icon: UserX, tone: "text-destructive" },
+    { title: "Sections", value: data.sections, icon: Layers, tone: "text-primary" },
+    { title: "Units", value: data.units, icon: BookOpen, tone: "text-primary" },
+    { title: "Content Items", value: data.contents, icon: FileText, tone: "text-primary" },
   ];
 
   return (
-    <div className="space-y-8" dir="rtl">
+    <div className="space-y-8" dir="ltr">
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((c) => (
           <Card key={c.title} className="border-border/60">
@@ -52,34 +52,34 @@ function AdminHome() {
 
       <div className="flex flex-wrap gap-3">
         <Button asChild>
-          <Link to="/admin/students">إدارة الطلاب</Link>
+          <Link to="/admin/students">Manage Students</Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link to="/admin/sections">إدارة المراحل والوحدات</Link>
+          <Link to="/admin/sections">Manage Sections & Units</Link>
         </Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-black">أحدث الطلاب</CardTitle>
+          <CardTitle className="text-lg font-black">Recent Students</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {data.recentStudents.length === 0 && (
-            <p className="text-sm text-muted-foreground">لا يوجد طلاب مسجلون بعد.</p>
+            <p className="text-sm text-muted-foreground">No students registered yet.</p>
           )}
           {data.recentStudents.map((s: any) => (
             <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-muted/40">
               <StorageAvatar path={s.avatar_url} name={s.full_name} className="h-11 w-11" />
               <div className="flex-1 min-w-0">
-                <p className="font-bold truncate">{s.full_name || "بدون اسم"}</p>
+                <p className="font-bold truncate">{s.full_name || "No name"}</p>
                 <p className="text-xs text-muted-foreground">
-                  {s.phone} • {s.sections?.name ?? "بدون مرحلة"}
+                  {s.phone} • {s.sections?.name ?? "No section"}
                 </p>
               </div>
               {s.is_blocked ? (
-                <Badge variant="destructive">محظور</Badge>
+                <Badge variant="destructive">Blocked</Badge>
               ) : (
-                <Badge variant="secondary">نشط</Badge>
+                <Badge variant="secondary">Active</Badge>
               )}
             </div>
           ))}

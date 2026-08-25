@@ -67,7 +67,7 @@ function StudentsPage() {
   const blockMutation = useMutation({
     mutationFn: (v: { userId: string; blocked: boolean }) => setStudentBlocked({ data: v }),
     onSuccess: (_d, v) => {
-      toast.success(v.blocked ? "تم حظر الطالب" : "تم إلغاء الحظر");
+      toast.success(v.blocked ? "Student blocked" : "Block removed");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -76,7 +76,7 @@ function StudentsPage() {
   const deleteMutation = useMutation({
     mutationFn: (userId: string) => deleteStudent({ data: { userId } }),
     onSuccess: () => {
-      toast.success("تم حذف الطالب");
+      toast.success("Student deleted");
       setDeleting(null);
       invalidate();
     },
@@ -87,23 +87,23 @@ function StudentsPage() {
   const sections = sectionsQuery.data ?? [];
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex flex-col lg:flex-row gap-3 lg:items-center">
         <div className="relative flex-1">
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="ابحث بالاسم أو رقم الهاتف"
+            placeholder="Search by name or phone number"
             className="pr-10 h-11"
           />
         </div>
         <Select value={sectionId} onValueChange={setSectionId}>
           <SelectTrigger className="h-11 lg:w-56">
-            <SelectValue placeholder="كل المراحل" />
+            <SelectValue placeholder="All sections" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">كل المراحل</SelectItem>
+            <SelectItem value="all">All sections</SelectItem>
             {sections.map((s) => (
               <SelectItem key={s.id} value={s.id}>
                 {s.name}
@@ -116,14 +116,14 @@ function StudentsPage() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">الكل</SelectItem>
-            <SelectItem value="active">نشط</SelectItem>
-            <SelectItem value="blocked">محظور</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="blocked">Blocked</SelectItem>
           </SelectContent>
         </Select>
         <Button className="h-11" onClick={() => setCreating(true)}>
           <UserPlus className="h-4 w-4 ml-2" />
-          طالب جديد
+          New Student
         </Button>
       </div>
 
@@ -134,7 +134,7 @@ function StudentsPage() {
       ) : students.length === 0 ? (
         <Card>
           <CardContent className="py-14 text-center text-muted-foreground font-bold">
-            لا يوجد طلاب مطابقون للبحث
+            No students match the search
           </CardContent>
         </Card>
       ) : (
@@ -145,8 +145,8 @@ function StudentsPage() {
                 <StorageAvatar path={s.avatar_url} name={s.full_name} className="h-14 w-14" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-black truncate">{s.full_name || "بدون اسم"}</p>
-                    {s.is_blocked ? <Badge variant="destructive">محظور</Badge> : null}
+                    <p className="font-black truncate">{s.full_name || "No name"}</p>
+                    {s.is_blocked ? <Badge variant="destructive">Blocked</Badge> : null}
                     {s.roles
                       .filter((r) => r !== "student")
                       .map((r) => (
@@ -156,7 +156,7 @@ function StudentsPage() {
                       ))}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {s.phone || "—"} • {(s as any).sections?.name ?? "بدون مرحلة"}
+                    {s.phone || "—"} • {(s as any).sections?.name ?? "No section"}
                     {s.grade ? ` • ${s.grade}` : ""}
                     {(s as any).units?.title ? ` • ${(s as any).units.title}` : ""}
                   </p>
@@ -164,7 +164,7 @@ function StudentsPage() {
                 <div className="flex gap-2 flex-wrap">
                   <Button size="sm" variant="outline" onClick={() => setEditing(s)}>
                     <Pencil className="h-4 w-4 ml-1" />
-                    تعديل
+                    Edit
                   </Button>
                   <Button
                     size="sm"
@@ -176,7 +176,7 @@ function StudentsPage() {
                     ) : (
                       <Ban className="h-4 w-4 ml-1" />
                     )}
-                    {s.is_blocked ? "إلغاء الحظر" : "حظر"}
+                    {s.is_blocked ? "Unblock" : "Block"}
                   </Button>
                   <Button size="sm" variant="destructive" onClick={() => setDeleting(s)}>
                     <Trash2 className="h-4 w-4" />
@@ -212,17 +212,17 @@ function StudentsPage() {
       )}
 
       <AlertDialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
-        <AlertDialogContent dir="rtl">
+        <AlertDialogContent dir="ltr">
           <AlertDialogHeader>
-            <AlertDialogTitle>حذف الطالب نهائياً؟</AlertDialogTitle>
+            <AlertDialogTitle>Permanently delete student?</AlertDialogTitle>
             <AlertDialogDescription>
-              سيتم حذف حساب {deleting?.full_name} وكل بياناته ولا يمكن التراجع.
+              The account of {deleting?.full_name} and all their data will be deleted and cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={() => deleting && deleteMutation.mutate(deleting.id)}>
-              حذف
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -262,7 +262,7 @@ function EditStudentDialog({
       }
     },
     onSuccess: () => {
-      toast.success("تم حفظ بيانات الطالب");
+      toast.success("Student data saved");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -270,20 +270,20 @@ function EditStudentDialog({
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl">
+      <DialogContent dir="ltr">
         <DialogHeader>
-          <DialogTitle className="font-black">تعديل بيانات الطالب</DialogTitle>
+          <DialogTitle className="font-black">Edit Student Data</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">الاسم</Label>
+            <Label className="font-bold">Name</Label>
             <Input value={fullName} onChange={(e) => setFullName(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">المرحلة</Label>
+            <Label className="font-bold">Section</Label>
             <Select value={sectionId} onValueChange={setSectionId}>
               <SelectTrigger>
-                <SelectValue placeholder="اختر المرحلة" />
+                <SelectValue placeholder="Choose Section" />
               </SelectTrigger>
               <SelectContent>
                 {sections.map((s) => (
@@ -295,12 +295,12 @@ function EditStudentDialog({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الصف / الفصل</Label>
+            <Label className="font-bold">Grade / Class</Label>
             <Input value={grade} onChange={(e) => setGrade(e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label className="font-bold flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" /> الصلاحية
+              <Shield className="h-4 w-4 text-primary" /> Role
             </Label>
             <Select value={role} onValueChange={setRole}>
               <SelectTrigger>
@@ -318,11 +318,11 @@ function EditStudentDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => save.mutate()} disabled={save.isPending}>
             {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            حفظ
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -353,7 +353,7 @@ function CreateStudentDialog({
         },
       }),
     onSuccess: () => {
-      toast.success("تم إنشاء حساب الطالب");
+      toast.success("Student account created");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -361,17 +361,17 @@ function CreateStudentDialog({
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl">
+      <DialogContent dir="ltr">
         <DialogHeader>
-          <DialogTitle className="font-black">إضافة طالب جديد</DialogTitle>
+          <DialogTitle className="font-black">Add New Student</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">الاسم الكامل</Label>
+            <Label className="font-bold">Full Name</Label>
             <Input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">رقم الهاتف</Label>
+            <Label className="font-bold">Phone Number</Label>
             <Input
               inputMode="numeric"
               value={form.phone}
@@ -379,7 +379,7 @@ function CreateStudentDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">كلمة المرور</Label>
+            <Label className="font-bold">Password</Label>
             <Input
               type="password"
               value={form.password}
@@ -387,10 +387,10 @@ function CreateStudentDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">المرحلة</Label>
+            <Label className="font-bold">Section</Label>
             <Select value={form.sectionId} onValueChange={(v) => setForm({ ...form, sectionId: v })}>
               <SelectTrigger>
-                <SelectValue placeholder="اختر المرحلة" />
+                <SelectValue placeholder="Choose Section" />
               </SelectTrigger>
               <SelectContent>
                 {sections.map((s) => (
@@ -402,17 +402,17 @@ function CreateStudentDialog({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الصف / الفصل (اختياري)</Label>
+            <Label className="font-bold">Grade / Class (optional)</Label>
             <Input value={form.grade} onChange={(e) => setForm({ ...form, grade: e.target.value })} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => create.mutate()} disabled={create.isPending}>
             {create.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            إنشاء
+            Create
           </Button>
         </DialogFooter>
       </DialogContent>

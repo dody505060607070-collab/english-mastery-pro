@@ -111,7 +111,7 @@ function UnitPage() {
         },
       }),
     onSuccess: () => {
-      toast.success("تم تسجيل نتيجتك");
+      toast.success("Your result has been recorded");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -138,8 +138,8 @@ function UnitPage() {
 
   if (error || !data) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center p-6" dir="rtl">
-        <h1 className="text-xl font-black">تعذر فتح هذه الوحدة</h1>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center p-6" dir="ltr">
+        <h1 className="text-xl font-black">Could not open this unit</h1>
         <p className="text-muted-foreground">{(error as Error)?.message}</p>
         <Button asChild>
           <Link to="/learn">My Units</Link>
@@ -159,7 +159,7 @@ function UnitPage() {
   }[];
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-5 font-['Cairo']" dir="rtl">
+    <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-5 font-['Outfit']" dir="ltr">
       <Button variant="ghost" size="sm" asChild className="font-bold">
         <Link to="/learn">
           <ArrowRight className="h-4 w-4 ml-1" />
@@ -180,7 +180,7 @@ function UnitPage() {
       {contents.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center font-bold text-muted-foreground">
-            لا يوجد محتوى منشور في هذه الوحدة بعد
+            No content has been published in this unit yet
           </CardContent>
         </Card>
       ) : !active ? (
@@ -342,7 +342,7 @@ function ContentPanel({
               <div className="space-y-2">
                 <Button variant="outline" size="sm" className="font-bold" onClick={() => setShowTranscript((v) => !v)}>
                   {showTranscript ? <EyeOff className="h-4 w-4 ml-1" /> : <Eye className="h-4 w-4 ml-1" />}
-                  {showTranscript ? "إخفاء النص" : "إظهار النص (Transcript)"}
+                  {showTranscript ? "Hide Text" : "Show Text (Transcript)"}
                 </Button>
                 {showTranscript && (
                   <div className="rounded-2xl bg-muted/40 p-3">
@@ -363,7 +363,7 @@ function ContentPanel({
                 <div className="rounded-2xl bg-muted/40 p-3">
                   <InteractiveText text={content.body} className="text-sm text-foreground/90 leading-8" />
                   <p className="mt-2 text-[11px] text-muted-foreground">
-                    اضغط على أي كلمة إنجليزية لسماع نطقها، أو اضغط مرتين لمعرفة معناها وإضافتها لقاموسك.
+                    Tap any English word to hear its pronunciation, or double-tap to see its meaning and add it to your dictionary.
                   </p>
                 </div>
               </div>

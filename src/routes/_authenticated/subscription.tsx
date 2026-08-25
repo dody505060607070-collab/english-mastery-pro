@@ -25,25 +25,25 @@ export const Route = createFileRoute("/_authenticated/subscription")({
 
 const PLANS = [
   {
-    name: "خطة أساسية",
+    name: "Basic Plan",
     price: 99,
-    duration: "شهر",
-    features: ["الوصول لجميع الدروس", "ملفات PDF", "اختبارات دورية"],
+    duration: "month",
+    features: ["Access to all lessons", "PDF files", "Periodic quizzes"],
     color: "from-blue-500/20 to-blue-600/20"
   },
   {
-    name: "خطة ذهبية",
+    name: "Gold Plan",
     price: 249,
-    duration: "3 أشهر",
-    features: ["كل مميزات الخطة الأساسية", "شهادة معتمدة", "دعم فني خاص"],
+    duration: "3 months",
+    features: ["All Basic Plan features", "Certified certificate", "Dedicated support"],
     color: "from-amber-500/20 to-amber-600/20",
     popular: true
   },
   {
-    name: "خطة ماسية",
+    name: "Diamond Plan",
     price: 799,
-    duration: "سنة",
-    features: ["كل مميزات الخطة الذهبية", "حصص مباشرة", "محتوى حصري"],
+    duration: "year",
+    features: ["All Gold Plan features", "Live sessions", "Exclusive content"],
     color: "from-purple-500/20 to-purple-600/20"
   }
 ];
@@ -93,7 +93,7 @@ function SubscriptionPage() {
 
   const submitPayment = async () => {
     if (!senderPhone || !receiptFile) {
-      toast.error("يرجى إدخال رقم الهاتف وإرفاق صورة التحويل");
+      toast.error("Please enter the phone number and attach the transfer receipt");
       return;
     }
 
@@ -101,7 +101,7 @@ function SubscriptionPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        toast.error("يرجى تسجيل الدخول أولاً");
+        toast.error("Please sign in first");
         window.location.href = '/auth';
         return;
       }
@@ -123,11 +123,11 @@ function SubscriptionPage() {
 
       if (requestError) throw requestError;
 
-      toast.success("تم إرسال طلب الترقية بنجاح. سيتم مراجعته خلال 24 ساعة.");
+      toast.success("Upgrade request sent successfully. It will be reviewed within 24 hours.");
       setShowPayment(false);
       setSelectedPlan(null);
     } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء إرسال الطلب");
+      toast.error(error.message || "An error occurred while sending the request");
     } finally {
       setIsSubmitting(false);
     }
@@ -144,21 +144,21 @@ function SubscriptionPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["current-subscription"] });
-      toast.success("تم طلب إلغاء الاشتراك بنجاح");
+      toast.success("Subscription cancellation requested successfully");
     }
   });
 
   if (subLoading) return (
-    <div className="min-h-screen bg-background flex items-center justify-center font-['Cairo']" dir="rtl">
+    <div className="min-h-screen bg-background flex items-center justify-center font-['Outfit']" dir="ltr">
       <div className="flex flex-col items-center gap-4">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="font-bold text-muted-foreground">جاري تحميل بيانات الاشتراك...</p>
+        <p className="font-bold text-muted-foreground">Loading subscription data...</p>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-['Cairo'] pb-24" dir="rtl">
+    <div className="min-h-screen bg-background text-foreground font-['Outfit'] pb-24" dir="ltr">
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-[10%] left-[10%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px] animate-pulse" />
@@ -169,16 +169,16 @@ function SubscriptionPage() {
         <div className="container flex h-16 items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => window.location.href='/profile'} className="gap-2 font-bold">
             <ArrowRight className="h-4 w-4" />
-            العودة للملف الشخصي
+            Back to Profile
           </Button>
-          <div className="font-black text-xl text-primary">إدارة الاشتراك</div>
+          <div className="font-black text-xl text-primary">Manage Subscription</div>
         </div>
       </header>
 
       <main className="container pt-12 max-w-5xl space-y-12">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black">اشتراكك الحالي</h1>
-          <p className="text-muted-foreground font-bold">تحكم في خطتك وعرض تفاصيل الفوترة الخاصة بك</p>
+          <h1 className="text-4xl font-black">Your Current Subscription</h1>
+          <p className="text-muted-foreground font-bold">Control your plan and view your billing details</p>
         </div>
 
         {/* Current Plan Overview */}
@@ -194,15 +194,15 @@ function SubscriptionPage() {
                     <CreditCard className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl font-black">{subscription?.plan_name || "لا يوجد اشتراك نشط"}</CardTitle>
+                    <CardTitle className="text-2xl font-black">{subscription?.plan_name || "No active subscription"}</CardTitle>
                     <CardDescription className="font-bold">
-                      {subscription?.status === 'active' ? 'حسابك مفعل الآن' : 'قم بالترقية للحصول على كافة المميزات'}
+                      {subscription?.status === 'active' ? 'Your account is now active' : 'Upgrade to get all features'}
                     </CardDescription>
                   </div>
                 </div>
                 {subscription?.status === 'active' && (
                   <Badge className="w-fit text-lg px-6 py-2 rounded-full font-black bg-green-500/10 text-green-600 border-green-500/20">
-                    نشط ومفعل
+                    Active
                   </Badge>
                 )}
               </div>
@@ -211,25 +211,25 @@ function SubscriptionPage() {
               <div className="space-y-2">
                 <div className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  تاريخ البدء
+                  Start Date
                 </div>
                 <div className="text-xl font-black italic">
-                  {subscription?.starts_at ? format(new Date(subscription.starts_at), "PPP", { locale: ar }) : "---"}
+                  {subscription?.starts_at ? format(new Date(subscription.starts_at), "PPP") : "---"}
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                   <Clock className="h-4 w-4" />
-                  تاريخ الانتهاء
+                  Expiry Date
                 </div>
                 <div className="text-xl font-black italic">
-                  {subscription?.expires_at ? format(new Date(subscription.expires_at), "PPP", { locale: ar }) : "غير محدود"}
+                  {subscription?.expires_at ? format(new Date(subscription.expires_at), "PPP") : "Unlimited"}
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4" />
-                  حالة الدفع
+                  Payment Status
                 </div>
                 <div className="text-xl font-black text-green-600 italic">
                   {subscription?.amount_paid} {subscription?.currency}
@@ -242,13 +242,13 @@ function SubscriptionPage() {
                   variant="outline" 
                   className="text-destructive border-destructive/20 hover:bg-destructive/5 font-bold"
                   onClick={() => {
-                    if (confirm("هل أنت متأكد من رغبتك في إلغاء الاشتراك؟")) {
+                    if (confirm("Are you sure you want to cancel your subscription?")) {
                       cancelSubscriptionMutation.mutate();
                     }
                   }}
                   disabled={cancelSubscriptionMutation.isPending}
                 >
-                  إلغاء الاشتراك الحالي
+                  Cancel Current Subscription
                 </Button>
               </CardFooter>
             )}
@@ -260,9 +260,9 @@ function SubscriptionPage() {
           <div className="text-center">
             <h2 className="text-3xl font-black flex items-center justify-center gap-3">
               <Sparkles className="h-8 w-8 text-amber-500" />
-              قم بترقية حسابك
+              Upgrade Your Account
             </h2>
-            <p className="text-muted-foreground font-bold mt-2">اختر الخطة التي تناسب احتياجاتك التعليمية</p>
+            <p className="text-muted-foreground font-bold mt-2">Choose the plan that fits your learning needs</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -280,14 +280,14 @@ function SubscriptionPage() {
                 )}>
                   {plan.popular && (
                     <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-4 py-1 text-xs font-black rounded-bl-xl z-20">
-                      الأكثر طلباً
+                      Most Popular
                     </div>
                   )}
                   <CardHeader className={cn("bg-gradient-to-br border-b border-primary/10", plan.color)}>
                     <CardTitle className="text-2xl font-black text-center">{plan.name}</CardTitle>
                     <div className="mt-4 text-center">
                       <span className="text-4xl font-black">{plan.price}</span>
-                      <span className="text-muted-foreground font-bold mr-2">ج.م / {plan.duration}</span>
+                      <span className="text-muted-foreground font-bold mr-2">EGP / {plan.duration}</span>
                     </div>
                   </CardHeader>
                   <CardContent className="flex-1 pt-8 space-y-4">
@@ -309,7 +309,7 @@ function SubscriptionPage() {
                         setShowPayment(true);
                       }}
                     >
-                      اختار الخطة
+                      Choose Plan
                     </Button>
                   </CardFooter>
                 </Card>
@@ -321,19 +321,19 @@ function SubscriptionPage() {
         {/* Billing History */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black">سجل الفواتير والمدفوعات</h2>
-            <Badge variant="outline" className="font-bold">{history?.length || 0} عملية</Badge>
+            <h2 className="text-2xl font-black">Billing & Payment History</h2>
+            <Badge variant="outline" className="font-bold">{history?.length || 0} transactions</Badge>
           </div>
           <Card className="glass border-primary/10 overflow-hidden shadow-xl">
             <CardContent className="p-0">
               <Table>
                 <TableHeader className="bg-primary/5">
                   <TableRow>
-                    <TableHead className="text-right font-black">التاريخ</TableHead>
-                    <TableHead className="text-right font-black">الخطة</TableHead>
-                    <TableHead className="text-right font-black">المبلغ</TableHead>
-                    <TableHead className="text-right font-black">الحالة</TableHead>
-                    <TableHead className="text-right font-black">الإجراء</TableHead>
+                    <TableHead className="text-right font-black">Date</TableHead>
+                    <TableHead className="text-right font-black">Plan</TableHead>
+                    <TableHead className="text-right font-black">Amount</TableHead>
+                    <TableHead className="text-right font-black">Status</TableHead>
+                    <TableHead className="text-right font-black">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -360,7 +360,7 @@ function SubscriptionPage() {
                               h.status === 'expired' && "bg-red-500/10 text-red-600 border-red-500/20"
                             )}
                           >
-                            {h.status === 'active' ? 'ناجحة' : h.status === 'expired' ? 'منتهية' : h.status}
+                            {h.status === 'active' ? 'Successful' : h.status === 'expired' ? 'Expired' : h.status}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -368,11 +368,11 @@ function SubscriptionPage() {
                             <Button variant="ghost" size="sm" className="font-bold text-primary gap-2" asChild>
                               <a href={h.invoice_url} target="_blank" rel="noopener noreferrer">
                                 <ImageIcon className="h-4 w-4" />
-                                عرض الفاتورة
+                                View Invoice
                               </a>
                             </Button>
                           ) : (
-                            <span className="text-muted-foreground text-xs italic">لا توجد فاتورة</span>
+                            <span className="text-muted-foreground text-xs italic">No invoice</span>
                           )}
                         </TableCell>
                       </TableRow>
@@ -382,7 +382,7 @@ function SubscriptionPage() {
                       <TableCell colSpan={5} className="text-center py-24">
                         <div className="flex flex-col items-center gap-4">
                           <AlertCircle className="h-12 w-12 text-muted-foreground/30" />
-                          <p className="font-bold text-muted-foreground">لا يوجد سجل مدفوعات لعرضه حالياً</p>
+                          <p className="font-bold text-muted-foreground">No payment history to display currently</p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -396,17 +396,17 @@ function SubscriptionPage() {
 
       {/* Payment Dialog */}
       <Dialog open={showPayment} onOpenChange={setShowPayment}>
-        <DialogContent className="max-w-md font-['Cairo']" dir="rtl">
+        <DialogContent className="max-w-md font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black">تأكيد ترقية الحساب</DialogTitle>
+            <DialogTitle className="text-2xl font-black">Confirm Account Upgrade</DialogTitle>
             <DialogDescription className="font-bold">
-              يرجى تحويل مبلغ {selectedPlan?.price} ج.م لإتمام الاشتراك في {selectedPlan?.name}
+              Please transfer {selectedPlan?.price} EGP to complete your subscription to {selectedPlan?.name}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 space-y-4">
               <div className="flex justify-between items-center">
-                <Label className="font-bold">طريقة الدفع</Label>
+                <Label className="font-bold">Payment Method</Label>
                 <div className="flex gap-2">
                   <Button 
                     size="sm" 
@@ -414,7 +414,7 @@ function SubscriptionPage() {
                     onClick={() => setPaymentMethod('Vodafone Cash')}
                     className="rounded-lg font-bold"
                   >
-                    فودافون كاش
+                    Vodafone Cash
                   </Button>
                   <Button 
                     size="sm"
@@ -422,19 +422,19 @@ function SubscriptionPage() {
                     onClick={() => setPaymentMethod('InstaPay')}
                     className="rounded-lg font-bold"
                   >
-                    انستا باي
+                    InstaPay
                   </Button>
                 </div>
               </div>
               <div className="flex items-center justify-between p-4 bg-background/50 backdrop-blur rounded-xl border border-primary/10 shadow-inner">
                 <div>
-                  <div className="text-[10px] text-muted-foreground font-black uppercase mb-1">رقم المحفظة / العنوان</div>
+                  <div className="text-[10px] text-muted-foreground font-black uppercase mb-1">Wallet Number / Address</div>
                   <div className="text-xl font-black tracking-widest text-primary">{walletNumber}</div>
                 </div>
                 <Button size="sm" variant="ghost" className="hover:bg-primary/10 font-black" onClick={() => {
                   navigator.clipboard.writeText(walletNumber);
-                  toast.success("تم نسخ الرقم بنجاح");
-                }}>نسخ</Button>
+                  toast.success("Number copied successfully");
+                }}>Copy</Button>
               </div>
             </div>
 
@@ -442,7 +442,7 @@ function SubscriptionPage() {
               <div className="space-y-2">
                 <Label className="font-bold flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                  رقم الهاتف الذي قمت بالتحويل منه
+                  Phone number you transferred from
                 </Label>
                 <Input 
                   placeholder="01xxxxxxxxx" 
@@ -455,7 +455,7 @@ function SubscriptionPage() {
               <div className="space-y-2">
                 <Label className="font-bold flex items-center gap-2">
                   <ImageIcon className="h-4 w-4" />
-                  صورة إيصال التحويل (Screenshot)
+                  Transfer Receipt Image (Screenshot)
                 </Label>
                 <div className="relative group">
                   <Input 
@@ -474,14 +474,14 @@ function SubscriptionPage() {
               className="h-12 rounded-xl font-bold" 
               onClick={() => setShowPayment(false)}
             >
-              إلغاء
+              Cancel
             </Button>
             <Button 
               className="flex-1 h-12 rounded-xl font-black text-lg shadow-lg shadow-primary/20" 
               onClick={submitPayment}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "جاري الإرسال..." : "تأكيد وإرسال"}
+              {isSubmitting ? "Sending..." : "Confirm & Submit"}
             </Button>
           </DialogFooter>
         </DialogContent>

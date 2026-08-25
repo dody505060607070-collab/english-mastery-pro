@@ -35,7 +35,7 @@ export function QuestionRunner({
   questions,
   onSubmit,
   submitting,
-  submitLabel = "Done / تحقق من الإجابات",
+  submitLabel = "Done / Check answers",
   timeLimitMinutes,
   passScore,
   allowRetry = true,
@@ -95,7 +95,7 @@ export function QuestionRunner({
   if (!questions.length) {
     return (
       <p className="text-sm text-muted-foreground font-bold text-center py-6">
-        لا توجد أسئلة في هذا النشاط بعد
+        No questions in this activity yet
       </p>
     );
   }
@@ -122,11 +122,11 @@ export function QuestionRunner({
               <div className="flex justify-center gap-4 text-sm font-bold flex-wrap">
                 <span className="text-emerald-600">Correct: {graded.correctCount}</span>
                 <span className="text-destructive">Wrong: {graded.wrongCount}</span>
-                {graded.needsReview && <span className="text-amber-600">بانتظار تصحيح المعلم</span>}
+                {graded.needsReview && <span className="text-amber-600">Awaiting teacher review</span>}
               </div>
               {allowRetry && (
                 <Button variant="outline" onClick={retry} className="font-bold">
-                  <RotateCcw className="h-4 w-4 ml-2" /> إعادة المحاولة
+                  <RotateCcw className="h-4 w-4 ml-2" /> Retry
                 </Button>
               )}
             </CardContent>
@@ -137,11 +137,11 @@ export function QuestionRunner({
       {!checked && (
         <div className="flex items-center justify-between text-xs font-bold text-muted-foreground">
           <span>
-            {answeredCount} / {questions.length} تمت الإجابة
+            {answeredCount} / {questions.length} answered
           </span>
           {timeLimitMinutes ? (
             <span className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" /> {timeLimitMinutes} دقيقة
+              <Clock className="h-3.5 w-3.5" /> {timeLimitMinutes} minutes
             </span>
           ) : null}
         </div>
@@ -234,7 +234,7 @@ function QuestionInput({
         disabled={locked}
         value={typeof value === "string" ? value : ""}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="اكتب إجابتك هنا..."
+        placeholder="Type your answer here..."
       />
     );
   }
@@ -246,7 +246,7 @@ function QuestionInput({
         disabled={locked}
         value={typeof value === "string" ? value : ""}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="اكتب الكلمة المناسبة"
+        placeholder="Type the correct word"
       />
     );
   }
@@ -261,7 +261,7 @@ function QuestionInput({
     return (
       <div className="space-y-2">
         <div className="min-h-11 rounded-xl border border-dashed p-2 flex flex-wrap gap-2" dir="ltr">
-          {chosen.length === 0 && <span className="text-xs text-muted-foreground">اضغط الكلمات بالترتيب</span>}
+          {chosen.length === 0 && <span className="text-xs text-muted-foreground">Tap the words in order</span>}
           {chosen.map((t, i) => (
             <button
               key={`${t}-${i}`}
@@ -306,7 +306,7 @@ function QuestionInput({
               onValueChange={(v) => onChange({ ...map, [p.left]: v })}
             >
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="اختر" />
+                <SelectValue placeholder="Choose" />
               </SelectTrigger>
               <SelectContent>
                 {rightOptions.map((r) => (

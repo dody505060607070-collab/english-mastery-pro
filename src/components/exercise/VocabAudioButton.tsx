@@ -21,7 +21,7 @@ export function VocabAudioButton({
 
   async function generate() {
     if (!word.word?.trim()) {
-      toast.error("اكتب الكلمة أولاً");
+      toast.error("Type the word first");
       return;
     }
     setBusy(true);
@@ -34,9 +34,9 @@ export function VocabAudioButton({
         patch.sentence_audio = s.path;
       }
       onGenerated(patch);
-      toast.success("تم إنشاء الصوت، لا تنسَ الحفظ");
+      toast.success("Audio generated, don't forget to save");
     } catch (e) {
-      toast.error((e as Error).message || "تعذر إنشاء الصوت");
+      toast.error((e as Error).message || "Could not generate audio");
     } finally {
       setBusy(false);
     }
@@ -45,7 +45,7 @@ export function VocabAudioButton({
   return (
     <Button type="button" variant="outline" size="sm" className="font-bold" onClick={() => void generate()} disabled={busy}>
       {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
-      <span className="mr-1">توليد صوت الكلمة والجملة</span>
+      <span className="mr-1">Generate word and sentence audio</span>
     </Button>
   );
 }

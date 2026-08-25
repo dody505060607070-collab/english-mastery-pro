@@ -95,6 +95,6 @@ export async function assertNotProtected(userId: string) {
   const { data } = await supabaseAdmin.from("profiles").select("phone").eq("id", userId).maybeSingle();
   const phone = String((data as any)?.phone ?? "").replace(/^\+?20/, "0").trim();
   if (PROTECTED_PHONES.includes(phone)) {
-    throw new Error("هذا الحساب أدمن دائم ولا يمكن تعديله أو حذفه");
+    throw new Error("This account is a permanent admin and cannot be modified or deleted");
   }
 }

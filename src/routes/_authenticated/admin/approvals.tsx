@@ -15,9 +15,9 @@ export const Route = createFileRoute("/_authenticated/admin/approvals")({
 });
 
 const tabs = [
-  { key: "pending", label: "قيد المراجعة" },
-  { key: "approved", label: "مقبولة" },
-  { key: "rejected", label: "مرفوضة" },
+  { key: "pending", label: "Pending" },
+  { key: "approved", label: "Approved" },
+  { key: "rejected", label: "Rejected" },
 ] as const;
 
 function ApprovalsPage() {
@@ -33,7 +33,7 @@ function ApprovalsPage() {
     mutationFn: (v: { userId: string; status: "approved" | "rejected" }) =>
       setAccountApproval({ data: v }),
     onSuccess: (_d, v) => {
-      toast.success(v.status === "approved" ? "تم قبول الحساب" : "تم رفض الحساب");
+      toast.success(v.status === "approved" ? "Account approved" : "Account rejected");
       qc.invalidateQueries({ queryKey: ["admin-approvals"] });
       qc.invalidateQueries({ queryKey: ["admin-pending-count"] });
     },
@@ -41,13 +41,13 @@ function ApprovalsPage() {
   });
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div>
         <h1 className="text-xl font-black flex items-center gap-2">
-          <UserCheck className="h-5 w-5 text-primary" /> طلبات إنشاء الحسابات
+          <UserCheck className="h-5 w-5 text-primary" /> Account Creation Requests
         </h1>
         <p className="text-sm text-muted-foreground">
-          لا يستطيع الطالب الدخول للمنصة إلا بعد موافقتك على طلبه.
+          The student cannot access the platform until you approve their request.
         </p>
       </div>
 
@@ -71,7 +71,7 @@ function ApprovalsPage() {
       ) : !data || data.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="py-16 text-center text-muted-foreground font-bold">
-            لا توجد طلبات هنا.
+            No requests here.
           </CardContent>
         </Card>
       ) : (
@@ -81,10 +81,10 @@ function ApprovalsPage() {
               <CardContent className="p-4 flex flex-col md:flex-row md:items-center gap-3">
                 <StorageAvatar path={s.avatar_url} name={s.full_name} className="h-12 w-12" />
                 <div className="flex-1 min-w-0">
-                  <p className="font-black truncate">{s.full_name || "بدون اسم"}</p>
+                  <p className="font-black truncate">{s.full_name || "No name"}</p>
                   <p className="text-xs text-muted-foreground">
-                    {s.phone} • {s.sections?.name ?? "بدون مرحلة"} •{" "}
-                    {new Date(s.created_at).toLocaleDateString("ar-EG")}
+                    {s.phone} • {s.sections?.name ?? "No section"} •{" "}
+                    {new Date(s.created_at).toLocaleDateString("en-US")}
                   </p>
                 </div>
                 {status === "pending" ? (
@@ -94,7 +94,7 @@ function ApprovalsPage() {
                       className="gap-1"
                       onClick={() => decide.mutate({ userId: s.id, status: "approved" })}
                     >
-                      <Check className="h-4 w-4" /> قبول
+                      <Check className="h-4 w-4" /> Approve
                     </Button>
                     <Button
                       size="sm"
@@ -102,13 +102,13 @@ function ApprovalsPage() {
                       className="gap-1"
                       onClick={() => decide.mutate({ userId: s.id, status: "rejected" })}
                     >
-                      <X className="h-4 w-4" /> رفض
+                      <X className="h-4 w-4" /> Reject
                     </Button>
                   </div>
                 ) : (
                   <div className="flex gap-2 items-center">
                     <Badge variant={s.approval_status === "approved" ? "secondary" : "destructive"}>
-                      {s.approval_status === "approved" ? "مقبول" : "مرفوض"}
+                      {s.approval_status === "approved" ? "Approved" : "Rejected"}
                     </Badge>
                     <Button
                       size="sm"
@@ -120,7 +120,7 @@ function ApprovalsPage() {
                         })
                       }
                     >
-                      {s.approval_status === "approved" ? "إلغاء القبول" : "قبول"}
+                      {s.approval_status === "approved" ? "Revoke Approval" : "Approve"}
                     </Button>
                   </div>
                 )}

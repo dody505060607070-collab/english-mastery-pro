@@ -41,7 +41,7 @@ function AdminVocabulary() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteVocabulary({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف الكلمة");
+      toast.success("Word deleted");
       qc.invalidateQueries({ queryKey: ["admin-vocabulary"] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -53,19 +53,19 @@ function AdminVocabulary() {
   );
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500 font-['Cairo']" dir="rtl">
+    <div className="space-y-6 animate-in fade-in duration-500 font-['Outfit']" dir="ltr">
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div>
-          <h1 className="text-2xl font-black">إدارة القاموس</h1>
+          <h1 className="text-2xl font-black">Dictionary Management</h1>
           <p className="text-muted-foreground text-sm">
-            {words.length} كلمة — أضف الكلمات والترجمة والنطق ليستفيد منها الطلاب.
+            {words.length} words — add words, translations, and pronunciation for students.
           </p>
         </div>
         <div className="flex gap-2 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="بحث عن كلمة..."
+              placeholder="Search for a word..."
               className="pr-10 rounded-xl"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -73,7 +73,7 @@ function AdminVocabulary() {
           </div>
           <Button className="rounded-xl gap-2" onClick={() => setEditing({ word: "", translation: "" })}>
             <Plus className="h-4 w-4" />
-            إضافة كلمة
+            Add Word
           </Button>
         </div>
       </div>
@@ -82,11 +82,11 @@ function AdminVocabulary() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-right">الكلمة</TableHead>
-              <TableHead className="text-right">الترجمة</TableHead>
-              <TableHead className="text-right">التصنيف</TableHead>
-              <TableHead className="text-right">النطق</TableHead>
-              <TableHead className="text-right">المثال</TableHead>
+              <TableHead className="text-right">Word</TableHead>
+              <TableHead className="text-right">Translation</TableHead>
+              <TableHead className="text-right">Category</TableHead>
+              <TableHead className="text-right">Pronunciation</TableHead>
+              <TableHead className="text-right">Example</TableHead>
               <TableHead className="w-[110px]" />
             </TableRow>
           </TableHeader>
@@ -103,7 +103,7 @@ function AdminVocabulary() {
               <TableRow>
                 <TableCell colSpan={6} className="py-14 text-center text-muted-foreground">
                   <FileText className="mx-auto mb-2 h-6 w-6" />
-                  لا توجد كلمات بعد — اضغط "إضافة كلمة".
+                  No words yet — click "Add Word".
                 </TableCell>
               </TableRow>
             ) : (
@@ -115,7 +115,7 @@ function AdminVocabulary() {
                   <TableCell>{item.translation}</TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-[10px]">
-                      {item.category || "عام"}
+                      {item.category || "General"}
                     </Badge>
                   </TableCell>
                   <TableCell dir="ltr" className="text-xs text-muted-foreground">
@@ -125,7 +125,7 @@ function AdminVocabulary() {
                         variant="ghost"
                         className="h-8 w-8 p-0"
                         onClick={() => speak(item.word)}
-                        aria-label={`نطق ${item.word}`}
+                        aria-label={`Pronounce ${item.word}`}
                       >
                         <Volume2 className="h-4 w-4 text-primary" />
                       </Button>
@@ -145,7 +145,7 @@ function AdminVocabulary() {
                         size="sm"
                         className="h-8 w-8 p-0"
                         onClick={() => {
-                          if (confirm(`حذف الكلمة "${item.word}"؟`)) remove.mutate(item.id);
+                          if (confirm(`Delete word "${item.word}"?`)) remove.mutate(item.id);
                         }}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -182,7 +182,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
       if (d.phonetic_uk) setPhoneticUk(d.phonetic_uk);
       if (d.category) setCategory(d.category);
       if (d.example_ar) setExampleAr(d.example_ar);
-      toast.success("تم ملء البيانات تلقائياً");
+      toast.success("Data filled automatically");
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -202,7 +202,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
         },
       }),
     onSuccess: () => {
-      toast.success("تم الحفظ");
+      toast.success("Saved");
       qc.invalidateQueries({ queryKey: ["admin-vocabulary"] });
       onClose();
     },
@@ -211,13 +211,13 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl" className="max-h-[90vh] overflow-y-auto">
+      <DialogContent dir="ltr" className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-black">{draft.id ? "تعديل كلمة" : "كلمة جديدة"}</DialogTitle>
+          <DialogTitle className="font-black">{draft.id ? "Edit Word" : "New Word"}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="font-bold">الكلمة (بالإنجليزية)</Label>
+            <Label className="font-bold">Word (English)</Label>
             <div className="flex gap-2">
               <Input dir="ltr" value={word} onChange={(e) => setWord(e.target.value)} placeholder="apple" />
               <Button
@@ -228,21 +228,21 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
                 onClick={() => enrich.mutate()}
               >
                 {enrich.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-                تعبئة تلقائية
+                Auto-fill
               </Button>
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">الترجمة</Label>
-            <Input value={translation} onChange={(e) => setTranslation(e.target.value)} placeholder="تفاح" />
+            <Label className="font-bold">Translation</Label>
+            <Input value={translation} onChange={(e) => setTranslation(e.target.value)} placeholder="Apple" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label className="font-bold">النطق US</Label>
+              <Label className="font-bold">Pronunciation US</Label>
               <Input dir="ltr" value={phonetic} onChange={(e) => setPhonetic(e.target.value)} placeholder="/ˈæp.əl/" />
             </div>
             <div className="space-y-2">
-              <Label className="font-bold">النطق UK</Label>
+              <Label className="font-bold">Pronunciation UK</Label>
               <Input
                 dir="ltr"
                 value={phoneticUk}
@@ -252,25 +252,25 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">التصنيف</Label>
+            <Label className="font-bold">Category</Label>
             <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="food" />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">مثال بالعربية</Label>
-            <Input value={exampleAr} onChange={(e) => setExampleAr(e.target.value)} placeholder="أكلت تفاحة طازجة." />
+            <Label className="font-bold">Example (Arabic)</Label>
+            <Input value={exampleAr} onChange={(e) => setExampleAr(e.target.value)} placeholder="Arabic example sentence" />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
-            <Label className="font-bold">كلمة مدفوعة (Premium)</Label>
+            <Label className="font-bold">Premium Word</Label>
             <Switch checked={premium} onCheckedChange={setPremium} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            إلغاء
+            Cancel
           </Button>
           <Button onClick={() => save.mutate()} disabled={save.isPending || !word.trim() || !translation.trim()}>
             {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-            حفظ
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -15,15 +15,15 @@ import { SpeakButton, speak } from "@/components/InteractiveText";
 export const Route = createFileRoute("/_authenticated/dictionary")({
   head: () => ({
     meta: [
-      { title: "القاموس الإنجليزي — معنى ونطق وأمثلة" },
+      { title: "English Dictionary — Meaning, Pronunciation & Examples" },
       {
         name: "description",
-        content: "ابحث عن أي كلمة إنجليزية واحصل على المعنى بالعربية والإنجليزية والنطق والأمثلة والمرادفات.",
+        content: "Search for any English word and get its meaning, pronunciation, examples and synonyms.",
       },
-      { property: "og:title", content: "القاموس الإنجليزي — معنى ونطق وأمثلة" },
+      { property: "og:title", content: "English Dictionary — Meaning, Pronunciation & Examples" },
       {
         property: "og:description",
-        content: "ابحث عن أي كلمة إنجليزية واحصل على المعنى بالعربية والإنجليزية والنطق والأمثلة والمرادفات.",
+        content: "Search for any English word and get its meaning, pronunciation, examples and synonyms.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -33,14 +33,14 @@ export const Route = createFileRoute("/_authenticated/dictionary")({
 });
 
 const POS_AR: Record<string, string> = {
-  noun: "اسم",
-  verb: "فعل",
-  adjective: "صفة",
-  adverb: "ظرف / حال",
-  preposition: "حرف جر",
-  pronoun: "ضمير",
-  conjunction: "أداة ربط",
-  interjection: "أداة تعجب",
+  noun: "noun",
+  verb: "verb",
+  adjective: "adjective",
+  adverb: "adverb",
+  preposition: "preposition",
+  pronoun: "pronoun",
+  conjunction: "conjunction",
+  interjection: "interjection",
 };
 
 function DictionaryPage() {
@@ -74,7 +74,7 @@ function DictionaryPage() {
 
   const save = useMutation({
     mutationFn: () => {
-      if (!entry) throw new Error("لا توجد كلمة");
+      if (!entry) throw new Error("No word to save");
       const sense = entry.senses[0];
       const ex = sense?.examples[0];
       return saveMyWord({
@@ -88,7 +88,7 @@ function DictionaryPage() {
         },
       });
     },
-    onSuccess: () => toast.success("تمت الإضافة إلى قاموسي"),
+    onSuccess: () => toast.success("Added to my dictionary"),
     onError: (e: Error) => toast.error(e.message),
   });
 
@@ -100,7 +100,7 @@ function DictionaryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background font-['Cairo'] p-4 pb-28" dir="rtl">
+    <div className="min-h-screen bg-background font-['Outfit'] p-4 pb-28" dir="ltr">
       <div className="mx-auto max-w-2xl space-y-5">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -109,13 +109,13 @@ function DictionaryPage() {
             </Link>
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl font-black">القاموس</h1>
-            <p className="text-sm text-muted-foreground">معنى، نطق، أمثلة، مرادفات وتصريفات</p>
+            <h1 className="text-2xl font-black">Dictionary</h1>
+            <p className="text-sm text-muted-foreground">Meaning, pronunciation, examples, synonyms and forms</p>
           </div>
           <Button variant="outline" size="sm" asChild className="rounded-xl gap-1">
             <Link to="/my-words">
               <BookMarked className="h-4 w-4" />
-              كلماتي
+              My Words
             </Link>
           </Button>
         </div>
@@ -142,11 +142,11 @@ function DictionaryPage() {
                 onFocus={() => setShowSuggest(true)}
                 placeholder="Type an English word…"
                 className="pr-10 h-12 rounded-2xl text-left"
-                aria-label="ابحث عن كلمة إنجليزية"
+                aria-label="Search for an English word"
               />
             </div>
             <Button type="submit" className="h-12 rounded-2xl px-5" disabled={lookup.isPending}>
-              {lookup.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "بحث"}
+              {lookup.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
             </Button>
           </form>
 
@@ -197,10 +197,10 @@ function DictionaryPage() {
 
                 {entry.notFound && (
                   <p className="text-sm text-muted-foreground">
-                    لم نتعرف على هذه الكلمة.
+                    We couldn't recognize this word.
                     {entry.suggestion && (
                       <>
-                        {" "}هل تقصد{" "}
+                        {" "}Did you mean{" "}
                         <button
                           type="button"
                           dir="ltr"
@@ -209,7 +209,7 @@ function DictionaryPage() {
                         >
                           {entry.suggestion}
                         </button>
-                        ؟
+                        ?
                       </>
                     )}
                   </p>
@@ -221,7 +221,7 @@ function DictionaryPage() {
                   className="w-full rounded-xl gap-2"
                 >
                   {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                  إضافة إلى قاموسي
+                  Add to My Dictionary
                 </Button>
               </CardContent>
             </Card>
@@ -249,7 +249,7 @@ function DictionaryPage() {
                               <button
                                 type="button"
                                 onClick={() => speak(ex.en)}
-                                aria-label="استمع للمثال"
+                                aria-label="Listen to the example"
                                 className="mt-0.5 text-primary"
                               >
                                 <Sparkles className="h-4 w-4" />
@@ -271,7 +271,7 @@ function DictionaryPage() {
             {entry.forms.length > 0 && (
               <Card>
                 <CardContent className="space-y-2 p-5">
-                  <h3 className="font-bold">التصريفات والصيغ</h3>
+                  <h3 className="font-bold">Forms & Conjugations</h3>
                   <div className="grid grid-cols-2 gap-2">
                     {entry.forms.map((f) => (
                       <div key={f.label} className="rounded-lg bg-muted/50 p-2 text-sm">
@@ -291,7 +291,7 @@ function DictionaryPage() {
                 <CardContent className="space-y-3 p-5">
                   {entry.synonyms.length > 0 && (
                     <div>
-                      <h3 className="mb-2 font-bold">كلمات مشابهة</h3>
+                      <h3 className="mb-2 font-bold">Similar Words</h3>
                       <div className="flex flex-wrap gap-2">
                         {entry.synonyms.map((w) => (
                           <Badge
@@ -308,7 +308,7 @@ function DictionaryPage() {
                   )}
                   {entry.antonyms.length > 0 && (
                     <div>
-                      <h3 className="mb-2 font-bold">كلمات عكسية</h3>
+                      <h3 className="mb-2 font-bold">Opposite Words</h3>
                       <div className="flex flex-wrap gap-2">
                         {entry.antonyms.map((w) => (
                           <Badge
@@ -332,7 +332,7 @@ function DictionaryPage() {
         {!entry && !lookup.isPending && recent.length > 0 && (
           <Card>
             <CardContent className="space-y-3 p-5">
-              <h3 className="font-bold">كلمات تم البحث عنها مؤخرًا</h3>
+              <h3 className="font-bold">Recently Searched Words</h3>
               <div className="flex flex-wrap gap-2">
                 {recent.map((w) => (
                   <Badge

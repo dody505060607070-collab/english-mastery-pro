@@ -15,13 +15,13 @@ function PremiumPracticePlaceholder() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="min-h-screen bg-background py-20 px-4 font-['Cairo']" 
-        dir="rtl"
+        className="min-h-screen bg-background py-20 px-4 font['Outfit']" 
+        dir="ltr"
       >
       <div className="container max-w-4xl mx-auto">
         <Button variant="ghost" className="mb-12 font-bold" onClick={() => window.history.back()}>
           <ChevronRight className="ml-2 h-5 w-5" />
-          رجوع
+          Back
         </Button>
 
         <ThreeDCard className="p-12 md:p-20 text-center border-primary/30 relative overflow-hidden">
@@ -33,17 +33,17 @@ function PremiumPracticePlaceholder() {
             </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black mb-6">محتوى حصري للمشتركين</h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-6">Exclusive Content for Subscribers</h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-            قسم التدريب الاحترافي يتضمن جمل كاملة، تعبيرات يومية، وقاموس ناطق متخصص لمساعدتك على إتقان اللغة بطلاقة.
+            The premium practice section includes full sentences, daily expressions, and a specialized talking dictionary to help you master the language fluently.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 text-right mb-12">
             {[
-              { title: "أكثر من 5000 كلمة", icon: BookOpen },
-              { title: "جمل وتعبيرات شائعة", icon: Sparkles },
-              { title: "تتبع ذكي للتقدم", icon: Wallet },
-              { title: "نطق بلهجات مختلفة", icon: Mic },
+              { title: "Over 5000 words", icon: BookOpen },
+              { title: "Common sentences & expressions", icon: Sparkles },
+              { title: "Smart progress tracking", icon: Wallet },
+              { title: "Pronunciation in different accents", icon: Mic },
             ].map((feature, i) => (
               <motion.div 
                 key={i} 
@@ -60,16 +60,16 @@ function PremiumPracticePlaceholder() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="h-16 px-10 text-xl font-black shadow-2xl shadow-primary/30" asChild>
-              <Link to="/">اشترك الآن للوصول</Link>
+              <Link to="/">Subscribe Now to Access</Link>
             </Button>
             <Button variant="outline" size="lg" className="h-16 px-10 text-xl font-black border-2" asChild>
-              <Link to="/contact">تواصل مع الدعم</Link>
+              <Link to="/contact">Contact Support</Link>
             </Button>
           </div>
 
           <div className="mt-12 flex items-center justify-center gap-2 text-muted-foreground">
             <Wallet className="w-4 h-4" />
-            <span className="text-sm font-bold">طرق دفع سهلة وآمنة (فودافون كاش & انستا باي)</span>
+            <span className="text-sm font-bold">Easy and secure payment methods (Vodafone Cash & InstaPay)</span>
           </div>
         </ThreeDCard>
       </div>

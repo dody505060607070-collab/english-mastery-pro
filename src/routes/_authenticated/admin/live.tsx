@@ -80,7 +80,7 @@ function AdminLivePage() {
         },
       }),
     onSuccess: () => {
-      toast.success("تم حفظ البث");
+      toast.success("Stream saved");
       setDraft(null);
       invalidate();
     },
@@ -96,25 +96,25 @@ function AdminLivePage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteLiveSession({ data: { id } }),
     onSuccess: () => {
-      toast.success("تم حذف البث");
+      toast.success("Stream deleted");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6" dir="ltr">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl font-black flex items-center gap-2">
-            <Radio className="h-5 w-5 text-destructive" /> ليف كورسات
+            <Radio className="h-5 w-5 text-destructive" /> Live Courses
           </h1>
           <p className="text-sm text-muted-foreground">
-            أضف رابط بث YouTube أو TikTok وشغّله ليظهر داخل الموقع للطلاب، وسجّل المحاضرة بضغطة واحدة.
+            Add a YouTube or TikTok stream link and start it so it appears on the site for students, and record the lecture with one click.
           </p>
         </div>
         <Button onClick={() => setDraft({ ...emptyDraft })} className="gap-2">
-          <Plus className="h-4 w-4" /> بث جديد
+          <Plus className="h-4 w-4" /> New Stream
         </Button>
       </div>
 
@@ -125,7 +125,7 @@ function AdminLivePage() {
       ) : !data || data.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="py-16 text-center text-muted-foreground font-bold">
-            لا يوجد بث مضاف بعد.
+            No streams added yet.
           </CardContent>
         </Card>
       ) : (
@@ -137,9 +137,9 @@ function AdminLivePage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-black truncate">{s.title}</p>
                     {s.is_live ? (
-                      <Badge className="bg-destructive text-destructive-foreground">مباشر</Badge>
+                      <Badge className="bg-destructive text-destructive-foreground">Live</Badge>
                     ) : (
-                      <Badge variant="secondary">متوقف</Badge>
+                      <Badge variant="secondary">Stopped</Badge>
                     )}
                     <Badge variant="outline">
                       {platformLabel[(s.platform as StreamPlatform) ?? detectPlatform(s.meeting_url)] ?? s.platform}
@@ -158,7 +158,7 @@ function AdminLivePage() {
                     onClick={() => toggle.mutate({ id: s.id, isLive: !s.is_live })}
                   >
                     {s.is_live ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                    {s.is_live ? "إيقاف" : "تشغيل"}
+                    {s.is_live ? "Stop" : "Start"}
                   </Button>
                   <LectureRecorder
                     title={s.title}
@@ -194,22 +194,22 @@ function AdminLivePage() {
       )}
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
-        <DialogContent className="font-['Cairo']" dir="rtl">
+        <DialogContent className="font-['Outfit']" dir="ltr">
           <DialogHeader>
-            <DialogTitle>{draft?.id ? "تعديل البث" : "بث جديد"}</DialogTitle>
+            <DialogTitle>{draft?.id ? "Edit Stream" : "New Stream"}</DialogTitle>
           </DialogHeader>
           {draft && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label>عنوان البث</Label>
+                <Label>Stream Title</Label>
                 <Input
                   value={draft.title}
                   onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-                  placeholder="حصة مباشرة - Unit 1"
+                  placeholder="Live Session - Unit 1"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>منصة البث</Label>
+                <Label>Streaming Platform</Label>
                 <Select
                   value={draft.platform}
                   onValueChange={(v) => setDraft({ ...draft, platform: v as StreamPlatform })}
@@ -218,14 +218,14 @@ function AdminLivePage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="youtube">YouTube (يظهر داخل الموقع)</SelectItem>
-                    <SelectItem value="tiktok">TikTok (يظهر داخل الموقع)</SelectItem>
-                    <SelectItem value="meet">Google Meet (رابط خارجي)</SelectItem>
+                    <SelectItem value="youtube">YouTube (shown on the site)</SelectItem>
+                    <SelectItem value="tiktok">TikTok (shown on the site)</SelectItem>
+                    <SelectItem value="meet">Google Meet (external link)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label>رابط البث</Label>
+                <Label>Stream Link</Label>
                 <Input
                   dir="ltr"
                   value={draft.meetUrl}
@@ -239,11 +239,11 @@ function AdminLivePage() {
                   }
                 />
                 <p className="text-xs text-muted-foreground">
-                  YouTube: رابط البث المباشر أو الفيديو. TikTok: رابط اللايف الخاص بحسابك.
+                  YouTube: the live stream or video link. TikTok: your live link.
                 </p>
               </div>
               <div className="space-y-1.5">
-                <Label>المستوى (اختياري)</Label>
+                <Label>Level (optional)</Label>
                 <Select
                   value={draft.sectionId}
                   onValueChange={(v) => setDraft({ ...draft, sectionId: v })}
@@ -252,7 +252,7 @@ function AdminLivePage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">كل الطلاب</SelectItem>
+                    <SelectItem value="all">All Students</SelectItem>
                     {(sectionsQuery.data ?? []).map((s: any) => (
                       <SelectItem key={s.id} value={s.id}>
                         {s.name}
@@ -262,7 +262,7 @@ function AdminLivePage() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label>وصف مختصر</Label>
+                <Label>Short Description</Label>
                 <Textarea
                   value={draft.description}
                   onChange={(e) => setDraft({ ...draft, description: e.target.value })}
@@ -273,14 +273,14 @@ function AdminLivePage() {
           )}
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setDraft(null)}>
-              إلغاء
+              Cancel
             </Button>
             <Button
               onClick={() => draft && save.mutate(draft)}
               disabled={save.isPending || !draft?.title || !draft?.meetUrl}
             >
               {save.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-              حفظ وتشغيل
+              Save & Start
             </Button>
           </DialogFooter>
         </DialogContent>

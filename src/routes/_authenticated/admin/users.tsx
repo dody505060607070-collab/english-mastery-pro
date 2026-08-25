@@ -51,9 +51,9 @@ function AdminUsers() {
     mutationFn: (vars: { userId: string, role: any }) => updateUserRole({ data: vars }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
-      toast.success("تم تحديث الصلاحية بنجاح");
+      toast.success("Role updated successfully");
     },
-    onError: (err: any) => toast.error("فشل التحديث: " + err.message)
+    onError: (err: any) => toast.error("Update failed: " + err.message)
   });
 
   const filteredUsers = users?.filter(user => 
@@ -65,10 +65,10 @@ function AdminUsers() {
     const roleArr = Array.isArray(roles) ? roles : [];
     const role = roleArr[0]?.role || 'student';
     switch (role) {
-      case 'admin': return <Badge className="bg-red-500 hover:bg-red-600">أدمن</Badge>;
-      case 'teacher': return <Badge className="bg-blue-500 hover:bg-blue-600">مدرس</Badge>;
-      case 'editor': return <Badge className="bg-purple-500 hover:bg-purple-600">محرر</Badge>;
-      default: return <Badge variant="outline">طالب</Badge>;
+      case 'admin': return <Badge className="bg-red-500 hover:bg-red-600">Admin</Badge>;
+      case 'teacher': return <Badge className="bg-blue-500 hover:bg-blue-600">Teacher</Badge>;
+      case 'editor': return <Badge className="bg-purple-500 hover:bg-purple-600">Editor</Badge>;
+      default: return <Badge variant="outline">Student</Badge>;
     }
   };
 
@@ -76,14 +76,14 @@ function AdminUsers() {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div>
-          <h1 className="text-2xl font-bold">إدارة المستخدمين</h1>
-          <p className="text-muted-foreground text-sm">إدارة حسابات الطلاب والموظفين وصلاحياتهم.</p>
+          <h1 className="text-2xl font-bold">User Management</h1>
+          <p className="text-muted-foreground text-sm">Manage student and staff accounts and their permissions.</p>
         </div>
         <div className="flex gap-2 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
-              placeholder="بحث بالاسم أو الهاتف..." 
+              placeholder="Search by name or phone..." 
               className="pr-10 rounded-xl glass border-white/20"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -91,7 +91,7 @@ function AdminUsers() {
           </div>
           <Button variant="outline" className="rounded-xl glass border-white/20 gap-2">
             <Filter className="h-4 w-4" />
-            تصفية
+            Filter
           </Button>
         </div>
       </div>
@@ -100,11 +100,11 @@ function AdminUsers() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent border-white/10">
-              <TableHead className="text-right">المستخدم</TableHead>
-              <TableHead className="text-right">رقم الهاتف</TableHead>
-              <TableHead className="text-right">المستوى</TableHead>
-              <TableHead className="text-right">الصلاحية</TableHead>
-              <TableHead className="text-right">تاريخ الانضمام</TableHead>
+              <TableHead className="text-right">User</TableHead>
+              <TableHead className="text-right">Phone Number</TableHead>
+              <TableHead className="text-right">Level</TableHead>
+              <TableHead className="text-right">Role</TableHead>
+              <TableHead className="text-right">Join Date</TableHead>
               <TableHead className="w-[100px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -122,7 +122,7 @@ function AdminUsers() {
                     <div className="h-9 w-9 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">
                       {user.full_name?.[0] || 'U'}
                     </div>
-                    <span className="font-medium">{user.full_name || "بدون اسم"}</span>
+                    <span className="font-medium">{user.full_name || "No name"}</span>
                   </div>
                 </TableCell>
                 <TableCell className="font-mono text-xs">{user.phone}</TableCell>
@@ -140,25 +140,25 @@ function AdminUsers() {
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="glass border-white/20 font-['Cairo']">
-                      <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
+                    <DropdownMenuContent align="end" className="glass border-white/20 font-['Outfit']">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-white/10" />
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'admin' })}>
                         <ShieldCheck className="ml-2 h-4 w-4 text-red-500" />
-                        تعيين كأدمن
+                        Make Admin
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'teacher' })}>
                         <ShieldCheck className="ml-2 h-4 w-4 text-blue-500" />
-                        تعيين كمدرس
+                        Make Teacher
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => roleMutation.mutate({ userId: user.id, role: 'student' })}>
                         <ShieldCheck className="ml-2 h-4 w-4" />
-                        تعيين كطالب
+                        Make Student
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-white/10" />
                       <DropdownMenuItem className="text-red-500">
                         <UserX className="ml-2 h-4 w-4" />
-                        حظر المستخدم
+                        Ban User
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -168,7 +168,7 @@ function AdminUsers() {
             {(!filteredUsers || filteredUsers.length === 0) && !isLoading && (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
-                  لم يتم العثور على مستخدمين بهذا الاسم.
+                  No users found with this name.
                 </TableCell>
               </TableRow>
             )}

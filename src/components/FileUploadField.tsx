@@ -35,7 +35,7 @@ export function FileUploadField({
     const file = files?.[0];
     if (!file) return;
     if (file.size > MAX_BYTES) {
-      toast.error("الحد الأقصى لحجم الملف 2 جيجابايت");
+      toast.error("Maximum file size is 2GB");
       return;
     }
     setBusy(true);
@@ -43,7 +43,7 @@ export function FileUploadField({
     try {
       const path = await uploadFile(bucket, file, folder, setProgress);
       onChange(path);
-      toast.success("تم رفع الملف");
+      toast.success("File uploaded");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -60,7 +60,7 @@ export function FileUploadField({
         <Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="ارفع ملفًا من جهازك أو الصق رابطًا"
+          placeholder="Upload a file from your device or paste a link"
           dir="ltr"
           className="flex-1"
         />
@@ -71,13 +71,13 @@ export function FileUploadField({
         )}
         <Button type="button" variant="outline" onClick={() => inputRef.current?.click()} disabled={busy}>
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-          <span className="mr-2 hidden sm:inline">رفع</span>
+          <span className="mr-2 hidden sm:inline">Upload</span>
         </Button>
       </div>
       {busy && (
         <div className="space-y-1">
           <Progress value={progress} className="h-2" />
-          <p className="text-xs text-muted-foreground font-bold">جاري الرفع… {progress}%</p>
+          <p className="text-xs text-muted-foreground font-bold">Uploading… {progress}%</p>
         </div>
       )}
       <input

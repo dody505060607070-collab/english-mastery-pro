@@ -109,7 +109,7 @@ export const getUnitDetail = createServerFn({ method: "GET" })
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
     );
 
-    if (profile?.is_blocked) throw new Error("الحساب محظور");
+    if (profile?.is_blocked) throw new Error("Account is blocked");
 
     const { data: unit, error } = await supabase
       .from("units")
@@ -117,7 +117,7 @@ export const getUnitDetail = createServerFn({ method: "GET" })
       .eq("id", data.unitId)
       .maybeSingle();
 
-    if (error || !unit) throw new Error("الوحدة غير موجودة");
+    if (error || !unit) throw new Error("Unit not found");
     const section = (unit as any).sections as
       | { id: string; name: string; is_visible: boolean; is_locked: boolean }
       | null;
@@ -125,10 +125,10 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     // and only while that level is visible and unlocked.
     if (!isStaff) {
       if (!section || section.is_visible === false || section.is_locked === true) {
-        throw new Error("هذا المستوى مقفل حالياً، تواصل مع الإدارة لفتحه");
+        throw new Error("This level is currently locked, contact the administration to unlock it");
       }
       if (!profile?.section_id || profile.section_id !== (unit as any).section_id) {
-        throw new Error("ليس لديك صلاحية الوصول لهذا المحتوى");
+        throw new Error("You do not have permission to access this content");
       }
     }
 
@@ -223,7 +223,7 @@ export const submitExercise = createServerFn({ method: "POST" })
       .eq("id", data.contentId)
       .eq("unit_id", data.unitId)
       .maybeSingle();
-    if (contentError || !content) throw new Error("المحتوى غير موجود");
+    if (contentError || !content) throw new Error("Content not found");
 
     const questions = (((content as any).data ?? {}).questions ?? []) as any[];
     const graded = gradeAll(questions, data.answers as any);
@@ -339,7 +339,7 @@ export const getLevelUnits = createServerFn({ method: "GET" })
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
     );
 
-    if (!section) throw new Error("المستوى غير موجود");
+    if (!section) throw new Error("Level not found");
     if (!isStaff && (!section.is_visible || section.is_locked)) {
       return { section, locked: true, units: [], totalContents: 0, completedCount: 0, overallProgress: 0 };
     }

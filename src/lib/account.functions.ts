@@ -23,7 +23,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const phone = normalizePhone(data.phone);
-    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
+    if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
     const email = phoneToEmail(phone);
 
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -36,8 +36,8 @@ export const signUpStudent = createServerFn({ method: "POST" })
     const createdUser = created?.user ?? null;
     if (createError || !createdUser) {
       const msg = (createError?.message || "").toLowerCase();
-      if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
-      throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+      if (msg.includes("already")) throw new Error("Phone number is already registered");
+      throw new Error("Could not create the account, try again");
     }
 
     const userId = createdUser.id;
@@ -71,7 +71,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
 
     if (profileError) {
       await supabaseAdmin.auth.admin.deleteUser(userId);
-      throw new Error("تعذر حفظ بيانات الطالب");
+      throw new Error("Could not save the student's data");
     }
 
     await supabaseAdmin
@@ -181,7 +181,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
       .select("id", { count: "exact", head: true })
       .in("role", ["admin", "super_admin"]);
 
-    if ((count ?? 0) > 0) throw new Error("يوجد مدير بالفعل على المنصة");
+    if ((count ?? 0) > 0) throw new Error("An admin already exists on the platform");
 
     const { error } = await supabaseAdmin
       .from("user_roles")
@@ -263,13 +263,13 @@ export const signUpStaff = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const phone = normalizePhone(data.phone);
-    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
+    if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
     let role: "admin" | "teacher" | null = ADMIN_PHONES.includes(phone) ? "admin" : null;
     if (!role) {
       const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
       role = entry?.role ?? null;
     }
-    if (!role) throw new Error("هذا الرقم غير مصرح له بإنشاء حساب مدير أو مدرس");
+    if (!role) throw new Error("This number is not authorized to create an admin or teacher account");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const email = phoneToEmail(phone);
@@ -284,10 +284,10 @@ export const signUpStaff = createServerFn({ method: "POST" })
     if (createError || !user) {
       const msg = (createError?.message || "").toLowerCase();
       if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
-        throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+        throw new Error("Could not create the account, try again");
       }
       user = await findAuthUserByEmail(supabaseAdmin, email);
-      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      if (!user) throw new Error("The number is already registered but we couldn't fix it automatically");
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         password: data.password,
         email_confirm: true,
@@ -320,7 +320,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
     } as never);
     if (profileError) {
       if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
-      throw new Error("تعذر حفظ البيانات");
+      throw new Error("Could not save the data");
     }
 
     const { error: roleError } = await supabaseAdmin
@@ -328,7 +328,7 @@ export const signUpStaff = createServerFn({ method: "POST" })
       .upsert({ user_id: userId, role }, { onConflict: "user_id,role" });
     if (roleError) {
       if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
-      throw new Error("تعذر حفظ الصلاحية");
+      throw new Error("Could not save the permission");
     }
 
     return { success: true, role };

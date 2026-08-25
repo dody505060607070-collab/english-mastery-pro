@@ -15,13 +15,13 @@ import html2canvas from "html2canvas";
 import { motion } from "framer-motion";
 
 const LESSON_TYPES = [
-  { value: 'Grammar', label: 'قواعد', icon: BookOpen },
-  { value: 'Listening', label: 'استماع', icon: Headphones },
-  { value: 'Reading', label: 'قراءة', icon: Eye },
-  { value: 'Vocabulary', label: 'كلمات', icon: Type },
-  { value: 'Practice', label: 'تدريب', icon: Activity },
-  { value: 'Tasks', label: 'مهام', icon: ClipboardCheck },
-  { value: 'Test', label: 'اختبار', icon: FileText },
+  { value: 'Grammar', label: 'Grammar', icon: BookOpen },
+  { value: 'Listening', label: 'Listening', icon: Headphones },
+  { value: 'Reading', label: 'Reading', icon: Eye },
+  { value: 'Vocabulary', label: 'Vocabulary', icon: Type },
+  { value: 'Practice', label: 'Practice', icon: Activity },
+  { value: 'Tasks', label: 'Tasks', icon: ClipboardCheck },
+  { value: 'Test', label: 'Test', icon: FileText },
 ];
 
 export const Route = createFileRoute("/_authenticated/course/$courseId")({
@@ -65,7 +65,7 @@ function CourseViewer() {
         .maybeSingle();
 
       if (!enrollment) {
-        toast.error("يجب الاشتراك في الكورس أولاً للوصول إلى المحتوى");
+        toast.error("You must enroll in the course first to access the content");
         window.location.href = '/';
         return null;
       }
@@ -166,7 +166,7 @@ function CourseViewer() {
         }
 
         
-        toast.success("تهانينا! لقد أكملت الكورس وحصلت على شهادة 🎉");
+        toast.success("Congratulations! You completed the course and earned a certificate 🎉");
       }
     },
     onSuccess: () => {
@@ -174,7 +174,7 @@ function CourseViewer() {
       queryClient.invalidateQueries({ queryKey: ["enrollments-with-progress"] });
       queryClient.invalidateQueries({ queryKey: ["user-stats"] });
       queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
-      toast.success("تم تحديد الدرس كمكتمل");
+      toast.success("Lesson marked as completed");
     }
   });
 
@@ -213,11 +213,11 @@ function CourseViewer() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`شهادة-إتمام-${course?.title}.pdf`);
-      toast.success("تم تحميل الشهادة بنجاح");
+      pdf.save(`Certificate-of-Completion-${course?.title}.pdf`);
+      toast.success("Certificate downloaded successfully");
     } catch (error) {
       console.error(error);
-      toast.error("حدث خطأ أثناء تحميل الشهادة");
+      toast.error("An error occurred while downloading the certificate");
     } finally {
       setIsGenerating(false);
     }
@@ -225,10 +225,10 @@ function CourseViewer() {
 
   if (isCourseLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background font-['Cairo']" dir="rtl">
+      <div className="flex h-screen items-center justify-center bg-background font-['Outfit']" dir="ltr">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xl font-black text-primary">جاري التحقق من الاشتراك...</p>
+          <p className="text-xl font-black text-primary">Verifying subscription...</p>
         </div>
       </div>
     );
@@ -236,31 +236,31 @@ function CourseViewer() {
 
   return (
 
-    <div className="flex h-[calc(100-4rem)] bg-background relative" dir="rtl">
+    <div className="flex h-[calc(100-4rem)] bg-background relative" dir="ltr">
       {/* Hidden Certificate Template */}
       <div className="fixed left-[-9999px] top-[-9999px]">
         <div 
           ref={certificateRef}
-          className="w-[842px] h-[595px] bg-white p-12 border-[20px] border-primary flex flex-col items-center justify-center text-center font-['Cairo']"
-          style={{ direction: 'rtl' }}
+          className="w-[842px] h-[595px] bg-white p-12 border-[20px] border-primary flex flex-col items-center justify-center text-center font-['Outfit']"
+          style={{ direction: 'ltr' }}
         >
           <div className="border-[2px] border-primary/20 w-full h-full flex flex-col items-center justify-center p-8 relative">
             <Award className="w-24 h-24 text-primary mb-6" />
-            <h1 className="text-5xl font-black text-primary mb-4">شهادة إتمام</h1>
-            <p className="text-xl text-muted-foreground mb-8">نشهد بأن الطالب:</p>
+            <h1 className="text-5xl font-black text-primary mb-4">Certificate of Completion</h1>
+            <p className="text-xl text-muted-foreground mb-8">This certifies that the student:</p>
             <h2 className="text-4xl font-black mb-8 border-b-2 border-primary/30 pb-2 px-12">
-              {userProfile?.full_name || userProfile?.phone || "طالب الأكاديمية"}
+              {userProfile?.full_name || userProfile?.phone || "Academy Student"}
             </h2>
-            <p className="text-xl text-muted-foreground mb-4">قد أكمل بنجاح كورس:</p>
+            <p className="text-xl text-muted-foreground mb-4">has successfully completed the course:</p>
             <h3 className="text-3xl font-bold text-primary mb-12">{course?.title}</h3>
             
             <div className="flex justify-between w-full mt-8 px-12">
               <div className="text-right">
-                <p className="text-sm text-muted-foreground">التاريخ:</p>
-                <p className="font-bold">{new Date().toLocaleDateString('ar-EG')}</p>
+                <p className="text-sm text-muted-foreground">Date:</p>
+                <p className="font-bold">{new Date().toLocaleDateString('en-US')}</p>
               </div>
               <div className="text-left">
-                <p className="text-sm text-muted-foreground">ختم الأكاديمية:</p>
+                <p className="text-sm text-muted-foreground">Academy Seal:</p>
                 <div className="w-20 h-20 border-4 border-primary rounded-full flex items-center justify-center rotate-12 opacity-50 mt-2">
                    <GraduationCap className="w-10 h-10 text-primary" />
                 </div>
@@ -274,12 +274,12 @@ function CourseViewer() {
         <div className="p-6 border-b space-y-4">
           <div className="flex items-center gap-2 font-black text-primary">
             <GraduationCap className="h-5 w-5" />
-            <span className="text-sm">Blue Language Academy</span>
+            <span className="text-sm">Blue Language</span>
           </div>
           <h2 className="font-black text-lg leading-tight">{course?.title}</h2>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-               <span>مستوى التقدم</span>
+               <span>Progress Level</span>
                <span>{totalProgress}%</span>
             </div>
             <div className="h-1.5 w-full bg-primary/10 rounded-full overflow-hidden">
@@ -297,7 +297,7 @@ function CourseViewer() {
               disabled={isGenerating}
             >
               <Download className="h-4 w-4" />
-              {isGenerating ? "جاري التحميل..." : "تحميل الشهادة"}
+              {isGenerating ? "Downloading..." : "Download Certificate"}
             </Button>
           )}
         </div>
@@ -347,8 +347,8 @@ function CourseViewer() {
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold">{activeLesson.title}</h1>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1"><PlayCircle className="h-4 w-4" /> درس فيديو</span>
-                  <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> مصادر إضافية</span>
+                  <span className="flex items-center gap-1"><PlayCircle className="h-4 w-4" /> Video Lesson</span>
+                  <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> Additional Resources</span>
                 </div>
               </div>
 
@@ -356,7 +356,7 @@ function CourseViewer() {
                 <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-xl">
                   {/* Video player placeholder */}
                   <div className="w-full h-full flex items-center justify-center text-white">
-                    فيديو الدرس
+                    Lesson Video
                   </div>
                 </div>
               )}
@@ -370,12 +370,12 @@ function CourseViewer() {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-bold flex items-center gap-2">
                     <Lightbulb className="h-4 w-4 text-primary" />
-                    نصيحة سريعة
+                    Quick Tip
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-xs text-muted-foreground">
-                    تأكد من تكرار الجمل بصوت عالٍ لتحسين نطقك. يمكنك دائماً العودة إلى قسم التدريب لممارسة الكلمات الجديدة التي تعلمتها اليوم.
+                    Make sure to repeat sentences out loud to improve your pronunciation. You can always go back to the practice section to practice the new words you learned today.
                   </p>
                 </CardContent>
               </Card>
@@ -408,7 +408,7 @@ function CourseViewer() {
           </ScrollArea>
         ) : (
           <div className="flex-1 flex items-center justify-center text-muted-foreground">
-            اختر درساً للبدء
+            Choose a lesson to start
           </div>
         )}
       </main>

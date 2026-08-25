@@ -46,13 +46,13 @@ export interface VocabWord {
 }
 
 export const QUESTION_TYPE_LABELS: Record<QuestionType, string> = {
-  mcq: "اختيار من متعدد (A/B/C/D)",
-  truefalse: "صح / خطأ",
-  multi: "إجابات متعددة",
-  fill: "أكمل الفراغ",
-  order: "ترتيب الكلمات",
-  match: "توصيل (Matching)",
-  text: "إجابة كتابية (تصحيح يدوي)",
+  mcq: "Multiple choice (A/B/C/D)",
+  truefalse: "True / False",
+  multi: "Multiple answers",
+  fill: "Fill in the blank",
+  order: "Word order",
+  match: "Matching",
+  text: "Written answer (manual grading)",
 };
 
 export const OPTION_LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -83,7 +83,7 @@ export function displayAnswer(q: Question, value: AnswerValue): string {
 export function correctAnswerText(q: Question): string {
   if (q.type === "match") return (q.pairs ?? []).map((p) => `${p.left} → ${p.right}`).join(" | ");
   if (Array.isArray(q.answer)) return q.answer.join(" , ");
-  if (q.type === "text") return "يصححها المعلم";
+  if (q.type === "text") return "Graded by the teacher";
   return String(q.answer ?? "—");
 }
 

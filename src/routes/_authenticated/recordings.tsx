@@ -15,8 +15,8 @@ import { useMediaUrl } from "@/lib/storage";
 export const Route = createFileRoute("/_authenticated/recordings")({
   head: () => ({
     meta: [
-      { title: "Lecture Recordings | Blue Language Academy" },
-      { name: "description", content: "Watch full recordings of live sessions at any time inside Blue Academy." },
+      { title: "Lecture Recordings | Blue Language" },
+      { name: "description", content: "Watch full recordings of live sessions at any time inside Blue Language." },
       { property: "og:title", content: "Lecture Recordings" },
       { property: "og:description", content: "Watch re-recorded live sessions in full." },
       { property: "og:type", content: "website" },
