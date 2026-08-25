@@ -297,7 +297,7 @@ function PlacementTestPage() {
             disabled={currentStep === 0}
           >
             <ChevronRight className="ml-2 h-5 w-5" />
-            السابق
+            Previous
           </Button>
 
           <Button

@@ -196,6 +196,8 @@ export function LectureRecorder({
   const [recovering, setRecovering] = useState(false);
   const [attemptNo, setAttemptNo] = useState(0);
   const [switching, setSwitching] = useState(false);
+  const switchingRef = useRef(false);
+  const shareEndCleanupRef = useRef<(() => void) | null>(null);
   // Live capture pipeline refs — allow swapping the shared tab mid-recording.
   const audioCtxRef = useRef<AudioContext | null>(null);
   const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
@@ -271,6 +273,19 @@ export function LectureRecorder({
     } catch {
       void finalize();
     }
+  }
+
+  function listenForShareEnd(stream: MediaStream) {
+    shareEndCleanupRef.current?.();
+    const screenTrack = stream.getVideoTracks()[0];
+    if (!screenTrack) return;
+    const onEnded = () => {
+      if (switchingRef.current || finalizingRef.current) return;
+      toast.info("Screen sharing ended — saving recording automatically");
+      stopRecording();
+    };
+    screenTrack.addEventListener("ended", onEnded, { once: true });
+    shareEndCleanupRef.current = () => screenTrack.removeEventListener("ended", onEnded);
   }
 
   async function start() {
@@ -424,6 +439,8 @@ export function LectureRecorder({
       chunksRef.current = [];
 
       cleanupRef.current = () => {
+        shareEndCleanupRef.current?.();
+        shareEndCleanupRef.current = null;
         displayRef.current?.getTracks().forEach((t) => t.stop());
         display.getTracks().forEach((t) => t.stop());
         mic?.getTracks().forEach((t) => t.stop());
@@ -480,16 +497,8 @@ export function LectureRecorder({
       setElapsed(0);
       setRecording(true);
 
-      // Listen for screen share ending to auto-stop
-      const screenTrack = display.getVideoTracks()[0];
-      screenTrack?.addEventListener(
-        "ended",
-        () => {
-          toast.info("Screen sharing ended — saving recording automatically");
-          stopRecording();
-        },
-        { once: true },
-      );
+      // Listen for screen share ending to auto-stop, except during intentional tab switching.
+      listenForShareEnd(display);
 
       toast.success(
         mic ? "Recording started — backup is being saved continuously 🎙️" : "Recording started (no microphone)",
@@ -641,6 +650,7 @@ export function LectureRecorder({
     const dest = audioDestRef.current;
     const analyser = analyserRef.current;
     if (!ctx || !dest || !analyser) return;
+    switchingRef.current = true;
     setSwitching(true);
     try {
       const next = await navigator.mediaDevices.getDisplayMedia({
@@ -670,12 +680,14 @@ export function LectureRecorder({
         videoElRef.current.srcObject = new MediaStream(next.getVideoTracks());
         await videoElRef.current.play().catch(() => undefined);
       }
+      listenForShareEnd(next);
       displayRef.current?.getTracks().forEach((t) => t.stop());
       displayRef.current = next;
       toast.success("Switched the shared tab — recording continues.");
     } catch {
       toast.error("Tab switch cancelled — the recording is still running on the previous tab.");
     } finally {
+      switchingRef.current = false;
       if (mountedRef.current) setSwitching(false);
     }
   }
@@ -755,9 +767,8 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — every second is backed up automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          Meet sound comes from the shared tab itself when "Also share tab audio" is enabled. If you open YouTube in
-          another tab, press "Switch shared tab" and pick it — the recording keeps running, then switch back to Meet
-          the same way.
+          For Meet + YouTube audio together, choose "Entire screen" and enable "Share system audio" in Chrome. If you
+          share a single tab, the browser only sends that tab's audio, so use "Switch shared tab" when you move sources.
         </p>
       </div>
       <div className="flex flex-wrap gap-2">

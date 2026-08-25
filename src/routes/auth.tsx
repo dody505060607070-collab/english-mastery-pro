@@ -32,6 +32,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { signUpStudent, signUpStaff, getMyAccount } from "@/lib/account.functions";
 import { getPublicCurriculum } from "@/lib/curriculum.functions";
+import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -56,7 +57,7 @@ export const Route = createFileRoute("/auth")({
 const signupSchema = z
   .object({
     fullName: z.string().trim().min(3, "Name is too short").max(100),
-    phone: z.string().trim().regex(/^[0-9]{10,15}$/, "Invalid phone number"),
+    phone: z.string().trim().refine((v) => phoneRegex.test(normalizePhone(v)), "Invalid phone number"),
     password: z.string().min(6, "Password must be at least 6 characters").max(72),
     confirm: z.string(),
     sectionId: z.string().optional(),
@@ -184,7 +185,7 @@ function AuthPage() {
       toast.error("Your account is blocked. Contact academy management.");
       return;
     }
-    localStorage.setItem("bla:last-phone", form.phone.trim());
+    localStorage.setItem("bla:last-phone", normalizePhone(form.phone));
     toast.success("Login successful");
     navigate({ to: account.isStaff ? "/admin" : "/dashboard" });
   }
@@ -194,7 +195,7 @@ function AuthPage() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email: `${form.phone.trim()}@academy.com`,
+        email: phoneToEmail(form.phone),
         password: form.password,
       });
       if (error) throw new Error("Incorrect phone number or password");
@@ -208,7 +209,7 @@ function AuthPage() {
 
   async function onStaffSignup(e: React.FormEvent) {
     e.preventDefault();
-    if (!/^[0-9]{10,15}$/.test(form.phone.trim())) {
+    if (!phoneRegex.test(normalizePhone(form.phone))) {
       toast.error("Invalid phone number");
       return;
     }
@@ -235,7 +236,7 @@ function AuthPage() {
         },
       });
       const { error } = await supabase.auth.signInWithPassword({
-        email: `${form.phone.trim()}@academy.com`,
+        email: phoneToEmail(form.phone),
         password: form.password,
       });
       if (error) {
@@ -273,7 +274,7 @@ function AuthPage() {
         },
       });
       const { error } = await supabase.auth.signInWithPassword({
-        email: `${form.phone.trim()}@academy.com`,
+        email: phoneToEmail(form.phone),
         password: form.password,
       });
       if (error) {

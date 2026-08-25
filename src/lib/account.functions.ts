@@ -1,56 +1,47 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-
-const phoneRegex = /^[0-9]{10,15}$/;
-
-/** This phone always owns the admin panel. */
-export const ADMIN_PHONES = ["01222576172", "01203529460"];
-
-export const phoneToEmail = (phone: string) => `${phone.trim()}@academy.com`;
-
-const signUpSchema = z.object({
-  fullName: z.string().trim().min(3).max(100),
-  phone: z.string().trim().regex(phoneRegex),
-  password: z.string().min(6).max(72),
-  sectionId: z.string().uuid().optional().nullable(),
-  grade: z.string().trim().max(60).optional().nullable(),
-  unitId: z.string().uuid().optional().nullable(),
-  // data URL of the selected photo
-  avatarBase64: z.string().max(4_000_000).optional().nullable(),
-});
-
-function decodeDataUrl(dataUrl: string) {
-  const match = /^data:(image\/[a-zA-Z+]+);base64,(.+)$/.exec(dataUrl);
-  if (!match) return null;
-  const mime = match[1]!;
-  const bytes = Uint8Array.from(atob(match[2]!), (c) => c.charCodeAt(0));
-  if (bytes.byteLength > 3_000_000) return null;
-  return { mime, bytes, ext: mime.split("/")[1]!.replace("jpeg", "jpg") };
-}
+import { normalizePhone, phoneRegex, phoneToEmail } from "@/lib/phone";
+import { ADMIN_PHONES, decodeDataUrl, readStaffAllowlist, requireAdmin, saveStaffAllowlist } from "@/lib/account.server";
+export type { StaffAllowEntry } from "@/lib/account.server";
 
 /** Public signup — always creates a STUDENT account, never an admin. */
 export const signUpStudent = createServerFn({ method: "POST" })
-  .inputValidator((data) => signUpSchema.parse(data))
+  .inputValidator((data) =>
+    z
+      .object({
+        fullName: z.string().trim().min(3).max(100),
+        phone: z.string().trim().min(10),
+        password: z.string().min(6).max(72),
+        sectionId: z.string().uuid().optional().nullable(),
+        grade: z.string().trim().max(60).optional().nullable(),
+        unitId: z.string().uuid().optional().nullable(),
+        avatarBase64: z.string().max(4_000_000).optional().nullable(),
+      })
+      .parse(data),
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const email = phoneToEmail(data.phone);
+    const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
+    const email = phoneToEmail(phone);
 
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password: data.password,
       email_confirm: true,
-      user_metadata: { full_name: data.fullName, phone: data.phone },
+      user_metadata: { full_name: data.fullName, phone },
     });
 
-    if (createError || !created.user) {
+    const createdUser = created?.user ?? null;
+    if (createError || !createdUser) {
       const msg = (createError?.message || "").toLowerCase();
       if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
       throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
     }
 
-    const userId = created.user.id;
-    const isAdminPhone = ADMIN_PHONES.includes(data.phone.trim());
+    const userId = createdUser.id;
+    const isAdminPhone = ADMIN_PHONES.includes(phone);
 
     let avatarPath: string | null = null;
     if (data.avatarBase64) {
@@ -67,7 +58,7 @@ export const signUpStudent = createServerFn({ method: "POST" })
     const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
       id: userId,
       full_name: data.fullName,
-      phone: data.phone,
+      phone,
       section_id: data.sectionId ?? null,
       grade: data.grade ?? null,
       unit_id: data.unitId ?? null,
@@ -111,7 +102,7 @@ export const getMyAccount = createServerFn({ method: "GET" })
 
     // The designated admin phone always owns the admin panel, even if the
     // account was created before that rule existed.
-    const ownPhone = ((profile as any)?.phone as string | undefined)?.trim();
+    const ownPhone = normalizePhone(((profile as any)?.phone as string | undefined) ?? "");
     if (ownPhone && ADMIN_PHONES.includes(ownPhone) && !roleList.includes("admin")) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       await supabaseAdmin
@@ -147,18 +138,35 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     z
       .object({
         fullName: z.string().trim().min(3).max(100).optional(),
+        phone: z.string().trim().optional(),
         avatarPath: z.string().max(300).optional().nullable(),
       })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const patch: { full_name?: string; avatar_url?: string | null } = {};
+    const patch: { full_name?: string; phone?: string; avatar_url?: string | null } = {};
     if (data.fullName !== undefined) patch.full_name = data.fullName;
+    const phone = data.phone !== undefined ? normalizePhone(data.phone) : undefined;
+    if (phone !== undefined) {
+      if (!phoneRegex.test(phone)) throw new Error("Invalid phone number");
+      patch.phone = phone;
+    }
     if (data.avatarPath !== undefined) patch.avatar_url = data.avatarPath;
     if (Object.keys(patch).length === 0) return { success: true };
 
     const { error } = await context.supabase.from("profiles").update(patch).eq("id", context.userId);
     if (error) throw new Error(error.message);
+    if (phone !== undefined || data.fullName !== undefined) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(context.userId, {
+        ...(phone !== undefined ? { email: phoneToEmail(phone), email_confirm: true } : {}),
+        user_metadata: {
+          ...(data.fullName !== undefined ? { full_name: data.fullName } : {}),
+          ...(phone !== undefined ? { phone } : {}),
+        },
+      });
+      if (authError) throw new Error(authError.message);
+    }
     return { success: true };
   });
 
@@ -195,28 +203,6 @@ export const adminExists = createServerFn({ method: "GET" }).handler(async () =>
 
 /* -------------------------------------------------- staff signup allowlist */
 
-const STAFF_KEY = "staff.allowed_phones";
-export type StaffAllowEntry = { phone: string; role: "admin" | "teacher" };
-
-async function readStaffAllowlist() {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin
-    .from("site_content" as never)
-    .select("value")
-    .eq("key", STAFF_KEY)
-    .maybeSingle();
-  const raw = (data as { value?: unknown } | null)?.value;
-  const list = Array.isArray(raw) ? raw : [];
-  return list
-    .filter((e): e is StaffAllowEntry => !!e && typeof (e as StaffAllowEntry).phone === "string")
-    .map((e) => ({ phone: String(e.phone).trim(), role: e.role === "admin" ? "admin" : "teacher" }) as StaffAllowEntry);
-}
-
-async function requireAdmin(supabase: { rpc: Function }, userId: string) {
-  const { data } = await (supabase as any).rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (!data) throw new Error("هذا الإجراء للمدير فقط");
-}
-
 /** Admin-only: list phones allowed to self-register as admin/teacher. */
 export const listStaffPhones = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -234,7 +220,7 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
         entries: z
           .array(
             z.object({
-              phone: z.string().trim().regex(phoneRegex),
+              phone: z.string().trim().min(10),
               role: z.enum(["admin", "teacher"]),
             }),
           )
@@ -244,21 +230,20 @@ export const saveStaffPhones = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await requireAdmin(context.supabase, context.userId);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const seen = new Set<string>();
-    const entries = data.entries.filter((e) => !seen.has(e.phone) && seen.add(e.phone));
-    const { error } = await supabaseAdmin
-      .from("site_content" as never)
-      .upsert({ key: STAFF_KEY, value: entries } as never);
-    if (error) throw new Error(error.message);
+    const entries = data.entries
+      .map((e) => ({ ...e, phone: normalizePhone(e.phone) }))
+      .filter((e) => phoneRegex.test(e.phone) && !seen.has(e.phone) && seen.add(e.phone));
+    await saveStaffAllowlist(entries);
     return { success: true, entries };
   });
 
 /** Public: is this phone allowed to create a staff account? */
 export const checkStaffPhone = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({ phone: z.string().trim().regex(phoneRegex) }).parse(data))
+  .inputValidator((data) => z.object({ phone: z.string().trim().min(10) }).parse(data))
   .handler(async ({ data }) => {
-    const phone = data.phone.trim();
+    const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) return { allowed: false, role: null };
     if (ADMIN_PHONES.includes(phone)) return { allowed: true, role: "admin" as const };
     const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
     return entry ? { allowed: true, role: entry.role } : { allowed: false, role: null };
@@ -270,14 +255,15 @@ export const signUpStaff = createServerFn({ method: "POST" })
     z
       .object({
         fullName: z.string().trim().min(3).max(100),
-        phone: z.string().trim().regex(phoneRegex),
+        phone: z.string().trim().min(10),
         password: z.string().min(6).max(72),
         avatarBase64: z.string().max(4_000_000).optional().nullable(),
       })
       .parse(data),
   )
   .handler(async ({ data }) => {
-    const phone = data.phone.trim();
+    const phone = normalizePhone(data.phone);
+    if (!phoneRegex.test(phone)) throw new Error("رقم الهاتف غير صحيح");
     let role: "admin" | "teacher" | null = ADMIN_PHONES.includes(phone) ? "admin" : null;
     if (!role) {
       const entry = (await readStaffAllowlist()).find((e) => e.phone === phone);
@@ -286,18 +272,32 @@ export const signUpStaff = createServerFn({ method: "POST" })
     if (!role) throw new Error("هذا الرقم غير مصرح له بإنشاء حساب مدير أو مدرس");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const email = phoneToEmail(phone);
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: phoneToEmail(phone),
+      email,
       password: data.password,
       email_confirm: true,
       user_metadata: { full_name: data.fullName, phone },
     });
-    if (createError || !created.user) {
+    let user = created?.user ?? null;
+    const wasExisting = !!createError;
+    if (createError || !user) {
       const msg = (createError?.message || "").toLowerCase();
-      if (msg.includes("already")) throw new Error("رقم الهاتف مسجل بالفعل");
-      throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+      if (!msg.includes("already") && !msg.includes("registered") && !msg.includes("exists")) {
+        throw new Error("تعذر إنشاء الحساب، حاول مرة أخرى");
+      }
+      const { data: listed, error: listError } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (listError) throw new Error(listError.message);
+      user = listed.users.find((u) => u.email?.toLowerCase() === email.toLowerCase()) ?? null;
+      if (!user) throw new Error("الرقم مسجل بالفعل لكن لم نقدر نصلحه تلقائياً");
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        password: data.password,
+        email_confirm: true,
+        user_metadata: { full_name: data.fullName, phone },
+      });
+      if (updateError) throw new Error(updateError.message);
     }
-    const userId = created.user.id;
+    const userId = user.id;
 
     let avatarPath: string | null = null;
     if (data.avatarBase64) {
@@ -321,13 +321,17 @@ export const signUpStaff = createServerFn({ method: "POST" })
       approval_status: "approved",
     } as never);
     if (profileError) {
-      await supabaseAdmin.auth.admin.deleteUser(userId);
+      if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
       throw new Error("تعذر حفظ البيانات");
     }
 
-    await supabaseAdmin
+    const { error: roleError } = await supabaseAdmin
       .from("user_roles")
       .upsert({ user_id: userId, role }, { onConflict: "user_id,role" });
+    if (roleError) {
+      if (!wasExisting) await supabaseAdmin.auth.admin.deleteUser(userId);
+      throw new Error("تعذر حفظ الصلاحية");
+    }
 
     return { success: true, role };
   });

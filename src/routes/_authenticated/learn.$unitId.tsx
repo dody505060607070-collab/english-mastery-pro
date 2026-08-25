@@ -173,7 +173,7 @@ function UnitPage() {
           <h1 className="text-2xl font-black">{data.unit.title}</h1>
           {data.unit.description && <p className="text-sm text-muted-foreground">{data.unit.description}</p>}
           <Progress value={progress} className="h-2.5" />
-          <p className="text-xs font-bold text-muted-foreground">{progress}% مكتمل</p>
+          <p className="text-xs font-bold text-muted-foreground">{progress}% Completed</p>
         </CardContent>
       </Card>
 
@@ -265,7 +265,7 @@ function UnitPage() {
                 disabled={activeIndex <= 0}
                 onClick={() => setActiveId(contents[activeIndex - 1]!.id)}
               >
-                <ArrowRight className="h-4 w-4 ml-1" /> السابق
+                <ArrowRight className="h-4 w-4 ml-1" /> Previous
               </Button>
               <Button
                 className="font-bold"
@@ -394,7 +394,7 @@ function ContentPanel({
             onClick={onToggleDone}
             disabled={busy}
           >
-            {isDone ? "إلغاء الإكمال" : "تحديد كمكتمل"}
+            {isDone ? "Completed" : "Mark as Completed"}
           </Button>
         )}
       </CardContent>
