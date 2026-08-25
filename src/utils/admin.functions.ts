@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { toProfileRole } from "@/lib/account.server";
 
 export const getAdminStats = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -80,7 +81,7 @@ export const updateUserRole = createServerFn({ method: "POST" })
     await supabaseAdmin.from("user_roles").delete().eq("user_id", data.userId);
     const { error } = await supabaseAdmin.from("user_roles").insert({ user_id: data.userId, role: data.role });
     if (error) throw new Error(error.message);
-    await supabaseAdmin.from("profiles").update({ role: data.role }).eq("id", data.userId);
+    await supabaseAdmin.from("profiles").update({ role: toProfileRole(data.role) }).eq("id", data.userId);
 
     await context.supabase.from("activity_logs").insert({
       user_id: context.userId,

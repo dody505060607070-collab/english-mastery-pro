@@ -1,4 +1,6 @@
 export type StaffAllowEntry = { phone: string; role: "admin" | "teacher" };
+export type AppRole = "admin" | "super_admin" | "editor" | "teacher" | "student";
+export type ProfileRole = "admin" | "instructor" | "student";
 
 export const ADMIN_PHONES = ["01222576172", "01203529460"];
 
@@ -45,4 +47,23 @@ export async function saveStaffAllowlist(entries: StaffAllowEntry[]) {
     .from("site_content" as never)
     .upsert({ key: STAFF_KEY, value: entries } as never);
   if (error) throw new Error(error.message);
+}
+
+export function toProfileRole(role: AppRole): ProfileRole {
+  if (role === "student") return "student";
+  if (role === "teacher" || role === "editor") return "instructor";
+  return "admin";
+}
+
+export async function findAuthUserByEmail(supabaseAdmin: any, email: string) {
+  const needle = email.toLowerCase();
+  for (let page = 1; page <= 50; page += 1) {
+    const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) throw new Error(error.message);
+    const users = data?.users ?? [];
+    const user = users.find((u: { email?: string | null }) => u.email?.toLowerCase() === needle);
+    if (user) return user;
+    if (users.length < 1000) return null;
+  }
+  return null;
 }
