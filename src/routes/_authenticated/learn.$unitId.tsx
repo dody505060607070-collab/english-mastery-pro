@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import { Progress } from "@/components/ui/progress";
 import { InteractiveText } from "@/components/InteractiveText";
+import { GrammarLesson } from "@/components/GrammarLesson";
 import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
