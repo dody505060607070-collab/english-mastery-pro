@@ -151,9 +151,9 @@ function BlockView({ block }: { block: Block }) {
             <span
               className={cn(
                 "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md text-xs font-black",
-                it.sign === "+" && "bg-emerald-500/15 text-emerald-600",
-                it.sign === "-" && "bg-rose-500/15 text-rose-600",
-                it.sign === "?" && "bg-sky-500/15 text-sky-600",
+                it.sign === "+" && "bg-primary/15 text-primary",
+                it.sign === "-" && "bg-primary/5 text-primary/70 border border-primary/20",
+                it.sign === "?" && "bg-primary/10 text-primary",
               )}
             >
               {it.sign}
