@@ -11,17 +11,19 @@ type Block =
 
 type Section = { title: string; blocks: Block[] };
 
+const TONE = "bg-primary/10 text-primary border-primary/25";
+
 const ICONS: { match: RegExp; icon: typeof BookText; tone: string }[] = [
-  { match: /(learn|objective|goal|هدف)/i, icon: Lightbulb, tone: "bg-sky-500/10 text-sky-600 border-sky-500/25" },
-  { match: /(form|structure|rule|قاعدة)/i, icon: Table2, tone: "bg-amber-500/10 text-amber-600 border-amber-500/25" },
-  { match: /(example|أمثلة)/i, icon: Sparkles, tone: "bg-emerald-500/10 text-emerald-600 border-emerald-500/25" },
-  { match: /(mistake|error|أخطاء)/i, icon: AlertTriangle, tone: "bg-rose-500/10 text-rose-600 border-rose-500/25" },
-  { match: /(practice|drill|exercise|تدريب)/i, icon: ListChecks, tone: "bg-violet-500/10 text-violet-600 border-violet-500/25" },
+  { match: /(learn|objective|goal|هدف)/i, icon: Lightbulb, tone: TONE },
+  { match: /(form|structure|rule|قاعدة)/i, icon: Table2, tone: TONE },
+  { match: /(example|أمثلة)/i, icon: Sparkles, tone: TONE },
+  { match: /(mistake|error|أخطاء)/i, icon: AlertTriangle, tone: TONE },
+  { match: /(practice|drill|exercise|تدريب)/i, icon: ListChecks, tone: TONE },
 ];
 
 function sectionStyle(title: string) {
   const hit = ICONS.find((i) => i.match.test(title));
-  return hit ?? { icon: BookText, tone: "bg-primary/10 text-primary border-primary/25", match: /./ };
+  return hit ?? { icon: BookText, tone: TONE, match: /./ };
 }
 
 /** Parses plain / lightly-marked lesson text into readable sections. */
