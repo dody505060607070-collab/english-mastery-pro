@@ -153,8 +153,8 @@ function backupBlob(chunks: Blob[], mime: string) {
 
 /**
  * Records the lecture from the admin's browser. The capture source is whatever
- * the teacher picks in the browser picker — intended to be the Google Meet tab
- * (with "Also share tab audio" enabled so Meet's own sound is recorded).
+ * the teacher picks in the browser picker — intended to be the entire screen
+ * (with system audio enabled so Meet and any shared media are recorded).
  * Nothing external (YouTube etc.) needs to be opened for audio to work.
  *
  * Audio is mixed through the Web Audio API because MediaRecorder only records
@@ -195,17 +195,12 @@ export function LectureRecorder({
   const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
   const [recovering, setRecovering] = useState(false);
   const [attemptNo, setAttemptNo] = useState(0);
-  const [switching, setSwitching] = useState(false);
-  const switchingRef = useRef(false);
   const shareEndCleanupRef = useRef<(() => void) | null>(null);
-  // Live capture pipeline refs — allow swapping the shared tab mid-recording.
   const audioCtxRef = useRef<AudioContext | null>(null);
   const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const displayRef = useRef<MediaStream | null>(null);
   const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
-  const videoElRef = useRef<HTMLVideoElement | null>(null);
-  const paintRef = useRef<number | null>(null);
 
 
   useEffect(() => {
@@ -280,7 +275,7 @@ export function LectureRecorder({
     const screenTrack = stream.getVideoTracks()[0];
     if (!screenTrack) return;
     const onEnded = () => {
-      if (switchingRef.current || finalizingRef.current) return;
+      if (finalizingRef.current) return;
       toast.info("Screen sharing ended — saving recording automatically");
       stopRecording();
     };
@@ -312,15 +307,16 @@ export function LectureRecorder({
       }
       finalizingRef.current = false;
 
-      // 1. Obtain the actual screen media stream. The teacher picks the Google Meet
-      // tab in the browser picker; "Also share tab audio" captures Meet's own sound.
+      // Capture the entire screen once. This keeps Meet, YouTube, and any other app
+      // visible without requesting a new permission whenever the teacher changes tabs.
       const display = await navigator.mediaDevices.getDisplayMedia({
-        video: { frameRate: 30 },
+        video: { frameRate: { ideal: 24, max: 24 }, width: { ideal: 1280 }, height: { ideal: 720 } },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
-        // Newer Chrome options: prefer including system/tab audio when available.
         ...({
           systemAudio: "include",
-          surfaceSwitching: "include",
+          surfaceSwitching: "exclude",
+          monitorTypeSurfaces: "include",
+          selfBrowserSurface: "exclude",
         } as Record<string, unknown>),
       } as DisplayMediaStreamOptions);
 
@@ -375,48 +371,29 @@ export function LectureRecorder({
         return;
       }
 
-      // Video goes through a canvas so the shared tab can be swapped mid-recording
-      // (Google Meet -> YouTube -> Google Meet) without restarting the recorder.
-      const videoEl = document.createElement("video");
-      videoEl.muted = true;
-      videoEl.playsInline = true;
-      videoEl.srcObject = new MediaStream(display.getVideoTracks());
-      await videoEl.play().catch(() => undefined);
-      videoElRef.current = videoEl;
-
-      const frame = document.createElement("canvas");
-      frame.width = 1280;
-      frame.height = 720;
-      const fctx = frame.getContext("2d");
-      const paint = () => {
-        if (fctx && videoElRef.current && videoElRef.current.videoWidth > 0) {
-          const v = videoElRef.current;
-          const scale = Math.min(frame.width / v.videoWidth, frame.height / v.videoHeight);
-          const w = v.videoWidth * scale;
-          const h = v.videoHeight * scale;
-          fctx.fillStyle = "#000";
-          fctx.fillRect(0, 0, frame.width, frame.height);
-          fctx.drawImage(v, (frame.width - w) / 2, (frame.height - h) / 2, w, h);
-        }
-        paintRef.current = requestAnimationFrame(paint);
-      };
-      paint();
-
-      const canvasStream = frame.captureStream(30);
-      const stream = new MediaStream([...canvasStream.getVideoTracks(), ...mixed]);
+      const stream = new MediaStream([...display.getVideoTracks(), ...mixed]);
 
       // live mic level meter so the admin can confirm the sound is captured
       const buf = new Uint8Array(analyser.fftSize);
+      let lastUiUpdate = 0;
+      let wasSilent = false;
       const tick = () => {
         analyser.getByteTimeDomainData(buf);
         let peak = 0;
         for (let i = 0; i < buf.length; i++) peak = Math.max(peak, Math.abs((buf[i] ?? 128) - 128) / 128);
-        setLevel(peak);
         if (peak > 0.02) {
           loudAtRef.current = Date.now();
-          setSilent(false);
-        } else if (Date.now() - loudAtRef.current > 5000) {
-          setSilent(true);
+        }
+        const now = performance.now();
+        const isSilent = Date.now() - loudAtRef.current > 5000;
+        // Keep the canvas smooth, but avoid re-rendering the whole recorder at 60fps.
+        if (now - lastUiUpdate >= 100) {
+          setLevel(peak);
+          lastUiUpdate = now;
+        }
+        if (isSilent !== wasSilent) {
+          setSilent(isSilent);
+          wasSilent = isSilent;
         }
         drawWave(canvasRef.current, buf, peak);
         rafRef.current = requestAnimationFrame(tick);
@@ -445,13 +422,9 @@ export function LectureRecorder({
         display.getTracks().forEach((t) => t.stop());
         mic?.getTracks().forEach((t) => t.stop());
         dest.stream.getTracks().forEach((t) => t.stop());
-        canvasStream.getTracks().forEach((t) => t.stop());
         void ctx.close().catch(() => undefined);
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
-        if (paintRef.current) cancelAnimationFrame(paintRef.current);
         rafRef.current = null;
-        paintRef.current = null;
-        videoElRef.current = null;
         displayRef.current = null;
         displayAudioNodesRef.current = null;
         audioCtxRef.current = null;
@@ -473,8 +446,8 @@ export function LectureRecorder({
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) {
           chunksRef.current.push(e.data);
-          // Incremental backup: every chunk (1/sec) is persisted immediately, so a
-          // crash or power cut loses at most ~1 second — stop() is not required.
+          // Persist each recorder chunk. Five-second chunks greatly reduce disk work
+          // and startup lag while still keeping a crash-safe local backup.
           void backupAppendChunk(e.data, backupMeta);
         }
       };
@@ -491,7 +464,7 @@ export function LectureRecorder({
         toast.error("Recording error occurred — saved chunks are safe in the backup");
         stopRecording();
       };
-      rec.start(1000);
+      rec.start(5000);
       recorderRef.current = rec;
       startedAtRef.current = Date.now();
       setElapsed(0);
@@ -640,58 +613,6 @@ export function LectureRecorder({
     }
   }
 
-  /**
-   * Swap the shared tab while recording continues (Meet -> YouTube -> Meet).
-   * The recorder keeps running because video comes from a canvas and audio from
-   * a Web Audio mix; only the source behind them is replaced.
-   */
-  async function switchSource() {
-    const ctx = audioCtxRef.current;
-    const dest = audioDestRef.current;
-    const analyser = analyserRef.current;
-    if (!ctx || !dest || !analyser) return;
-    switchingRef.current = true;
-    setSwitching(true);
-    try {
-      const next = await navigator.mediaDevices.getDisplayMedia({
-        video: { frameRate: 30 },
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
-        ...({ systemAudio: "include", surfaceSwitching: "include" } as Record<string, unknown>),
-      } as DisplayMediaStreamOptions);
-
-      // disconnect old tab audio, keep the mic untouched
-      const old = displayAudioNodesRef.current;
-      if (old) {
-        old.gain.disconnect();
-        old.src.disconnect();
-      }
-      displayAudioNodesRef.current = null;
-      if (next.getAudioTracks().length > 0) {
-        const src = ctx.createMediaStreamSource(next);
-        const g = ctx.createGain();
-        g.gain.value = 0.8;
-        src.connect(g);
-        g.connect(dest);
-        g.connect(analyser);
-        displayAudioNodesRef.current = { src, gain: g };
-      }
-
-      if (videoElRef.current) {
-        videoElRef.current.srcObject = new MediaStream(next.getVideoTracks());
-        await videoElRef.current.play().catch(() => undefined);
-      }
-      listenForShareEnd(next);
-      displayRef.current?.getTracks().forEach((t) => t.stop());
-      displayRef.current = next;
-      toast.success("Switched the shared tab — recording continues.");
-    } catch {
-      toast.error("Tab switch cancelled — the recording is still running on the previous tab.");
-    } finally {
-      switchingRef.current = false;
-      if (mountedRef.current) setSwitching(false);
-    }
-  }
-
   async function downloadBackup() {
 
     const backup = await backupRead();
@@ -764,20 +685,16 @@ export function LectureRecorder({
       </div>
       <div className="rounded-lg border border-primary/30 bg-primary/5 p-3 text-xs font-bold">
         <p className="flex items-center gap-1.5">
-          <MonitorUp className="h-4 w-4 text-primary" /> Recording now — every second is backed up automatically.
+          <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          For Meet + YouTube audio together, choose "Entire screen" and enable "Share system audio" in Chrome. If you
-          share a single tab, the browser only sends that tab's audio, so use "Switch shared tab" when you move sources.
+          Choose "Entire screen" once and enable "Share system audio" in Chrome. Meet, YouTube, and other apps will then
+          stay in the same recording without asking for screen access again.
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
           <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
-        </Button>
-        <Button size="sm" variant="outline" className="gap-2" disabled={switching} onClick={() => void switchSource()}>
-          {switching ? <Loader2 className="h-4 w-4 animate-spin" /> : <MonitorUp className="h-4 w-4" />}
-          Switch shared tab
         </Button>
       </div>
 
@@ -832,7 +749,7 @@ export function LectureRecorder({
         </div>
       )}
       <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture (Google Meet tab)
+        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture (Entire Screen)
       </Button>
     </div>
   );

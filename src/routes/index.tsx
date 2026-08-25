@@ -10,6 +10,7 @@ import learningIllustration from "@/assets/learning-illustration.jpg";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteContent, pickText } from "@/lib/content";
+import { useLang } from "@/lib/i18n";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -42,13 +43,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { lang, t } = useLang();
   const { data: siteContent } = useSiteContent();
-  const T = (key: string, fallback: string) => pickText(siteContent?.[key], "ar", fallback);
+  const T = (key: string, fallback: string) => pickText(siteContent?.[key], lang, fallback);
   // Features come ONLY from Admin → Site Content: deleting a key removes the item from the site.
   const features = [1, 2, 3, 4, 5, 6]
     .map((n) => ({
-      title: pickText(siteContent?.[`home.feature${n}.title`], "ar", ""),
-      desc: pickText(siteContent?.[`home.feature${n}.desc`], "ar", ""),
+      title: pickText(siteContent?.[`home.feature${n}.title`], lang, ""),
+      desc: pickText(siteContent?.[`home.feature${n}.desc`], lang, ""),
     }))
     .filter((f) => f.title.trim().length > 0);
   const whatsapp = T("contact.whatsapp", "+201035851426").replace(/[^\d]/g, "");
@@ -79,7 +81,7 @@ function Index() {
   });
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20" dir="ltr">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20" dir={lang === "ar" ? "rtl" : "ltr"}>
       {/* Dynamic Background Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
@@ -99,34 +101,34 @@ function Index() {
           
           <nav className="hidden lg:flex gap-8">
             <Link to="/" className="text-sm font-semibold hover:text-primary transition-colors relative group">
-              Home
+              {t("nav_home")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
             <Link to="/courses" className="text-sm font-semibold hover:text-primary transition-colors relative group">
-              Courses
+              {t("nav_courses")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
             <Link to="/dashboard" className="text-sm font-semibold hover:text-primary transition-colors relative group">
-              Dashboard
+              {t("nav_dashboard")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
             <Link to="/profile" className="text-sm font-semibold hover:text-primary transition-colors relative group">
-              Profile
+              {t("nav_profile")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
             <Link to="/practice" className="text-sm font-semibold hover:text-primary transition-colors relative group">
-              Practice
+              {t("nav_practice")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
           </nav>
           
           <div className="flex items-center gap-2 md:gap-4">
             <Link to="/auth" className="hidden sm:block">
-              <Button variant="ghost" className="font-bold">Login</Button>
+              <Button variant="ghost" className="font-bold">{t("nav_login")}</Button>
             </Link>
             <Link to="/auth">
               <Button className="font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all px-4 md:px-6 text-sm md:text-base">
-                Join Now
+                {t("nav_start")}
               </Button>
             </Link>
             {/* Mobile Menu Trigger */}
