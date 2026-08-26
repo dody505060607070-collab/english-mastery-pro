@@ -100,14 +100,19 @@ export function parseGrammar(body: string): Section[] {
 
 function BlockView({ block }: { block: Block }) {
   if (block.kind === "para")
-    return <InteractiveText text={block.text} className="text-sm leading-8 text-foreground/90" />;
+    return <InteractiveText text={block.text} className="text-[15px] leading-8 text-foreground/90" />;
 
   if (block.kind === "bullets")
     return (
-      <ul className="space-y-1.5">
+      <ul className="grid gap-2 sm:grid-cols-2">
         {block.items.map((it, i) => (
-          <li key={i} className="flex gap-2 text-sm leading-7">
-            <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+          <li
+            key={i}
+            className="flex gap-2.5 rounded-xl border border-primary/15 bg-primary/[0.04] px-3 py-2 text-sm leading-7"
+          >
+            <span className="mt-2 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/15 text-[10px] font-black text-primary">
+              {i + 1}
+            </span>
             <InteractiveText text={it} className="text-sm text-foreground/90" />
           </li>
         ))}
@@ -116,17 +121,21 @@ function BlockView({ block }: { block: Block }) {
 
   if (block.kind === "table")
     return (
-      <div className="overflow-hidden rounded-2xl border">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto rounded-2xl border border-primary/20 shadow-sm">
+        <table className="w-full min-w-[420px] border-collapse text-sm">
           <tbody>
             {block.rows.map((row, ri) => (
-              <tr key={ri} className={cn("border-b last:border-0", ri % 2 ? "bg-muted/20" : "bg-background")}>
+              <tr key={ri} className="border-b border-primary/10 last:border-0">
                 {row.map((cell, ci) => (
                   <td
                     key={ci}
                     className={cn(
-                      "px-3 py-2 align-middle",
-                      ci === 0 && "w-36 bg-muted/40 font-black",
+                      "px-3 py-2.5 align-middle",
+                      ci === 0
+                        ? "w-32 border-r border-primary/10 bg-primary/10 text-[13px] font-black text-primary"
+                        : ri % 2
+                          ? "bg-primary/[0.03]"
+                          : "bg-card",
                       ci === 1 && "font-mono text-[13px] text-muted-foreground",
                     )}
                   >
@@ -145,31 +154,43 @@ function BlockView({ block }: { block: Block }) {
 
   if (block.kind === "examples")
     return (
-      <div className="space-y-1.5">
+      <div className="grid gap-2">
         {block.items.map((it, i) => (
-          <div key={i} className="flex items-start gap-2">
+          <div
+            key={i}
+            className="flex items-start gap-3 rounded-xl border border-primary/15 bg-card px-3 py-2.5 shadow-sm"
+          >
             <span
               className={cn(
-                "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md text-xs font-black",
-                it.sign === "+" && "bg-primary/15 text-primary",
-                it.sign === "-" && "bg-primary/5 text-primary/70 border border-primary/20",
-                it.sign === "?" && "bg-primary/10 text-primary",
+                "mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-lg text-xs font-black",
+                it.sign === "+" && "bg-emerald-500/12 text-emerald-600",
+                it.sign === "-" && "bg-rose-500/12 text-rose-600",
+                it.sign === "?" && "bg-primary/12 text-primary",
               )}
             >
               {it.sign}
             </span>
-            <InteractiveText text={it.text} className="text-sm leading-7 text-foreground/90" />
+            <InteractiveText text={it.text} className="text-[15px] leading-7 text-foreground/90" />
+            <SpeakButton text={it.text} />
           </div>
         ))}
       </div>
     );
 
   return (
-    <div className="space-y-2">
+    <div className="grid gap-2">
       {block.items.map((it, i) => (
-        <div key={i} className="rounded-xl border border-primary/25 bg-primary/5 px-3 py-2">
-          <p className="text-sm font-bold text-muted-foreground line-through">{it.wrong}</p>
-          {it.right && <p className="text-sm font-bold text-primary">{it.right}</p>}
+        <div key={i} className="overflow-hidden rounded-xl border border-primary/15 bg-card shadow-sm">
+          <p className="flex items-center gap-2 border-b border-primary/10 bg-rose-500/[0.06] px-3 py-2 text-sm font-bold text-rose-600 line-through">
+            {it.wrong}
+          </p>
+          {it.right && (
+            <p className="flex items-center gap-2 px-3 py-2 text-sm font-bold text-emerald-600">
+              <span className="text-xs">✓</span>
+              {it.right}
+              <SpeakButton text={it.right} />
+            </p>
+          )}
         </div>
       ))}
     </div>
@@ -186,15 +207,22 @@ export function GrammarLesson({ body }: { body: string }) {
         const style = sectionStyle(s.title);
         const Icon = style.icon;
         return (
-          <section key={i} className="overflow-hidden rounded-2xl border border-primary/20 bg-primary/5">
+          <section
+            key={i}
+            className="overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-b from-primary/[0.07] to-transparent shadow-sm transition-shadow hover:shadow-md"
+          >
             {s.title && (
-              <header className={cn("flex items-center gap-2 border-b border-primary/20 px-4 py-2.5", style.tone)}>
-                <Icon className="h-4 w-4 shrink-0" />
-                <h3 className="truncate text-sm font-black">{s.title}</h3>
+              <header className="flex items-center gap-2.5 border-b border-primary/20 bg-primary/10 px-4 py-3">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-card text-primary shadow-sm">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <h3 className="truncate text-base font-black tracking-tight text-primary">{s.title}</h3>
+                <span className="ml-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black text-primary/70">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
               </header>
             )}
-            <div className="space-y-3 bg-card/70 p-4">
-
+            <div className="space-y-3.5 bg-card/80 p-4 md:p-5">
               {s.blocks.map((b, bi) => (
                 <BlockView key={bi} block={b} />
               ))}
@@ -205,3 +233,4 @@ export function GrammarLesson({ body }: { body: string }) {
     </div>
   );
 }
+

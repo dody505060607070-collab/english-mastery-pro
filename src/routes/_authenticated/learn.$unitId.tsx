@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import { Progress } from "@/components/ui/progress";
 import { InteractiveText } from "@/components/InteractiveText";
-import { GrammarLesson } from "@/components/GrammarLesson";
+import { GrammarLesson, parseGrammar } from "@/components/GrammarLesson";
 import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
@@ -361,7 +361,7 @@ function ContentPanel({
             {content.body && (
               <div className="space-y-3">
                 <AudioPlayer text={content.body} />
-                {content.content_type === "grammar" ? (
+                {content.content_type === "grammar" || parseGrammar(content.body).length > 1 ? (
                   <>
                     <GrammarLesson body={content.body} />
                     <p className="text-[11px] text-muted-foreground">
@@ -369,13 +369,14 @@ function ContentPanel({
                     </p>
                   </>
                 ) : (
-                  <div className="rounded-2xl bg-muted/40 p-3">
-                    <InteractiveText text={content.body} className="text-sm text-foreground/90 leading-8" />
+                  <div className="rounded-2xl border border-primary/15 bg-gradient-to-b from-primary/[0.06] to-transparent p-4">
+                    <InteractiveText text={content.body} className="text-[15px] text-foreground/90 leading-8" />
                     <p className="mt-2 text-[11px] text-muted-foreground">
                       Tap any English word to hear its pronunciation, or double-tap to see its meaning and add it to your dictionary.
                     </p>
                   </div>
                 )}
+
               </div>
             )}
 

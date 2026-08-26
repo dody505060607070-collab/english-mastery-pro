@@ -87,20 +87,26 @@ function WordCard({
 
 
   return (
-    <motion.div whileHover={{ y: -2 }}>
-      <Card className={cn("overflow-hidden h-full", isLearned && "border-emerald-500/50 bg-emerald-500/5")}>
+    <motion.div whileHover={{ y: -3 }}>
+      <Card
+        className={cn(
+          "overflow-hidden h-full border-primary/20 bg-gradient-to-b from-primary/[0.06] to-transparent shadow-sm transition-shadow hover:shadow-md",
+          isLearned && "border-emerald-500/50 from-emerald-500/[0.08]",
+        )}
+      >
         <CardContent className="p-4 space-y-3">
           <div className="flex items-start gap-3">
-            <div className="h-14 w-14 shrink-0 rounded-xl bg-muted grid place-items-center overflow-hidden">
+            <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/10 grid place-items-center overflow-hidden ring-1 ring-primary/15">
               {img ? (
                 <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
               ) : (
-                <ImageOff className="h-5 w-5 text-muted-foreground" />
+                <ImageOff className="h-5 w-5 text-primary/60" />
               )}
             </div>
             <div className="flex-1 min-w-0" dir="ltr">
               <div className="flex items-center gap-2">
-                <p className="font-black text-lg truncate">{word.word}</p>
+                <p className="font-black text-lg truncate tracking-tight">{word.word}</p>
+
                 <Button
                   size="icon"
                   variant={active(wordOwner) ? "default" : "ghost"}
