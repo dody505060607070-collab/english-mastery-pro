@@ -6,6 +6,7 @@ import { Loader2, Plus, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
+import { parseInline } from "@/lib/richtext";
 import { primeAudio, playText, useAudioState } from "@/lib/audio";
 
 
