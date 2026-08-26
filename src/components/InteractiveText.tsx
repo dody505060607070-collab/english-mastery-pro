@@ -112,14 +112,22 @@ function WordChip({ word }: { word: string }) {
                 {info.example}
               </p>
             )}
-            <Button size="sm" className="w-full" onClick={() => save.mutate()} disabled={save.isPending}>
-              {save.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Plus className="h-4 w-4" />
-              )}
-              <span className="mr-1">Add to my dictionary</span>
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" className="flex-1" onClick={() => save.mutate(false)} disabled={save.isPending}>
+                {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                <span className="mr-1">Save word</span>
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                title="Save & star for later review"
+                onClick={() => save.mutate(true)}
+                disabled={save.isPending}
+              >
+                <Star className="h-4 w-4 text-amber-500" />
+              </Button>
+            </div>
+
           </>
         )}
       </PopoverContent>
