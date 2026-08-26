@@ -132,6 +132,7 @@ export const listMyWords = createServerFn({ method: "GET" })
       .from("user_vocabulary")
       .select("*")
       .eq("user_id", context.userId)
+      .order("starred", { ascending: false })
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
