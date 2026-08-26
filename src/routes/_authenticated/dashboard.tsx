@@ -407,11 +407,9 @@ function Dashboard() {
           {enrollments?.length === 0 && (
             <div className="col-span-full">
               <EmptyState 
-                title="No enrolled courses!"
-                description="It seems you haven't subscribed to any educational courses yet. Start your learning journey now and explore our comprehensive course library."
+                title="No courses yet"
+                description="Your courses will appear here once your teacher adds them to your account."
                 icon="graduation"
-                actionText="Explore Courses Now"
-                onAction={() => window.location.href = '/courses'}
               />
             </div>
           )}
