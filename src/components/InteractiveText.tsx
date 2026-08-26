@@ -6,6 +6,7 @@ import { Loader2, Plus, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
+import { parseInline } from "@/lib/richtext";
 import { primeAudio, playText, useAudioState } from "@/lib/audio";
 
 
@@ -129,24 +130,29 @@ function WordChip({ word }: { word: string }) {
 /**
  * Renders text where every English word is clickable:
  * single click = pronunciation, double click = Arabic meaning + save to vocabulary.
+ * Supports inline formatting: **bold**, *italic*, __underline__, ==highlight==,
+ * ==blue|highlight==, !!red|colored text!!, `code`.
  */
 export function InteractiveText({ text, className }: { text: string; className?: string }) {
-  const tokens = text.split(/(\s+)/);
   return (
     <div className={cn("leading-loose whitespace-pre-wrap", className)}>
-      {tokens.map((tok, i) => {
-        const core = tok.match(/[A-Za-z][A-Za-z'-]*/);
-        if (!core) return <span key={i}>{tok}</span>;
-        const before = tok.slice(0, core.index ?? 0);
-        const after = tok.slice((core.index ?? 0) + core[0].length);
-        return (
-          <span key={i}>
-            {before}
-            <WordChip word={core[0]} />
-            {after}
-          </span>
-        );
-      })}
+      {parseInline(text).map((part, pi) => (
+        <span key={pi} className={part.className}>
+          {part.text.split(/(\s+)/).map((tok, i) => {
+            const core = tok.match(/[A-Za-z][A-Za-z'-]*/);
+            if (!core) return <span key={i}>{tok}</span>;
+            const before = tok.slice(0, core.index ?? 0);
+            const after = tok.slice((core.index ?? 0) + core[0].length);
+            return (
+              <span key={i}>
+                {before}
+                <WordChip word={core[0]} />
+                {after}
+              </span>
+            );
+          })}
+        </span>
+      ))}
     </div>
   );
 }

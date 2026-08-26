@@ -1,4 +1,5 @@
 import { InteractiveText, SpeakButton } from "@/components/InteractiveText";
+import { RichText } from "@/lib/richtext";
 import { cn } from "@/lib/utils";
 import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles } from "lucide-react";
 
@@ -140,7 +141,7 @@ function BlockView({ block }: { block: Block }) {
                     )}
                   >
                     <span className="inline-flex items-center gap-2">
-                      {cell}
+                      <RichText text={cell} />
                       {ci > 0 && ci === row.length - 1 && cell.length > 3 && <SpeakButton text={cell} />}
                     </span>
                   </td>
@@ -182,12 +183,12 @@ function BlockView({ block }: { block: Block }) {
       {block.items.map((it, i) => (
         <div key={i} className="overflow-hidden rounded-xl border border-primary/25 bg-card shadow-sm">
           <p className="flex items-center gap-2 border-b border-primary/20 bg-rose-500/[0.10] px-3 py-2 text-sm font-bold text-rose-600 line-through">
-            {it.wrong}
+            <RichText text={it.wrong} />
           </p>
           {it.right && (
             <p className="flex items-center gap-2 px-3 py-2 text-sm font-bold text-emerald-600">
               <span className="text-xs">✓</span>
-              {it.right}
+              <RichText text={it.right} />
               <SpeakButton text={it.right} />
             </p>
           )}

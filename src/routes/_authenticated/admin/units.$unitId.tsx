@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { FormattedTextarea } from "@/components/FormattedTextarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -264,7 +265,7 @@ function ContentDialog({
           </div>
           <div className="space-y-2">
             <Label className="font-bold">Explanation / Text</Label>
-            <Textarea value={body} onChange={(e) => setBody(e.target.value)} rows={8} />
+            <FormattedTextarea value={body} onChange={setBody} rows={10} />
           </div>
           <FileUploadField
             label="Media (video / audio / PDF / image)"
