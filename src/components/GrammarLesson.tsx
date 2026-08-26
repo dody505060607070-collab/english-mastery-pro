@@ -140,7 +140,7 @@ function BlockView({ block }: { block: Block }) {
                     )}
                   >
                     <span className="inline-flex items-center gap-2">
-                      {cell}
+                      <RichText text={cell} />
                       {ci > 0 && ci === row.length - 1 && cell.length > 3 && <SpeakButton text={cell} />}
                     </span>
                   </td>
