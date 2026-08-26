@@ -264,7 +264,7 @@ function ContentDialog({
           </div>
           <div className="space-y-2">
             <Label className="font-bold">Explanation / Text</Label>
-            <Textarea value={body} onChange={(e) => setBody(e.target.value)} rows={8} />
+            <FormattedTextarea value={body} onChange={setBody} rows={10} />
           </div>
           <FileUploadField
             label="Media (video / audio / PDF / image)"
