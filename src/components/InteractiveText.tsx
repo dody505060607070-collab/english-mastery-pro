@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, Volume2 } from "lucide-react";
+import { Loader2, Plus, Star, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
@@ -54,10 +54,11 @@ function WordChip({ word }: { word: string }) {
   });
 
   const save = useMutation({
-    mutationFn: () =>
+    mutationFn: (starred: boolean) =>
       saveMyWord({
         data: {
           word,
+          starred,
           ...(info?.translation ? { translation: info.translation } : {}),
           ...(info?.phonetic ? { phonetic: info.phonetic } : {}),
           ...(info?.example ? { example: info.example } : {}),
@@ -112,14 +113,22 @@ function WordChip({ word }: { word: string }) {
                 {info.example}
               </p>
             )}
-            <Button size="sm" className="w-full" onClick={() => save.mutate()} disabled={save.isPending}>
-              {save.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Plus className="h-4 w-4" />
-              )}
-              <span className="mr-1">Add to my dictionary</span>
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" className="flex-1" onClick={() => save.mutate(false)} disabled={save.isPending}>
+                {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                <span className="mr-1">Save word</span>
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                title="Save & star for later review"
+                onClick={() => save.mutate(true)}
+                disabled={save.isPending}
+              >
+                <Star className="h-4 w-4 text-amber-500" />
+              </Button>
+            </div>
+
           </>
         )}
       </PopoverContent>
