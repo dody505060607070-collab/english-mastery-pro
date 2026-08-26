@@ -90,13 +90,13 @@ function WordCard({
     <motion.div whileHover={{ y: -3 }}>
       <Card
         className={cn(
-          "overflow-hidden h-full border-primary/20 bg-gradient-to-b from-primary/[0.06] to-transparent shadow-sm transition-shadow hover:shadow-md",
-          isLearned && "border-emerald-500/50 from-emerald-500/[0.08]",
+          "overflow-hidden h-full border-primary/30 bg-gradient-to-b from-primary/[0.14] to-transparent shadow-sm transition-shadow hover:shadow-md",
+          isLearned && "border-emerald-500/50 from-emerald-500/[0.12]",
         )}
       >
         <CardContent className="p-4 space-y-3">
           <div className="flex items-start gap-3">
-            <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/10 grid place-items-center overflow-hidden ring-1 ring-primary/15">
+            <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/20 grid place-items-center overflow-hidden ring-1 ring-primary/25">
               {img ? (
                 <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
               ) : (
