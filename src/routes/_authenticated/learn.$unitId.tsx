@@ -168,7 +168,7 @@ function UnitPage() {
         </Link>
       </Button>
 
-      <Card className="bg-gradient-to-l from-primary/10 to-transparent border-primary/20">
+      <Card className="bg-gradient-to-l from-primary/20 to-transparent border-primary/30">
         <CardContent className="p-6 space-y-3">
           <p className="text-xs font-bold text-primary">{(data.unit as any).sections?.name}</p>
           <h1 className="text-2xl font-black">{data.unit.title}</h1>
@@ -369,7 +369,7 @@ function ContentPanel({
                     </p>
                   </>
                 ) : (
-                  <div className="rounded-2xl border border-primary/15 bg-gradient-to-b from-primary/[0.06] to-transparent p-4">
+                  <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
                     <InteractiveText text={content.body} className="text-[15px] text-foreground/90 leading-8" />
                     <p className="mt-2 text-[11px] text-muted-foreground">
                       Tap any English word to hear its pronunciation, or double-tap to see its meaning and add it to your dictionary.
