@@ -11,7 +11,7 @@ type Block =
 
 type Section = { title: string; blocks: Block[] };
 
-const TONE = "bg-primary/10 text-primary border-primary/25";
+const TONE = "bg-primary/20 text-primary border-primary/35";
 
 const ICONS: { match: RegExp; icon: typeof BookText; tone: string }[] = [
   { match: /(learn|objective|goal|هدف)/i, icon: Lightbulb, tone: TONE },
@@ -108,9 +108,9 @@ function BlockView({ block }: { block: Block }) {
         {block.items.map((it, i) => (
           <li
             key={i}
-            className="flex gap-2.5 rounded-xl border border-primary/15 bg-primary/[0.04] px-3 py-2 text-sm leading-7"
+            className="flex gap-2.5 rounded-xl border border-primary/25 bg-primary/[0.10] px-3 py-2 text-sm leading-7"
           >
-            <span className="mt-2 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/15 text-[10px] font-black text-primary">
+            <span className="mt-2 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/25 text-[10px] font-black text-primary">
               {i + 1}
             </span>
             <InteractiveText text={it} className="text-sm text-foreground/90" />
@@ -121,20 +121,20 @@ function BlockView({ block }: { block: Block }) {
 
   if (block.kind === "table")
     return (
-      <div className="overflow-x-auto rounded-2xl border border-primary/20 shadow-sm">
+      <div className="overflow-x-auto rounded-2xl border border-primary/30 shadow-sm">
         <table className="w-full min-w-[420px] border-collapse text-sm">
           <tbody>
             {block.rows.map((row, ri) => (
-              <tr key={ri} className="border-b border-primary/10 last:border-0">
+              <tr key={ri} className="border-b border-primary/20 last:border-0">
                 {row.map((cell, ci) => (
                   <td
                     key={ci}
                     className={cn(
                       "px-3 py-2.5 align-middle",
                       ci === 0
-                        ? "w-32 border-r border-primary/10 bg-primary/10 text-[13px] font-black text-primary"
+                        ? "w-32 border-r border-primary/20 bg-primary/20 text-[13px] font-black text-primary"
                         : ri % 2
-                          ? "bg-primary/[0.03]"
+                          ? "bg-primary/[0.08]"
                           : "bg-card",
                       ci === 1 && "font-mono text-[13px] text-muted-foreground",
                     )}
@@ -158,14 +158,14 @@ function BlockView({ block }: { block: Block }) {
         {block.items.map((it, i) => (
           <div
             key={i}
-            className="flex items-start gap-3 rounded-xl border border-primary/15 bg-card px-3 py-2.5 shadow-sm"
+            className="flex items-start gap-3 rounded-xl border border-primary/25 bg-primary/[0.06] px-3 py-2.5 shadow-sm"
           >
             <span
               className={cn(
                 "mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-lg text-xs font-black",
-                it.sign === "+" && "bg-emerald-500/12 text-emerald-600",
-                it.sign === "-" && "bg-rose-500/12 text-rose-600",
-                it.sign === "?" && "bg-primary/12 text-primary",
+                it.sign === "+" && "bg-emerald-500/20 text-emerald-600",
+                it.sign === "-" && "bg-rose-500/20 text-rose-600",
+                it.sign === "?" && "bg-primary/20 text-primary",
               )}
             >
               {it.sign}
@@ -180,8 +180,8 @@ function BlockView({ block }: { block: Block }) {
   return (
     <div className="grid gap-2">
       {block.items.map((it, i) => (
-        <div key={i} className="overflow-hidden rounded-xl border border-primary/15 bg-card shadow-sm">
-          <p className="flex items-center gap-2 border-b border-primary/10 bg-rose-500/[0.06] px-3 py-2 text-sm font-bold text-rose-600 line-through">
+        <div key={i} className="overflow-hidden rounded-xl border border-primary/25 bg-card shadow-sm">
+          <p className="flex items-center gap-2 border-b border-primary/20 bg-rose-500/[0.10] px-3 py-2 text-sm font-bold text-rose-600 line-through">
             {it.wrong}
           </p>
           {it.right && (
@@ -209,10 +209,10 @@ export function GrammarLesson({ body }: { body: string }) {
         return (
           <section
             key={i}
-            className="overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-b from-primary/[0.07] to-transparent shadow-sm transition-shadow hover:shadow-md"
+            className="overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/[0.15] to-transparent shadow-sm transition-shadow hover:shadow-md"
           >
             {s.title && (
-              <header className="flex items-center gap-2.5 border-b border-primary/20 bg-primary/10 px-4 py-3">
+              <header className="flex items-center gap-2.5 border-b border-primary/30 bg-primary/20 px-4 py-3">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-card text-primary shadow-sm">
                   <Icon className="h-4 w-4" />
                 </span>
