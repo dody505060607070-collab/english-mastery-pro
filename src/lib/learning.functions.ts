@@ -115,12 +115,17 @@ export const updateMyWord = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { id, ...rest } = data;
-    const patch: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(rest)) if (v !== undefined) patch[k] = v;
+    const { id, starred, mastered, notes, translation } = data;
+    const patch = {
+      ...(starred === undefined ? {} : { starred }),
+      ...(mastered === undefined ? {} : { mastered }),
+      ...(notes === undefined ? {} : { notes }),
+      ...(translation === undefined ? {} : { translation }),
+    };
     const { error } = await context.supabase
       .from("user_vocabulary")
       .update(patch)
+
       .eq("id", id)
       .eq("user_id", context.userId);
     if (error) throw new Error(error.message);
