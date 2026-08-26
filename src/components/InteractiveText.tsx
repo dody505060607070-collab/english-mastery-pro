@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, Volume2 } from "lucide-react";
+import { Loader2, Plus, Star, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
@@ -54,10 +54,11 @@ function WordChip({ word }: { word: string }) {
   });
 
   const save = useMutation({
-    mutationFn: () =>
+    mutationFn: (starred: boolean) =>
       saveMyWord({
         data: {
           word,
+          starred,
           ...(info?.translation ? { translation: info.translation } : {}),
           ...(info?.phonetic ? { phonetic: info.phonetic } : {}),
           ...(info?.example ? { example: info.example } : {}),
