@@ -78,6 +78,7 @@ export const saveMyWord = createServerFn({ method: "POST" })
         example: z.string().trim().max(400).optional(),
         example_ar: z.string().trim().max(400).optional(),
         part_of_speech: z.string().trim().max(40).optional(),
+        starred: z.boolean().optional(),
       })
       .parse(data),
   )
@@ -91,9 +92,35 @@ export const saveMyWord = createServerFn({ method: "POST" })
         example: data.example ?? null,
         example_ar: data.example_ar ?? null,
         part_of_speech: data.part_of_speech ?? null,
+        ...(data.starred === undefined ? {} : { starred: data.starred }),
       },
       { onConflict: "user_id,word" },
     );
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Updates the student's own study fields on a saved word. */
+export const updateMyWord = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        starred: z.boolean().optional(),
+        mastered: z.boolean().optional(),
+        notes: z.string().trim().max(1000).nullable().optional(),
+        translation: z.string().trim().max(200).nullable().optional(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const { id, ...patch } = data;
+    const { error } = await context.supabase
+      .from("user_vocabulary")
+      .update(patch)
+      .eq("id", id)
+      .eq("user_id", context.userId);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -105,6 +132,7 @@ export const listMyWords = createServerFn({ method: "GET" })
       .from("user_vocabulary")
       .select("*")
       .eq("user_id", context.userId)
+      .order("starred", { ascending: false })
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
