@@ -186,14 +186,15 @@ export function GrammarLesson({ body }: { body: string }) {
         const style = sectionStyle(s.title);
         const Icon = style.icon;
         return (
-          <section key={i} className="overflow-hidden rounded-2xl border bg-card">
+          <section key={i} className="overflow-hidden rounded-2xl border border-primary/20 bg-primary/5">
             {s.title && (
-              <header className={cn("flex items-center gap-2 border-b px-4 py-2.5", style.tone)}>
+              <header className={cn("flex items-center gap-2 border-b border-primary/20 px-4 py-2.5", style.tone)}>
                 <Icon className="h-4 w-4 shrink-0" />
                 <h3 className="truncate text-sm font-black">{s.title}</h3>
               </header>
             )}
-            <div className="space-y-3 p-4">
+            <div className="space-y-3 bg-card/70 p-4">
+
               {s.blocks.map((b, bi) => (
                 <BlockView key={bi} block={b} />
               ))}
