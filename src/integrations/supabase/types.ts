@@ -1421,8 +1421,11 @@ export type Database = {
           example: string | null
           example_ar: string | null
           id: string
+          mastered: boolean
+          notes: string | null
           part_of_speech: string | null
           phonetic: string | null
+          starred: boolean
           translation: string | null
           user_id: string
           word: string
@@ -1432,8 +1435,11 @@ export type Database = {
           example?: string | null
           example_ar?: string | null
           id?: string
+          mastered?: boolean
+          notes?: string | null
           part_of_speech?: string | null
           phonetic?: string | null
+          starred?: boolean
           translation?: string | null
           user_id: string
           word: string
@@ -1443,8 +1449,11 @@ export type Database = {
           example?: string | null
           example_ar?: string | null
           id?: string
+          mastered?: boolean
+          notes?: string | null
           part_of_speech?: string | null
           phonetic?: string | null
+          starred?: boolean
           translation?: string | null
           user_id?: string
           word?: string
