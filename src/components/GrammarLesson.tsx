@@ -1,4 +1,5 @@
 import { InteractiveText, SpeakButton } from "@/components/InteractiveText";
+import { RichText } from "@/lib/richtext";
 import { cn } from "@/lib/utils";
 import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles } from "lucide-react";
 
