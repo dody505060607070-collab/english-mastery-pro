@@ -67,7 +67,9 @@ export function useHighlight(word: string): HighlightColor | null {
     const sync = () => setColor(getHighlight(word));
     sync();
     listeners.add(sync);
-    return () => listeners.delete(sync);
+    return () => {
+      listeners.delete(sync);
+    };
   }, [word]);
   return color;
 }
