@@ -129,11 +129,10 @@ function MyWordsPage() {
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex items-center gap-2">
-                        <span dir="ltr" className="text-lg font-black">
-                          {w.word}
-                        </span>
+                        <WordTitle word={w.word} />
                         <SpeakButton text={w.word} />
                       </div>
+                      <HighlightRow word={w.word} />
                       {w.part_of_speech && (
                         <span className="inline-block rounded-full bg-muted px-2 py-0.5 text-[11px] font-bold text-muted-foreground" dir="ltr">
                           {w.part_of_speech}
