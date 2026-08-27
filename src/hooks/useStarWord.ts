@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { listMyWords, saveMyWord, updateMyWord } from "@/lib/learning.functions";
 
 type WordExtra = {
-  translation?: string | null;
+  translation?: string | null | undefined;
   phonetic?: string | null;
   example?: string | null;
   example_ar?: string | null;
