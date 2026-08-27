@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { primeAudio, playText, playUrl, useAudioState } from "@/lib/audio";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
-import { StarWordButton } from "@/components/InteractiveText";
+import { SaveWordBookmark } from "@/components/SaveWordBookmark";
 import { HIGHLIGHT_CLASSES, HIGHLIGHT_SWATCHES, setHighlight, useHighlight, type HighlightColor } from "@/lib/highlights";
 
 import type { VocabWord } from "@/lib/exercise-types";
@@ -125,10 +125,12 @@ function WordCard({
                     <Volume2 className="h-4 w-4" />
                   )}
                 </Button>
-                <StarWordButton
+                <SaveWordBookmark
                   word={word.word}
                   translation={word.translation ?? null}
                   example={word.example ?? null}
+                  example_ar={word.example_ar ?? null}
+                  className="ml-auto h-9 w-9"
                 />
               </div>
               {flipped && word.translation && (

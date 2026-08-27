@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { SaveWordBookmark } from "@/components/SaveWordBookmark";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -180,17 +181,29 @@ function DictionaryPage() {
 
         {!lookup.isPending && entry && (
           <div className="space-y-4 animate-in fade-in duration-300">
-            <Card className="overflow-hidden">
-              <CardContent className="space-y-3 p-5">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h2 dir="ltr" className="text-3xl font-black">
-                    {entry.word}
-                  </h2>
-                  <SpeakButton text={entry.word} className="h-9 w-9" />
-                  {entry.phonetic && (
-                    <span dir="ltr" className="text-sm text-muted-foreground">
-                      {entry.phonetic}
-                    </span>
+            <Card className="relative overflow-hidden rounded-3xl">
+              <CardContent className="space-y-2 p-5">
+                <div className="flex items-start gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h2 dir="ltr" className="text-3xl font-black tracking-tight">
+                        {entry.word}
+                      </h2>
+                      <SpeakButton text={entry.word} className="h-9 w-9" />
+                    </div>
+                    {entry.phonetic && (
+                      <p dir="ltr" className="text-sm font-bold text-primary/80">
+                        /{entry.phonetic.replace(/^\/|\/$/g, "")}/
+                      </p>
+                    )}
+                  </div>
+                  {!entry.notFound && (
+                    <SaveWordBookmark
+                      word={entry.word}
+                      translation={entry.translation}
+                      phonetic={entry.phonetic}
+                      example={entry.senses?.[0]?.examples?.[0]?.en ?? null}
+                    />
                   )}
                 </div>
                 <p className="text-xl font-bold text-primary">{entry.translation}</p>

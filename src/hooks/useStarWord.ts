@@ -2,13 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { listMyWords, saveMyWord, updateMyWord } from "@/lib/learning.functions";
 
-type WordExtra = {
-  translation?: string | null;
-  phonetic?: string | null;
-  example?: string | null;
-  example_ar?: string | null;
-  part_of_speech?: string | null;
-};
+type WordExtra = Partial<
+  Record<"translation" | "phonetic" | "example" | "example_ar" | "part_of_speech", string | null | undefined>
+>;
 
 function clean(extra: WordExtra) {
   const out: Record<string, string> = {};
