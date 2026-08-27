@@ -202,7 +202,7 @@ function DictionaryPage() {
                       word={entry.word}
                       translation={entry.translation}
                       phonetic={entry.phonetic}
-                      example={entry.senses?.[0]?.examples?.[0] ?? null}
+                      example={entry.senses?.[0]?.examples?.[0]?.en ?? null}
                     />
                   )}
                 </div>
