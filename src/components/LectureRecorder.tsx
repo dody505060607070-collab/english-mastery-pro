@@ -480,8 +480,11 @@ export function LectureRecorder({
       mimeRef.current = mime;
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
-        audioBitsPerSecond: 128000,
-          videoBitsPerSecond: 3_500_000,
+        audioBitsPerSecond: 96_000,
+        // Screen/slide content stays sharp at this rate while keeping hour-long
+        // lectures small enough to upload and stream smoothly.
+        videoBitsPerSecond: 1_200_000,
+
       });
       chunksRef.current = [];
 
