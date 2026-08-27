@@ -2,7 +2,14 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, Star, Volume2 } from "lucide-react";
+import { Loader2, Plus, Star, Volume2, X } from "lucide-react";
+import {
+  HIGHLIGHT_CLASSES,
+  HIGHLIGHT_SWATCHES,
+  setHighlight,
+  useHighlight,
+  type HighlightColor,
+} from "@/lib/highlights";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
