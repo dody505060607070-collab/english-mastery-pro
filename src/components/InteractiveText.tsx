@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus, Star, Volume2, X } from "lucide-react";
@@ -11,6 +11,7 @@ import {
   type HighlightColor,
 } from "@/lib/highlights";
 import { toast } from "sonner";
+import { useStarWord } from "@/hooks/useStarWord";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
 import { parseInline } from "@/lib/richtext";
@@ -64,41 +65,24 @@ export function StarWordButton({
   phonetic?: string | null;
   className?: string;
 }) {
-  const [saved, setSaved] = useState(false);
-  const save = useMutation({
-    mutationFn: () =>
-      saveMyWord({
-        data: {
-          word,
-          starred: true,
-          ...(translation ? { translation } : {}),
-          ...(phonetic ? { phonetic } : {}),
-          ...(example ? { example } : {}),
-        },
-      }),
-    onSuccess: () => {
-      setSaved(true);
-      toast.success("Saved to My Words");
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
+  const { starred, pending, toggle } = useStarWord(word, { translation, example, phonetic });
 
   return (
     <button
       type="button"
-      title="Save & star in My Words"
+      title={starred ? "Remove from starred" : "Save & star in My Words"}
       aria-label={`Star ${word}`}
-      onClick={() => save.mutate()}
-      disabled={save.isPending}
+      onClick={() => toggle.mutate()}
+      disabled={pending}
       className={cn(
         "inline-flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-amber-500/10 hover:bg-amber-500/20 transition touch-manipulation",
         className,
       )}
     >
-      {save.isPending ? (
+      {pending ? (
         <Loader2 className="h-4 w-4 animate-spin text-amber-500" />
       ) : (
-        <Star className={cn("h-4 w-4 text-amber-500", saved && "fill-amber-400")} />
+        <Star className={cn("h-4 w-4 text-amber-500", starred && "fill-amber-400")} />
       )}
     </button>
   );
@@ -139,6 +123,12 @@ function WordChip({ word }: { word: string }) {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<WordInfo | null>(null);
   const highlight = useHighlight(word);
+  const qc = useQueryClient();
+  const star = useStarWord(word, {
+    translation: info?.translation,
+    phonetic: info?.phonetic,
+    example: info?.example,
+  });
 
   const lookup = useMutation({
     mutationFn: () => lookupWord({ data: { word } }),
@@ -157,7 +147,10 @@ function WordChip({ word }: { word: string }) {
           ...(info?.example ? { example: info.example } : {}),
         },
       }),
-    onSuccess: () => toast.success("Added to my dictionary"),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["my-words"] });
+      toast.success("Added to my dictionary");
+    },
     onError: (e: Error) => toast.error(e.message),
   });
 
@@ -217,11 +210,11 @@ function WordChip({ word }: { word: string }) {
               <Button
                 size="sm"
                 variant="outline"
-                title="Save & star for later review"
-                onClick={() => save.mutate(true)}
-                disabled={save.isPending}
+                title={star.starred ? "Remove from starred" : "Save & star for later review"}
+                onClick={() => star.toggle.mutate()}
+                disabled={star.pending}
               >
-                <Star className="h-4 w-4 text-amber-500" />
+                <Star className={cn("h-4 w-4 text-amber-500", star.starred && "fill-amber-400")} />
               </Button>
             </div>
           </>
