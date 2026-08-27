@@ -9,6 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import { primeAudio, playText, playUrl, useAudioState } from "@/lib/audio";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { StarWordButton } from "@/components/InteractiveText";
+import { HIGHLIGHT_CLASSES, HIGHLIGHT_SWATCHES, setHighlight, useHighlight, type HighlightColor } from "@/lib/highlights";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
@@ -66,6 +68,7 @@ function WordCard({
   const wordAudio = useMediaUrl(word.word_audio);
   const sentenceAudio = useMediaUrl(word.sentence_audio);
   const audio = useAudioState();
+  const highlight = useHighlight(word.word);
 
   const wordOwner = `vocab-word:${word.word}`;
   const sentenceOwner = `vocab-sentence:${word.word}`;
@@ -104,8 +107,10 @@ function WordCard({
               )}
             </div>
             <div className="flex-1 min-w-0" dir="ltr">
-              <div className="flex items-center gap-2">
-                <p className="font-black text-lg truncate tracking-tight">{word.word}</p>
+              <div className="flex items-center gap-1.5">
+                <p className={cn("font-black text-lg truncate tracking-tight", highlight && HIGHLIGHT_CLASSES[highlight])}>
+                  {word.word}
+                </p>
 
                 <Button
                   size="icon"
@@ -120,7 +125,11 @@ function WordCard({
                     <Volume2 className="h-4 w-4" />
                   )}
                 </Button>
-
+                <StarWordButton
+                  word={word.word}
+                  translation={word.translation ?? null}
+                  example={word.example ?? null}
+                />
               </div>
               {flipped && word.translation && (
                 <p className="text-sm font-bold text-primary" dir="rtl">
@@ -167,6 +176,23 @@ function WordCard({
               {isLearned ? "Mastered" : "Learned it"}
             </Button>
           </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold text-muted-foreground">Highlight</span>
+            {(Object.keys(HIGHLIGHT_SWATCHES) as HighlightColor[]).map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={`Highlight ${word.word} ${c}`}
+                onClick={() => setHighlight(word.word, highlight === c ? null : c)}
+                className={cn(
+                  "h-5 w-5 rounded-full ring-2 ring-transparent transition",
+                  HIGHLIGHT_SWATCHES[c],
+                  highlight === c && "ring-foreground/60 scale-110",
+                )}
+              />
+            ))}
+          </div>
+
 
           {isLearned && (
             <Badge variant="secondary" className="text-[10px]">

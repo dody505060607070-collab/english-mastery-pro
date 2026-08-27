@@ -9,6 +9,43 @@ import { toast } from "sonner";
 import { listMyWords, deleteMyWord, updateMyWord } from "@/lib/learning.functions";
 import { SpeakButton } from "@/components/InteractiveText";
 import { cn } from "@/lib/utils";
+import {
+  HIGHLIGHT_CLASSES,
+  HIGHLIGHT_SWATCHES,
+  setHighlight,
+  useHighlight,
+  type HighlightColor,
+} from "@/lib/highlights";
+
+function WordTitle({ word }: { word: string }) {
+  const highlight = useHighlight(word);
+  return (
+    <span dir="ltr" className={cn("text-lg font-black", highlight && HIGHLIGHT_CLASSES[highlight])}>
+      {word}
+    </span>
+  );
+}
+
+function HighlightRow({ word }: { word: string }) {
+  const highlight = useHighlight(word);
+  return (
+    <div className="flex items-center gap-1.5">
+      {(Object.keys(HIGHLIGHT_SWATCHES) as HighlightColor[]).map((c) => (
+        <button
+          key={c}
+          type="button"
+          aria-label={`Highlight ${word} ${c}`}
+          onClick={() => setHighlight(word, highlight === c ? null : c)}
+          className={cn(
+            "h-5 w-5 rounded-full ring-2 ring-transparent transition",
+            HIGHLIGHT_SWATCHES[c],
+            highlight === c && "ring-foreground/60 scale-110",
+          )}
+        />
+      ))}
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/_authenticated/my-words")({
   head: () => ({
@@ -129,11 +166,10 @@ function MyWordsPage() {
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex items-center gap-2">
-                        <span dir="ltr" className="text-lg font-black">
-                          {w.word}
-                        </span>
+                        <WordTitle word={w.word} />
                         <SpeakButton text={w.word} />
                       </div>
+                      <HighlightRow word={w.word} />
                       {w.part_of_speech && (
                         <span className="inline-block rounded-full bg-muted px-2 py-0.5 text-[11px] font-bold text-muted-foreground" dir="ltr">
                           {w.part_of_speech}

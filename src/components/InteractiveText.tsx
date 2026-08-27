@@ -2,7 +2,14 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, Star, Volume2 } from "lucide-react";
+import { Loader2, Plus, Star, Volume2, X } from "lucide-react";
+import {
+  HIGHLIGHT_CLASSES,
+  HIGHLIGHT_SWATCHES,
+  setHighlight,
+  useHighlight,
+  type HighlightColor,
+} from "@/lib/highlights";
 import { toast } from "sonner";
 import { lookupWord, saveMyWord, type WordInfo } from "@/lib/learning.functions";
 import { cn } from "@/lib/utils";
@@ -43,9 +50,95 @@ export function SpeakButton({ text, className }: { text: string; className?: str
 
 }
 
+/** Star / save button usable on any word anywhere in the app. */
+export function StarWordButton({
+  word,
+  translation,
+  example,
+  phonetic,
+  className,
+}: {
+  word: string;
+  translation?: string | null;
+  example?: string | null;
+  phonetic?: string | null;
+  className?: string;
+}) {
+  const [saved, setSaved] = useState(false);
+  const save = useMutation({
+    mutationFn: () =>
+      saveMyWord({
+        data: {
+          word,
+          starred: true,
+          ...(translation ? { translation } : {}),
+          ...(phonetic ? { phonetic } : {}),
+          ...(example ? { example } : {}),
+        },
+      }),
+    onSuccess: () => {
+      setSaved(true);
+      toast.success("Saved to My Words");
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <button
+      type="button"
+      title="Save & star in My Words"
+      aria-label={`Star ${word}`}
+      onClick={() => save.mutate()}
+      disabled={save.isPending}
+      className={cn(
+        "inline-flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-amber-500/10 hover:bg-amber-500/20 transition touch-manipulation",
+        className,
+      )}
+    >
+      {save.isPending ? (
+        <Loader2 className="h-4 w-4 animate-spin text-amber-500" />
+      ) : (
+        <Star className={cn("h-4 w-4 text-amber-500", saved && "fill-amber-400")} />
+      )}
+    </button>
+  );
+}
+
+function HighlightPicker({ word }: { word: string }) {
+  const current = useHighlight(word);
+  return (
+    <div className="flex items-center gap-1.5 pt-1">
+      {(Object.keys(HIGHLIGHT_SWATCHES) as HighlightColor[]).map((c) => (
+        <button
+          key={c}
+          type="button"
+          aria-label={`Highlight ${c}`}
+          onClick={() => setHighlight(word, current === c ? null : c)}
+          className={cn(
+            "h-6 w-6 rounded-full ring-2 ring-transparent transition",
+            HIGHLIGHT_SWATCHES[c],
+            current === c && "ring-foreground/60 scale-110",
+          )}
+        />
+      ))}
+      {current && (
+        <button
+          type="button"
+          onClick={() => setHighlight(word, null)}
+          className="ml-auto inline-flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground"
+          aria-label="Remove highlight"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      )}
+    </div>
+  );
+}
+
 function WordChip({ word }: { word: string }) {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<WordInfo | null>(null);
+  const highlight = useHighlight(word);
 
   const lookup = useMutation({
     mutationFn: () => lookupWord({ data: { word } }),
@@ -83,7 +176,10 @@ function WordChip({ word }: { word: string }) {
           onClick={() => speak(word)}
           onDoubleClick={() => setOpen(true)}
           onKeyDown={(e) => e.key === "Enter" && setOpen(true)}
-          className="cursor-pointer rounded px-0.5 hover:bg-primary/10 hover:text-primary transition-colors"
+          className={cn(
+            "cursor-pointer rounded px-0.5 hover:bg-primary/10 hover:text-primary transition-colors",
+            highlight && HIGHLIGHT_CLASSES[highlight],
+          )}
         >
           {word}
         </span>
@@ -128,9 +224,9 @@ function WordChip({ word }: { word: string }) {
                 <Star className="h-4 w-4 text-amber-500" />
               </Button>
             </div>
-
           </>
         )}
+        <HighlightPicker word={word} />
       </PopoverContent>
     </Popover>
   );
