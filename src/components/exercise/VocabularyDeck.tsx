@@ -176,6 +176,23 @@ function WordCard({
               {isLearned ? "Mastered" : "Learned it"}
             </Button>
           </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold text-muted-foreground">Highlight</span>
+            {(Object.keys(HIGHLIGHT_SWATCHES) as HighlightColor[]).map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={`Highlight ${word.word} ${c}`}
+                onClick={() => setHighlight(word.word, highlight === c ? null : c)}
+                className={cn(
+                  "h-5 w-5 rounded-full ring-2 ring-transparent transition",
+                  HIGHLIGHT_SWATCHES[c],
+                  highlight === c && "ring-foreground/60 scale-110",
+                )}
+              />
+            ))}
+          </div>
+
 
           {isLearned && (
             <Badge variant="secondary" className="text-[10px]">
