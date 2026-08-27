@@ -9,6 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import { primeAudio, playText, playUrl, useAudioState } from "@/lib/audio";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { StarWordButton } from "@/components/InteractiveText";
+import { HIGHLIGHT_CLASSES, HIGHLIGHT_SWATCHES, setHighlight, useHighlight, type HighlightColor } from "@/lib/highlights";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
