@@ -72,6 +72,7 @@
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^6.0.2",
+    "webm-duration-fix": "^1.0.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
