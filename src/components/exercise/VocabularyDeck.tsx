@@ -104,8 +104,10 @@ function WordCard({
               )}
             </div>
             <div className="flex-1 min-w-0" dir="ltr">
-              <div className="flex items-center gap-2">
-                <p className="font-black text-lg truncate tracking-tight">{word.word}</p>
+              <div className="flex items-center gap-1.5">
+                <p className={cn("font-black text-lg truncate tracking-tight", highlight && HIGHLIGHT_CLASSES[highlight])}>
+                  {word.word}
+                </p>
 
                 <Button
                   size="icon"
@@ -120,7 +122,11 @@ function WordCard({
                     <Volume2 className="h-4 w-4" />
                   )}
                 </Button>
-
+                <StarWordButton
+                  word={word.word}
+                  translation={word.translation}
+                  example={word.example}
+                />
               </div>
               {flipped && word.translation && (
                 <p className="text-sm font-bold text-primary" dir="rtl">
