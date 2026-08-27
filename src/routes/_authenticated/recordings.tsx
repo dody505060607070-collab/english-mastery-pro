@@ -144,7 +144,7 @@ function RecordingCard({ rec }: { rec: any }) {
               controls
               playsInline
               className="w-full h-full bg-background object-contain"
-              preload="auto"
+              preload="metadata"
               onCanPlay={() => setWaiting(false)}
               onPlaying={() => setWaiting(false)}
               onError={() => { setWaiting(false); setFailed(true); }}
