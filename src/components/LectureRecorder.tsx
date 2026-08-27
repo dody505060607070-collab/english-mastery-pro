@@ -654,7 +654,9 @@ export function LectureRecorder({
         if (mountedRef.current) setUnfinished(null);
         return;
       }
-      const { blob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
+      const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
+      const blob = await repairBlob(rawBlob, type);
+
       if (blob.size < 1000) {
         toast.error("The backup is empty");
         return;
