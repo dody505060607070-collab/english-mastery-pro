@@ -18,17 +18,37 @@ function fmt(sec: number) {
 
 /** Picks the best container/codec the current browser can actually record. */
 function pickMime() {
+  // MP4 first: it carries real duration/seek info, so hour-long lectures play and
+  // seek correctly everywhere (including iPhone). WebM is the fallback and gets
+  // its duration repaired before upload.
   const candidates = [
+    "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
+    "video/mp4;codecs=avc1,mp4a.40.2",
+    "video/mp4",
     "video/webm;codecs=vp8,opus",
     "video/webm;codecs=vp9,opus",
     "video/webm",
-    "video/mp4;codecs=avc1,mp4a.40.2",
   ];
   for (const c of candidates) {
     if (typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(c)) return c;
   }
   return "";
 }
+
+/**
+ * MediaRecorder WebM files have no duration/Cues, so players buffer forever a few
+ * minutes in. This rewrites the metadata so long recordings stream and seek fine.
+ */
+async function repairBlob(blob: Blob, type: string): Promise<Blob> {
+  if (!type.includes("webm")) return blob;
+  try {
+    const { default: fixWebmDuration } = await import("webm-duration-fix");
+    return await fixWebmDuration([blob], { type });
+  } catch {
+    return blob;
+  }
+}
+
 
 /** Paints the live waveform of the mixed audio into the preview canvas. */
 function drawWave(canvas: HTMLCanvasElement | null, buf: Uint8Array, peak: number) {
