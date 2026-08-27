@@ -127,8 +127,8 @@ function WordCard({
                 </Button>
                 <StarWordButton
                   word={word.word}
-                  translation={word.translation}
-                  example={word.example}
+                  translation={word.translation ?? null}
+                  example={word.example ?? null}
                 />
               </div>
               {flipped && word.translation && (
