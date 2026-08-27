@@ -43,11 +43,13 @@ async function repairBlob(blob: Blob, type: string): Promise<Blob> {
   if (!type.includes("webm")) return blob;
   try {
     const { default: fixWebmDuration } = await import("webm-duration-fix");
-    return await fixWebmDuration([blob], { type });
+    const fixed = await fixWebmDuration(new Blob([blob], { type }));
+    return fixed.size > 1000 ? fixed : blob;
   } catch {
     return blob;
   }
 }
+
 
 
 /** Paints the live waveform of the mixed audio into the preview canvas. */
