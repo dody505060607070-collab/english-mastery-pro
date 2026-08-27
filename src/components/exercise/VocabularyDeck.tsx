@@ -128,7 +128,6 @@ function WordCard({
                 <SaveWordBookmark
                   word={word.word}
                   translation={word.translation ?? null}
-                  phonetic={word.phonetic ?? null}
                   example={word.example ?? null}
                   example_ar={word.example_ar ?? null}
                   className="ml-auto h-9 w-9"
