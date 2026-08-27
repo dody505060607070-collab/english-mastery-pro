@@ -68,6 +68,7 @@ function WordCard({
   const wordAudio = useMediaUrl(word.word_audio);
   const sentenceAudio = useMediaUrl(word.sentence_audio);
   const audio = useAudioState();
+  const highlight = useHighlight(word.word);
 
   const wordOwner = `vocab-word:${word.word}`;
   const sentenceOwner = `vocab-sentence:${word.word}`;
