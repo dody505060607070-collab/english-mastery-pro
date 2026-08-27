@@ -572,7 +572,9 @@ export function LectureRecorder({
     cleanupRef.current = null;
     const duration = Math.floor((Date.now() - startedAtRef.current) / 1000);
     const mime = mimeRef.current;
-    const { blob, type, ext } = backupBlob(chunksRef.current, mime);
+    const { blob: rawBlob, type, ext } = backupBlob(chunksRef.current, mime);
+    const blob = await repairBlob(rawBlob, type);
+
     chunksRef.current = [];
     if (blob.size < 1000) {
       toast.error("No content was recorded");
