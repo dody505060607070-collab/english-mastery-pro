@@ -186,13 +186,13 @@ function DictionaryPage() {
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h2 dir="ltr" className="text-3xl font-black tracking-tight">
+                      <h2 dir="ltr" className="font-serif text-3xl font-bold tracking-tight">
                         {entry.word}
                       </h2>
                       <SpeakButton text={entry.word} className="h-9 w-9" />
                     </div>
                     {entry.phonetic && (
-                      <p dir="ltr" className="text-sm font-bold text-primary/80">
+                      <p dir="ltr" className="text-sm font-medium text-primary">
                         /{entry.phonetic.replace(/^\/|\/$/g, "")}/
                       </p>
                     )}
@@ -206,7 +206,9 @@ function DictionaryPage() {
                     />
                   )}
                 </div>
-                <p className="text-xl font-bold text-primary">{entry.translation}</p>
+                <p dir="rtl" className="text-sm font-bold text-muted-foreground">
+                  {entry.translation}
+                </p>
 
                 {entry.notFound && (
                   <p className="text-sm text-muted-foreground">
