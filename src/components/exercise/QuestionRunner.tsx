@@ -367,12 +367,23 @@ function QuestionInput({
   const selected = isMulti ? (Array.isArray(value) ? value : []) : [];
   const longOptions = options.some((o) => o.length > 38);
 
+  /** Each choice gets its own colour so options never blur together. */
+  const OPTION_HUES = [
+    { idle: "border-sky-500/35 bg-sky-500/[0.07] hover:bg-sky-500/15", chip: "bg-sky-500/20 text-sky-700", on: "border-sky-500 bg-sky-500/20 text-sky-800" },
+    { idle: "border-violet-500/35 bg-violet-500/[0.07] hover:bg-violet-500/15", chip: "bg-violet-500/20 text-violet-700", on: "border-violet-500 bg-violet-500/20 text-violet-800" },
+    { idle: "border-amber-500/40 bg-amber-500/[0.09] hover:bg-amber-500/18", chip: "bg-amber-500/25 text-amber-700", on: "border-amber-500 bg-amber-500/20 text-amber-800" },
+    { idle: "border-teal-500/35 bg-teal-500/[0.07] hover:bg-teal-500/15", chip: "bg-teal-500/20 text-teal-700", on: "border-teal-500 bg-teal-500/20 text-teal-800" },
+    { idle: "border-pink-500/35 bg-pink-500/[0.07] hover:bg-pink-500/15", chip: "bg-pink-500/20 text-pink-700", on: "border-pink-500 bg-pink-500/20 text-pink-800" },
+    { idle: "border-indigo-500/35 bg-indigo-500/[0.07] hover:bg-indigo-500/15", chip: "bg-indigo-500/20 text-indigo-700", on: "border-indigo-500 bg-indigo-500/20 text-indigo-800" },
+  ];
+
   return (
-    <div className={cn("grid gap-2", longOptions ? "grid-cols-1" : "sm:grid-cols-2")}>
+    <div className={cn("grid gap-3", longOptions ? "grid-cols-1" : "sm:grid-cols-2")}>
 
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
+        const hue = OPTION_HUES[i % OPTION_HUES.length];
         const ans = q.answer;
         const isRight = Array.isArray(ans)
           ? ans.map((a) => String(a).trim().toLowerCase()).includes(opt.trim().toLowerCase())
@@ -388,17 +399,17 @@ function QuestionInput({
                 : onChange(opt)
             }
             className={cn(
-              "flex items-start gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold leading-6",
-              !revealed && (active ? "border-primary bg-primary/10 text-primary" : "border-border/70 hover:bg-muted/60"),
-              revealed && isRight && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700",
-              revealed && !isRight && active && "border-destructive/60 bg-destructive/10 text-destructive",
-              revealed && !isRight && !active && "border-border/50 opacity-60",
+              "flex items-start gap-3 rounded-2xl border-2 px-4 py-3.5 text-start transition text-sm font-bold leading-7",
+              !revealed && (active ? hue.on : hue.idle),
+              revealed && isRight && "border-emerald-500 bg-emerald-500/15 text-emerald-800",
+              revealed && !isRight && active && "border-destructive bg-destructive/10 text-destructive",
+              revealed && !isRight && !active && "border-border/50 opacity-55",
               locked && "cursor-not-allowed",
             )}
             dir="auto"
           >
             {q.type !== "truefalse" && (
-              <span className="h-6 w-6 shrink-0 rounded-full bg-muted grid place-items-center text-xs font-black">
+              <span className={cn("h-7 w-7 shrink-0 rounded-full grid place-items-center text-xs font-black", revealed ? "bg-muted" : hue.chip)}>
                 {OPTION_LETTERS[i]}
               </span>
             )}
@@ -410,4 +421,5 @@ function QuestionInput({
       })}
     </div>
   );
+
 }
