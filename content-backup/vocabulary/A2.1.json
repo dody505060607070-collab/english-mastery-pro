@@ -1,0 +1,938 @@
+[
+  {
+    "word": "campsite",
+    "translation": "موقع تخييم",
+    "phonetic_us": "/kˈæmpsaɪt/",
+    "phonetic_uk": "/kˈampsaɪt/",
+    "example": "The campsite is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «موقع تخييم» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "coast",
+    "translation": "ساحل",
+    "phonetic_us": "/kˈoʊst/",
+    "phonetic_uk": "/kˈəʊst/",
+    "example": "The coast is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ساحل» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "hotel",
+    "translation": "فندق",
+    "phonetic_us": "/hoʊtˈɛl/",
+    "phonetic_uk": "/həʊtˈɛl/",
+    "example": "The hotel is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «فندق» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "suitcase",
+    "translation": "حقيبة سفر",
+    "phonetic_us": "/sˈuːtkeɪs/",
+    "phonetic_uk": "/sˈuːtkeɪs/",
+    "example": "The suitcase is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حقيبة سفر» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "map",
+    "translation": "خريطة",
+    "phonetic_us": "/mˈæp/",
+    "phonetic_uk": "/mˈap/",
+    "example": "The map is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «خريطة» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "reservation",
+    "translation": "حجز",
+    "phonetic_us": "/ɹˌɛzɚvˈeɪʃən/",
+    "phonetic_uk": "/ɹˌɛzəvˈeɪʃən/",
+    "example": "The reservation is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حجز» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "booking",
+    "translation": "حجز",
+    "phonetic_us": "/bˈʊkɪŋ/",
+    "phonetic_uk": "/bˈʊkɪŋ/",
+    "example": "The booking is important in the travel club, and Rami talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حجز» مهمًا في the travel club، وتتحدث عنه Rami مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "pack",
+    "translation": "يحزم",
+    "phonetic_us": "/pˈæk/",
+    "phonetic_uk": "/pˈak/",
+    "example": "Rami and a classmate pack during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يحزم» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "stay",
+    "translation": "يقيم",
+    "phonetic_us": "/stˈeɪ/",
+    "phonetic_uk": "/stˈeɪ/",
+    "example": "Rami and a classmate stay during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يقيم» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "return",
+    "translation": "يعود",
+    "phonetic_us": "/ɹɪtˈɜːn/",
+    "phonetic_uk": "/ɹɪtˈɜːn/",
+    "example": "Rami and a classmate return during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يعود» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "enjoy",
+    "translation": "يستمتع",
+    "phonetic_us": "/ɛndʒˈɔɪ/",
+    "phonetic_uk": "/ɛndʒˈɔɪ/",
+    "example": "Rami and a classmate enjoy during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يستمتع» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "explore",
+    "translation": "يستكشف",
+    "phonetic_us": "/ɛksplˈoːɹ/",
+    "phonetic_uk": "/ɛksplˈɔː/",
+    "example": "Rami and a classmate explore during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يستكشف» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "plan",
+    "translation": "يخطط",
+    "phonetic_us": "/plˈæn/",
+    "phonetic_uk": "/plˈan/",
+    "example": "Rami and a classmate plan during the travel activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Rami وزميلها فعل «يخطط» أثناء نشاط travel، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 1 — A Weekend Away"
+  },
+  {
+    "word": "accident",
+    "translation": "حادث",
+    "phonetic_us": "/ˈæksɪdənt/",
+    "phonetic_uk": "/ˈaksɪdənt/",
+    "example": "The accident is important in the community center, and Laila talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حادث» مهمًا في the community center، وتتحدث عنه Laila مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "concert",
+    "translation": "حفل موسيقي",
+    "phonetic_us": "/kˈɑːnsɚt/",
+    "phonetic_uk": "/kˈɒnsət/",
+    "example": "The concert is important in the community center, and Laila talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حفل موسيقي» مهمًا في the community center، وتتحدث عنه Laila مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "festival",
+    "translation": "مهرجان",
+    "phonetic_us": "/fˈɛstɪvəl/",
+    "phonetic_uk": "/fˈɛstɪvəl/",
+    "example": "The festival is important in the community center, and Laila talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مهرجان» مهمًا في the community center، وتتحدث عنه Laila مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "match",
+    "translation": "مباراة",
+    "phonetic_us": "/mˈætʃ/",
+    "phonetic_uk": "/mˈatʃ/",
+    "example": "The match is important in the community center, and Laila talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مباراة» مهمًا في the community center، وتتحدث عنه Laila مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "event",
+    "translation": "حدث",
+    "phonetic_us": "/ɪvˈɛnt/",
+    "phonetic_uk": "/ɪvˈɛnt/",
+    "example": "The event is important in the community center, and Laila talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حدث» مهمًا في the community center، وتتحدث عنه Laila مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "suddenly",
+    "translation": "فجأة",
+    "phonetic_us": "/sˈʌdənli/",
+    "phonetic_uk": "/sˈʌdənli/",
+    "example": "Laila suddenly uses this language during the past events task, and the meaning stays clear in context.",
+    "example_ar": "تستخدم Laila هذه اللغة «فجأة» أثناء مهمة past events، ويظل المعنى واضحًا في السياق.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "luckily",
+    "translation": "لحسن الحظ",
+    "phonetic_us": "/lˈʌkɪli/",
+    "phonetic_uk": "/lˈʌkili/",
+    "example": "Laila luckily uses this language during the past events task, and the meaning stays clear in context.",
+    "example_ar": "تستخدم Laila هذه اللغة «لحسن الحظ» أثناء مهمة past events، ويظل المعنى واضحًا في السياق.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "miss",
+    "translation": "يفوّت",
+    "phonetic_us": "/mˈɪs/",
+    "phonetic_uk": "/mˈɪs/",
+    "example": "Laila and a classmate miss during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «يفوّت» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "forget",
+    "translation": "ينسى",
+    "phonetic_us": "/fɚɡˈɛt/",
+    "phonetic_uk": "/fəɡˈɛt/",
+    "example": "Laila and a classmate forget during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «ينسى» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "lose",
+    "translation": "يفقد",
+    "phonetic_us": "/lˈuːz/",
+    "phonetic_uk": "/lˈuːz/",
+    "example": "Laila and a classmate lose during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «يفقد» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "find",
+    "translation": "يجد",
+    "phonetic_us": "/fˈaɪnd/",
+    "phonetic_uk": "/fˈaɪnd/",
+    "example": "Laila and a classmate find during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «يجد» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "break",
+    "translation": "يكسر",
+    "phonetic_us": "/bɹˈeɪk/",
+    "phonetic_uk": "/bɹˈeɪk/",
+    "example": "Laila and a classmate break during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «يكسر» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "happen",
+    "translation": "يحدث",
+    "phonetic_us": "/hˈæpən/",
+    "phonetic_uk": "/hˈapən/",
+    "example": "Laila and a classmate happen during the past events activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Laila وزميلها فعل «يحدث» أثناء نشاط past events، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 2 — What Happened?"
+  },
+  {
+    "word": "office",
+    "translation": "مكتب",
+    "phonetic_us": "/ˈɑːfɪs/",
+    "phonetic_uk": "/ˈɒfɪs/",
+    "example": "The office is important in the office, and Omar talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مكتب» مهمًا في the office، وتتحدث عنه Omar مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "project",
+    "translation": "مشروع",
+    "phonetic_us": "/pɹˈɑːdʒɛkt/",
+    "phonetic_uk": "/pɹˈɒdʒɛkt/",
+    "example": "The project is important in the office, and Omar talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مشروع» مهمًا في the office، وتتحدث عنه Omar مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "computer",
+    "translation": "حاسوب",
+    "phonetic_us": "/kəmpjˈuːɾɚ/",
+    "phonetic_uk": "/kəmpjˈuːtə/",
+    "example": "The computer is important in the office, and Omar talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حاسوب» مهمًا في the office، وتتحدث عنه Omar مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "meeting",
+    "translation": "اجتماع",
+    "phonetic_us": "/mˈiːɾɪŋ/",
+    "phonetic_uk": "/mˈiːtɪŋ/",
+    "example": "The meeting is important in the office, and Omar talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «اجتماع» مهمًا في the office، وتتحدث عنه Omar مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "colleague",
+    "translation": "زميل عمل",
+    "phonetic_us": "/kˈɑːliːɡ/",
+    "phonetic_uk": "/kˈɒliːɡ/",
+    "example": "The colleague is important in the office, and Omar talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «زميل عمل» مهمًا في the office، وتتحدث عنه Omar مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "prepare",
+    "translation": "يجهّز",
+    "phonetic_us": "/pɹɪpˈɛɹ/",
+    "phonetic_uk": "/pɹɪpˈeə/",
+    "example": "Omar and a classmate prepare during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يجهّز» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "type",
+    "translation": "يكتب على لوحة المفاتيح",
+    "phonetic_us": "/tˈaɪp/",
+    "phonetic_uk": "/tˈaɪp/",
+    "example": "Omar and a classmate type during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يكتب على لوحة المفاتيح» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "print",
+    "translation": "يطبع",
+    "phonetic_us": "/pɹˈɪnt/",
+    "phonetic_uk": "/pɹˈɪnt/",
+    "example": "Omar and a classmate print during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يطبع» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "wait",
+    "translation": "ينتظر",
+    "phonetic_us": "/wˈeɪt/",
+    "phonetic_uk": "/wˈeɪt/",
+    "example": "Omar and a classmate wait during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «ينتظر» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "formal",
+    "translation": "رسمي",
+    "phonetic_us": "/fˈɔːɹməl/",
+    "phonetic_uk": "/fˈɔːməl/",
+    "example": "The workday is formal in this work and study example, and Omar explains the reason to a classmate.",
+    "example_ar": "يكون workday «رسمي» في مثال work and study، وتشرح Omar السبب لزميلها.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "carry",
+    "translation": "يحمل",
+    "phonetic_us": "/kˈæɹi/",
+    "phonetic_uk": "/kˈaɹi/",
+    "example": "Omar and a classmate carry during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يحمل» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "discuss",
+    "translation": "يناقش",
+    "phonetic_us": "/dɪskˈʌs/",
+    "phonetic_uk": "/dɪskˈʌs/",
+    "example": "Omar and a classmate discuss during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يناقش» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "present",
+    "translation": "يقدّم",
+    "phonetic_us": "/pɹˈɛzənt/",
+    "phonetic_uk": "/pɹˈɛzənt/",
+    "example": "Omar and a classmate present during the work and study activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Omar وزميلها فعل «يقدّم» أثناء نشاط work and study، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 3 — What Is Everyone Doing?"
+  },
+  {
+    "word": "village",
+    "translation": "قرية",
+    "phonetic_us": "/vˈɪlɪdʒ/",
+    "phonetic_uk": "/vˈɪlɪdʒ/",
+    "example": "The village is important in the city planning class, and Salma talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قرية» مهمًا في the city planning class، وتتحدث عنه Salma مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "capital",
+    "translation": "عاصمة",
+    "phonetic_us": "/kˈæpɪɾəl/",
+    "phonetic_uk": "/kˈapɪtəl/",
+    "example": "The capital is important in the city planning class, and Salma talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عاصمة» مهمًا في the city planning class، وتتحدث عنه Salma مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "population",
+    "translation": "عدد السكان",
+    "phonetic_us": "/pˌɑːpjʊlˈeɪʃən/",
+    "phonetic_uk": "/pˌɒpjʊlˈeɪʃən/",
+    "example": "The population is important in the city planning class, and Salma talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عدد السكان» مهمًا في the city planning class، وتتحدث عنه Salma مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "building",
+    "translation": "مبنى",
+    "phonetic_us": "/bˈɪldɪŋ/",
+    "phonetic_uk": "/bˈɪldɪŋ/",
+    "example": "The building is important in the city planning class, and Salma talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مبنى» مهمًا في the city planning class، وتتحدث عنه Salma مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "traffic",
+    "translation": "حركة المرور",
+    "phonetic_us": "/tɹˈæfɪk/",
+    "phonetic_uk": "/tɹˈafɪk/",
+    "example": "The traffic is important in the city planning class, and Salma talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حركة المرور» مهمًا في the city planning class، وتتحدث عنه Salma مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "crowded",
+    "translation": "مزدحم",
+    "phonetic_us": "/kɹˈaʊdᵻd/",
+    "phonetic_uk": "/kɹˈaʊdɪd/",
+    "example": "The place is crowded in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «مزدحم» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "quiet",
+    "translation": "هادئ",
+    "phonetic_us": "/kwˈaɪət/",
+    "phonetic_uk": "/kwˈaɪət/",
+    "example": "The place is quiet in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «هادئ» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "modern",
+    "translation": "حديث",
+    "phonetic_us": "/mˈɑːdɚn/",
+    "phonetic_uk": "/mˈɒdən/",
+    "example": "The place is modern in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «حديث» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "traditional",
+    "translation": "تقليدي",
+    "phonetic_us": "/tɹɐdˈɪʃənəl/",
+    "phonetic_uk": "/tɹɐdˈɪʃənəl/",
+    "example": "The place is traditional in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «تقليدي» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "safe",
+    "translation": "آمن",
+    "phonetic_us": "/sˈeɪf/",
+    "phonetic_uk": "/sˈeɪf/",
+    "example": "The place is safe in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «آمن» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "dangerous",
+    "translation": "خطير",
+    "phonetic_us": "/dˈeɪndʒɚɹəs/",
+    "phonetic_uk": "/dˈeɪndʒəɹəs/",
+    "example": "The place is dangerous in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «خطير» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "peaceful",
+    "translation": "هادئ ومريح",
+    "phonetic_us": "/pˈiːsfəl/",
+    "phonetic_uk": "/pˈiːsfəl/",
+    "example": "The place is peaceful in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «هادئ ومريح» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "noisy",
+    "translation": "صاخب",
+    "phonetic_us": "/nˈɔɪzi/",
+    "phonetic_uk": "/nˈɔɪzi/",
+    "example": "The place is noisy in this places example, and Salma explains the reason to a classmate.",
+    "example_ar": "يكون place «صاخب» في مثال places، وتشرح Salma السبب لزميلها.",
+    "category": "A2.1 Unit 4 — Comparing Places"
+  },
+  {
+    "word": "packet",
+    "translation": "عبوة",
+    "phonetic_us": "/pˈækɪt/",
+    "phonetic_uk": "/pˈakɪt/",
+    "example": "The packet is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عبوة» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "loaf",
+    "translation": "رغيف",
+    "phonetic_us": "/lˈoʊf/",
+    "phonetic_uk": "/lˈəʊf/",
+    "example": "The loaf is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «رغيف» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "kilo",
+    "translation": "كيلوجرام",
+    "phonetic_us": "/kˈiːloʊ/",
+    "phonetic_uk": "/kˈiːləʊ/",
+    "example": "The kilo is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «كيلوجرام» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "piece",
+    "translation": "قطعة",
+    "phonetic_us": "/pˈiːs/",
+    "phonetic_uk": "/pˈiːs/",
+    "example": "The piece is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قطعة» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "quantity",
+    "translation": "كمية",
+    "phonetic_us": "/kwˈɑːntɪɾi/",
+    "phonetic_uk": "/kwˈɒntɪti/",
+    "example": "The quantity is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «كمية» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "enough",
+    "translation": "كافٍ",
+    "phonetic_us": "/ɪnˈʌf/",
+    "phonetic_uk": "/ɪnˈʌf/",
+    "example": "The amount is enough in this food quantities example, and Nada explains the reason to a classmate.",
+    "example_ar": "يكون amount «كافٍ» في مثال food quantities، وتشرح Nada السبب لزميلها.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "few",
+    "translation": "قليل من المعدود",
+    "phonetic_us": "/fjˈuː/",
+    "phonetic_uk": "/fjˈuː/",
+    "example": "Nada uses few naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «قليل من المعدود» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "little",
+    "translation": "قليل من غير المعدود",
+    "phonetic_us": "/lˈɪɾəl/",
+    "phonetic_uk": "/lˈɪtəl/",
+    "example": "Nada uses little naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «قليل من غير المعدود» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "much",
+    "translation": "كثير من غير المعدود",
+    "phonetic_us": "/mˈʌtʃ/",
+    "phonetic_uk": "/mˈʌtʃ/",
+    "example": "Nada uses much naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «كثير من غير المعدود» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "many",
+    "translation": "كثير من المعدود",
+    "phonetic_us": "/mˈɛni/",
+    "phonetic_uk": "/mˈɛni/",
+    "example": "Nada uses many naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «كثير من المعدود» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "some",
+    "translation": "بعض",
+    "phonetic_us": "/sˈʌm/",
+    "phonetic_uk": "/sˈʌm/",
+    "example": "Nada uses some naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «بعض» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "any",
+    "translation": "أيّ / بعض",
+    "phonetic_us": "/ˈɛni/",
+    "phonetic_uk": "/ˈɛni/",
+    "example": "Nada uses any naturally in the food quantities lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Nada «أيّ / بعض» بصورة طبيعية في درس food quantities، وتوضح الكلمات المحيطة معناه.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "amount",
+    "translation": "مقدار",
+    "phonetic_us": "/ɐmˈaʊnt/",
+    "phonetic_uk": "/ɐmˈaʊnt/",
+    "example": "The amount is important in the cooking class, and Nada talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مقدار» مهمًا في the cooking class، وتتحدث عنه Nada مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 5 — Food & Quantities"
+  },
+  {
+    "word": "future",
+    "translation": "المستقبل",
+    "phonetic_us": "/fjˈuːtʃɚ/",
+    "phonetic_uk": "/fjˈuːtʃə/",
+    "example": "The future is important in the study center, and Hassan talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «المستقبل» مهمًا في the study center، وتتحدث عنه Hassan مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "course",
+    "translation": "دورة",
+    "phonetic_us": "/kˈoːɹs/",
+    "phonetic_uk": "/kˈɔːs/",
+    "example": "The course is important in the study center, and Hassan talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «دورة» مهمًا في the study center، وتتحدث عنه Hassan مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "appointment",
+    "translation": "موعد",
+    "phonetic_us": "/ɐpˈɔɪntmənt/",
+    "phonetic_uk": "/ɐpˈɔɪntmənt/",
+    "example": "The appointment is important in the study center, and Hassan talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «موعد» مهمًا في the study center، وتتحدث عنه Hassan مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "holiday",
+    "translation": "إجازة",
+    "phonetic_us": "/hˈɑːlɪdˌeɪ/",
+    "phonetic_uk": "/hˈɒlɪdˌeɪ/",
+    "example": "The holiday is important in the study center, and Hassan talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «إجازة» مهمًا في the study center، وتتحدث عنه Hassan مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "invite",
+    "translation": "يدعو",
+    "phonetic_us": "/ɪnvˈaɪt/",
+    "phonetic_uk": "/ɪnvˈaɪt/",
+    "example": "Hassan and a classmate invite during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يدعو» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "organize",
+    "translation": "ينظم",
+    "phonetic_us": "/ˈɔːɹɡɐnˌaɪz/",
+    "phonetic_uk": "/ˈɔːɡɐnˌaɪz/",
+    "example": "Hassan and a classmate organize during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «ينظم» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "reserve",
+    "translation": "يحجز مسبقًا",
+    "phonetic_us": "/ɹɪzˈɜːv/",
+    "phonetic_uk": "/ɹɪzˈɜːv/",
+    "example": "Hassan and a classmate reserve during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يحجز مسبقًا» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "practice",
+    "translation": "يتدرّب",
+    "phonetic_us": "/pɹˈæktɪs/",
+    "phonetic_uk": "/pɹˈaktɪs/",
+    "example": "Hassan and a classmate practice during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يتدرّب» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "improve",
+    "translation": "يحسّن",
+    "phonetic_us": "/ɪmpɹˈuːv/",
+    "phonetic_uk": "/ɪmpɹˈuːv/",
+    "example": "Hassan and a classmate improve during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يحسّن» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "learn",
+    "translation": "يتعلم",
+    "phonetic_us": "/lˈɜːn/",
+    "phonetic_uk": "/lˈɜːn/",
+    "example": "Hassan and a classmate learn during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يتعلم» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "decide",
+    "translation": "يقرر",
+    "phonetic_us": "/dᵻsˈaɪd/",
+    "phonetic_uk": "/dɪsˈaɪd/",
+    "example": "Hassan and a classmate decide during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يقرر» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "hope",
+    "translation": "يأمل",
+    "phonetic_us": "/hˈoʊp/",
+    "phonetic_uk": "/hˈəʊp/",
+    "example": "Hassan and a classmate hope during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «يأمل» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "intend",
+    "translation": "ينوي",
+    "phonetic_us": "/ɪntˈɛnd/",
+    "phonetic_uk": "/ɪntˈɛnd/",
+    "example": "Hassan and a classmate intend during the future plans activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hassan وزميلها فعل «ينوي» أثناء نشاط future plans، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 6 — Plans for Next Month"
+  },
+  {
+    "word": "problem",
+    "translation": "مشكلة",
+    "phonetic_us": "/pɹˈɑːbləm/",
+    "phonetic_uk": "/pɹˈɒbləm/",
+    "example": "The problem is important in the help desk, and Mariam talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مشكلة» مهمًا في the help desk، وتتحدث عنه Mariam مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "advice",
+    "translation": "نصيحة",
+    "phonetic_us": "/ɐdvˈaɪs/",
+    "phonetic_uk": "/ɐdvˈaɪs/",
+    "example": "The advice is important in the help desk, and Mariam talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «نصيحة» مهمًا في the help desk، وتتحدث عنه Mariam مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "idea",
+    "translation": "فكرة",
+    "phonetic_us": "/aɪdˈiə/",
+    "phonetic_uk": "/aɪdˈiə/",
+    "example": "The idea is important in the help desk, and Mariam talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «فكرة» مهمًا في the help desk، وتتحدث عنه Mariam مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "solution",
+    "translation": "حل",
+    "phonetic_us": "/səlˈuːʃən/",
+    "phonetic_uk": "/səlˈuːʃən/",
+    "example": "The solution is important in the help desk, and Mariam talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «حل» مهمًا في the help desk، وتتحدث عنه Mariam مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "careful",
+    "translation": "حذر",
+    "phonetic_us": "/kˈɛɹfəl/",
+    "phonetic_uk": "/kˈeəfəl/",
+    "example": "The solution is careful in this advice example, and Mariam explains the reason to a classmate.",
+    "example_ar": "يكون solution «حذر» في مثال advice، وتشرح Mariam السبب لزميلها.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "possible",
+    "translation": "ممكن",
+    "phonetic_us": "/pˈɑːsəbəl/",
+    "phonetic_uk": "/pˈɒsəbəl/",
+    "example": "The solution is possible in this advice example, and Mariam explains the reason to a classmate.",
+    "example_ar": "يكون solution «ممكن» في مثال advice، وتشرح Mariam السبب لزميلها.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "impossible",
+    "translation": "مستحيل",
+    "phonetic_us": "/ɪmpˈɑːsəbəl/",
+    "phonetic_uk": "/ɪmpˈɒsəbəl/",
+    "example": "The solution is impossible in this advice example, and Mariam explains the reason to a classmate.",
+    "example_ar": "يكون solution «مستحيل» في مثال advice، وتشرح Mariam السبب لزميلها.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "borrow",
+    "translation": "يستعير",
+    "phonetic_us": "/bˈɔːɹoʊ/",
+    "phonetic_uk": "/bˈɒɹəʊ/",
+    "example": "Mariam and a classmate borrow during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يستعير» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "lend",
+    "translation": "يعير",
+    "phonetic_us": "/lˈɛnd/",
+    "phonetic_uk": "/lˈɛnd/",
+    "example": "Mariam and a classmate lend during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يعير» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "choose",
+    "translation": "يختار",
+    "phonetic_us": "/tʃˈuːz/",
+    "phonetic_uk": "/tʃˈuːz/",
+    "example": "Mariam and a classmate choose during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يختار» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "avoid",
+    "translation": "يتجنب",
+    "phonetic_us": "/ɐvˈɔɪd/",
+    "phonetic_uk": "/ɐvˈɔɪd/",
+    "example": "Mariam and a classmate avoid during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يتجنب» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "remember",
+    "translation": "يتذكر",
+    "phonetic_us": "/ɹɪmˈɛmbɚ/",
+    "phonetic_uk": "/ɹɪmˈɛmbə/",
+    "example": "Mariam and a classmate remember during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يتذكر» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "suggest",
+    "translation": "يقترح",
+    "phonetic_us": "/sədʒˈɛst/",
+    "phonetic_uk": "/sədʒˈɛst/",
+    "example": "Mariam and a classmate suggest during the advice activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Mariam وزميلها فعل «يقترح» أثناء نشاط advice، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 7 — Advice & Possibility"
+  },
+  {
+    "word": "story",
+    "translation": "قصة",
+    "phonetic_us": "/stˈoːɹi/",
+    "phonetic_uk": "/stˈɔːɹi/",
+    "example": "The story is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قصة» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "beginning",
+    "translation": "بداية",
+    "phonetic_us": "/bɪɡˈɪnɪŋ/",
+    "phonetic_uk": "/bɪɡˈɪnɪŋ/",
+    "example": "The beginning is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «بداية» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "middle",
+    "translation": "منتصف",
+    "phonetic_us": "/mˈɪdəl/",
+    "phonetic_uk": "/mˈɪdəl/",
+    "example": "The middle is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «منتصف» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "ending",
+    "translation": "نهاية",
+    "phonetic_us": "/ˈɛndɪŋ/",
+    "phonetic_uk": "/ˈɛndɪŋ/",
+    "example": "The ending is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «نهاية» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "character",
+    "translation": "شخصية",
+    "phonetic_us": "/kˈæɹɪktɚ/",
+    "phonetic_uk": "/kˈaɹɪktə/",
+    "example": "The character is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «شخصية» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "scene",
+    "translation": "مشهد",
+    "phonetic_us": "/sˈiːn/",
+    "phonetic_uk": "/sˈiːn/",
+    "example": "The scene is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مشهد» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "noise",
+    "translation": "ضوضاء",
+    "phonetic_us": "/nˈɔɪz/",
+    "phonetic_uk": "/nˈɔɪz/",
+    "example": "The noise is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ضوضاء» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "knock",
+    "translation": "طرقة",
+    "phonetic_us": "/nˈɑːk/",
+    "phonetic_uk": "/nˈɒk/",
+    "example": "The knock is important in the storytelling workshop, and Tarek talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «طرقة» مهمًا في the storytelling workshop، وتتحدث عنه Tarek مع زميل بعد النشاط.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "discover",
+    "translation": "يكتشف",
+    "phonetic_us": "/dɪskˈʌvɚ/",
+    "phonetic_uk": "/dɪskˈʌvə/",
+    "example": "Tarek and a classmate discover during the storytelling activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Tarek وزميلها فعل «يكتشف» أثناء نشاط storytelling، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "escape",
+    "translation": "يهرب",
+    "phonetic_us": "/ɛskˈeɪp/",
+    "phonetic_uk": "/ɛskˈeɪp/",
+    "example": "Tarek and a classmate escape during the storytelling activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Tarek وزميلها فعل «يهرب» أثناء نشاط storytelling، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "continue",
+    "translation": "يستمر",
+    "phonetic_us": "/kəntˈɪnjuː/",
+    "phonetic_uk": "/kəntˈɪnjuː/",
+    "example": "Tarek and a classmate continue during the storytelling activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Tarek وزميلها فعل «يستمر» أثناء نشاط storytelling، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "appear",
+    "translation": "يظهر",
+    "phonetic_us": "/ɐpˈɪɹ/",
+    "phonetic_uk": "/ɐpˈiə/",
+    "example": "Tarek and a classmate appear during the storytelling activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Tarek وزميلها فعل «يظهر» أثناء نشاط storytelling، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  },
+  {
+    "word": "disappear",
+    "translation": "يختفي",
+    "phonetic_us": "/dˌɪsɐpˈɪɹ/",
+    "phonetic_uk": "/dˌɪsɐpˈiə/",
+    "example": "Tarek and a classmate disappear during the storytelling activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Tarek وزميلها فعل «يختفي» أثناء نشاط storytelling، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A2.1 Unit 8 — A Story in Progress"
+  }
+]

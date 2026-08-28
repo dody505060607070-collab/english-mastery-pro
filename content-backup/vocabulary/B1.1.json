@@ -1,0 +1,938 @@
+[
+  {
+    "word": "achievement",
+    "translation": "إنجاز",
+    "phonetic_us": "/ɐtʃˈiːvmənt/",
+    "phonetic_uk": "/ɐtʃˈiːvmənt/",
+    "example": "In this unit, \"achievement\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «إنجاز» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "challenge",
+    "translation": "تحدٍّ",
+    "phonetic_us": "/tʃˈælɪndʒ/",
+    "phonetic_uk": "/tʃˈalɪndʒ/",
+    "example": "Learners can use \"challenge\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «تحدٍّ» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "opportunity",
+    "translation": "فرصة",
+    "phonetic_us": "/ɑːpɚtˈuːnɪɾi/",
+    "phonetic_uk": "/ɒpətjˈuːnɪti/",
+    "example": "The word \"opportunity\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «فرصة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "experience",
+    "translation": "تجربة",
+    "phonetic_us": "/ɛkspˈiəɹɪəns/",
+    "phonetic_uk": "/ɛkspˈiəɹɪəns/",
+    "example": "Practise \"experience\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تجربة» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "volunteer",
+    "translation": "يتطوع",
+    "phonetic_us": "/vˌɑːləntˈɪɹ/",
+    "phonetic_uk": "/vˌɒləntˈiə/",
+    "example": "In this unit, \"volunteer\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يتطوع» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "award",
+    "translation": "جائزة",
+    "phonetic_us": "/ɐwˈɔːɹd/",
+    "phonetic_uk": "/ɐwˈɔːd/",
+    "example": "Learners can use \"award\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «جائزة» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "success",
+    "translation": "نجاح",
+    "phonetic_us": "/səksˈɛs/",
+    "phonetic_uk": "/səksˈɛs/",
+    "example": "The word \"success\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «نجاح» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "fail",
+    "translation": "يفشل",
+    "phonetic_us": "/fˈeɪl/",
+    "phonetic_uk": "/fˈeɪl/",
+    "example": "Practise \"fail\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يفشل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "succeed",
+    "translation": "ينجح",
+    "phonetic_us": "/səksˈiːd/",
+    "phonetic_uk": "/səksˈiːd/",
+    "example": "In this unit, \"succeed\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «ينجح» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "participate",
+    "translation": "يشارك",
+    "phonetic_us": "/pɑːɹtˈɪsᵻpˌeɪt/",
+    "phonetic_uk": "/pɑːtˈɪsɪpˌeɪt/",
+    "example": "Learners can use \"participate\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يشارك» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "accomplish",
+    "translation": "ينجز",
+    "phonetic_us": "/ɐkˈɑːmplɪʃ/",
+    "phonetic_uk": "/ɐkˈɒmplɪʃ/",
+    "example": "The word \"accomplish\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ينجز» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "memorable",
+    "translation": "لا يُنسى",
+    "phonetic_us": "/mˈɛmɚɹəbəl/",
+    "phonetic_uk": "/mˈɛməɹəbəl/",
+    "example": "Practise \"memorable\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «لا يُنسى» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "recently",
+    "translation": "مؤخرًا",
+    "phonetic_us": "/ɹˈiːsəntli/",
+    "phonetic_uk": "/ɹˈiːsəntli/",
+    "example": "In this unit, \"recently\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مؤخرًا» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 1 — Experiences & Achievements"
+  },
+  {
+    "word": "routine",
+    "translation": "روتين",
+    "phonetic_us": "/ɹuːtˈiːn/",
+    "phonetic_uk": "/ɹuːtˈiːn/",
+    "example": "Learners can use \"routine\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «روتين» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "lifestyle",
+    "translation": "أسلوب حياة",
+    "phonetic_us": "/lˈaɪfstaɪl/",
+    "phonetic_uk": "/lˈaɪfstaɪl/",
+    "example": "The word \"lifestyle\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «أسلوب حياة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "habit",
+    "translation": "عادة",
+    "phonetic_us": "/hˈæbɪt/",
+    "phonetic_uk": "/hˈabɪt/",
+    "example": "Practise \"habit\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «عادة» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "commute",
+    "translation": "رحلة الذهاب للعمل",
+    "phonetic_us": "/kəmjˈuːt/",
+    "phonetic_uk": "/kəmjˈuːt/",
+    "example": "In this unit, \"commute\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «رحلة الذهاب للعمل» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "adapt",
+    "translation": "يتأقلم",
+    "phonetic_us": "/ɐdˈæpt/",
+    "phonetic_uk": "/ɐdˈapt/",
+    "example": "Learners can use \"adapt\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يتأقلم» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "settle",
+    "translation": "يستقر",
+    "phonetic_us": "/sˈɛɾəl/",
+    "phonetic_uk": "/sˈɛtəl/",
+    "example": "The word \"settle\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يستقر» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "balance",
+    "translation": "توازن",
+    "phonetic_us": "/bˈæləns/",
+    "phonetic_uk": "/bˈaləns/",
+    "example": "Practise \"balance\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «توازن» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "relocate",
+    "translation": "ينتقل للسكن",
+    "phonetic_us": "/ɹɪloʊkˈeɪt/",
+    "phonetic_uk": "/ɹɪləʊkˈeɪt/",
+    "example": "In this unit, \"relocate\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «ينتقل للسكن» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "career",
+    "translation": "مسار مهني",
+    "phonetic_us": "/kɚɹˈɪɹ/",
+    "phonetic_uk": "/kəɹˈiə/",
+    "example": "Learners can use \"career\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «مسار مهني» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "remote",
+    "translation": "عن بُعد",
+    "phonetic_us": "/ɹɪmˈoʊt/",
+    "phonetic_uk": "/ɹɪmˈəʊt/",
+    "example": "The word \"remote\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «عن بُعد» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "stable",
+    "translation": "مستقر",
+    "phonetic_us": "/stˈeɪbəl/",
+    "phonetic_uk": "/stˈeɪbəl/",
+    "example": "Practise \"stable\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «مستقر» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "gradually",
+    "translation": "تدريجيًا",
+    "phonetic_us": "/ɡɹˈædʒuːəli/",
+    "phonetic_uk": "/ɡɹˈadʒuːəli/",
+    "example": "In this unit, \"gradually\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تدريجيًا» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "long-term",
+    "translation": "طويل الأجل",
+    "phonetic_us": "/lˈɑːŋtˈɜːm/",
+    "phonetic_uk": "/lˈɒŋtˈɜːm/",
+    "example": "Learners can use \"long-term\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «طويل الأجل» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 2 — Changes Over Time"
+  },
+  {
+    "word": "mystery",
+    "translation": "لغز",
+    "phonetic_us": "/mˈɪstɚɹi/",
+    "phonetic_uk": "/mˈɪstəɹi/",
+    "example": "The word \"mystery\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «لغز» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "clue",
+    "translation": "دليل إرشادي",
+    "phonetic_us": "/klˈuː/",
+    "phonetic_uk": "/klˈuː/",
+    "example": "Practise \"clue\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «دليل إرشادي» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "witness",
+    "translation": "شاهد",
+    "phonetic_us": "/wˈɪtnəs/",
+    "phonetic_uk": "/wˈɪtnəs/",
+    "example": "In this unit, \"witness\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «شاهد» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "suspect",
+    "translation": "مشتبه به",
+    "phonetic_us": "/sˈʌspɛkt/",
+    "phonetic_uk": "/sˈʌspɛkt/",
+    "example": "Learners can use \"suspect\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «مشتبه به» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "incident",
+    "translation": "واقعة",
+    "phonetic_us": "/ˈɪnsɪdənt/",
+    "phonetic_uk": "/ˈɪnsɪdənt/",
+    "example": "The word \"incident\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «واقعة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "notice",
+    "translation": "يلاحظ",
+    "phonetic_us": "/nˈoʊɾɪs/",
+    "phonetic_uk": "/nˈəʊtɪs/",
+    "example": "Practise \"notice\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يلاحظ» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "recognize",
+    "translation": "يتعرّف على",
+    "phonetic_us": "/ɹˈɛkəɡnˌaɪz/",
+    "phonetic_uk": "/ɹˈɛkəɡnˌaɪz/",
+    "example": "In this unit, \"recognize\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يتعرّف على» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "realize",
+    "translation": "يدرك",
+    "phonetic_us": "/ɹˈiːəlaɪz/",
+    "phonetic_uk": "/ɹˈiəlaɪz/",
+    "example": "Learners can use \"realize\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يدرك» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "investigate",
+    "translation": "يحقق",
+    "phonetic_us": "/ɪnvˈɛstᵻɡˌeɪt/",
+    "phonetic_uk": "/ɪnvˈɛstɪɡˌeɪt/",
+    "example": "The word \"investigate\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يحقق» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "sequence",
+    "translation": "تسلسل",
+    "phonetic_us": "/sˈiːkwəns/",
+    "phonetic_uk": "/sˈiːkwəns/",
+    "example": "Practise \"sequence\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تسلسل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "eventually",
+    "translation": "في النهاية",
+    "phonetic_us": "/ɪvˈɛntʃuːəli/",
+    "phonetic_uk": "/ɪvˈɛntʃuːəli/",
+    "example": "In this unit, \"eventually\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «في النهاية» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "previously",
+    "translation": "سابقًا",
+    "phonetic_us": "/pɹˈiːvɪəsli/",
+    "phonetic_uk": "/pɹˈiːvɪəsli/",
+    "example": "Learners can use \"previously\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «سابقًا» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "unusual",
+    "translation": "غير معتاد",
+    "phonetic_us": "/ʌnjˈuːʒuːəl/",
+    "phonetic_uk": "/ʌnjˈuːʒuːəl/",
+    "example": "The word \"unusual\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «غير معتاد» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 3 — Before the Main Event"
+  },
+  {
+    "word": "option",
+    "translation": "خيار",
+    "phonetic_us": "/ˈɑːpʃən/",
+    "phonetic_uk": "/ˈɒpʃən/",
+    "example": "Practise \"option\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «خيار» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "priority",
+    "translation": "أولوية",
+    "phonetic_us": "/pɹaɪˈɔːɹɪɾi/",
+    "phonetic_uk": "/pɹaɪˈɒɹɪti/",
+    "example": "In this unit, \"priority\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «أولوية» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "alternative",
+    "translation": "بديل",
+    "phonetic_us": "/ɔːltˈɜːnətˌɪv/",
+    "phonetic_uk": "/ɔːltˈɜːnətˌɪv/",
+    "example": "Learners can use \"alternative\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «بديل» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "forecast",
+    "translation": "توقع",
+    "phonetic_us": "/fˈɔːɹkæst/",
+    "phonetic_uk": "/fˈɔːkast/",
+    "example": "The word \"forecast\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «توقع» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "likelihood",
+    "translation": "احتمالية",
+    "phonetic_us": "/lˈaɪklɪhˌʊd/",
+    "phonetic_uk": "/lˈaɪklihˌʊd/",
+    "example": "Practise \"likelihood\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «احتمالية» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "postpone",
+    "translation": "يؤجل",
+    "phonetic_us": "/poʊstpˈoʊn/",
+    "phonetic_uk": "/pəʊstpˈəʊn/",
+    "example": "In this unit, \"postpone\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يؤجل» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "consider",
+    "translation": "يفكر في",
+    "phonetic_us": "/kənsˈɪdɚ/",
+    "phonetic_uk": "/kənsˈɪdə/",
+    "example": "Learners can use \"consider\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يفكر في» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "flexible",
+    "translation": "مرن",
+    "phonetic_us": "/flˈɛksɪbəl/",
+    "phonetic_uk": "/flˈɛksɪbəl/",
+    "example": "The word \"flexible\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مرن» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "certain",
+    "translation": "مؤكد",
+    "phonetic_us": "/sˈɜːʔn̩/",
+    "phonetic_uk": "/sˈɜːtən/",
+    "example": "Practise \"certain\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «مؤكد» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "uncertain",
+    "translation": "غير مؤكد",
+    "phonetic_us": "/ʌnsˈɜːʔn̩/",
+    "phonetic_uk": "/ʌnsˈɜːtən/",
+    "example": "In this unit, \"uncertain\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «غير مؤكد» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "intention",
+    "translation": "نية",
+    "phonetic_us": "/ɪntˈɛnʃən/",
+    "phonetic_uk": "/ɪntˈɛnʃən/",
+    "example": "Learners can use \"intention\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «نية» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "consequence",
+    "translation": "نتيجة مترتبة",
+    "phonetic_us": "/kˈɑːnsɪkwəns/",
+    "phonetic_uk": "/kˈɒnsɪkwəns/",
+    "example": "The word \"consequence\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «نتيجة مترتبة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "estimate",
+    "translation": "تقدير",
+    "phonetic_us": "/ˈɛstᵻmət/",
+    "phonetic_uk": "/ˈɛstɪmət/",
+    "example": "Practise \"estimate\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تقدير» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 4 — Future Choices"
+  },
+  {
+    "word": "deduction",
+    "translation": "استنتاج",
+    "phonetic_us": "/dɪdˈʌkʃən/",
+    "phonetic_uk": "/dɪdˈʌkʃən/",
+    "example": "In this unit, \"deduction\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «استنتاج» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "assumption",
+    "translation": "افتراض",
+    "phonetic_us": "/ɐsˈʌmpʃən/",
+    "phonetic_uk": "/ɐsˈʌmpʃən/",
+    "example": "Learners can use \"assumption\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «افتراض» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "certainty",
+    "translation": "يقين",
+    "phonetic_us": "/sˈɜːtənti/",
+    "phonetic_uk": "/sˈɜːtənti/",
+    "example": "The word \"certainty\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يقين» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "doubt",
+    "translation": "شك",
+    "phonetic_us": "/dˈaʊt/",
+    "phonetic_uk": "/dˈaʊt/",
+    "example": "Practise \"doubt\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «شك» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "evidence",
+    "translation": "دليل",
+    "phonetic_us": "/ˈɛvɪdəns/",
+    "phonetic_uk": "/ˈɛvɪdəns/",
+    "example": "In this unit, \"evidence\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «دليل» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "probable",
+    "translation": "مرجح",
+    "phonetic_us": "/pɹˈɑːbəbəl/",
+    "phonetic_uk": "/pɹˈɒbəbəl/",
+    "example": "Learners can use \"probable\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «مرجح» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "unlikely",
+    "translation": "غير مرجح",
+    "phonetic_us": "/ʌnlˈaɪkli/",
+    "phonetic_uk": "/ʌnlˈaɪkli/",
+    "example": "The word \"unlikely\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «غير مرجح» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "seem",
+    "translation": "يبدو",
+    "phonetic_us": "/sˈiːm/",
+    "phonetic_uk": "/sˈiːm/",
+    "example": "Practise \"seem\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يبدو» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "indicate",
+    "translation": "يشير",
+    "phonetic_us": "/ˈɪndᵻkˌeɪt/",
+    "phonetic_uk": "/ˈɪndɪkˌeɪt/",
+    "example": "In this unit, \"indicate\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يشير» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "conclusion",
+    "translation": "استنتاج نهائي",
+    "phonetic_us": "/kənklˈuːʒən/",
+    "phonetic_uk": "/kənklˈuːʒən/",
+    "example": "Learners can use \"conclusion\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «استنتاج نهائي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "guess",
+    "translation": "يخمن",
+    "phonetic_us": "/ɡˈɛs/",
+    "phonetic_uk": "/ɡˈɛs/",
+    "example": "The word \"guess\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يخمن» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "logical",
+    "translation": "منطقي",
+    "phonetic_us": "/lˈɑːdʒɪkəl/",
+    "phonetic_uk": "/lˈɒdʒɪkəl/",
+    "example": "Practise \"logical\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «منطقي» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "apparently",
+    "translation": "على ما يبدو",
+    "phonetic_us": "/ɐpˈæɹəntli/",
+    "phonetic_uk": "/ɐpˈaɹəntli/",
+    "example": "In this unit, \"apparently\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «على ما يبدو» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 5 — Making Deductions"
+  },
+  {
+    "word": "relationship",
+    "translation": "علاقة",
+    "phonetic_us": "/ɹɪlˈeɪʃənʃˌɪp/",
+    "phonetic_uk": "/ɹɪlˈeɪʃənʃˌɪp/",
+    "example": "Learners can use \"relationship\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «علاقة» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "acquaintance",
+    "translation": "معرفة سطحية",
+    "phonetic_us": "/ɐkwˈeɪntəns/",
+    "phonetic_uk": "/ɐkwˈeɪntəns/",
+    "example": "The word \"acquaintance\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «معرفة سطحية» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "roommate",
+    "translation": "زميل سكن",
+    "phonetic_us": "/ɹˈuːmeɪt/",
+    "phonetic_uk": "/ɹˈuːmeɪt/",
+    "example": "Practise \"roommate\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «زميل سكن» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "mentor",
+    "translation": "موجّه",
+    "phonetic_us": "/mˈɛntoːɹ/",
+    "phonetic_uk": "/mˈɛntɔː/",
+    "example": "In this unit, \"mentor\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «موجّه» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "personality",
+    "translation": "شخصية",
+    "phonetic_us": "/pˌɜːsənˈælɪɾi/",
+    "phonetic_uk": "/pˌɜːsənˈalɪti/",
+    "example": "Learners can use \"personality\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «شخصية» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "generous",
+    "translation": "كريم",
+    "phonetic_us": "/dʒˈɛnɚɹəs/",
+    "phonetic_uk": "/dʒˈɛnəɹəs/",
+    "example": "The word \"generous\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «كريم» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "reliable",
+    "translation": "موثوق",
+    "phonetic_us": "/ɹɪlˈaɪəbəl/",
+    "phonetic_uk": "/ɹɪlˈaɪəbəl/",
+    "example": "Practise \"reliable\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «موثوق» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "patient",
+    "translation": "صبور",
+    "phonetic_us": "/pˈeɪʃənt/",
+    "phonetic_uk": "/pˈeɪʃənt/",
+    "example": "In this unit, \"patient\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «صبور» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "honest",
+    "translation": "صادق",
+    "phonetic_us": "/ˈɑːnɪst/",
+    "phonetic_uk": "/ˈɒnɪst/",
+    "example": "Learners can use \"honest\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «صادق» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "supportive",
+    "translation": "داعم",
+    "phonetic_us": "/səpˈoːɹɾɪv/",
+    "phonetic_uk": "/səpˈɔːtɪv/",
+    "example": "The word \"supportive\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «داعم» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "trust",
+    "translation": "يثق",
+    "phonetic_us": "/tɹˈʌst/",
+    "phonetic_uk": "/tɹˈʌst/",
+    "example": "Practise \"trust\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يثق» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "respect",
+    "translation": "يحترم",
+    "phonetic_us": "/ɹɪspˈɛkt/",
+    "phonetic_uk": "/ɹɪspˈɛkt/",
+    "example": "In this unit, \"respect\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يحترم» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "connection",
+    "translation": "صلة",
+    "phonetic_us": "/kənˈɛkʃən/",
+    "phonetic_uk": "/kənˈɛkʃən/",
+    "example": "Learners can use \"connection\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «صلة» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 6 — People Who Matter"
+  },
+  {
+    "word": "qualification",
+    "translation": "مؤهل",
+    "phonetic_us": "/kwˌɑːlɪfɪkˈeɪʃən/",
+    "phonetic_uk": "/kwˌɒlɪfɪkˈeɪʃən/",
+    "example": "The word \"qualification\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مؤهل» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "internship",
+    "translation": "تدريب عملي",
+    "phonetic_us": "/ɪntˈɜːnʃɪp/",
+    "phonetic_uk": "/ɪntˈɜːnʃɪp/",
+    "example": "Practise \"internship\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تدريب عملي» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "promotion",
+    "translation": "ترقية",
+    "phonetic_us": "/pɹəmˈoʊʃən/",
+    "phonetic_uk": "/pɹəmˈəʊʃən/",
+    "example": "In this unit, \"promotion\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «ترقية» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "workload",
+    "translation": "عبء عمل",
+    "phonetic_us": "/wˈɜːkloʊd/",
+    "phonetic_uk": "/wˈɜːkləʊd/",
+    "example": "Learners can use \"workload\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «عبء عمل» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "profession",
+    "translation": "مهنة",
+    "phonetic_us": "/pɹəfˈɛʃən/",
+    "phonetic_uk": "/pɹəfˈɛʃən/",
+    "example": "The word \"profession\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مهنة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "concentrate",
+    "translation": "يركز",
+    "phonetic_us": "/kˈɑːnsəntɹˌeɪt/",
+    "phonetic_uk": "/kˈɒnsəntɹˌeɪt/",
+    "example": "Practise \"concentrate\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يركز» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "motivate",
+    "translation": "يحفز",
+    "phonetic_us": "/mˈoʊɾᵻvˌeɪt/",
+    "phonetic_uk": "/mˈəʊtɪvˌeɪt/",
+    "example": "In this unit, \"motivate\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يحفز» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "recommend",
+    "translation": "يوصي",
+    "phonetic_us": "/ɹˌɛkəmˈɛnd/",
+    "phonetic_uk": "/ɹˌɛkəmˈɛnd/",
+    "example": "Learners can use \"recommend\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يوصي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "defer",
+    "translation": "يؤجل",
+    "phonetic_us": "/dɪfˈɜː/",
+    "phonetic_uk": "/dɪfˈɜː/",
+    "example": "The word \"defer\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يؤجل» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "avoidance",
+    "translation": "تجنب",
+    "phonetic_us": "/ɐvˈɔɪdəns/",
+    "phonetic_uk": "/ɐvˈɔɪdəns/",
+    "example": "Practise \"avoidance\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تجنب» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "commit",
+    "translation": "يلتزم",
+    "phonetic_us": "/kəmˈɪt/",
+    "phonetic_uk": "/kəmˈɪt/",
+    "example": "In this unit, \"commit\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يلتزم» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "practical",
+    "translation": "عملي",
+    "phonetic_us": "/pɹˈæktɪkəl/",
+    "phonetic_uk": "/pɹˈaktɪkəl/",
+    "example": "Learners can use \"practical\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «عملي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "valuable",
+    "translation": "قيّم",
+    "phonetic_us": "/vˈæljuːəbəl/",
+    "phonetic_uk": "/vˈaljuːəbəl/",
+    "example": "The word \"valuable\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «قيّم» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 7 — Work & Learning Decisions"
+  },
+  {
+    "word": "condition",
+    "translation": "شرط",
+    "phonetic_us": "/kəndˈɪʃən/",
+    "phonetic_uk": "/kəndˈɪʃən/",
+    "example": "Practise \"condition\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «شرط» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "backup",
+    "translation": "خطة احتياطية",
+    "phonetic_us": "/bˈækʌp/",
+    "phonetic_uk": "/bˈakʌp/",
+    "example": "In this unit, \"backup\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «خطة احتياطية» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "warning",
+    "translation": "تحذير",
+    "phonetic_us": "/wˈɔːɹnɪŋ/",
+    "phonetic_uk": "/wˈɔːnɪŋ/",
+    "example": "Learners can use \"warning\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «تحذير» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "risk",
+    "translation": "مخاطرة",
+    "phonetic_us": "/ɹˈɪsk/",
+    "phonetic_uk": "/ɹˈɪsk/",
+    "example": "The word \"risk\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مخاطرة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "prevent",
+    "translation": "يمنع",
+    "phonetic_us": "/pɹɪvˈɛnt/",
+    "phonetic_uk": "/pɹɪvˈɛnt/",
+    "example": "Practise \"prevent\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يمنع» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "reduce",
+    "translation": "يقلل",
+    "phonetic_us": "/ɹɪdˈuːs/",
+    "phonetic_uk": "/ɹɪdjˈuːs/",
+    "example": "In this unit, \"reduce\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يقلل» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "increase",
+    "translation": "يزيد",
+    "phonetic_us": "/ˈɪnkɹiːs/",
+    "phonetic_uk": "/ˈɪnkɹiːs/",
+    "example": "Learners can use \"increase\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «يزيد» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "unless",
+    "translation": "ما لم",
+    "phonetic_us": "/ʌnlˈɛs/",
+    "phonetic_uk": "/ʌnlˈɛs/",
+    "example": "The word \"unless\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ما لم» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "emergency",
+    "translation": "حالة طارئة",
+    "phonetic_us": "/ɪmˈɜːdʒənsi/",
+    "phonetic_uk": "/ɪmˈɜːdʒənsi/",
+    "example": "Practise \"emergency\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «حالة طارئة» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "procedure",
+    "translation": "إجراء",
+    "phonetic_us": "/pɹəsˈiːdʒɚ/",
+    "phonetic_uk": "/pɹəsˈiːdʒə/",
+    "example": "In this unit, \"procedure\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «إجراء» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "response",
+    "translation": "استجابة",
+    "phonetic_us": "/ɹɪspˈɑːns/",
+    "phonetic_uk": "/ɹɪspˈɒns/",
+    "example": "Learners can use \"response\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «استجابة» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "precaution",
+    "translation": "احتياط",
+    "phonetic_us": "/pɹɪkˈɔːʃən/",
+    "phonetic_uk": "/pɹɪkˈɔːʃən/",
+    "example": "The word \"precaution\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «احتياط» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  },
+  {
+    "word": "disruption",
+    "translation": "تعطل",
+    "phonetic_us": "/dɪsɹˈʌpʃən/",
+    "phonetic_uk": "/dɪsɹˈʌpʃən/",
+    "example": "Practise \"disruption\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تعطل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B1.1 Unit 8 — If Things Go Wrong"
+  }
+]

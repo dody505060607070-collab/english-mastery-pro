@@ -1,0 +1,938 @@
+[
+  {
+    "word": "demur",
+    "translation": "يبدي اعتراضًا متحفظًا",
+    "phonetic_us": "/dɪmˈɜː/",
+    "phonetic_uk": "/dɪmˈɜː/",
+    "example": "The analyst decided to demur only after reviewing the evidence, assumptions, and likely consequences carefully.",
+    "example_ar": "قرر المحلل أن يبدي اعتراضًا متحفظًا فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "hedge a disagreement",
+    "translation": "يصوغ خلافًا بتحفظ",
+    "phonetic_us": "/hˈɛdʒ ɐ dˌɪsɐɡɹˈiːmənt/",
+    "phonetic_uk": "/hˈɛdʒ ɐ dˌɪsɐɡɹˈiːmənt/",
+    "example": "The unit uses “hedge a disagreement” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «يصوغ خلافًا بتحفظ» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "concede a point",
+    "translation": "يُقرّ بنقطة للطرف الآخر",
+    "phonetic_us": "/kənsˈiːd ɐ pˈɔɪnt/",
+    "phonetic_uk": "/kənsˈiːd ɐ pˈɔɪnt/",
+    "example": "The unit uses “concede a point” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «يُقرّ بنقطة للطرف الآخر» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "tact",
+    "translation": "لباقة",
+    "phonetic_us": "/tˈækt/",
+    "phonetic_uk": "/tˈakt/",
+    "example": "The team discussed the tact because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «لباقة» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "candour",
+    "translation": "صراحة متزنة",
+    "phonetic_us": "/kˈændɚ/",
+    "phonetic_uk": "/kˈandə/",
+    "example": "The team discussed the candour because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «صراحة متزنة» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "forthright",
+    "translation": "صريح ومباشر",
+    "phonetic_us": "/fˈɔːɹθɹaɪt/",
+    "phonetic_uk": "/fˈɔːθɹaɪt/",
+    "example": "The committee considered the conclusion forthright because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «صريح ومباشر» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "equivocal",
+    "translation": "ملتبس أو غير حاسم",
+    "phonetic_us": "/ɪkwˈɪvəkəl/",
+    "phonetic_uk": "/ɪkwˈɪvəkəl/",
+    "example": "The committee considered the conclusion equivocal because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «ملتبس أو غير حاسم» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "conciliatory",
+    "translation": "تصالحي",
+    "phonetic_us": "/kənsˈɪlɪətˌoːɹi/",
+    "phonetic_uk": "/kənsˈɪlɪətəɹi/",
+    "example": "The committee considered the conclusion conciliatory because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «تصالحي» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "adversarial",
+    "translation": "تصادمي",
+    "phonetic_us": "/ˌædvɚsˈɛɹɪəl/",
+    "phonetic_uk": "/ˌadvəsˈeəɹɪəl/",
+    "example": "The decision was how to challenge an optimistic financial assumption without turning the discussion adversarial.",
+    "example_ar": "استخدمت اللجنة الوصف «تصادمي» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "deferential",
+    "translation": "مراعي لمقام الطرف الآخر",
+    "phonetic_us": "/dˌɛfɚɹˈɛnʃəl/",
+    "phonetic_uk": "/dˌɛfəɹˈɛnʃəl/",
+    "example": "The committee considered the conclusion deferential because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «مراعي لمقام الطرف الآخر» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "rapport",
+    "translation": "ألفة وتواصل إيجابي",
+    "phonetic_us": "/ɹæpˈoːɹ/",
+    "phonetic_uk": "/ɹapˈɔː/",
+    "example": "The team discussed the rapport because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «ألفة وتواصل إيجابي» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "face threat",
+    "translation": "تهديد لصورة الطرف الاجتماعية",
+    "phonetic_us": "/fˈeɪs θɹˈɛt/",
+    "phonetic_uk": "/fˈeɪs θɹˈɛt/",
+    "example": "The unit uses “face threat” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تهديد لصورة الطرف الاجتماعية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "diplomatic formula",
+    "translation": "صيغة دبلوماسية",
+    "phonetic_us": "/dˌɪpləmˈæɾɪk fˈɔːɹmjʊlə/",
+    "phonetic_uk": "/dˌɪpləmˈatɪk fˈɔːmjʊlə/",
+    "example": "The unit uses “diplomatic formula” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «صيغة دبلوماسية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 1 — Diplomatic Disagreement & Register Calibration"
+  },
+  {
+    "word": "implicature",
+    "translation": "معنى ضمني تداولي",
+    "phonetic_us": "/ˈɪmplɪkətʃˌʊɹ/",
+    "phonetic_uk": "/ˈɪmplɪkətʃˌʊə/",
+    "example": "+ An implicature can often be cancelled without logical contradiction if the speaker adds clarifying context.",
+    "example_ar": "ناقش الفريق مفهوم «معنى ضمني تداولي» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "presupposition",
+    "translation": "افتراض مسبق",
+    "phonetic_us": "/pɹˌiːsˌʌpəzˈɪʃən/",
+    "phonetic_uk": "/pɹˌiːsˌʌpəzˈɪʃən/",
+    "example": "The team discussed the presupposition because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «افتراض مسبق» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "entailment",
+    "translation": "استلزام منطقي",
+    "phonetic_us": "/ɛntˈeɪlmənt/",
+    "phonetic_uk": "/ɛntˈeɪlmənt/",
+    "example": "- The seminar did not treat every listener inference as an encoded entailment.",
+    "example_ar": "ناقش الفريق مفهوم «استلزام منطقي» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "pragmatic ambiguity",
+    "translation": "غموض تداولي",
+    "phonetic_us": "/pɹæɡmˈæɾɪk ˌæmbɪɡjˈuːɪɾi/",
+    "phonetic_uk": "/pɹaɡmˈatɪk ˌambɪɡjˈuːɪti/",
+    "example": "The unit uses “pragmatic ambiguity” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «غموض تداولي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "deixis",
+    "translation": "إحالة سياقية للزمان/المكان/الأشخاص",
+    "phonetic_us": "/dˈeɪksɪs/",
+    "phonetic_uk": "/dˈeɪksɪs/",
+    "example": "The team discussed the deixis because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «إحالة سياقية للزمان/المكان/الأشخاص» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "conversational maxim",
+    "translation": "مبدأ من مبادئ المحادثة",
+    "phonetic_us": "/kɑːnvɚsˈeɪʃənəl mˈæksᵻm/",
+    "phonetic_uk": "/kɒnvəsˈeɪʃənəl mˈaksɪm/",
+    "example": "The unit uses “conversational maxim” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مبدأ من مبادئ المحادثة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "irony",
+    "translation": "سخرية أو مفارقة",
+    "phonetic_us": "/ˈaɪɹəni/",
+    "phonetic_uk": "/ˈaɪɹəni/",
+    "example": "The team discussed the irony because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «سخرية أو مفارقة» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "underdetermined meaning",
+    "translation": "معنى لا يحدده اللفظ وحده",
+    "phonetic_us": "/ˌʌndɚdɪtˈɜːmɪnd mˈiːnɪŋ/",
+    "phonetic_uk": "/ˌʌndədɪtˈɜːmɪnd mˈiːnɪŋ/",
+    "example": "The unit uses “underdetermined meaning” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «معنى لا يحدده اللفظ وحده» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "context-bound",
+    "translation": "مرتبط بالسياق",
+    "phonetic_us": "/kˈɑːntɛkstbˈaʊnd/",
+    "phonetic_uk": "/kˈɒntɛkstbˈaʊnd/",
+    "example": "The team discussed the context-bound because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «مرتبط بالسياق» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "implied meaning",
+    "translation": "معنى ضمني",
+    "phonetic_us": "/ɪmplˈaɪd mˈiːnɪŋ/",
+    "phonetic_uk": "/ɪmplˈaɪd mˈiːnɪŋ/",
+    "example": "The unit uses “implied meaning” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «معنى ضمني» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "literal interpretation",
+    "translation": "تفسير حرفي",
+    "phonetic_us": "/lˈɪɾɚɹəl ɪntˌɜːpɹɪtˈeɪʃən/",
+    "phonetic_uk": "/lˈɪtəɹəl ɪntˌɜːpɹɪtˈeɪʃən/",
+    "example": "The unit uses “literal interpretation” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تفسير حرفي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "pragmatic inference",
+    "translation": "استنتاج تداولي",
+    "phonetic_us": "/pɹæɡmˈæɾɪk ˈɪnfɚɹəns/",
+    "phonetic_uk": "/pɹaɡmˈatɪk ˈɪnfəɹəns/",
+    "example": "Participants from different contexts did not always draw the same pragmatic inference from the indirect reply.",
+    "example_ar": "استخدم المتحدث «استنتاج تداولي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "shared assumption",
+    "translation": "افتراض مشترك",
+    "phonetic_us": "/ʃˈɛɹd ɐsˈʌmpʃən/",
+    "phonetic_uk": "/ʃˈeəd ɐsˈʌmpʃən/",
+    "example": "The unit uses “shared assumption” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «افتراض مشترك» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 2 — Implicature, Presupposition & Context"
+  },
+  {
+    "word": "nominal style",
+    "translation": "أسلوب اسمي",
+    "phonetic_us": "/nˈɑːmɪnəl stˈaɪl/",
+    "phonetic_uk": "/nˈɒmɪnəl stˈaɪl/",
+    "example": "The unit uses “nominal style” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «أسلوب اسمي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "syntactic embedding",
+    "translation": "تضمين نحوي",
+    "phonetic_us": "/sɪntˈæktɪk ɛmbˈɛdɪŋ/",
+    "phonetic_uk": "/sɪntˈaktɪk ɛmbˈɛdɪŋ/",
+    "example": "The unit uses “syntactic embedding” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تضمين نحوي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "information packing",
+    "translation": "حشد المعلومات",
+    "phonetic_us": "/ˌɪnfɚmˈeɪʃən pˈækɪŋ/",
+    "phonetic_uk": "/ˌɪnfəmˈeɪʃən pˈakɪŋ/",
+    "example": "The unit uses “information packing” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «حشد المعلومات» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "agent suppression",
+    "translation": "إخفاء الفاعل",
+    "phonetic_us": "/ˈeɪdʒənt səpɹˈɛʃən/",
+    "phonetic_uk": "/ˈeɪdʒənt səpɹˈɛʃən/",
+    "example": "When does agent suppression create an evidential or ethical problem?, which makes the meaning clear in this realistic intermediate-level context.",
+    "example_ar": "استخدم المتحدث «إخفاء الفاعل» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "technical register",
+    "translation": "أسلوب تقني",
+    "phonetic_us": "/tˈɛknɪkəl ɹˈɛdʒɪstɚ/",
+    "phonetic_uk": "/tˈɛknɪkəl ɹˈɛdʒɪstə/",
+    "example": "The unit uses “technical register” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «أسلوب تقني» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "cohesion device",
+    "translation": "أداة اتساق",
+    "phonetic_us": "/koʊhˈiːʒən dɪvˈaɪs/",
+    "phonetic_uk": "/kəʊhˈiːʒən dɪvˈaɪs/",
+    "example": "The unit uses “cohesion device” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «أداة اتساق» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "conceptual noun",
+    "translation": "اسم مفاهيمي",
+    "phonetic_us": "/kənsˈɛptʃuːəl nˈaʊn/",
+    "phonetic_uk": "/kənsˈɛptʃuːəl nˈaʊn/",
+    "example": "The unit uses “conceptual noun” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «اسم مفاهيمي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "prepositional chain",
+    "translation": "سلسلة من عبارات الجر",
+    "phonetic_us": "/pɹˌɛpəzˈɪʃənəl tʃˈeɪn/",
+    "phonetic_uk": "/pɹˌɛpəzˈɪʃənəl tʃˈeɪn/",
+    "example": "The unit uses “prepositional chain” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «سلسلة من عبارات الجر» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "readability trade-off",
+    "translation": "مقايضة بين الكثافة وسهولة القراءة",
+    "phonetic_us": "/ɹˌiːdəbˈɪlɪɾi tɹˈeɪdˈɔf/",
+    "phonetic_uk": "/ɹˌiːdəbˈɪlɪti tɹˈeɪdˈɒf/",
+    "example": "The unit uses “readability trade-off” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مقايضة بين الكثافة وسهولة القراءة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "dense formulation",
+    "translation": "صياغة كثيفة",
+    "phonetic_us": "/dˈɛns fˌɔːɹmjʊlˈeɪʃən/",
+    "phonetic_uk": "/dˈɛns fˌɔːmjʊlˈeɪʃən/",
+    "example": "The unit uses “dense formulation” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «صياغة كثيفة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "clausal unpacking",
+    "translation": "تفكيك إلى جمل",
+    "phonetic_us": "/klˈɔːzəl ʌnpˈækɪŋ/",
+    "phonetic_uk": "/klˈɔːzəl ʌnpˈakɪŋ/",
+    "example": "The unit uses “clausal unpacking” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تفكيك إلى جمل» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "compressed argument",
+    "translation": "حجة مضغوطة",
+    "phonetic_us": "/kəmpɹˈɛst ˈɑːɹɡjuːmənt/",
+    "phonetic_uk": "/kəmpɹˈɛst ˈɑːɡjuːmənt/",
+    "example": "The unit uses “compressed argument” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «حجة مضغوطة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "prose density",
+    "translation": "كثافة النثر",
+    "phonetic_us": "/pɹˈoʊz dˈɛnsɪɾi/",
+    "phonetic_uk": "/pɹˈəʊz dˈɛnsɪti/",
+    "example": "The unit uses “prose density” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «كثافة النثر» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 3 — Dense Academic Prose & Information Packaging"
+  },
+  {
+    "word": "unrealized alternative",
+    "translation": "بديل لم يتحقق",
+    "phonetic_us": "/ʌnɹˈiːəlaɪzd ɔːltˈɜːnətˌɪv/",
+    "phonetic_uk": "/ʌnɹˈiəlaɪzd ɔːltˈɜːnətˌɪv/",
+    "example": "The unit uses “unrealized alternative” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «بديل لم يتحقق» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "path dependence",
+    "translation": "اعتماد المسار اللاحق على قرارات سابقة",
+    "phonetic_us": "/pˈæθ dɪpˈɛndəns/",
+    "phonetic_uk": "/pˈaθ dɪpˈɛndəns/",
+    "example": "The unit uses “path dependence” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «اعتماد المسار اللاحق على قرارات سابقة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "alternative trajectory",
+    "translation": "مسار بديل",
+    "phonetic_us": "/ɔːltˈɜːnətˌɪv tɹədʒˈɛktɚɹi/",
+    "phonetic_uk": "/ɔːltˈɜːnətˌɪv tɹədʒˈɛktəɹi/",
+    "example": "The unit uses “alternative trajectory” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مسار بديل» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "necessary condition",
+    "translation": "شرط ضروري",
+    "phonetic_us": "/nˈɛsəsɚɹi kəndˈɪʃən/",
+    "phonetic_uk": "/nˈɛsəsəɹi kəndˈɪʃən/",
+    "example": "Distinguish a necessary condition from one that merely contributed to probability, which makes the meaning clear in this realistic intermediate-level.",
+    "example_ar": "استخدم المتحدث «شرط ضروري» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "sufficient condition",
+    "translation": "شرط كافٍ",
+    "phonetic_us": "/səfˈɪʃənt kəndˈɪʃən/",
+    "phonetic_uk": "/səfˈɪʃənt kəndˈɪʃən/",
+    "example": "The unit uses “sufficient condition” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «شرط كافٍ» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "causal chain",
+    "translation": "سلسلة سببية",
+    "phonetic_us": "/kˈɔːzəl tʃˈeɪn/",
+    "phonetic_uk": "/kˈɔːzəl tʃˈeɪn/",
+    "example": "Simulations suggested that correcting either of two early failures would probably have interrupted the causal chain.",
+    "example_ar": "استخدم المتحدث «سلسلة سببية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "intervention point",
+    "translation": "نقطة يمكن التدخل عندها",
+    "phonetic_us": "/ˌɪntɚvˈɛnʃən pˈɔɪnt/",
+    "phonetic_uk": "/ˌɪntəvˈɛnʃən pˈɔɪnt/",
+    "example": "The unit uses “intervention point” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «نقطة يمكن التدخل عندها» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "downstream effect",
+    "translation": "أثر لاحق في السلسلة",
+    "phonetic_us": "/dˈaʊnstɹiːm ɪfˈɛkt/",
+    "phonetic_uk": "/dˈaʊnstɹiːm ɪfˈɛkt/",
+    "example": "The unit uses “downstream effect” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «أثر لاحق في السلسلة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "hindsight bias",
+    "translation": "انحياز الإدراك بأثر رجعي",
+    "phonetic_us": "/hˈaɪndsaɪt bˈaɪəs/",
+    "phonetic_uk": "/hˈaɪndsaɪt bˈaɪəs/",
+    "example": "Beware hindsight bias: later knowledge can make one pathway appear more inevitable than it was.",
+    "example_ar": "استخدم المتحدث «انحياز الإدراك بأثر رجعي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "scenario analysis",
+    "translation": "تحليل سيناريوهات",
+    "phonetic_us": "/sənˈæɹɪˌoʊ ɐnˈæləsˌɪs/",
+    "phonetic_uk": "/sənˈɑːɹiˌəʊ ɐnˈaləsˌɪs/",
+    "example": "The unit uses “scenario analysis” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تحليل سيناريوهات» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "sensitivity analysis",
+    "translation": "تحليل الحساسية",
+    "phonetic_us": "/sˌɛnsɪtˈɪvɪɾi ɐnˈæləsˌɪs/",
+    "phonetic_uk": "/sˌɛnsɪtˈɪvɪti ɐnˈaləsˌɪs/",
+    "example": "The unit uses “sensitivity analysis” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تحليل الحساسية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "counterfactual model",
+    "translation": "نموذج مخالف للواقع",
+    "phonetic_us": "/kˈaʊntɚfˌæktʃuːəl mˈɑːdəl/",
+    "phonetic_uk": "/kˈaʊntəfˌaktʃuːəl mˈɒdəl/",
+    "example": "The unit uses “counterfactual model” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «نموذج مخالف للواقع» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "causal attribution",
+    "translation": "نسبة السبب إلى عامل معين",
+    "phonetic_us": "/kˈɔːzəl ɐtɹɪbjˈuːʃən/",
+    "phonetic_uk": "/kˈɔːzəl ɐtɹɪbjˈuːʃən/",
+    "example": "The unit uses “causal attribution” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «نسبة السبب إلى عامل معين» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 4 — Counterfactual Reasoning & Causal Models"
+  },
+  {
+    "word": "attest",
+    "translation": "يشهد أو يؤكد من خبرة/دليل",
+    "phonetic_us": "/ɐtˈɛst/",
+    "phonetic_uk": "/ɐtˈɛst/",
+    "example": "Use verbs such as attest, document, corroborate, allege, and report according to evidential status.",
+    "example_ar": "قرر المحلل أن يشهد أو يؤكد من خبرة/دليل فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "hearsay",
+    "translation": "معلومات منقولة بالسماع",
+    "phonetic_us": "/hˈɪɹseɪ/",
+    "phonetic_uk": "/hˈiəseɪ/",
+    "example": "- The inquiry did not treat repeated hearsay as multiple independent sources, which makes the meaning clear in this realistic.",
+    "example_ar": "ناقش الفريق مفهوم «معلومات منقولة بالسماع» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "firsthand account",
+    "translation": "رواية مباشرة",
+    "phonetic_us": "/fˈɜːsthænd ɐkˈaʊnt/",
+    "phonetic_uk": "/fˈɜːsthand ɐkˈaʊnt/",
+    "example": "The unit uses “firsthand account” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «رواية مباشرة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "secondhand account",
+    "translation": "رواية منقولة",
+    "phonetic_us": "/sˈɛkəndhˌænd ɐkˈaʊnt/",
+    "phonetic_uk": "/sˈɛkəndhˌand ɐkˈaʊnt/",
+    "example": "The most serious accusation came from a secondhand account whose original source could not be identified.",
+    "example_ar": "استخدم المتحدث «رواية منقولة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "verifiability",
+    "translation": "قابلية التحقق",
+    "phonetic_us": "/vˌɛɹɪfˌaɪəbˈɪlɪɾi/",
+    "phonetic_uk": "/vˌɛɹɪfˌaɪəbˈɪlɪti/",
+    "example": "The team discussed the verifiability because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «قابلية التحقق» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "provenance",
+    "translation": "أصل المعلومة ومسارها",
+    "phonetic_us": "/pɹˈuːvnəns/",
+    "phonetic_uk": "/pɹˈuːvnəns/",
+    "example": "Preserve provenance in summaries; do not erase the path from original source to final claim.",
+    "example_ar": "ناقش الفريق مفهوم «أصل المعلومة ومسارها» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "source triangulation",
+    "translation": "مقارنة مصادر متعددة للتحقق",
+    "phonetic_us": "/sˈoːɹs tɹaɪˈænɡjʊlˈeɪʃən/",
+    "phonetic_uk": "/sˈɔːs tɹaɪˈanɡjʊlˈeɪʃən/",
+    "example": "The unit uses “source triangulation” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مقارنة مصادر متعددة للتحقق» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "qualified assertion",
+    "translation": "تأكيد مقيَّد",
+    "phonetic_us": "/kwˈɑːlᵻfˌaɪd ɐsˈɜːʃən/",
+    "phonetic_uk": "/kwˈɒlɪfˌaɪd ɐsˈɜːʃən/",
+    "example": "The unit uses “qualified assertion” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تأكيد مقيَّد» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "documentary evidence",
+    "translation": "دليل وثائقي",
+    "phonetic_us": "/dˌɑːkjuːmˈɛntɚɹi ˈɛvɪdəns/",
+    "phonetic_uk": "/dˌɒkjuːmˈɛntəɹi ˈɛvɪdəns/",
+    "example": "Which source provides direct documentary evidence of the formal decision?, which makes the meaning clear in this realistic intermediate-level context.",
+    "example_ar": "استخدم المتحدث «دليل وثائقي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "testimonial evidence",
+    "translation": "دليل قائم على الشهادة",
+    "phonetic_us": "/tˌɛstᵻmˈoʊnɪəl ˈɛvɪdəns/",
+    "phonetic_uk": "/tˌɛstɪmˈəʊnɪəl ˈɛvɪdəns/",
+    "example": "The unit uses “testimonial evidence” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «دليل قائم على الشهادة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "uncorroborated",
+    "translation": "غير مدعوم بمصدر مستقل",
+    "phonetic_us": "/ʌnkɚɹˈɑːbɚɹˌeɪɾᵻd/",
+    "phonetic_uk": "/ʌnkəɹˈɒbəɹˌeɪtɪd/",
+    "example": "The committee considered the conclusion uncorroborated because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «غير مدعوم بمصدر مستقل» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "evidential hierarchy",
+    "translation": "هرمية قوة الأدلة",
+    "phonetic_us": "/ˌɛvɪdˈɛnʃəl hˈaɪɚɹɑːɹki/",
+    "phonetic_uk": "/ˌɛvɪdˈɛnʃəl hˈaɪəɹɑːki/",
+    "example": "The unit uses “evidential hierarchy” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «هرمية قوة الأدلة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "traceable source",
+    "translation": "مصدر قابل للتتبع",
+    "phonetic_us": "/tɹˈeɪsəbəl sˈoːɹs/",
+    "phonetic_uk": "/tɹˈeɪsəbəl sˈɔːs/",
+    "example": "The unit uses “traceable source” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مصدر قابل للتتبع» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 5 — Evidential Reporting & Source Provenance"
+  },
+  {
+    "word": "antithesis",
+    "translation": "طباق",
+    "phonetic_us": "/æntˈɪθəsˌɪs/",
+    "phonetic_uk": "/antˈɪθəsˌɪs/",
+    "example": "+ The speech contrasted short-term savings with long-term capacity in a balanced antithesis.",
+    "example_ar": "ناقش الفريق مفهوم «طباق» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "parallelism",
+    "translation": "توازٍ تركيبي",
+    "phonetic_us": "/pˈæɹəlˌɛlɪzəm/",
+    "phonetic_uk": "/pˈaɹəlˌɛlɪzəm/",
+    "example": "Use parallelism when ideas are logically parallel as well as grammatically parallel.",
+    "example_ar": "ناقش الفريق مفهوم «توازٍ تركيبي» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "tricolon",
+    "translation": "ثلاثية بلاغية",
+    "phonetic_us": "/tɹˈaɪkɑːlən/",
+    "phonetic_uk": "/tɹˈaɪkɒlən/",
+    "example": "Use tricolon for memorable organization, not because three items are inherently more persuasive.",
+    "example_ar": "ناقش الفريق مفهوم «ثلاثية بلاغية» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "rhetorical question",
+    "translation": "سؤال بلاغي",
+    "phonetic_us": "/ɹɛtˈɔːɹɪkəl kwˈɛstʃən/",
+    "phonetic_uk": "/ɹɛtˈɒɹɪkəl kwˈɛstʃən/",
+    "example": "+ The writer used one rhetorical question to open a genuine issue rather than imply an unsupported answer.",
+    "example_ar": "استخدم المتحدث «سؤال بلاغي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "anaphora",
+    "translation": "تكرار في بدايات الجمل",
+    "phonetic_us": "/ˈænɐfˌoːɹə/",
+    "phonetic_uk": "/ˈanɐfˌɔːɹə/",
+    "example": "The team discussed the anaphora because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «تكرار في بدايات الجمل» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "chiasmus",
+    "translation": "تقابل معكوس",
+    "phonetic_us": "/kaɪˈæzməs/",
+    "phonetic_uk": "/kaɪˈazməs/",
+    "example": "The team discussed the chiasmus because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «تقابل معكوس» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "symmetry",
+    "translation": "تماثل",
+    "phonetic_us": "/sˈɪmətɹi/",
+    "phonetic_uk": "/sˈɪmətɹi/",
+    "example": "The team discussed the symmetry because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «تماثل» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "contrastive framing",
+    "translation": "تأطير تقابلي",
+    "phonetic_us": "/kˈɑːntɹɐstˌɪv fɹˈeɪmɪŋ/",
+    "phonetic_uk": "/kˈɒntɹastˌɪv fɹˈeɪmɪŋ/",
+    "example": "The unit uses “contrastive framing” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تأطير تقابلي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "understatement",
+    "translation": "تقليل بلاغي",
+    "phonetic_us": "/ˌʌndɚstˈeɪtmənt/",
+    "phonetic_uk": "/ˌʌndəstˈeɪtmənt/",
+    "example": "The team discussed the understatement because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «تقليل بلاغي» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "rhetorical restraint",
+    "translation": "ضبط بلاغي متعمد",
+    "phonetic_us": "/ɹɛtˈɔːɹɪkəl ɹɪstɹˈeɪnt/",
+    "phonetic_uk": "/ɹɛtˈɒɹɪkəl ɹɪstɹˈeɪnt/",
+    "example": "The unit uses “rhetorical restraint” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «ضبط بلاغي متعمد» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "balanced cadence",
+    "translation": "إيقاع متوازن",
+    "phonetic_us": "/bˈælənst kˈeɪdəns/",
+    "phonetic_uk": "/bˈalənst kˈeɪdəns/",
+    "example": "The unit uses “balanced cadence” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «إيقاع متوازن» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "parallel structure",
+    "translation": "بنية متوازية",
+    "phonetic_us": "/pˈæɹəlˌɛl stɹˈʌktʃɚ/",
+    "phonetic_uk": "/pˈaɹəlˌɛl stɹˈʌktʃə/",
+    "example": "The unit uses “parallel structure” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «بنية متوازية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "rhetorical architecture",
+    "translation": "بناء بلاغي",
+    "phonetic_us": "/ɹɛtˈɔːɹɪkəl ˈɑːɹkɪtˌɛktʃɚ/",
+    "phonetic_uk": "/ɹɛtˈɒɹɪkəl ˈɑːkɪtˌɛktʃə/",
+    "example": "The unit uses “rhetorical architecture” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «بناء بلاغي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 6 — Rhetorical Patterning & Controlled Persuasion"
+  },
+  {
+    "word": "verbosity",
+    "translation": "إطناب",
+    "phonetic_us": "/vɜːbˈɑːsɪɾi/",
+    "phonetic_uk": "/vɜːbˈɒsɪti/",
+    "example": "The team discussed the verbosity because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «إطناب» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "concision",
+    "translation": "إيجاز",
+    "phonetic_us": "/kənsˈɪʒən/",
+    "phonetic_uk": "/kənsˈɪʒən/",
+    "example": "The team discussed the concision because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «إيجاز» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "sentence rhythm",
+    "translation": "إيقاع الجملة",
+    "phonetic_us": "/sˈɛntəns ɹˈɪðəm/",
+    "phonetic_uk": "/sˈɛntəns ɹˈɪðəm/",
+    "example": "How can sentence rhythm improve processing in a dense analytical paragraph?, which makes the meaning clear in this realistic intermediate-level.",
+    "example_ar": "استخدم المتحدث «إيقاع الجملة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "nominal clutter",
+    "translation": "تزاحم الأسماء المجردة",
+    "phonetic_us": "/nˈɑːmɪnəl klˈʌɾɚ/",
+    "phonetic_uk": "/nˈɒmɪnəl klˈʌtə/",
+    "example": "The unit uses “nominal clutter” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تزاحم الأسماء المجردة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "deadwood",
+    "translation": "حشو يمكن حذفه",
+    "phonetic_us": "/dˈɛdwʊd/",
+    "phonetic_uk": "/dˈɛdwʊd/",
+    "example": "The team discussed the deadwood because it affected how the evidence and final decision should be interpreted.",
+    "example_ar": "ناقش الفريق مفهوم «حشو يمكن حذفه» لأنه أثّر في طريقة تفسير الأدلة والقرار النهائي.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "sentence balance",
+    "translation": "توازن الجملة",
+    "phonetic_us": "/sˈɛntəns bˈæləns/",
+    "phonetic_uk": "/sˈɛntəns bˈaləns/",
+    "example": "The unit uses “sentence balance” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «توازن الجملة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "verbal economy",
+    "translation": "اقتصاد لفظي",
+    "phonetic_us": "/vˈɜːbəl ɪkˈɑːnəmi/",
+    "phonetic_uk": "/vˈɜːbəl ɪkˈɒnəmi/",
+    "example": "The unit uses “verbal economy” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «اقتصاد لفظي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "line edit",
+    "translation": "تحرير سطري",
+    "phonetic_us": "/lˈaɪn ˈɛdɪt/",
+    "phonetic_uk": "/lˈaɪn ˈɛdɪt/",
+    "example": "The unit uses “line edit” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تحرير سطري» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "precision edit",
+    "translation": "تحرير للدقة",
+    "phonetic_us": "/pɹɪsˈɪʒən ˈɛdɪt/",
+    "phonetic_uk": "/pɹɪsˈɪʒən ˈɛdɪt/",
+    "example": "The unit uses “precision edit” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تحرير للدقة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "structural revision",
+    "translation": "مراجعة بنيوية",
+    "phonetic_us": "/stɹˈʌktʃɚɹəl ɹɪvˈɪʒən/",
+    "phonetic_uk": "/stɹˈʌktʃəɹəl ɹɪvˈɪʒən/",
+    "example": "The unit uses “structural revision” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مراجعة بنيوية» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "remove redundancy",
+    "translation": "يحذف التكرار",
+    "phonetic_us": "/ɹɪmˈuːv ɹɪdˈʌndənsi/",
+    "phonetic_uk": "/ɹɪmˈuːv ɹɪdˈʌndənsi/",
+    "example": "The analyst chose to remove redundancy only after reviewing the evidence, assumptions, and likely consequences carefully.",
+    "example_ar": "قرر المحلل أن يحذف التكرار فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "tighten prose",
+    "translation": "يكثف النثر",
+    "phonetic_us": "/tˈaɪʔn̩ pɹˈoʊz/",
+    "phonetic_uk": "/tˈaɪtən pɹˈəʊz/",
+    "example": "The analyst chose to tighten prose only after reviewing the evidence, assumptions, and likely consequences carefully.",
+    "example_ar": "قرر المحلل أن يكثف النثر فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "editorial judgment",
+    "translation": "حكم تحريري",
+    "phonetic_us": "/ˌɛdɪtˈoːɹɪəl dʒˈʌdʒmənt/",
+    "phonetic_uk": "/ˌɛdɪtˈɔːɹɪəl dʒˈʌdʒmənt/",
+    "example": "The unit uses “editorial judgment” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «حكم تحريري» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 7 — Editing for Concision, Precision & Rhythm"
+  },
+  {
+    "word": "cross-source synthesis",
+    "translation": "تركيب معلومات من مصادر متعددة",
+    "phonetic_us": "/kɹˈɔssˈoːɹs sˈɪnθəsˌɪs/",
+    "phonetic_uk": "/kɹˈɒssˈɔːs sˈɪnθəsˌɪs/",
+    "example": "The unit uses “cross-source synthesis” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تركيب معلومات من مصادر متعددة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "integration framework",
+    "translation": "إطار للدمج",
+    "phonetic_us": "/ˌɪntɪɡɹˈeɪʃən fɹˈeɪmwɜːk/",
+    "phonetic_uk": "/ˌɪntɪɡɹˈeɪʃən fɹˈeɪmwɜːk/",
+    "example": "The unit uses “integration framework” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «إطار للدمج» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "reconcile evidence",
+    "translation": "يوفق بين الأدلة",
+    "phonetic_us": "/ɹˈɛkənsˌaɪl ˈɛvɪdəns/",
+    "phonetic_uk": "/ɹˈɛkənsˌaɪl ˈɛvɪdəns/",
+    "example": "The analyst chose to reconcile evidence only after reviewing the evidence, assumptions, and likely consequences carefully.",
+    "example_ar": "قرر المحلل أن يوفق بين الأدلة فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "prioritize findings",
+    "translation": "يرتب النتائج حسب الأولوية",
+    "phonetic_us": "/pɹaɪˈɔːɹɪtˌaɪz fˈaɪndɪŋz/",
+    "phonetic_uk": "/pɹaɪˈɒɹɪtˌaɪz fˈaɪndɪŋz/",
+    "example": "The analyst chose to prioritize findings only after reviewing the evidence, assumptions, and likely consequences carefully.",
+    "example_ar": "قرر المحلل أن يرتب النتائج حسب الأولوية فقط بعد مراجعة الأدلة والافتراضات والنتائج المحتملة بعناية.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "executive summary",
+    "translation": "ملخص تنفيذي",
+    "phonetic_us": "/ɛɡzˈɛkjuːtˌɪv sˈʌmɚɹi/",
+    "phonetic_uk": "/ɛɡzˈɛkjuːtˌɪv sˈʌməɹi/",
+    "example": "The unit uses “executive summary” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «ملخص تنفيذي» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "stakeholder lens",
+    "translation": "منظور أصحاب المصلحة",
+    "phonetic_us": "/stˈeɪkhoʊldɚ lˈɛnz/",
+    "phonetic_uk": "/stˈeɪkhəʊldə lˈɛnz/",
+    "example": "The unit uses “stakeholder lens” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «منظور أصحاب المصلحة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "multidisciplinary",
+    "translation": "متعدد التخصصات",
+    "phonetic_us": "/mˌʌltɪdˈɪsɪplˌɪnɛɹi/",
+    "phonetic_uk": "/mˌʌltɪdˈɪsɪplˌɪnəɹi/",
+    "example": "The committee considered the conclusion multidisciplinary because its wording matched the strength and scope of the evidence.",
+    "example_ar": "استخدمت اللجنة الوصف «متعدد التخصصات» للخلاصة لأن صياغتها وافقت قوة الأدلة ونطاقها.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "trade-off analysis",
+    "translation": "تحليل المفاضلات",
+    "phonetic_us": "/tɹˈeɪdˈɔf ɐnˈæləsˌɪs/",
+    "phonetic_uk": "/tɹˈeɪdˈɒf ɐnˈaləsˌɪs/",
+    "example": "The unit uses “trade-off analysis” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تحليل المفاضلات» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "actionable recommendation",
+    "translation": "توصية قابلة للتنفيذ",
+    "phonetic_us": "/ˈækʃənəbəl ɹˌɛkəmɛndˈeɪʃən/",
+    "phonetic_uk": "/ˈakʃənəbəl ɹˌɛkəmɛndˈeɪʃən/",
+    "example": "The unit uses “actionable recommendation” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «توصية قابلة للتنفيذ» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "synthesis matrix",
+    "translation": "مصفوفة تركيب",
+    "phonetic_us": "/sˈɪnθəsˌɪs mˈeɪtɹɪks/",
+    "phonetic_uk": "/sˈɪnθəsˌɪs mˈeɪtɹɪks/",
+    "example": "The unit uses “synthesis matrix” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «مصفوفة تركيب» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "evidence synthesis",
+    "translation": "تركيب الأدلة",
+    "phonetic_us": "/ˈɛvɪdəns sˈɪnθəsˌɪs/",
+    "phonetic_uk": "/ˈɛvɪdəns sˈɪnθəsˌɪs/",
+    "example": "The unit uses “evidence synthesis” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «تركيب الأدلة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "integrated briefing",
+    "translation": "إحاطة متكاملة",
+    "phonetic_us": "/ˈɪntɪɡɹˌeɪɾᵻd bɹˈiːfɪŋ/",
+    "phonetic_uk": "/ˈɪntɪɡɹˌeɪtɪd bɹˈiːfɪŋ/",
+    "example": "The unit uses “integrated briefing” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «إحاطة متكاملة» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  },
+  {
+    "word": "nuanced conclusion",
+    "translation": "خلاصة دقيقة متعددة الجوانب",
+    "phonetic_us": "/nˈuːɑːnst kənklˈuːʒən/",
+    "phonetic_uk": "/njˈuːənst kənklˈuːʒən/",
+    "example": "The unit uses “nuanced conclusion” to express a precise relationship involving stance, reference, logic, or discourse organization.",
+    "example_ar": "استخدم المتحدث «خلاصة دقيقة متعددة الجوانب» ليعبّر بدقة عن العلاقة المقصودة بين الأفكار في السياق.",
+    "category": "C2.2 Unit 8 — Integrated Synthesis & Cross-Source Evaluation"
+  }
+]

@@ -1,0 +1,938 @@
+[
+  {
+    "word": "maintenance",
+    "translation": "صيانة",
+    "phonetic_us": "/mˈeɪntənəns/",
+    "phonetic_uk": "/mˈeɪntənəns/",
+    "example": "In this unit, \"maintenance\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «صيانة» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "technician",
+    "translation": "فني",
+    "phonetic_us": "/tɛknˈɪʃən/",
+    "phonetic_uk": "/tɛknˈɪʃən/",
+    "example": "Learners can use \"technician\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «فني» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "warranty",
+    "translation": "ضمان",
+    "phonetic_us": "/wˈɔːɹənti/",
+    "phonetic_uk": "/wˈɒɹənti/",
+    "example": "The word \"warranty\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ضمان» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "device",
+    "translation": "جهاز",
+    "phonetic_us": "/dɪvˈaɪs/",
+    "phonetic_uk": "/dɪvˈaɪs/",
+    "example": "Practise \"device\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «جهاز» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "contractor",
+    "translation": "مقاول",
+    "phonetic_us": "/kəntɹˈæktɚ/",
+    "phonetic_uk": "/kəntɹˈaktə/",
+    "example": "In this unit, \"contractor\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مقاول» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "upgrade",
+    "translation": "ترقية/تحديث",
+    "phonetic_us": "/ˈʌpɡɹeɪd/",
+    "phonetic_uk": "/ˈʌpɡɹeɪd/",
+    "example": "Learners can use \"upgrade\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «ترقية/تحديث» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "installation",
+    "translation": "تركيب",
+    "phonetic_us": "/ˌɪnstəlˈeɪʃən/",
+    "phonetic_uk": "/ˌɪnstəlˈeɪʃən/",
+    "example": "The word \"installation\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «تركيب» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "replacement",
+    "translation": "استبدال",
+    "phonetic_us": "/ɹɪplˈeɪsmənt/",
+    "phonetic_uk": "/ɹɪplˈeɪsmənt/",
+    "example": "Practise \"replacement\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «استبدال» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "diagnose",
+    "translation": "يشخص العطل",
+    "phonetic_us": "/dˌaɪəɡnˈoʊz/",
+    "phonetic_uk": "/dˌaɪəɡnˈəʊz/",
+    "example": "In this unit, \"diagnose\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يشخص العطل» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "specialist",
+    "translation": "اختصاصي",
+    "phonetic_us": "/spˈɛʃəlˌɪst/",
+    "phonetic_uk": "/spˈɛʃəlˌɪst/",
+    "example": "Learners can use \"specialist\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «اختصاصي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "invoice",
+    "translation": "فاتورة",
+    "phonetic_us": "/ˈɪnvɔɪs/",
+    "phonetic_uk": "/ˈɪnvɔɪs/",
+    "example": "The word \"invoice\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «فاتورة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "fault",
+    "translation": "عطل",
+    "phonetic_us": "/fˈɑːlt/",
+    "phonetic_uk": "/fˈɒlt/",
+    "example": "Practise \"fault\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «عطل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "component",
+    "translation": "مكوّن",
+    "phonetic_us": "/kəmpˈoʊnənt/",
+    "phonetic_uk": "/kəmpˈəʊnənt/",
+    "example": "In this unit, \"component\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مكوّن» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 1 — Arranging Services"
+  },
+  {
+    "word": "hindsight",
+    "translation": "إدراك بأثر رجعي",
+    "phonetic_us": "/hˈaɪndsaɪt/",
+    "phonetic_uk": "/hˈaɪndsaɪt/",
+    "example": "Learners can use \"hindsight\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «إدراك بأثر رجعي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "responsibility",
+    "translation": "مسؤولية",
+    "phonetic_us": "/ɹɪspˌɑːnsəbˈɪlɪɾi/",
+    "phonetic_uk": "/ɹɪspˌɒnsəbˈɪlɪti/",
+    "example": "The word \"responsibility\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مسؤولية» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "recovery",
+    "translation": "تعافٍ",
+    "phonetic_us": "/ɹɪkˈʌvɚɹi/",
+    "phonetic_uk": "/ɹɪkˈʌvəɹi/",
+    "example": "Practise \"recovery\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تعافٍ» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "irreversible",
+    "translation": "لا رجعة فيه",
+    "phonetic_us": "/ɪɹɪvˈɜːsəbəl/",
+    "phonetic_uk": "/ɪɹɪvˈɜːsəbəl/",
+    "example": "In this unit, \"irreversible\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «لا رجعة فيه» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "preventable",
+    "translation": "قابل للمنع",
+    "phonetic_us": "/pɹɪvˈɛntəbəl/",
+    "phonetic_uk": "/pɹɪvˈɛntəbəl/",
+    "example": "Learners can use \"preventable\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «قابل للمنع» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "accountable",
+    "translation": "خاضع للمساءلة",
+    "phonetic_us": "/ɐkˈaʊntəbəl/",
+    "phonetic_uk": "/ɐkˈaʊntəbəl/",
+    "example": "The word \"accountable\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «خاضع للمساءلة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "reflect",
+    "translation": "يتأمل",
+    "phonetic_us": "/ɹɪflˈɛkt/",
+    "phonetic_uk": "/ɹɪflˈɛkt/",
+    "example": "Practise \"reflect\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يتأمل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "reconsider",
+    "translation": "يعيد النظر",
+    "phonetic_us": "/ɹˌiːkənsˈɪdɚ/",
+    "phonetic_uk": "/ɹˌiːkənsˈɪdə/",
+    "example": "In this unit, \"reconsider\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «يعيد النظر» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "current impact",
+    "translation": "أثر حالي",
+    "phonetic_us": "/kˈɜːɹənt ˈɪmpækt/",
+    "phonetic_uk": "/kˈʌɹənt ˈɪmpakt/",
+    "example": "Learners can use \"current impact\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «أثر حالي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "earlier choice",
+    "translation": "اختيار سابق",
+    "phonetic_us": "/ˈɜːlɪɚ tʃˈɔɪs/",
+    "phonetic_uk": "/ˈɜːlɪə tʃˈɔɪs/",
+    "example": "The word \"earlier choice\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «اختيار سابق» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "long-term effect",
+    "translation": "أثر طويل الأجل",
+    "phonetic_us": "/lˈɑːŋtˈɜːm ɪfˈɛkt/",
+    "phonetic_uk": "/lˈɒŋtˈɜːm ɪfˈɛkt/",
+    "example": "Practise \"long-term effect\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «أثر طويل الأجل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "missed chance",
+    "translation": "فرصة ضائعة",
+    "phonetic_us": "/mˈɪst tʃˈæns/",
+    "phonetic_uk": "/mˈɪst tʃˈans/",
+    "example": "In this unit, \"missed chance\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «فرصة ضائعة» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "root cause",
+    "translation": "سبب جذري",
+    "phonetic_us": "/ɹˈuːt kˈɔːz/",
+    "phonetic_uk": "/ɹˈuːt kˈɔːz/",
+    "example": "Learners can use \"root cause\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «سبب جذري» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 2 — Past Choices, Present Results"
+  },
+  {
+    "word": "frustration",
+    "translation": "إحباط",
+    "phonetic_us": "/fɹʌstɹˈeɪʃən/",
+    "phonetic_uk": "/fɹʌstɹˈeɪʃən/",
+    "example": "The word \"frustration\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «إحباط» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "preference",
+    "translation": "تفضيل",
+    "phonetic_us": "/pɹˈɛfɹəns/",
+    "phonetic_uk": "/pɹˈɛfɹəns/",
+    "example": "Practise \"preference\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «تفضيل» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "reality",
+    "translation": "واقع",
+    "phonetic_us": "/ɹɪˈælɪɾi/",
+    "phonetic_uk": "/ɹɪˈalɪti/",
+    "example": "In this unit, \"reality\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «واقع» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "disappointment",
+    "translation": "خيبة أمل",
+    "phonetic_us": "/dˌɪsɐpˈɔɪntmənt/",
+    "phonetic_uk": "/dˌɪsɐpˈɔɪntmənt/",
+    "example": "Learners can use \"disappointment\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «خيبة أمل» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "ideal",
+    "translation": "مثالي",
+    "phonetic_us": "/aɪdˈiəl/",
+    "phonetic_uk": "/aɪdˈiəl/",
+    "example": "The word \"ideal\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مثالي» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "desire",
+    "translation": "رغبة",
+    "phonetic_us": "/dɪzˈaɪɚ/",
+    "phonetic_uk": "/dɪzˈaɪə/",
+    "example": "Practise \"desire\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «رغبة» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "aspiration",
+    "translation": "تطلع",
+    "phonetic_us": "/ˌæspɚɹˈeɪʃən/",
+    "phonetic_uk": "/ˌaspəɹˈeɪʃən/",
+    "example": "In this unit, \"aspiration\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تطلع» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "restriction",
+    "translation": "قيد",
+    "phonetic_us": "/ɹɪstɹˈɪkʃən/",
+    "phonetic_uk": "/ɹɪstɹˈɪkʃən/",
+    "example": "Learners can use \"restriction\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «قيد» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "complain",
+    "translation": "يشتكي",
+    "phonetic_us": "/kəmplˈeɪn/",
+    "phonetic_uk": "/kəmplˈeɪn/",
+    "example": "The word \"complain\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «يشتكي» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "limitation",
+    "translation": "قيد/محدودية",
+    "phonetic_us": "/lˌɪmɪtˈeɪʃən/",
+    "phonetic_uk": "/lˌɪmɪtˈeɪʃən/",
+    "example": "Practise \"limitation\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «قيد/محدودية» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "unfulfilled",
+    "translation": "غير متحقق",
+    "phonetic_us": "/ʌnfʊlfˈɪld/",
+    "phonetic_uk": "/ʌnfʊlfˈɪld/",
+    "example": "In this unit, \"unfulfilled\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «غير متحقق» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "impractical",
+    "translation": "غير عملي",
+    "phonetic_us": "/ɪmpɹˈæktɪkəl/",
+    "phonetic_uk": "/ɪmpɹˈaktɪkəl/",
+    "example": "Learners can use \"impractical\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «غير عملي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "alternative reality",
+    "translation": "واقع بديل",
+    "phonetic_us": "/ɔːltˈɜːnətˌɪv ɹɪˈælɪɾi/",
+    "phonetic_uk": "/ɔːltˈɜːnətˌɪv ɹɪˈalɪti/",
+    "example": "The word \"alternative reality\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «واقع بديل» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 3 — Wishes About Reality"
+  },
+  {
+    "word": "trend",
+    "translation": "اتجاه",
+    "phonetic_us": "/tɹˈɛnd/",
+    "phonetic_uk": "/tɹˈɛnd/",
+    "example": "Practise \"trend\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «اتجاه» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "figure",
+    "translation": "رقم/بيان",
+    "phonetic_us": "/fˈɪɡjɚ/",
+    "phonetic_uk": "/fˈɪɡə/",
+    "example": "In this unit, \"figure\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «رقم/بيان» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "chart",
+    "translation": "رسم بياني",
+    "phonetic_us": "/tʃˈɑːɹt/",
+    "phonetic_uk": "/tʃˈɑːt/",
+    "example": "Learners can use \"chart\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «رسم بياني» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "proportion",
+    "translation": "نسبة",
+    "phonetic_us": "/pɹəpˈoːɹʃən/",
+    "phonetic_uk": "/pɹəpˈɔːʃən/",
+    "example": "The word \"proportion\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «نسبة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "decline",
+    "translation": "انخفاض",
+    "phonetic_us": "/dᵻklˈaɪn/",
+    "phonetic_uk": "/dɪklˈaɪn/",
+    "example": "Practise \"decline\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «انخفاض» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "compared with",
+    "translation": "مقارنة بـ",
+    "phonetic_us": "/kəmpˈɛɹd wɪð/",
+    "phonetic_uk": "/kəmpˈeəd wɪð/",
+    "example": "In this unit, \"compared with\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مقارنة بـ» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "considering",
+    "translation": "بالنظر إلى",
+    "phonetic_us": "/kənsˈɪdɚɹɪŋ/",
+    "phonetic_uk": "/kənsˈɪdəɹɪŋ/",
+    "example": "Learners can use \"considering\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «بالنظر إلى» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "based on",
+    "translation": "استنادًا إلى",
+    "phonetic_us": "/bˈeɪst ˈɑːn/",
+    "phonetic_uk": "/bˈeɪst ˈɒn/",
+    "example": "The word \"based on\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «استنادًا إلى» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "affected by",
+    "translation": "متأثر بـ",
+    "phonetic_us": "/ɐfˈɛktᵻd bˈaɪ/",
+    "phonetic_uk": "/ɐfˈɛktɪd bˈaɪ/",
+    "example": "Practise \"affected by\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «متأثر بـ» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "resulting in",
+    "translation": "مما أدى إلى",
+    "phonetic_us": "/ɹɪzˈʌltɪŋ ˈɪn/",
+    "phonetic_uk": "/ɹɪzˈʌltɪŋ ˈɪn/",
+    "example": "In this unit, \"resulting in\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مما أدى إلى» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "percentage",
+    "translation": "نسبة مئوية",
+    "phonetic_us": "/pɚsˈɛntɪdʒ/",
+    "phonetic_uk": "/pəsˈɛntɪdʒ/",
+    "example": "Learners can use \"percentage\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «نسبة مئوية» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "indicator",
+    "translation": "مؤشر",
+    "phonetic_us": "/ˈɪndᵻkˌeɪɾɚ/",
+    "phonetic_uk": "/ˈɪndɪkˌeɪtə/",
+    "example": "The word \"indicator\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «مؤشر» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "statistic",
+    "translation": "إحصائية",
+    "phonetic_us": "/stɐtˈɪstɪk/",
+    "phonetic_uk": "/stɐtˈɪstɪk/",
+    "example": "Practise \"statistic\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «إحصائية» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 4 — Compressing Information"
+  },
+  {
+    "word": "submission",
+    "translation": "تقديم",
+    "phonetic_us": "/səbmˈɪʃən/",
+    "phonetic_uk": "/səbmˈɪʃən/",
+    "example": "In this unit, \"submission\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تقديم» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "authorization",
+    "translation": "تفويض",
+    "phonetic_us": "/ˌɔːθɚɹᵻzˈeɪʃən/",
+    "phonetic_uk": "/ˌɔːθəɹaɪzˈeɪʃən/",
+    "example": "Learners can use \"authorization\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «تفويض» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "compliance",
+    "translation": "امتثال",
+    "phonetic_us": "/kəmplˈaɪəns/",
+    "phonetic_uk": "/kəmplˈaɪəns/",
+    "example": "The word \"compliance\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «امتثال» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "obligation",
+    "translation": "التزام",
+    "phonetic_us": "/ˌɑːblɪɡˈeɪʃən/",
+    "phonetic_uk": "/ˌɒblɪɡˈeɪʃən/",
+    "example": "Practise \"obligation\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «التزام» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "review",
+    "translation": "مراجعة",
+    "phonetic_us": "/ɹɪvjˈuː/",
+    "phonetic_uk": "/ɹɪvjˈuː/",
+    "example": "In this unit, \"review\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «مراجعة» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "notification",
+    "translation": "إخطار",
+    "phonetic_us": "/nˌoʊɾɪfɪkˈeɪʃən/",
+    "phonetic_uk": "/nˌəʊtɪfɪkˈeɪʃən/",
+    "example": "Learners can use \"notification\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «إخطار» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "verification",
+    "translation": "تحقق",
+    "phonetic_us": "/vˌɛɹɪfɪkˈeɪʃən/",
+    "phonetic_uk": "/vˌɛɹɪfɪkˈeɪʃən/",
+    "example": "The word \"verification\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «تحقق» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "protocol",
+    "translation": "بروتوكول",
+    "phonetic_us": "/pɹˈoʊɾəkˌɑːl/",
+    "phonetic_uk": "/pɹˈəʊtəkˌɒl/",
+    "example": "Practise \"protocol\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «بروتوكول» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "requirement",
+    "translation": "متطلب",
+    "phonetic_us": "/ɹɪkwˈaɪɚmənt/",
+    "phonetic_uk": "/ɹɪkwˈaɪəmənt/",
+    "example": "In this unit, \"requirement\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «متطلب» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "clearance",
+    "translation": "تصريح",
+    "phonetic_us": "/klˈɪɹəns/",
+    "phonetic_uk": "/klˈiəɹəns/",
+    "example": "Learners can use \"clearance\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «تصريح» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "audit",
+    "translation": "تدقيق",
+    "phonetic_us": "/ˈɔːdɪt/",
+    "phonetic_uk": "/ˈɔːdɪt/",
+    "example": "The word \"audit\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «تدقيق» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "documentation",
+    "translation": "توثيق",
+    "phonetic_us": "/dˌɑːkjuːməntˈeɪʃən/",
+    "phonetic_uk": "/dˌɒkjuːməntˈeɪʃən/",
+    "example": "Practise \"documentation\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «توثيق» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "mandatory",
+    "translation": "إلزامي",
+    "phonetic_us": "/mˈændətˌoːɹi/",
+    "phonetic_uk": "/mˈandətəɹi/",
+    "example": "In this unit, \"mandatory\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «إلزامي» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 5 — What Should Have Been Done"
+  },
+  {
+    "word": "resource",
+    "translation": "مورد",
+    "phonetic_us": "/ɹɪsˈoːɹs/",
+    "phonetic_uk": "/ɹɪzˈɔːs/",
+    "example": "Learners can use \"resource\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «مورد» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "access",
+    "translation": "وصول/إتاحة",
+    "phonetic_us": "/ˈæksɛs/",
+    "phonetic_uk": "/ˈaksɛs/",
+    "example": "The word \"access\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «وصول/إتاحة» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "equipment",
+    "translation": "معدات",
+    "phonetic_us": "/ɪkwˈɪpmənt/",
+    "phonetic_uk": "/ɪkwˈɪpmənt/",
+    "example": "Practise \"equipment\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «معدات» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "knowledge",
+    "translation": "معرفة",
+    "phonetic_us": "/nˈɑːlɪdʒ/",
+    "phonetic_uk": "/nˈɒlɪdʒ/",
+    "example": "In this unit, \"knowledge\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «معرفة» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "majority",
+    "translation": "أغلبية",
+    "phonetic_us": "/mədʒˈɔːɹɪɾi/",
+    "phonetic_uk": "/mədʒˈɒɹɪti/",
+    "example": "Learners can use \"majority\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «أغلبية» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "minority",
+    "translation": "أقلية",
+    "phonetic_us": "/maɪnˈɔːɹɪɾi/",
+    "phonetic_uk": "/maɪnˈɒɹɪti/",
+    "example": "The word \"minority\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «أقلية» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "range",
+    "translation": "نطاق",
+    "phonetic_us": "/ɹˈeɪndʒ/",
+    "phonetic_uk": "/ɹˈeɪndʒ/",
+    "example": "Practise \"range\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «نطاق» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "variety",
+    "translation": "تنوع",
+    "phonetic_us": "/vɚɹˈaɪəɾi/",
+    "phonetic_uk": "/vəɹˈaɪəti/",
+    "example": "In this unit, \"variety\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تنوع» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "shortage",
+    "translation": "نقص",
+    "phonetic_us": "/ʃˈɔːɹɾɪdʒ/",
+    "phonetic_uk": "/ʃˈɔːtɪdʒ/",
+    "example": "Learners can use \"shortage\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «نقص» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "supply",
+    "translation": "إمداد",
+    "phonetic_us": "/səplˈaɪ/",
+    "phonetic_uk": "/səplˈaɪ/",
+    "example": "The word \"supply\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «إمداد» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "demand",
+    "translation": "طلب",
+    "phonetic_us": "/dɪmˈænd/",
+    "phonetic_uk": "/dɪmˈand/",
+    "example": "Practise \"demand\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «طلب» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "availability",
+    "translation": "توافر",
+    "phonetic_us": "/ɐvˌeɪləbˈɪlɪɾi/",
+    "phonetic_uk": "/ɐvˌeɪləbˈɪlɪti/",
+    "example": "In this unit, \"availability\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «توافر» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "consumption",
+    "translation": "استهلاك",
+    "phonetic_us": "/kənsˈʌmpʃən/",
+    "phonetic_uk": "/kənsˈʌmpʃən/",
+    "example": "Learners can use \"consumption\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «استهلاك» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 6 — Precision with Nouns & Quantities"
+  },
+  {
+    "word": "nevertheless",
+    "translation": "ومع ذلك",
+    "phonetic_us": "/nˌɛvɚðəlˈɛs/",
+    "phonetic_uk": "/nˌɛvəðəlˈɛs/",
+    "example": "The word \"nevertheless\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ومع ذلك» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "moreover",
+    "translation": "علاوة على ذلك",
+    "phonetic_us": "/moːɹˈoʊvɚ/",
+    "phonetic_uk": "/mɔːɹˈəʊvə/",
+    "example": "Practise \"moreover\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «علاوة على ذلك» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "furthermore",
+    "translation": "فضلاً عن ذلك",
+    "phonetic_us": "/fˌɜːðɚmˈoːɹ/",
+    "phonetic_uk": "/fˌɜːðəmˈɔː/",
+    "example": "In this unit, \"furthermore\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «فضلاً عن ذلك» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "consequently",
+    "translation": "وبالتالي",
+    "phonetic_us": "/kˈɑːnsɪkwəntli/",
+    "phonetic_uk": "/kˈɒnsɪkwəntli/",
+    "example": "Learners can use \"consequently\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «وبالتالي» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "conversely",
+    "translation": "وعلى العكس",
+    "phonetic_us": "/kənvˈɜːsli/",
+    "phonetic_uk": "/kənvˈɜːsli/",
+    "example": "The word \"conversely\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «وعلى العكس» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "regardless of",
+    "translation": "بغض النظر عن",
+    "phonetic_us": "/ɹɪɡˈɑːɹdləs ʌv/",
+    "phonetic_uk": "/ɹɪɡˈɑːdləs ɒv/",
+    "example": "Practise \"regardless of\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «بغض النظر عن» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "in contrast",
+    "translation": "على النقيض",
+    "phonetic_us": "/ɪn kˈɑːntɹæst/",
+    "phonetic_uk": "/ɪn kˈɒntɹast/",
+    "example": "In this unit, \"in contrast\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «على النقيض» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "on the other hand",
+    "translation": "من ناحية أخرى",
+    "phonetic_us": "/ɑːnðɪ ˈʌðɚ hˈænd/",
+    "phonetic_uk": "/ɒnðɪ ˈʌðə hˈand/",
+    "example": "Learners can use \"on the other hand\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «من ناحية أخرى» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "even so",
+    "translation": "ومع ذلك",
+    "phonetic_us": "/ˈiːvən sˈoʊ/",
+    "phonetic_uk": "/ˈiːvən sˈəʊ/",
+    "example": "The word \"even so\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ومع ذلك» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "by comparison",
+    "translation": "بالمقارنة",
+    "phonetic_us": "/baɪ kəmpˈæɹɪsən/",
+    "phonetic_uk": "/baɪ kəmpˈaɹɪsən/",
+    "example": "Practise \"by comparison\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «بالمقارنة» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "in addition",
+    "translation": "بالإضافة إلى ذلك",
+    "phonetic_us": "/ɪn ɐdˈɪʃən/",
+    "phonetic_uk": "/ɪn ɐdˈɪʃən/",
+    "example": "In this unit, \"in addition\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «بالإضافة إلى ذلك» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "as a result",
+    "translation": "ونتيجة لذلك",
+    "phonetic_us": "/æz ɐ ɹɪzˈʌlt/",
+    "phonetic_uk": "/az ɐ ɹɪzˈʌlt/",
+    "example": "Learners can use \"as a result\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «ونتيجة لذلك» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "notably",
+    "translation": "ومن الجدير بالذكر",
+    "phonetic_us": "/nˈoʊɾəbli/",
+    "phonetic_uk": "/nˈəʊtəbli/",
+    "example": "The word \"notably\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «ومن الجدير بالذكر» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 7 — Signposting Complex Arguments"
+  },
+  {
+    "word": "arguably",
+    "translation": "يمكن القول إن",
+    "phonetic_us": "/ˈɑːɹɡjuːəbli/",
+    "phonetic_uk": "/ˈɑːɡjuːəbli/",
+    "example": "Practise \"arguably\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «يمكن القول إن» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "approximately",
+    "translation": "تقريبًا",
+    "phonetic_us": "/ɐpɹˈɑːksɪmətli/",
+    "phonetic_uk": "/ɐpɹˈɒksɪmətli/",
+    "example": "In this unit, \"approximately\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تقريبًا» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "generally",
+    "translation": "عمومًا",
+    "phonetic_us": "/dʒˈɛnɚɹəli/",
+    "phonetic_uk": "/dʒˈɛnəɹəli/",
+    "example": "Learners can use \"generally\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «عمومًا» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "relatively",
+    "translation": "نسبيًا",
+    "phonetic_us": "/ɹˈɛlətˌɪvli/",
+    "phonetic_uk": "/ɹˈɛlətˌɪvli/",
+    "example": "The word \"relatively\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «نسبيًا» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "potentially",
+    "translation": "من المحتمل أن",
+    "phonetic_us": "/pətˈɛnʃəli/",
+    "phonetic_uk": "/pətˈɛnʃəli/",
+    "example": "Practise \"potentially\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «من المحتمل أن» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "seemingly",
+    "translation": "ظاهريًا",
+    "phonetic_us": "/sˈiːmɪŋli/",
+    "phonetic_uk": "/sˈiːmɪŋli/",
+    "example": "In this unit, \"seemingly\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «ظاهريًا» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "presumably",
+    "translation": "على الأرجح",
+    "phonetic_us": "/pɹɪzˈuːməbli/",
+    "phonetic_uk": "/pɹɪzjˈuːməbli/",
+    "example": "Learners can use \"presumably\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «على الأرجح» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "plausibly",
+    "translation": "بشكل معقول",
+    "phonetic_us": "/plˈɔːzəbli/",
+    "phonetic_uk": "/plˈɔːzəbli/",
+    "example": "The word \"plausibly\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «بشكل معقول» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "perspective",
+    "translation": "منظور",
+    "phonetic_us": "/pɚspˈɛktɪv/",
+    "phonetic_uk": "/pəspˈɛktɪv/",
+    "example": "Practise \"perspective\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «منظور» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "interpretation",
+    "translation": "تفسير",
+    "phonetic_us": "/ɪntˌɜːpɹɪtˈeɪʃən/",
+    "phonetic_uk": "/ɪntˌɜːpɹɪtˈeɪʃən/",
+    "example": "In this unit, \"interpretation\" helps learners express the target idea with more precise and natural English.",
+    "example_ar": "في هذه الوحدة، تساعد كلمة «تفسير» المتعلمين على التعبير عن الفكرة المستهدفة بإنجليزية أكثر دقة وطبيعية.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "implication",
+    "translation": "دلالة/أثر",
+    "phonetic_us": "/ˌɪmplɪkˈeɪʃən/",
+    "phonetic_uk": "/ˌɪmplɪkˈeɪʃən/",
+    "example": "Learners can use \"implication\" when they need a precise word for the situation described in this unit.",
+    "example_ar": "يمكن للمتعلمين استخدام كلمة «دلالة/أثر» عندما يحتاجون إلى لفظ دقيق للموقف الموضح في هذه الوحدة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "cautious",
+    "translation": "حذر",
+    "phonetic_us": "/kˈɔːʃəs/",
+    "phonetic_uk": "/kˈɔːʃəs/",
+    "example": "The word \"cautious\" is useful for explaining ideas clearly in this unit and in similar real situations.",
+    "example_ar": "تفيد كلمة «حذر» في شرح الأفكار بوضوح في هذه الوحدة وفي مواقف واقعية مشابهة.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  },
+  {
+    "word": "tentative",
+    "translation": "مبدئي/غير قاطع",
+    "phonetic_us": "/tˈɛntətˌɪv/",
+    "phonetic_uk": "/tˈɛntətˌɪv/",
+    "example": "Practise \"tentative\" in complete sentences so its meaning, form, and typical context become easier to remember.",
+    "example_ar": "تدرّب على كلمة «مبدئي/غير قاطع» في جمل كاملة حتى يسهل تذكّر معناها وصيغتها وسياقها المعتاد.",
+    "category": "B2.2 Unit 8 — Careful Claims & Hedging"
+  }
+]
