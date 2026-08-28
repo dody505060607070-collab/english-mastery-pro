@@ -160,7 +160,7 @@ function UnitPage() {
   }[];
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-5 font-['Outfit']" dir="ltr">
+    <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-5 font-['Outfit']" dir="ltr">
       <Button variant="ghost" size="sm" asChild className="font-bold">
         <Link to="/learn">
           <ArrowRight className="h-4 w-4 ml-1" />
@@ -242,9 +242,34 @@ function UnitPage() {
 
       ) : (
         <div className="space-y-4">
-          <Button variant="ghost" size="sm" className="font-bold" onClick={() => setActiveId(null)}>
-            <ArrowRight className="h-4 w-4 ml-1" /> All sections
-          </Button>
+          <div className="sticky top-0 z-20 -mx-4 border-b bg-background/85 px-4 py-2 backdrop-blur md:-mx-8 md:px-8">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <Button variant="ghost" size="sm" className="shrink-0 font-bold" onClick={() => setActiveId(null)}>
+                <ArrowRight className="h-4 w-4 ml-1" /> All
+              </Button>
+              {contents.map((c, i) => {
+                const m = contentMeta(c.content_type);
+                const cc = contentColor(c.content_type);
+                const isActive = c.id === activeId;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setActiveId(c.id)}
+                    className={cn(
+                      "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition",
+                      isActive ? cn("border-transparent", cc.tile) : "border-border/60 text-muted-foreground hover:bg-muted",
+                      done.has(c.id) && !isActive && "border-emerald-500/40 text-emerald-600",
+                    )}
+                  >
+                    <m.icon className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">{m.label}</span>
+                    <span className="sm:hidden">{i + 1}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div className="space-y-4">
             {active && (
               <ContentPanel
@@ -278,6 +303,7 @@ function UnitPage() {
             </div>
           </div>
         </div>
+
       )}
     </div>
   );
@@ -315,13 +341,13 @@ function ContentPanel({
   return (
     <Card className="overflow-hidden">
       <div className={cn("h-1.5 w-full", color.bar)} />
-      <CardContent className="p-5 space-y-5">
+      <CardContent className="p-4 md:p-6 space-y-5">
         <div className="flex items-center gap-3">
           <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", color.tile)}>
             <meta.icon className="h-5 w-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="font-black text-lg truncate">{content.title}</h2>
+            <h2 className="font-black text-lg leading-6 break-words">{content.title}</h2>
             <span className={cn("mt-1 inline-block rounded-full border px-2 py-0.5 text-[10px] font-black", color.soft)}>
               {meta.label}
             </span>
@@ -330,7 +356,14 @@ function ContentPanel({
         </div>
 
 
-        {image && <img src={image} alt="" className="w-full rounded-2xl border object-cover" loading="lazy" />}
+        {image && (
+          <img
+            src={image}
+            alt=""
+            className="max-h-64 w-full rounded-2xl border object-cover"
+            loading="lazy"
+          />
+        )}
 
         {isListening ? (
           <div className="space-y-3">
@@ -364,15 +397,15 @@ function ContentPanel({
                 {content.content_type === "grammar" || parseGrammar(content.body).length > 1 ? (
                   <>
                     <GrammarLesson body={content.body} />
-                    <p className="text-[11px] text-muted-foreground">
-                      Tap any English word to hear its pronunciation, or double-tap to see its meaning and add it to your dictionary.
+                    <p className="text-[11px] font-bold text-muted-foreground">
+                      Tap a word to hear it · double-tap to save it
                     </p>
                   </>
                 ) : (
                   <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
                     <InteractiveText text={content.body} className="text-[15px] text-foreground/90 leading-8" />
-                    <p className="mt-2 text-[11px] text-muted-foreground">
-                      Tap any English word to hear its pronunciation, or double-tap to see its meaning and add it to your dictionary.
+                    <p className="mt-2 text-[11px] font-bold text-muted-foreground">
+                      Tap a word to hear it · double-tap to save it
                     </p>
                   </div>
                 )}

@@ -176,9 +176,10 @@ export function QuestionRunner({
                 >
                   {i + 1}
                 </span>
-                <p className="flex-1 text-[15px] font-bold leading-7" dir="auto">
+                <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 break-words" dir="auto">
                   {q.prompt}
                 </p>
+
                 <Badge variant="outline" className="shrink-0 text-[10px]">
                   {q.points ?? 1} pt
                 </Badge>
@@ -364,9 +365,11 @@ function QuestionInput({
   const options = q.type === "truefalse" ? ["true", "false"] : (q.options ?? []).filter((o) => o !== "");
   const isMulti = q.type === "multi";
   const selected = isMulti ? (Array.isArray(value) ? value : []) : [];
+  const longOptions = options.some((o) => o.length > 38);
 
   return (
-    <div className="grid gap-2 sm:grid-cols-2">
+    <div className={cn("grid gap-2", longOptions ? "grid-cols-1" : "sm:grid-cols-2")}>
+
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
@@ -385,7 +388,7 @@ function QuestionInput({
                 : onChange(opt)
             }
             className={cn(
-              "flex items-center gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold",
+              "flex items-start gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold leading-6",
               !revealed && (active ? "border-primary bg-primary/10 text-primary" : "border-border/70 hover:bg-muted/60"),
               revealed && isRight && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700",
               revealed && !isRight && active && "border-destructive/60 bg-destructive/10 text-destructive",
@@ -399,7 +402,7 @@ function QuestionInput({
                 {OPTION_LETTERS[i]}
               </span>
             )}
-            <span className="flex-1">{label}</span>
+            <span className="min-w-0 flex-1 break-words">{label}</span>
             {revealed && isRight && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />}
             {revealed && !isRight && active && <XCircle className="h-4 w-4 shrink-0 text-destructive" />}
           </button>

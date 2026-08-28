@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { InteractiveText, SpeakButton } from "@/components/InteractiveText";
 import { RichText } from "@/lib/richtext";
 import { cn } from "@/lib/utils";
-import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles } from "lucide-react";
+import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles, ChevronDown } from "lucide-react";
+
 
 type Block =
   | { kind: "para"; text: string }
@@ -154,13 +156,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   if (block.kind === "para")
     return (
       <div dir={isRtlText(block.text) ? "rtl" : "ltr"} className={isRtlText(block.text) ? "text-right" : "text-left"}>
-        <InteractiveText text={block.text} className="text-[15.5px] leading-9 text-foreground/90" />
+        <InteractiveText text={block.text} className="text-[15px] leading-8 text-foreground/90 break-words" />
       </div>
     );
 
-  if (block.kind === "bullets")
+  if (block.kind === "bullets") {
+    const long = block.items.some((it) => it.length > 70);
     return (
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className={cn("grid gap-2", long ? "grid-cols-1" : "sm:grid-cols-2")}>
         {block.items.map((it, i) => {
           const rtl = isRtlText(it);
           return (
@@ -168,7 +171,7 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
               key={i}
               dir={rtl ? "rtl" : "ltr"}
               className={cn(
-                "flex gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7 shadow-sm",
+                "flex min-w-0 gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7",
                 tone.ring,
                 rtl ? "text-right" : "text-left",
               )}
@@ -181,12 +184,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
               >
                 {i + 1}
               </span>
-              <InteractiveText text={it} className="text-sm leading-7 text-foreground/90" />
+              <InteractiveText text={it} className="min-w-0 text-sm leading-7 text-foreground/90 break-words" />
             </li>
           );
         })}
       </ul>
     );
+  }
+
 
   if (block.kind === "table")
     return (
@@ -239,8 +244,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
             >
               {it.sign}
             </span>
-            <InteractiveText text={it.text} className="text-[15px] leading-7 text-foreground/90" />
-            <SpeakButton text={it.text} />
+            <InteractiveText
+              text={it.text}
+              className="min-w-0 flex-1 text-[15px] leading-7 text-foreground/90 break-words"
+            />
+            <span className="shrink-0">
+              <SpeakButton text={it.text} />
+            </span>
+
           </div>
         ))}
       </div>
@@ -268,15 +279,18 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
 
 export function GrammarLesson({ body }: { body: string }) {
   const sections = parseGrammar(body);
+  const [open, setOpen] = useState<Record<number, boolean>>({});
   if (!sections.length) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {sections.map((s, i) => {
         const style = sectionStyle(s.title);
         const Icon = style.icon;
         const tone = style.tone;
         const rtlTitle = isRtlText(s.title);
+        const collapsible = !!s.title && sections.length > 1;
+        const isOpen = collapsible ? (open[i] ?? i === 0) : true;
         return (
           <section
             key={i}
@@ -287,33 +301,44 @@ export function GrammarLesson({ body }: { body: string }) {
             )}
           >
             {s.title && (
-              <header
+              <button
+                type="button"
                 dir={rtlTitle ? "rtl" : "ltr"}
-                className={cn("flex items-center gap-2.5 border-b px-4 py-3", tone.head)}
+                onClick={() => collapsible && setOpen((p) => ({ ...p, [i]: !isOpen }))}
+                className={cn(
+                  "flex w-full items-center gap-2.5 border-b px-4 py-3 text-start",
+                  tone.head,
+                  collapsible && "cursor-pointer",
+                )}
               >
                 <span className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-card shadow-sm", tone.text)}>
-                  <Icon className="h-4.5 w-4.5" />
+                  <Icon className="h-4 w-4" />
                 </span>
-                <h3 className={cn("truncate text-base font-black tracking-tight", tone.text)}>{s.title}</h3>
-                <span
-                  className={cn(
-                    "ms-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black opacity-80",
-                    tone.text,
-                  )}
-                >
+                <h3 className={cn("min-w-0 flex-1 text-[15px] font-black leading-6 tracking-tight", tone.text)}>
+                  {s.title}
+                </h3>
+                <span className={cn("rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black opacity-80", tone.text)}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-              </header>
+                {collapsible && (
+                  <ChevronDown
+                    className={cn("h-4 w-4 shrink-0 transition-transform", tone.text, isOpen && "rotate-180")}
+                  />
+                )}
+              </button>
             )}
-            <div className="space-y-3.5 bg-card/80 p-4 md:p-5">
-              {s.blocks.map((b, bi) => (
-                <BlockView key={bi} block={b} tone={tone} />
-              ))}
-            </div>
+            {isOpen && (
+              <div className="space-y-3.5 bg-card/80 p-4 md:p-5">
+                {s.blocks.map((b, bi) => (
+                  <BlockView key={bi} block={b} tone={tone} />
+                ))}
+              </div>
+            )}
           </section>
         );
       })}
     </div>
   );
 }
+
 
