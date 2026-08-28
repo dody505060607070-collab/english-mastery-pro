@@ -1,0 +1,2933 @@
+{
+  "level": "A1.1",
+  "units": [
+    {
+      "order_index": 1,
+      "title": "الوحدة 1 — التحيات والتعارف",
+      "description": "شرح وتدريب باللغة العربية على «التحيات والتعارف» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: التحيات والتعارف",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What is your first name?\n- What city are you from?\n- Is it easy for you to meet a new person?\n\n## النص الإنجليزي\nSalma is a new student at Blue Language School. She is from Alexandria, but she is in Cairo now. On her first morning, she meets Omar near the classroom door. Omar says, “Hello! My name is Omar Adel. What is your name?” Salma smiles and says, “Hi, I am Salma Hassan. Nice to meet you.” Omar is friendly. He tells Salma that Mr Hassan is their English teacher. A few minutes later, the teacher enters the room and says, “Welcome, everyone.” He asks each student to say a first name, a last name, a city, and a country. Salma is a little nervous, but the task is simple. She says, “I am Salma Hassan. I am from Alexandria, Egypt.” At the end of the lesson, Omar says, “You have a friend here now.” Salma smiles again.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| new | جديد | Salma is new at the school. |\n| meet | يقابل | She meets Omar before class. |\n| welcome | أهلًا وسهلًا | The teacher says welcome to everyone. |\n| friend | صديق | Omar is Salma's first friend in Cairo. |\n\n## أسئلة الفهم\n1. Is Salma a new student?\n2. Where is Salma from?\n3. Who does Salma meet near the classroom?\n4. What is the teacher's name?\n5. What four pieces of information do the students say?\n6. How does Salma feel at the end?\n\n## الإجابات\n1. Yes, she is.\n2. She is from Alexandria, Egypt.\n3. She meets Omar.\n4. His name is Mr Hassan.\n5. A first name, a last name, a city, and a country.\n6. She feels happier because she has a new friend.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: التحيات والتعارف",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for names, places, and the verb be.\n- Which words do people use when they meet for the first time?\n\n## نص الاستماع بالإنجليزية\nA: Hello. I am Karim. Are you a new student?\nB: Yes, I am. My name is Jana.\nA: Nice to meet you, Jana. Where are you from?\nB: I am from Giza. Are you from Giza too?\nA: No, I am not. I am from Cairo.\nB: Is Ms Dina our teacher?\nA: Yes, she is. She is very friendly.\nB: Great. This is my first English class here.\nA: Welcome! We are in the same class, so you have a friend already.\nB: Thank you, Karim. Nice to meet you too.\n\n## عبارات مهمة\n- Nice to meet you.\n- Where are you from?\n- Are you a new student?\n- We are in the same class.\n- Welcome!\n\n## أسئلة الفهم\n1. What is the boy's name?\n2. Is Jana a new student?\n3. Where is Jana from?\n4. Is Karim from Giza?\n5. Who is their teacher?\n\n## الإجابات\n1. His name is Karim.\n2. Yes, she is.\n3. She is from Giza.\n4. No, he is not.\n5. Ms Dina is their teacher.",
+          "image": null,
+          "data": {
+            "tts_text": "Hello. I am Karim. Are you a new student? Yes, I am. My name is Jana. Nice to meet you, Jana. Where are you from? I am from Giza. Are you from Giza too? No, I am not. I am from Cairo. Is Ms Dina our teacher? Yes, she is. She is very friendly. Great. This is my first English class here. Welcome! We are in the same class, so you have a friend already. Thank you, Karim. Nice to meet you too.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: التحيات والتعارف",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **فعل be في المضارع: am / is / are مع ضمائر الفاعل** داخل موضوع «التحيات والتعارف». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| I | am / am not | I am ready. |\n| he / she / it | is / is not | She is from Giza. |\n| you / we / they | are / are not | They are students. |\n| question | Am/Is/Are + subject ...? | Are you new? |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ I am in the new English class.\n+ You are my partner today.\n+ He is from Tanta.\n- She is not late for the lesson.\n- We are not in Room Four.\n- They are not teachers.\n? Are you from Cairo?\n? Is your name Jana?\n? Are the students ready?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **فعل be في المضارع: am / is / are مع ضمائر الفاعل** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~I is a student.~~ -> I am a student.\n~~She are from Cairo.~~ -> She is from Cairo.\n~~They is not new.~~ -> They are not new.\n~~You from Egypt.~~ -> You are from Egypt.\n~~Is you a teacher?~~ -> Are you a teacher?\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: التحيات والتعارف",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| hello | /həˈloʊ/ | مرحبًا | Hello, I am Salma, during the first English class at the language school today. |\n| name | /neɪm/ | اسم | My name is Omar, during the first English class at the language school today. |\n| first | /fɝːst/ | الأول | My first name is Lina, during the first English class at the language school today. |\n| last | /læst/ | الأخير | His last name is Adel, during the first English class at the language school today. |\n| meet | /miːt/ | يقابل | I meet a new classmate today, during the first English class at the language school today. |\n| student | /ˈstuːdənt/ | طالب | Nora is a student at this school, during the first English class at the language school today. |\n| teacher | /ˈtiːtʃər/ | معلّم | Mr Hassan is our English teacher, during the first English class at the language school today. |\n| city | /ˈsɪti/ | مدينة | Cairo is a large city, during the first English class at the language school today. |\n| country | /ˈkʌntri/ | دولة | Egypt is my country, during the first English class at the language school today. |\n| from | /frʌm/ | من | I am from Alexandria, during the first English class at the language school today. |\n| new | /nuː/ | جديد | Mariam is new in the class, during the first English class at the language school today. |\n| friend | /frend/ | صديق | Youssef is my new friend, during the first English class at the language school today. |\n| welcome | /ˈwelkəm/ | أهلًا وسهلًا | Welcome to Blue Language, during the first English class at the language school today. |\n\n## المتلازمات اللفظية\n- say hello\n- first name\n- last name\n- new student\n- English teacher\n- from Egypt\n\n## تدريب\n1. ____! My name is Rami.\n2. What is your ____?\n3. Nice to ____ you.\n4. Mona is a new ____.\n5. Cairo is a large ____.\n6. Egypt is a ____.\n\n## الإجابات\n1. hello\n2. name\n3. meet\n4. student\n5. city\n6. country",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: التحيات والتعارف",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "I ___ a new student.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "am",
+                "explanation": "الإجابة الصحيحة هي «am» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Nadia ___ from Cairo.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "is",
+                "explanation": "الإجابة الصحيحة هي «is» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "They ___ in the same class.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "are",
+                "explanation": "الإجابة الصحيحة هي «are» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the negative form: He is late.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "He is not late.",
+                "explanation": "الإجابة النموذجية هي: «He is not late.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "___ you from Egypt?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Am",
+                  "Is",
+                  "Are",
+                  "Be"
+                ],
+                "correct_answer": "Are",
+                "explanation": "الإجابة الصحيحة هي «Are» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"We is students\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Type the question: She is a teacher.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Is she a teacher?",
+                "explanation": "الإجابة النموذجية هي: «Is she a teacher?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "My name ___ Hany.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "is",
+                "explanation": "الإجابة الصحيحة هي «is» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "You ___ not in Room Two.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "are",
+                "explanation": "الإجابة الصحيحة هي «are» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"I am from Giza\" uses the correct form of be.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: التحيات والتعارف",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «التحيات والتعارف». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: فعل be في المضارع: am / is / are مع ضمائر الفاعل.\n\n## إجابة نموذجية\nHello. I am Mariam. I am a student. I am from Mansoura, Egypt. I am new in this class. Nice to meet you.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «التحيات والتعارف». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nA: Hello. Are you new here? B: Yes, I am. A: Is your name Youssef? B: Yes, it is. A: Are you from Cairo? B: No, I am from Giza.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «التحيات والتعارف» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nName: Adam Nabil. City: Cairo. Country: Egypt. Role: student. Status: new in the class.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Create a 5-line self-introduction for a new class. Include your name, city, country, and student/job status.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Hello. I am Mariam. I am a student. I am from Mansoura, Egypt. I am new in this class. Nice to meet you.",
+                "explanation": "الإجابة النموذجية هي: «Hello. I am Mariam. I am a student. I am from Mansoura, Egypt. I am new in this class. Nice to meet you.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Role-play meeting a new classmate. Ask at least three questions with be.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "A: Hello. Are you new here? B: Yes, I am. A: Is your name Youssef? B: Yes, it is. A: Are you from Cairo? B: No, I am from Giza.",
+                "explanation": "الإجابة النموذجية هي: «A: Hello. Are you new here? B: Yes, I am. A: Is your name Youssef? B: Yes, it is. A: Are you from Cairo? B: No, I am from Giza.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Make a simple class profile card for an imaginary student.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Name: Adam Nabil. City: Cairo. Country: Egypt. Role: student. Status: new in the class.",
+                "explanation": "الإجابة النموذجية هي: «Name: Adam Nabil. City: Cairo. Country: Egypt. Role: student. Status: new in the class.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: التحيات والتعارف",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Omar and Salma ___ classmates.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "are",
+                "explanation": "الإجابة الصحيحة هي «are» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Ms Dina ___ the English teacher.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "am",
+                  "is",
+                  "are",
+                  "be"
+                ],
+                "correct_answer": "is",
+                "explanation": "الإجابة الصحيحة هي «is» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the negative: We are nervous.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "We are not nervous.",
+                "explanation": "الإجابة النموذجية هي: «We are not nervous.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "___ Karim in the new class?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Am",
+                  "Is",
+                  "Are",
+                  "Be"
+                ],
+                "correct_answer": "Is",
+                "explanation": "الإجابة الصحيحة هي «Is» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"They are from Egypt\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"مدينة\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "city",
+                  "country",
+                  "friend",
+                  "teacher"
+                ],
+                "correct_answer": "city",
+                "explanation": "الإجابة الصحيحة هي «city» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"صديق\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "friend",
+                  "student",
+                  "name",
+                  "first"
+                ],
+                "correct_answer": "friend",
+                "explanation": "الإجابة الصحيحة هي «friend» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "In the reading, Salma is from ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Alexandria",
+                  "Giza",
+                  "Tanta",
+                  "Aswan"
+                ],
+                "correct_answer": "Alexandria",
+                "explanation": "الإجابة الصحيحة هي «Alexandria» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Who meets Salma near the classroom?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Omar",
+                  "Karim",
+                  "Hadi",
+                  "Rami"
+                ],
+                "correct_answer": "Omar",
+                "explanation": "الإجابة الصحيحة هي «Omar» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Mr Hassan is a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "teacher",
+                  "student",
+                  "doctor",
+                  "driver"
+                ],
+                "correct_answer": "teacher",
+                "explanation": "الإجابة الصحيحة هي «teacher» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the question for this answer: \"Yes, I am a new student.\"",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Are you a new student?",
+                "explanation": "الإجابة النموذجية هي: «Are you a new student?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "The word \"welcome\" is used when greeting someone.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Egypt is a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "country",
+                  "city",
+                  "name",
+                  "student"
+                ],
+                "correct_answer": "country",
+                "explanation": "الإجابة الصحيحة هي «country» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "A first name comes before a last name in the unit examples.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: Nice to ___ you.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "meet",
+                  "city",
+                  "from",
+                  "name"
+                ],
+                "correct_answer": "meet",
+                "explanation": "الإجابة الصحيحة هي «meet» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 2,
+      "title": "الوحدة 2 — العائلة والأشخاص",
+      "description": "شرح وتدريب باللغة العربية على «العائلة والأشخاص» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: العائلة والأشخاص",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- How many people are in your family?\n- Do you have a brother or a sister?\n- Is there a family photo in your home?\n\n## النص الإنجليزي\nThis is a photo of Hadi's family. Hadi is a young student, and he is eleven years old. His mother, Reem, is a doctor. His father, Sameh, is a teacher. Hadi has one sister and one brother. His sister's name is Tala. She is kind and quiet. His brother, Adam, is seven years old and has a small blue bike. Their parents are busy in the day, but the family is together every evening. Hadi's grandfather is old, but he is active and funny. He lives in a home near Hadi's family. On Friday, everyone has lunch together. Hadi likes the family photo because every person in it is important to him. He says, “Our family is not big, but our home is always full of conversation.”\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| family | عائلة | Hadi's family has several people. |\n| parents | والدان | His parents are Reem and Sameh. |\n| photo | صورة | The photo shows the whole family. |\n| together | معًا | They have lunch together on Friday. |\n\n## أسئلة الفهم\n1. How old is Hadi?\n2. What is Hadi's mother's job?\n3. How many brothers and sisters does Hadi have?\n4. Who has a blue bike?\n5. Where does Hadi's grandfather live?\n6. Why does Hadi like the photo?\n\n## الإجابات\n1. He is eleven.\n2. She is a doctor.\n3. He has one brother and one sister.\n4. Adam has a blue bike.\n5. He lives in a home near Hadi's family.\n6. Because every person in it is important to him.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: العائلة والأشخاص",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for family words and possessive adjectives.\n- Who owns each object in the conversation?\n\n## نص الاستماع بالإنجليزية\nA: Is this your family photo, Farah?\nB: Yes, it is. This is my mother, and this is my father.\nA: Who is the young boy next to your father?\nB: He is my brother, Ziad. His bike is outside.\nA: And is this girl your sister?\nB: Yes. Her name is Laila. She is very kind.\nA: Are your parents at home now?\nB: Yes, they are. Their office is closed today.\nA: Your family looks happy.\nB: We are. We like being together at home.\n\n## عبارات مهمة\n- This is my mother.\n- His bike is outside.\n- Her name is Laila.\n- Their office is closed today.\n- We like being together.\n\n## أسئلة الفهم\n1. Whose photo is it?\n2. What is the brother's name?\n3. Where is his bike?\n4. What is the sister's name?\n5. Are the parents at home?\n\n## الإجابات\n1. It is Farah's photo.\n2. His name is Ziad.\n3. It is outside.\n4. Her name is Laila.\n5. Yes, they are.",
+          "image": null,
+          "data": {
+            "tts_text": "Is this your family photo, Farah? Yes, it is. This is my mother, and this is my father. Who is the young boy next to your father? He is my brother, Ziad. His bike is outside. And is this girl your sister? Yes. Her name is Laila. She is very kind. Are your parents at home now? Yes, they are. Their office is closed today. Your family looks happy. We are. We like being together at home.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: العائلة والأشخاص",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **صفات الملكية والملكية باستخدام ’s** داخل موضوع «العائلة والأشخاص». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| I | my | my mother |\n| you | your | your family |\n| he | his | his brother |\n| she | her | her photo |\n| we | our | our parents |\n| they | their | their home |\n| person + ’s | ownership/relationship | Hadi’s sister |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ My mother is a doctor.\n+ Your family is very kind.\n+ His brother is seven.\n+ Her photo is on the table.\n- Our parents are not at work today.\n- Their home is not far from here.\n? Is this your sister?\n? Is Adam’s bike blue?\n? Are their parents at home?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **صفات الملكية والملكية باستخدام ’s** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~I mother is a teacher.~~ -> My mother is a teacher.\n~~She brother is young.~~ -> Her brother is young.\n~~Hadi sister is twelve.~~ -> Hadi’s sister is twelve.\n~~Their are parents at home.~~ -> Their parents are at home.\n~~His sister is Ahmed.~~ -> His sister is called Ahmed.\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: العائلة والأشخاص",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| family | /ˈfæməli/ | عائلة | My family is small and friendly, when the family spends a quiet Friday afternoon together at home. |\n| mother | /ˈmʌðər/ | أم | My mother is a doctor, when the family spends a quiet Friday afternoon together at home. |\n| father | /ˈfɑːðər/ | أب | Her father is at work, when the family spends a quiet Friday afternoon together at home. |\n| sister | /ˈsɪstər/ | أخت | His sister is twelve years old, when the family spends a quiet Friday afternoon together at home. |\n| brother | /ˈbrʌðər/ | أخ | My brother has a blue bike, when the family spends a quiet Friday afternoon together at home. |\n| parents | /ˈperənts/ | والدان | Their parents are at home, when the family spends a quiet Friday afternoon together at home. |\n| child | /tʃaɪld/ | طفل | The child is with his mother, when the family spends a quiet Friday afternoon together at home. |\n| young | /jʌŋ/ | صغير السن | My young cousin is six, when the family spends a quiet Friday afternoon together at home. |\n| old | /oʊld/ | كبير السن | My grandfather is old but active, when the family spends a quiet Friday afternoon together at home. |\n| kind | /kaɪnd/ | طيب | Our aunt is very kind, when the family spends a quiet Friday afternoon together at home. |\n| photo | /ˈfoʊtoʊ/ | صورة | This photo is on my desk, when the family spends a quiet Friday afternoon together at home. |\n| home | /hoʊm/ | منزل | Their home is near the park, when the family spends a quiet Friday afternoon together at home. |\n| together | /təˈɡeðər/ | معًا | We eat dinner together, when the family spends a quiet Friday afternoon together at home. |\n\n## المتلازمات اللفظية\n- family photo\n- my mother\n- his father\n- her sister\n- our parents\n- at home\n\n## تدريب\n1. My ____ is small and friendly.\n2. My mother's husband is my ____.\n3. My father's daughter is my ____.\n4. My parents' son is my ____.\n5. This is a family ____.\n6. We have dinner ____.\n\n## الإجابات\n1. family\n2. father\n3. sister\n4. brother\n5. photo\n6. together",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: العائلة والأشخاص",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "This is ___ mother. I am her son.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "my",
+                  "his",
+                  "their",
+                  "our"
+                ],
+                "correct_answer": "my",
+                "explanation": "الإجابة الصحيحة هي «my» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Omar has a sister. ___ sister is ten.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "His",
+                  "Her",
+                  "Our",
+                  "Their"
+                ],
+                "correct_answer": "His",
+                "explanation": "الإجابة الصحيحة هي «His» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Mona has a book. ___ book is new.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "His",
+                  "Her",
+                  "My",
+                  "Our"
+                ],
+                "correct_answer": "Her",
+                "explanation": "الإجابة الصحيحة هي «Her» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the possessive phrase: the bike of Adam",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Adam's bike",
+                "explanation": "الإجابة النموذجية هي: «Adam's bike». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "We live here. This is ___ home.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "our",
+                  "their",
+                  "his",
+                  "her"
+                ],
+                "correct_answer": "our",
+                "explanation": "الإجابة الصحيحة هي «our» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"She brother is young\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "They have two children. ___ children are young.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Their",
+                  "Our",
+                  "His",
+                  "My"
+                ],
+                "correct_answer": "Their",
+                "explanation": "الإجابة الصحيحة هي «Their» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: the photo of Hadi",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Hadi's photo",
+                "explanation": "الإجابة النموذجية هي: «Hadi's photo». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Is this ___ sister? You are her brother.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "your",
+                  "my",
+                  "his",
+                  "their"
+                ],
+                "correct_answer": "your",
+                "explanation": "الإجابة الصحيحة هي «your» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"His father\" means the father of a male person.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: العائلة والأشخاص",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «العائلة والأشخاص». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: صفات الملكية والملكية باستخدام ’s.\n\n## إجابة نموذجية\nMy family is small. My mother is a doctor. My father is a teacher. My sister is ten. Our home is near the park.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «العائلة والأشخاص». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nThis is Hadi’s family photo. Hadi’s mother is Reem. His father is Sameh. His sister is Tala. Their home is in Cairo.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «العائلة والأشخاص» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nMona is Karim’s mother. Karim is Mona’s son. Laila is Karim’s sister. Their father is Nabil.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Write five sentences about an imaginary family using my/his/her/our/their.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "My family is small. My mother is a doctor. My father is a teacher. My sister is ten. Our home is near the park.",
+                "explanation": "الإجابة النموذجية هي: «My family is small. My mother is a doctor. My father is a teacher. My sister is ten. Our home is near the park.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Describe a family photo to a partner. Use at least two names with ’s.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "This is Hadi’s family photo. Hadi’s mother is Reem. His father is Sameh. His sister is Tala. Their home is in Cairo.",
+                "explanation": "الإجابة النموذجية هي: «This is Hadi’s family photo. Hadi’s mother is Reem. His father is Sameh. His sister is Tala. Their home is in Cairo.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Create a mini family tree and say four relationships aloud.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Mona is Karim’s mother. Karim is Mona’s son. Laila is Karim’s sister. Their father is Nabil.",
+                "explanation": "الإجابة النموذجية هي: «Mona is Karim’s mother. Karim is Mona’s son. Laila is Karim’s sister. Their father is Nabil.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: العائلة والأشخاص",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Laila has a brother. ___ brother is young.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Her",
+                  "His",
+                  "Their",
+                  "Our"
+                ],
+                "correct_answer": "Her",
+                "explanation": "الإجابة الصحيحة هي «Her» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "We have a photo. It is ___ photo.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "our",
+                  "their",
+                  "his",
+                  "my"
+                ],
+                "correct_answer": "our",
+                "explanation": "الإجابة الصحيحة هي «our» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the possessive: the home of Farah",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Farah's home",
+                "explanation": "الإجابة النموذجية هي: «Farah's home». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"Their parents are kind\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"والدان\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "parents",
+                  "child",
+                  "home",
+                  "photo"
+                ],
+                "correct_answer": "parents",
+                "explanation": "الإجابة الصحيحة هي «parents» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"معًا\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "together",
+                  "young",
+                  "old",
+                  "kind"
+                ],
+                "correct_answer": "together",
+                "explanation": "الإجابة الصحيحة هي «together» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Hadi has one sister and one ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "brother",
+                  "teacher",
+                  "friend",
+                  "parent"
+                ],
+                "correct_answer": "brother",
+                "explanation": "الإجابة الصحيحة هي «brother» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Hadi’s mother is a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "doctor",
+                  "teacher",
+                  "student",
+                  "driver"
+                ],
+                "correct_answer": "doctor",
+                "explanation": "الإجابة الصحيحة هي «doctor» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Adam has a blue ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "bike",
+                  "photo",
+                  "home",
+                  "desk"
+                ],
+                "correct_answer": "bike",
+                "explanation": "الإجابة الصحيحة هي «bike» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The family has lunch together on ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Friday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday"
+                ],
+                "correct_answer": "Friday",
+                "explanation": "الإجابة الصحيحة هي «Friday» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct word: I → ___ family",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "my",
+                "explanation": "الإجابة النموذجية هي: «my». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"His\" shows a female owner.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "A child is a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "young person",
+                  "place",
+                  "meal",
+                  "color"
+                ],
+                "correct_answer": "young person",
+                "explanation": "الإجابة الصحيحة هي «young person» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The family photo is important to Hadi.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: ___ father is at work. The owner is she.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Her",
+                  "His",
+                  "My",
+                  "Their"
+                ],
+                "correct_answer": "Her",
+                "explanation": "الإجابة الصحيحة هي «Her» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 3,
+      "title": "الوحدة 3 — الروتين اليومي",
+      "description": "شرح وتدريب باللغة العربية على «الروتين اليومي» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: الروتين اليومي",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What time do you wake up?\n- What do you usually do before school or work?\n- Do you study English every day?\n\n## النص الإنجليزي\nMona has a simple weekday routine. She wakes early every morning at six o'clock. She has breakfast with her family and leaves home at seven. Her school starts at eight, and she studies Arabic, English, science, and maths. The school day finishes at two. Mona goes home and has lunch with her mother and young brother. After lunch, she rests for a short time. At four, she studies English and does her schoolwork. In the evening, Mona usually helps at home, talks with her family, and reads a short story. Her father finishes work at six, so the family eats dinner together at seven. Mona likes her routine because she knows what she needs to do every day. On Friday, her routine is different, and she wakes later.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| wake | يستيقظ | Mona wakes at six. |\n| start | يبدأ | School starts at eight. |\n| finish | ينتهي | Classes finish at two. |\n| usually | عادةً | Mona usually reads in the evening. |\n\n## أسئلة الفهم\n1. What time does Mona wake up?\n2. When does school start?\n3. What does Mona do after lunch?\n4. When does her father finish work?\n5. What time does the family eat dinner?\n6. Why does Mona like her routine?\n\n## الإجابات\n1. At six o'clock.\n2. At eight o'clock.\n3. She rests, then studies English and does schoolwork.\n4. At six o'clock.\n5. At seven o'clock.\n6. Because she knows what she needs to do every day.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: الروتين اليومي",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for times and routine verbs.\n- Which actions happen in the morning and which happen in the evening?\n\n## نص الاستماع بالإنجليزية\nA: What time do you wake up, Nabil?\nB: I wake at six thirty every morning.\nA: Do you have breakfast at home?\nB: Yes. I usually have eggs and bread. Then I go to school.\nA: What time does school start?\nB: It starts at eight. It finishes at two thirty.\nA: What do you do after school?\nB: I have lunch, then I study for an hour.\nA: And in the evening?\nB: I play with my brother and read. My father finishes work at six, and we have dinner together.\n\n## عبارات مهمة\n- every morning\n- usually have\n- school starts\n- after school\n- in the evening\n\n## أسئلة الفهم\n1. What time does Nabil wake up?\n2. Where does he have breakfast?\n3. When does school start?\n4. What does he do after lunch?\n5. When does his father finish work?\n\n## الإجابات\n1. At six thirty.\n2. At home.\n3. At eight.\n4. He studies for an hour.\n5. At six.",
+          "image": null,
+          "data": {
+            "tts_text": "What time do you wake up, Nabil? I wake at six thirty every morning. Do you have breakfast at home? Yes. I usually have eggs and bread. Then I go to school. What time does school start? It starts at eight. It finishes at two thirty. What do you do after school? I have lunch, then I study for an hour. And in the evening? I play with my brother and read. My father finishes work at six, and we have dinner together.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: الروتين اليومي",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **المضارع البسيط المثبت** داخل موضوع «الروتين اليومي». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| I / you / we / they | base verb | We study English. |\n| he / she / it | verb + s | She studies English. |\n| verbs ending -ch/-sh/-x/-o | often + es | He watches TV. |\n| consonant + y | y → ies | She studies after lunch. |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ I wake at six on school days.\n+ We have breakfast at home.\n+ They start class at eight.\n+ Mona studies English after lunch.\n+ Her father finishes work at six.\n+ Karim watches a short lesson in the evening.\n? Is the routine clear?\n- The school day is not long on Thursday.\n- Morning study is not difficult for Mona.\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **المضارع البسيط المثبت** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~She study English every day.~~ -> She studies English every day.\n~~He finish work at six.~~ -> He finishes work at six.\n~~Mona studys after lunch.~~ -> Mona studies after lunch.\n~~They starts school at eight.~~ -> They start school at eight.\n~~I wakes early.~~ -> I wake early.\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: الروتين اليومي",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| wake | /weɪk/ | يستيقظ | I wake at six every morning, before the usual school routine begins early in the morning. |\n| breakfast | /ˈbrekfəst/ | إفطار | Rana has breakfast before school, before the usual school routine begins early in the morning. |\n| school | /skuːl/ | مدرسة | The children walk to school, before the usual school routine begins early in the morning. |\n| work | /wɝːk/ | عمل | My father starts work at eight, before the usual school routine begins early in the morning. |\n| start | /stɑːrt/ | يبدأ | Our lesson starts at nine, before the usual school routine begins early in the morning. |\n| finish | /ˈfɪnɪʃ/ | ينتهي | The school day finishes at two, before the usual school routine begins early in the morning. |\n| lunch | /lʌntʃ/ | غداء | We have lunch at home, before the usual school routine begins early in the morning. |\n| study | /ˈstʌdi/ | يدرس | Mona studies English after lunch, before the usual school routine begins early in the morning. |\n| evening | /ˈiːvnɪŋ/ | مساء | I read in the evening, before the usual school routine begins early in the morning. |\n| morning | /ˈmɔːrnɪŋ/ | صباح | He drinks milk every morning, before the usual school routine begins early in the morning. |\n| usually | /ˈjuːʒuəli/ | عادةً | We usually eat at seven, before the usual school routine begins early in the morning. |\n| early | /ˈɝːli/ | مبكرًا | Salem gets up early on weekdays, before the usual school routine begins early in the morning. |\n| every | /ˈevri/ | كل | I practice English every day, before the usual school routine begins early in the morning. |\n\n## المتلازمات اللفظية\n- wake early\n- have breakfast\n- start school\n- finish work\n- study English\n- every morning\n\n## تدريب\n1. I ____ at six every morning.\n2. We have ____ before school.\n3. Our lessons ____ at eight.\n4. The school day ____ at two.\n5. I ____ English after lunch.\n6. I read in the ____.\n\n## الإجابات\n1. wake\n2. breakfast\n3. start\n4. finish\n5. study\n6. evening",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: الروتين اليومي",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Mona ___ English after lunch.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "study",
+                  "studies",
+                  "studys",
+                  "studying"
+                ],
+                "correct_answer": "studies",
+                "explanation": "الإجابة الصحيحة هي «studies» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "They ___ school at eight.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "start",
+                  "starts",
+                  "starting",
+                  "startes"
+                ],
+                "correct_answer": "start",
+                "explanation": "الإجابة الصحيحة هي «start» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "My father ___ work at six.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "finish",
+                  "finishes",
+                  "finishs",
+                  "finishing"
+                ],
+                "correct_answer": "finishes",
+                "explanation": "الإجابة الصحيحة هي «finishes» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct form: He (watch) TV in the evening.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "He watches TV in the evening.",
+                "explanation": "الإجابة النموذجية هي: «He watches TV in the evening.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "I ___ early on weekdays.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "wake",
+                  "wakes",
+                  "waking",
+                  "waked"
+                ],
+                "correct_answer": "wake",
+                "explanation": "الإجابة الصحيحة هي «wake» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"She study every day\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Our lesson ___ at nine.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "start",
+                  "starts",
+                  "starting",
+                  "started"
+                ],
+                "correct_answer": "starts",
+                "explanation": "الإجابة الصحيحة هي «starts» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct sentence: Karim / read / every evening",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Karim reads every evening.",
+                "explanation": "الإجابة النموذجية هي: «Karim reads every evening.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "We usually ___ lunch at home.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "haves",
+                  "having"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"They finish at two\" is a correct present simple sentence.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: الروتين اليومي",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «الروتين اليومي». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: المضارع البسيط المثبت.\n\n## إجابة نموذجية\nI wake at six. I have breakfast at home. School starts at eight. I study English after lunch. I read in the evening. I sleep at ten.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «الروتين اليومي». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nEvery morning I wake early. At seven I have breakfast. After school I have lunch. In the evening I study and read.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «الروتين اليومي» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nI wake at six, but Omar wakes at seven. I walk to school, and Omar takes the bus. We study English in the afternoon. We have dinner at home.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Write six sentences about your weekday routine.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I wake at six. I have breakfast at home. School starts at eight. I study English after lunch. I read in the evening. I sleep at ten.",
+                "explanation": "الإجابة النموذجية هي: «I wake at six. I have breakfast at home. School starts at eight. I study English after lunch. I read in the evening. I sleep at ten.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Give a one-minute spoken routine using at least four time phrases.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Every morning I wake early. At seven I have breakfast. After school I have lunch. In the evening I study and read.",
+                "explanation": "الإجابة النموذجية هي: «Every morning I wake early. At seven I have breakfast. After school I have lunch. In the evening I study and read.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Compare your routine with an imaginary classmate in four simple sentences.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I wake at six, but Omar wakes at seven. I walk to school, and Omar takes the bus. We study English in the afternoon. We have dinner at home.",
+                "explanation": "الإجابة النموذجية هي: «I wake at six, but Omar wakes at seven. I walk to school, and Omar takes the bus. We study English in the afternoon. We have dinner at home.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: الروتين اليومي",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Rana ___ breakfast before school.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "has",
+                  "have",
+                  "haves",
+                  "having"
+                ],
+                "correct_answer": "has",
+                "explanation": "الإجابة الصحيحة هي «has» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The children ___ to school.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "walk",
+                  "walks",
+                  "walking",
+                  "walkes"
+                ],
+                "correct_answer": "walk",
+                "explanation": "الإجابة الصحيحة هي «walk» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct form: My father (start) work at eight.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "My father starts work at eight.",
+                "explanation": "الإجابة النموذجية هي: «My father starts work at eight.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"Our lesson starts at nine\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"صباح\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "morning",
+                  "evening",
+                  "lunch",
+                  "school"
+                ],
+                "correct_answer": "morning",
+                "explanation": "الإجابة الصحيحة هي «morning» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"مبكرًا\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "early",
+                  "every",
+                  "usually",
+                  "start"
+                ],
+                "correct_answer": "early",
+                "explanation": "الإجابة الصحيحة هي «early» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Mona wakes at ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "six",
+                  "seven",
+                  "eight",
+                  "nine"
+                ],
+                "correct_answer": "six",
+                "explanation": "الإجابة الصحيحة هي «six» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "School finishes at ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "two",
+                  "three",
+                  "four",
+                  "five"
+                ],
+                "correct_answer": "two",
+                "explanation": "الإجابة الصحيحة هي «two» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Mona studies English at ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "four",
+                  "six",
+                  "seven",
+                  "eight"
+                ],
+                "correct_answer": "four",
+                "explanation": "الإجابة الصحيحة هي «four» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The family eats dinner at ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "seven",
+                  "six",
+                  "five",
+                  "nine"
+                ],
+                "correct_answer": "seven",
+                "explanation": "الإجابة الصحيحة هي «seven» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type a sentence with the correct form: she / finish / at two",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "She finishes at two.",
+                "explanation": "الإجابة النموذجية هي: «She finishes at two.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"They starts class\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "A routine is something you do ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "regularly",
+                  "once only",
+                  "never",
+                  "by accident"
+                ],
+                "correct_answer": "regularly",
+                "explanation": "الإجابة الصحيحة هي «regularly» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Mona likes her routine because it is predictable.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: We ___ English every day.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "practice",
+                  "practices",
+                  "practicing",
+                  "practiseses"
+                ],
+                "correct_answer": "practice",
+                "explanation": "الإجابة الصحيحة هي «practice» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 4,
+      "title": "الوحدة 4 — أسئلة عن الحياة اليومية",
+      "description": "شرح وتدريب باللغة العربية على «أسئلة عن الحياة اليومية» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: أسئلة عن الحياة اليومية",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What do you do every week?\n- What do you never do in the morning?\n- When are you usually free?\n\n## النص الإنجليزي\nYara and her cousin Sami have different weeks. Yara is busy from Sunday to Thursday. She always goes to school early, and she often reads in the afternoon. She does not watch television before she finishes her schoolwork. On Tuesday, she visits her grandmother after school. Sami is also a student, but he does not like early mornings. He sometimes walks to school, but he usually goes by bus. After school, he plays football with his friends. He does not play every day because Wednesday is a busy day for his family. At the weekend, Yara asks, “Do you want to visit the bookshop?” Sami says yes. They never stay at home all Friday. Sometimes they walk in the park, and sometimes they visit family. Both cousins are free in the evening, so they often talk about their week.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| always | دائمًا | Yara always goes to school early. |\n| sometimes | أحيانًا | Sami sometimes walks to school. |\n| never | أبدًا | They never stay home all Friday. |\n| busy | مشغول | Wednesday is busy for Sami's family. |\n\n## أسئلة الفهم\n1. Is Yara busy on school days?\n2. Does she watch television before schoolwork?\n3. How does Sami usually go to school?\n4. What does Sami play after school?\n5. What do they sometimes do on Friday?\n6. When are both cousins free?\n\n## الإجابات\n1. Yes, she is.\n2. No, she does not.\n3. He usually goes by bus.\n4. He plays football.\n5. They sometimes walk in the park or visit family.\n6. They are free in the evening.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: أسئلة عن الحياة اليومية",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for do, does, don't, and doesn't.\n- Notice the words always, sometimes, often, and never.\n\n## نص الاستماع بالإنجليزية\nA: Do you play sport during the week, Dina?\nB: Yes, I do. I play tennis on Monday.\nA: Do you play on Tuesday too?\nB: No, I don't. Tuesday is very busy.\nA: Does your brother play tennis?\nB: No, he doesn't. He often plays football.\nA: Does he watch football on television?\nB: Sometimes. He doesn't watch every match.\nA: What do you do on Friday?\nB: We usually visit our grandparents. We never miss Friday lunch with them.\n\n## عبارات مهمة\n- Do you play ...?\n- No, I don't.\n- Does your brother ...?\n- No, he doesn't.\n- We usually visit ...\n\n## أسئلة الفهم\n1. What sport does Dina play?\n2. Is Tuesday free for Dina?\n3. Does her brother play tennis?\n4. What sport does he often play?\n5. Who do they visit on Friday?\n\n## الإجابات\n1. She plays tennis.\n2. No, it is busy.\n3. No, he doesn't.\n4. He often plays football.\n5. They visit their grandparents.",
+          "image": null,
+          "data": {
+            "tts_text": "Do you play sport during the week, Dina? Yes, I do. I play tennis on Monday. Do you play on Tuesday too? No, I don't. Tuesday is very busy. Does your brother play tennis? No, he doesn't. He often plays football. Does he watch football on television? Sometimes. He doesn't watch every match. What do you do on Friday? We usually visit our grandparents. We never miss Friday lunch with them.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: أسئلة عن الحياة اليومية",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **النفي والأسئلة في المضارع البسيط باستخدام do / does** داخل موضوع «أسئلة عن الحياة اليومية». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| negative: I/you/we/they | do not + base | I do not watch TV early. |\n| negative: he/she/it | does not + base | He does not play tennis. |\n| question: I/you/we/they | Do + subject + base? | Do they walk to school? |\n| question: he/she/it | Does + subject + base? | Does she read at night? |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ I often read after dinner.\n+ Sami sometimes walks to school.\n- I do not watch television before homework.\n- He does not play football on Wednesday.\n- Yara does not stay home all Friday.\n? Do you visit family every week?\n? Does Dina play tennis on Monday?\n? Do they walk in the park?\n? Does your brother watch every match?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **النفي والأسئلة في المضارع البسيط باستخدام do / does** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~Does he plays football?~~ -> Does he play football?\n~~She don’t watch TV.~~ -> She doesn’t watch TV.\n~~Do Yara reads at night?~~ -> Does Yara read at night?\n~~He doesn’t plays on Tuesday.~~ -> He doesn’t play on Tuesday.\n~~Does they visit family?~~ -> Do they visit family?\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: أسئلة عن الحياة اليومية",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| day | /deɪ/ | يوم | Monday is a busy day for us, when friends talk about their weekly routines after the English lesson. |\n| week | /wiːk/ | أسبوع | I study English three times a week, when friends talk about their weekly routines after the English lesson. |\n| always | /ˈɔːlweɪz/ | دائمًا | Hana always arrives before class, when friends talk about their weekly routines after the English lesson. |\n| sometimes | /ˈsʌmtaɪmz/ | أحيانًا | We sometimes walk after dinner, when friends talk about their weekly routines after the English lesson. |\n| never | /ˈnevər/ | أبدًا | I never drink coffee at night, when friends talk about their weekly routines after the English lesson. |\n| watch | /wɑːtʃ/ | يشاهد | They watch a film on Friday, when friends talk about their weekly routines after the English lesson. |\n| read | /riːd/ | يقرأ | My sister reads before bed, when friends talk about their weekly routines after the English lesson. |\n| walk | /wɔːk/ | يمشي | We walk to the market, when friends talk about their weekly routines after the English lesson. |\n| play | /pleɪ/ | يلعب | The boys play football after school, when friends talk about their weekly routines after the English lesson. |\n| visit | /ˈvɪzɪt/ | يزور | I visit my aunt on Saturday, when friends talk about their weekly routines after the English lesson. |\n| busy | /ˈbɪzi/ | مشغول | Tuesday is a busy school day, when friends talk about their weekly routines after the English lesson. |\n| free | /friː/ | متفرغ | I am free after five, when friends talk about their weekly routines after the English lesson. |\n| often | /ˈɔːfən/ | غالبًا | We often read together, when friends talk about their weekly routines after the English lesson. |\n\n## المتلازمات اللفظية\n- every week\n- always read\n- sometimes walk\n- never watch\n- play football\n- visit family\n\n## تدريب\n1. Monday is a busy ____.\n2. I study English three times a ____.\n3. Hana ____ arrives early; she is never late.\n4. We ____ walk after dinner, but not every day.\n5. The boys ____ football after school.\n6. I ____ my aunt on Saturday.\n\n## الإجابات\n1. day\n2. week\n3. always\n4. sometimes\n5. play\n6. visit",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: أسئلة عن الحياة اليومية",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "___ you read after dinner?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Do",
+                  "Does",
+                  "Are",
+                  "Is"
+                ],
+                "correct_answer": "Do",
+                "explanation": "الإجابة الصحيحة هي «Do» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "___ Sami walk to school?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Do",
+                  "Does",
+                  "Is",
+                  "Has"
+                ],
+                "correct_answer": "Does",
+                "explanation": "الإجابة الصحيحة هي «Does» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Yara ___ watch TV before homework.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "doesn't",
+                  "don't",
+                  "is not",
+                  "not"
+                ],
+                "correct_answer": "doesn't",
+                "explanation": "الإجابة الصحيحة هي «doesn't» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the negative: They play every day.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "They do not play every day.",
+                "explanation": "الإجابة النموذجية هي: «They do not play every day.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Does he ___ football?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "play",
+                  "plays",
+                  "playing",
+                  "played"
+                ],
+                "correct_answer": "play",
+                "explanation": "الإجابة الصحيحة هي «play» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"Does she reads at night?\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "We ___ visit family on Tuesday.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "don't",
+                  "doesn't",
+                  "not",
+                  "aren't"
+                ],
+                "correct_answer": "don't",
+                "explanation": "الإجابة الصحيحة هي «don't» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type a short answer: Does Dina play tennis? (yes)",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Yes, she does.",
+                "explanation": "الإجابة النموذجية هي: «Yes, she does.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "___ they walk in the park on Friday?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Do",
+                  "Does",
+                  "Are",
+                  "Is"
+                ],
+                "correct_answer": "Do",
+                "explanation": "الإجابة الصحيحة هي «Do» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"He doesn’t watch every match\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: أسئلة عن الحياة اليومية",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «أسئلة عن الحياة اليومية». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: النفي والأسئلة في المضارع البسيط باستخدام do / does.\n\n## إجابة نموذجية\nDo you read every day? Do you play football? Do you visit family on Friday? Does your brother play sport? Does your family watch films together?\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «أسئلة عن الحياة اليومية». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nI read every evening. I do not play tennis. My brother watches football. He does not walk to school. We visit our grandparents on Friday.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «أسئلة عن الحياة اليومية» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nI always study on Sunday. I often read after dinner. I sometimes walk to school. I never watch TV before homework.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Interview a partner about weekly activities using five Do/Does questions.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Do you read every day? Do you play football? Do you visit family on Friday? Does your brother play sport? Does your family watch films together?",
+                "explanation": "الإجابة النموذجية هي: «Do you read every day? Do you play football? Do you visit family on Friday? Does your brother play sport? Does your family watch films together?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Write five true and false routine statements, including two negatives.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I read every evening. I do not play tennis. My brother watches football. He does not walk to school. We visit our grandparents on Friday.",
+                "explanation": "الإجابة النموذجية هي: «I read every evening. I do not play tennis. My brother watches football. He does not walk to school. We visit our grandparents on Friday.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Create a short “My Week” note using always, often, sometimes, and never.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I always study on Sunday. I often read after dinner. I sometimes walk to school. I never watch TV before homework.",
+                "explanation": "الإجابة النموذجية هي: «I always study on Sunday. I often read after dinner. I sometimes walk to school. I never watch TV before homework.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: أسئلة عن الحياة اليومية",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "___ Hana visit her aunt on Saturday?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Does",
+                  "Do",
+                  "Is",
+                  "Has"
+                ],
+                "correct_answer": "Does",
+                "explanation": "الإجابة الصحيحة هي «Does» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "They ___ stay home all Friday.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "don't",
+                  "doesn't",
+                  "is not",
+                  "not"
+                ],
+                "correct_answer": "don't",
+                "explanation": "الإجابة الصحيحة هي «don't» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the question: Rami plays football.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Does Rami play football?",
+                "explanation": "الإجابة النموذجية هي: «Does Rami play football?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"Does he watch TV?\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"غالبًا\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "often",
+                  "never",
+                  "free",
+                  "week"
+                ],
+                "correct_answer": "often",
+                "explanation": "الإجابة الصحيحة هي «often» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"مشغول\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "busy",
+                  "free",
+                  "day",
+                  "walk"
+                ],
+                "correct_answer": "busy",
+                "explanation": "الإجابة الصحيحة هي «busy» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Yara visits her grandmother on ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Tuesday",
+                  "Friday",
+                  "Sunday",
+                  "Monday"
+                ],
+                "correct_answer": "Tuesday",
+                "explanation": "الإجابة الصحيحة هي «Tuesday» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Sami usually goes to school by ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "bus",
+                  "car",
+                  "train",
+                  "bike"
+                ],
+                "correct_answer": "bus",
+                "explanation": "الإجابة الصحيحة هي «bus» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Sami plays ___ after school.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "football",
+                  "tennis",
+                  "chess",
+                  "music"
+                ],
+                "correct_answer": "football",
+                "explanation": "الإجابة الصحيحة هي «football» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Yara and Sami are both free in the ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "evening",
+                  "morning",
+                  "afternoon",
+                  "night only"
+                ],
+                "correct_answer": "evening",
+                "explanation": "الإجابة الصحيحة هي «evening» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type a short negative answer: Do they walk every day?",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "No, they do not.",
+                "explanation": "الإجابة النموذجية هي: «No, they do not.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"He don’t play\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Never means ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "0% of the time",
+                  "100% of the time",
+                  "sometimes",
+                  "often"
+                ],
+                "correct_answer": "0% of the time",
+                "explanation": "الإجابة الصحيحة هي «0% of the time» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Yara watches TV before she finishes homework.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: Does your sister ___ at night?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "read",
+                  "reads",
+                  "reading",
+                  "reader"
+                ],
+                "correct_answer": "read",
+                "explanation": "الإجابة الصحيحة هي «read» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 5,
+      "title": "الوحدة 5 — المنزل والأشياء",
+      "description": "شرح وتدريب باللغة العربية على «المنزل والأشياء» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: المنزل والأشياء",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What things do you have in your room?\n- Do you have a desk?\n- Is your room small or large?\n\n## النص الإنجليزي\nAli has a small room, but it has everything he needs. The room has one window and one brown door. Ali has a desk near the window, and he has a chair in front of it. On the desk, he has an English book, a phone, and a small lamp. His school bag is under the table next to the desk. Ali's sister, Huda, has a larger room. She has two windows and a large table for her art. She also has many books. Their parents have one key for Ali's room and one key for Huda's room. On Thursday afternoon, Ali cleans his desk and puts every book in the right place. He likes the room when it is clean. He says, “I do not have a big room, but I have a good place to study.”\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| room | غرفة | Ali's room is small. |\n| desk | مكتب | His desk is near the window. |\n| bag | حقيبة | His bag is under the table. |\n| clean | نظيف | Ali keeps his study area clean. |\n\n## أسئلة الفهم\n1. How many windows does Ali's room have?\n2. Where is the desk?\n3. What three things are on the desk?\n4. Who has a larger room?\n5. What does Ali do on Thursday afternoon?\n6. Does Ali want a big room to study well?\n\n## الإجابات\n1. It has one window.\n2. It is near the window.\n3. An English book, a phone, and a lamp.\n4. Huda does.\n5. He cleans his desk and organizes his books.\n6. No. He says his small room is a good place to study.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: المنزل والأشياء",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for have and has.\n- Which objects belong to Mariam and which belong to her brother?\n\n## نص الاستماع بالإنجليزية\nA: Do you have your school bag, Mariam?\nB: Yes, I have it here. I also have my English book.\nA: Good. Does your brother have his book?\nB: Yes, he has his book, but he doesn't have his key.\nA: Is the key on his desk?\nB: No. His desk has a phone and two books, but no key.\nA: What about the table near the door?\nB: Wait! The table has a small bag on it. The key is inside the bag.\nA: Great. Now you both have everything.\n\n## عبارات مهمة\n- Do you have ...?\n- I have it here.\n- He has his book.\n- His desk has ...\n- We have everything.\n\n## أسئلة الفهم\n1. Does Mariam have her school bag?\n2. What else does she have?\n3. What does her brother not have at first?\n4. What is on his desk?\n5. Where is the key?\n\n## الإجابات\n1. Yes, she does.\n2. She has her English book.\n3. He does not have his key.\n4. A phone and two books.\n5. It is inside a small bag on the table.",
+          "image": null,
+          "data": {
+            "tts_text": "Do you have your school bag, Mariam? Yes, I have it here. I also have my English book. Good. Does your brother have his book? Yes, he has his book, but he doesn't have his key. Is the key on his desk? No. His desk has a phone and two books, but no key. What about the table near the door? Wait! The table has a small bag on it. The key is inside the bag. Great. Now you both have everything.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: المنزل والأشياء",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **استخدام have و has للملكية** داخل موضوع «المنزل والأشياء». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| I / you / we / they | have | We have two keys. |\n| he / she / it | has | She has a new phone. |\n| negative | do/does not have | He does not have the key. |\n| question | Do/Does + subject + have? | Does the room have a window? |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ I have a desk near the window.\n+ We have a small kitchen.\n+ Huda has two large windows.\n+ The table has four chairs.\n- Ali does not have a large room.\n- His brother does not have the house key.\n? Do you have your English book?\n? Does Mariam have her school bag?\n? Does the room have a brown door?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **استخدام have و has للملكية** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~She have a phone.~~ -> She has a phone.\n~~They has two rooms.~~ -> They have two rooms.\n~~Does he has a key?~~ -> Does he have a key?\n~~He doesn’t has a desk.~~ -> He doesn’t have a desk.\n~~The room have one window.~~ -> The room has one window.\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: المنزل والأشياء",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| room | /ruːm/ | غرفة | My room has one large window, while everyone checks the objects and furniture in the new room. |\n| table | /ˈteɪbəl/ | طاولة | The table has four chairs, while everyone checks the objects and furniture in the new room. |\n| chair | /tʃer/ | كرسي | I have a chair near my desk, while everyone checks the objects and furniture in the new room. |\n| window | /ˈwɪndoʊ/ | نافذة | The window is open in the morning, while everyone checks the objects and furniture in the new room. |\n| door | /dɔːr/ | باب | Our front door is brown, while everyone checks the objects and furniture in the new room. |\n| book | /bʊk/ | كتاب | She has a new English book, while everyone checks the objects and furniture in the new room. |\n| bag | /bæɡ/ | حقيبة | My school bag is under the table, while everyone checks the objects and furniture in the new room. |\n| phone | /foʊn/ | هاتف | My father has a black phone, while everyone checks the objects and furniture in the new room. |\n| key | /kiː/ | مفتاح | I have the house key, while everyone checks the objects and furniture in the new room. |\n| desk | /desk/ | مكتب | The lamp is on my desk, while everyone checks the objects and furniture in the new room. |\n| small | /smɔːl/ | صغير | We have a small kitchen, while everyone checks the objects and furniture in the new room. |\n| large | /lɑːrdʒ/ | كبير | Their living room is large, while everyone checks the objects and furniture in the new room. |\n| clean | /kliːn/ | نظيف | My room is clean today, while everyone checks the objects and furniture in the new room. |\n\n## المتلازمات اللفظية\n- small room\n- large table\n- school bag\n- house key\n- English book\n- clean desk\n\n## تدريب\n1. My ____ has one large window.\n2. The lamp is on my ____.\n3. My school ____ is under the table.\n4. I have the house ____.\n5. She has a new English ____.\n6. My room is ____ today.\n\n## الإجابات\n1. room\n2. desk\n3. bag\n4. key\n5. book\n6. clean",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: المنزل والأشياء",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "I ___ a school bag.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "haves"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Huda ___ two windows.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "haves",
+                  "having"
+                ],
+                "correct_answer": "has",
+                "explanation": "الإجابة الصحيحة هي «has» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Does Ali ___ a desk?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "had"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the negative: He has a key.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "He does not have a key.",
+                "explanation": "الإجابة النموذجية هي: «He does not have a key.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "The room ___ one door.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "haves"
+                ],
+                "correct_answer": "has",
+                "explanation": "الإجابة الصحيحة هي «has» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"They has two books\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "We ___ a large table.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "haves",
+                  "having"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the question: Mariam has a phone.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Does Mariam have a phone?",
+                "explanation": "الإجابة النموذجية هي: «Does Mariam have a phone?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "My parents ___ the house key.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "haves"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"Does the room have a window?\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: المنزل والأشياء",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «المنزل والأشياء». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: استخدام have و has للملكية.\n\n## إجابة نموذجية\nI have a small desk. My room has one window. I have two English books. The desk has a lamp. I have a school bag under the chair. My room has a brown door.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «المنزل والأشياء». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nA: Do you have a desk? B: Yes, I do. A: Does the room have a window? B: Yes, it does. A: Do you have a phone? B: No, I do not.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «المنزل والأشياء» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nI have my bag. Sara has the English book. We have two pens. The teacher has the class key.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Describe your study space using have/has in six sentences.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I have a small desk. My room has one window. I have two English books. The desk has a lamp. I have a school bag under the chair. My room has a brown door.",
+                "explanation": "الإجابة النموذجية هي: «I have a small desk. My room has one window. I have two English books. The desk has a lamp. I have a school bag under the chair. My room has a brown door.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Ask and answer five questions about objects in a room.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "A: Do you have a desk? B: Yes, I do. A: Does the room have a window? B: Yes, it does. A: Do you have a phone? B: No, I do not.",
+                "explanation": "الإجابة النموذجية هي: «A: Do you have a desk? B: Yes, I do. A: Does the room have a window? B: Yes, it does. A: Do you have a phone? B: No, I do not.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Create an object checklist for school and say who has each item.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I have my bag. Sara has the English book. We have two pens. The teacher has the class key.",
+                "explanation": "الإجابة النموذجية هي: «I have my bag. Sara has the English book. We have two pens. The teacher has the class key.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: المنزل والأشياء",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "My father ___ a black phone.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "has",
+                  "have",
+                  "haves",
+                  "having"
+                ],
+                "correct_answer": "has",
+                "explanation": "الإجابة الصحيحة هي «has» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "We ___ two house keys.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "haves"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the question: The table has four chairs.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Does the table have four chairs?",
+                "explanation": "الإجابة النموذجية هي: «Does the table have four chairs?». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"He does not have a key\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"مكتب\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "desk",
+                  "door",
+                  "room",
+                  "bag"
+                ],
+                "correct_answer": "desk",
+                "explanation": "الإجابة الصحيحة هي «desk» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"نافذة\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "window",
+                  "chair",
+                  "table",
+                  "key"
+                ],
+                "correct_answer": "window",
+                "explanation": "الإجابة الصحيحة هي «window» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Ali’s room has ___ window.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "one",
+                  "two",
+                  "three",
+                  "no"
+                ],
+                "correct_answer": "one",
+                "explanation": "الإجابة الصحيحة هي «one» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Ali’s desk is near the ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "window",
+                  "door",
+                  "bed",
+                  "kitchen"
+                ],
+                "correct_answer": "window",
+                "explanation": "الإجابة الصحيحة هي «window» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Huda has a ___ room than Ali.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "larger",
+                  "smaller",
+                  "darker",
+                  "older"
+                ],
+                "correct_answer": "larger",
+                "explanation": "الإجابة الصحيحة هي «larger» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Ali cleans his desk on ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Thursday",
+                  "Friday",
+                  "Monday",
+                  "Sunday"
+                ],
+                "correct_answer": "Thursday",
+                "explanation": "الإجابة الصحيحة هي «Thursday» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct form: The phone (have) a black case.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "The phone has a black case.",
+                "explanation": "الإجابة النموذجية هي: «The phone has a black case.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"They has a large table\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "A key is for a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "door",
+                  "meal",
+                  "color",
+                  "week"
+                ],
+                "correct_answer": "door",
+                "explanation": "الإجابة الصحيحة هي «door» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Ali says his small room is a good place to study.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: Does she ___ a book?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have",
+                  "has",
+                  "having",
+                  "haves"
+                ],
+                "correct_answer": "have",
+                "explanation": "الإجابة الصحيحة هي «have» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 6,
+      "title": "الوحدة 6 — الطعام والاختيارات اليومية",
+      "description": "شرح وتدريب باللغة العربية على «الطعام والاختيارات اليومية» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: الطعام والاختيارات اليومية",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What do you usually have for breakfast?\n- Which fruit do you like?\n- Are you hungry after school or work?\n\n## النص الإنجليزي\nEvery morning, Nour has a simple breakfast before school. She has an egg, a piece of bread, and a cup of milk. Her brother Karim prefers a banana and a cup of water. Their mother puts fresh fruit on a plate in the middle of the table. There is usually an apple for Nour and two bananas for Karim. At school, Nour has a small meal during the break. She does not take rice or other hot food because the break is short. After school, she is often hungry. At home, the family has rice, chicken, and salad for lunch. Nour likes the food because it is fresh and simple. In the evening, she prepares her school bag and puts an apple inside it for the next day. Good food, she says, helps her study well.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| breakfast | إفطار | Nour has a simple breakfast. |\n| fresh | طازج | The fruit is fresh. |\n| plate | طبق | The fruit is on a plate. |\n| hungry | جائع | Nour is hungry after school. |\n\n## أسئلة الفهم\n1. What does Nour have for breakfast?\n2. What fruit does Karim prefer?\n3. Where is the fresh fruit?\n4. Does Nour take hot food to school?\n5. What does the family have for lunch?\n6. Why does Nour think good food is important?\n\n## الإجابات\n1. An egg, bread, and milk.\n2. He prefers a banana.\n3. It is on a plate in the middle of the table.\n4. No, she does not.\n5. Rice, chicken, and salad.\n6. Because she thinks it helps her study well.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: الطعام والاختيارات اليومية",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for a, an, and plural nouns.\n- What food does each person have?\n\n## نص الاستماع بالإنجليزية\nA: Are you hungry, Tarek?\nB: Yes. I have an apple, but I don't have a full meal.\nA: I have two eggs and some bread. One egg is for you.\nB: Thank you. Do you have water?\nA: The water is in the blue bottle. I also have a cup.\nB: Great. Is that a banana on the plate?\nA: Yes. There are two bananas and three apples on the plate.\nB: This is a good lunch.\nA: It is simple, but the food is fresh.\n\n## عبارات مهمة\n- an apple\n- two eggs\n- the water\n- a cup\n- three apples\n\n## أسئلة الفهم\n1. Is Tarek hungry?\n2. What fruit does he have?\n3. How many eggs does the other speaker have?\n4. Where is the water?\n5. How many apples are on the plate?\n\n## الإجابات\n1. Yes, he is.\n2. He has an apple.\n3. Two eggs.\n4. It is in the blue bottle.\n5. Three apples.",
+          "image": null,
+          "data": {
+            "tts_text": "Are you hungry, Tarek? Yes. I have an apple, but I don't have a full meal. I have two eggs and some bread. One egg is for you. Thank you. Do you have water? The water is in the blue bottle. I also have a cup. Great. Is that a banana on the plate? Yes. There are two bananas and three apples on the plate. This is a good lunch. It is simple, but the food is fresh.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: الطعام والاختيارات اليومية",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **أدوات التنكير والتعريف a / an / the وجمع الأسماء المنتظم** داخل موضوع «الطعام والاختيارات اليومية». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| a | one singular countable noun before consonant sound | a banana |\n| an | one singular countable noun before vowel sound | an apple |\n| the | a specific known noun | the water on the table |\n| plural | noun + s/es | two apples / three boxes |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ Nour has an egg for breakfast.\n+ Karim has a banana in his bag.\n+ The water is in the blue bottle.\n+ Two apples are on the plate.\n- The meal is not large today.\n- The bananas are not on the desk.\n? Is the apple fresh?\n? Are the eggs on the plate?\n? Is that a cup of milk?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **أدوات التنكير والتعريف a / an / the وجمع الأسماء المنتظم** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~a apple~~ -> an apple\n~~an banana~~ -> a banana\n~~two apple~~ -> two apples\n~~a rice~~ -> some rice\n~~I have breads.~~ -> I have bread.\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: الطعام والاختيارات اليومية",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| food | /fuːd/ | طعام | The food at home is fresh, during a simple family meal at home after the school day. |\n| bread | /bred/ | خبز | I have bread with breakfast, during a simple family meal at home after the school day. |\n| rice | /raɪs/ | أرز | We eat rice with chicken, during a simple family meal at home after the school day. |\n| apple | /ˈæpəl/ | تفاحة | She has an apple after lunch, during a simple family meal at home after the school day. |\n| banana | /bəˈnænə/ | موزة | A banana is in my bag, during a simple family meal at home after the school day. |\n| egg | /eɡ/ | بيضة | He has an egg for breakfast, during a simple family meal at home after the school day. |\n| water | /ˈwɔːtər/ | ماء | Please put the water on the table, during a simple family meal at home after the school day. |\n| milk | /mɪlk/ | حليب | My sister drinks milk in the morning, during a simple family meal at home after the school day. |\n| meal | /miːl/ | وجبة | Dinner is our main family meal, during a simple family meal at home after the school day. |\n| plate | /pleɪt/ | طبق | There are two apples on the plate, during a simple family meal at home after the school day. |\n| cup | /kʌp/ | كوب | I have a cup of tea, during a simple family meal at home after the school day. |\n| fresh | /freʃ/ | طازج | The market has fresh fruit, during a simple family meal at home after the school day. |\n| hungry | /ˈhʌŋɡri/ | جائع | I am hungry after school, during a simple family meal at home after the school day. |\n\n## المتلازمات اللفظية\n- fresh food\n- have breakfast\n- an apple\n- a banana\n- a cup of milk\n- family meal\n\n## تدريب\n1. We eat ____ with chicken.\n2. She has an ____ after lunch.\n3. He has a ____ for breakfast.\n4. Please put the ____ on the table.\n5. I have a ____ of tea.\n6. I am ____ after school.\n\n## الإجابات\n1. rice\n2. apple\n3. egg\n4. water\n5. cup\n6. hungry",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: الطعام والاختيارات اليومية",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "I have ___ apple.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "a",
+                  "an",
+                  "the",
+                  "two"
+                ],
+                "correct_answer": "an",
+                "explanation": "الإجابة الصحيحة هي «an» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "She has ___ banana.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "a",
+                  "an",
+                  "two",
+                  "many"
+                ],
+                "correct_answer": "a",
+                "explanation": "الإجابة الصحيحة هي «a» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "There are two ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "apple",
+                  "apples",
+                  "an apple",
+                  "applees"
+                ],
+                "correct_answer": "apples",
+                "explanation": "الإجابة الصحيحة هي «apples» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the plural: one plate → two ___.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "plates",
+                "explanation": "الإجابة النموذجية هي: «plates». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Please pass ___ water on the table.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "the",
+                  "a",
+                  "an",
+                  "two"
+                ],
+                "correct_answer": "the",
+                "explanation": "الإجابة الصحيحة هي «the» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"a egg\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "I have ___ cup of milk.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "a",
+                  "an",
+                  "three",
+                  "the an"
+                ],
+                "correct_answer": "a",
+                "explanation": "الإجابة الصحيحة هي «a» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: 3 + banana",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "three bananas",
+                "explanation": "الإجابة النموذجية هي: «three bananas». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "We eat ___ for lunch.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "rice",
+                  "a rice",
+                  "rices",
+                  "an rice"
+                ],
+                "correct_answer": "rice",
+                "explanation": "الإجابة الصحيحة هي «rice» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"The food is fresh\" uses the for specific food.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: الطعام والاختيارات اليومية",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «الطعام والاختيارات اليومية». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: أدوات التنكير والتعريف a / an / the وجمع الأسماء المنتظم.\n\n## إجابة نموذجية\nBreakfast: an egg, a banana, two apples, bread, and a cup of milk. The water is on the table.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «الطعام والاختيارات اليومية». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nNour has an egg. Karim has a banana and milk. Their mother has bread and a cup of tea.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «الطعام والاختيارات اليومية» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nLunch: rice, chicken, fresh salad, two apples, bread, and water.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Write a simple breakfast menu using a/an/the and plurals.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Breakfast: an egg, a banana, two apples, bread, and a cup of milk. The water is on the table.",
+                "explanation": "الإجابة النموذجية هي: «Breakfast: an egg, a banana, two apples, bread, and a cup of milk. The water is on the table.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Describe what three people have for breakfast.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Nour has an egg. Karim has a banana and milk. Their mother has bread and a cup of tea.",
+                "explanation": "الإجابة النموذجية هي: «Nour has an egg. Karim has a banana and milk. Their mother has bread and a cup of tea.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Make a healthy lunch list with at least six food words.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "Lunch: rice, chicken, fresh salad, two apples, bread, and water.",
+                "explanation": "الإجابة النموذجية هي: «Lunch: rice, chicken, fresh salad, two apples, bread, and water.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: الطعام والاختيارات اليومية",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "She eats ___ egg.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "an",
+                  "a",
+                  "the two",
+                  "three"
+                ],
+                "correct_answer": "an",
+                "explanation": "الإجابة الصحيحة هي «an» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "We have three ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "bananas",
+                  "banana",
+                  "a banana",
+                  "bananases"
+                ],
+                "correct_answer": "bananas",
+                "explanation": "الإجابة الصحيحة هي «bananas» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: one + cup",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "a cup",
+                "explanation": "الإجابة النموذجية هي: «a cup». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"an apple\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"وجبة\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "meal",
+                  "plate",
+                  "water",
+                  "fresh"
+                ],
+                "correct_answer": "meal",
+                "explanation": "الإجابة الصحيحة هي «meal» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"جائع\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "hungry",
+                  "fresh",
+                  "meal",
+                  "milk"
+                ],
+                "correct_answer": "hungry",
+                "explanation": "الإجابة الصحيحة هي «hungry» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Nour has an egg and bread for ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "breakfast",
+                  "dinner",
+                  "a party",
+                  "a trip"
+                ],
+                "correct_answer": "breakfast",
+                "explanation": "الإجابة الصحيحة هي «breakfast» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The fruit is on a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "plate",
+                  "desk",
+                  "chair",
+                  "door"
+                ],
+                "correct_answer": "plate",
+                "explanation": "الإجابة الصحيحة هي «plate» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "After school, Nour is often ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "hungry",
+                  "late",
+                  "old",
+                  "blue"
+                ],
+                "correct_answer": "hungry",
+                "explanation": "الإجابة الصحيحة هي «hungry» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The family has rice and chicken for ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "lunch",
+                  "breakfast",
+                  "a snack",
+                  "school"
+                ],
+                "correct_answer": "lunch",
+                "explanation": "الإجابة الصحيحة هي «lunch» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the plural: one egg → two ___.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "eggs",
+                "explanation": "الإجابة النموذجية هي: «eggs». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"a water\" is the normal way to name water as a substance.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Fresh means ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "not old or spoiled",
+                  "very hungry",
+                  "very large",
+                  "dark"
+                ],
+                "correct_answer": "not old or spoiled",
+                "explanation": "الإجابة الصحيحة هي «not old or spoiled» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Nour puts an apple in her school bag for the next day.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: Please pass ___ water on this table.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "the",
+                  "an",
+                  "a",
+                  "two"
+                ],
+                "correct_answer": "the",
+                "explanation": "الإجابة الصحيحة هي «the» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 7,
+      "title": "الوحدة 7 — الملابس والوصف",
+      "description": "شرح وتدريب باللغة العربية على «الملابس والوصف» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: الملابس والوصف",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What color do you wear often?\n- Do you prefer a shirt or a jacket?\n- What clothes do you wear to a family event?\n\n## النص الإنجليزي\nMaya and her mother are choosing clothes for a family party. Maya points to a blue dress and says, “This dress is nice.” Her mother looks at another dress across the shop. “That long red dress is nice too,” she says. Maya prefers the blue one because blue is her favorite color. Near them, there are two pairs of shoes. Maya tries the white shoes first, but they are too small. Then she tries the black shoes. “These shoes are comfortable,” she says. Her mother agrees. Maya also needs a jacket for the evening. The shop assistant shows them a short black jacket and a longer blue jacket. Maya chooses the black one. At home, her brother sees the bags and asks, “Are those your new clothes?” Maya smiles and says yes. She is ready for the party.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| dress | فستان | Maya chooses a blue dress. |\n| shoes | حذاء | The black shoes are comfortable. |\n| jacket | سترة | She chooses a short black jacket. |\n| color | لون | Blue is Maya's favorite color. |\n\n## أسئلة الفهم\n1. What is Maya choosing clothes for?\n2. Which dress does she prefer?\n3. Why does she not choose the white shoes?\n4. What color shoes does she choose?\n5. Which jacket does Maya choose?\n6. Who asks about her new clothes at home?\n\n## الإجابات\n1. A family party.\n2. The blue dress.\n3. Because the white shoes are too small.\n4. Black shoes.\n5. The short black jacket.\n6. Her brother.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: الملابس والوصف",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for this, that, these, and those.\n- Which colors and clothes do the speakers mention?\n\n## نص الاستماع بالإنجليزية\nA: Is this your jacket on the chair?\nB: No, my jacket is blue. That black jacket is Amir's.\nA: What about these white shoes?\nB: They are mine. I wear them to school.\nA: And those red shoes near the door?\nB: They are my sister's. Her favorite color is red.\nA: Is that long blue dress hers too?\nB: Yes. She wears that dress to family parties.\nA: Nice. This room has a lot of clothes today!\n\n## عبارات مهمة\n- this jacket\n- that black jacket\n- these white shoes\n- those red shoes\n- that long blue dress\n\n## أسئلة الفهم\n1. What color is the speaker's jacket?\n2. Who owns the black jacket?\n3. Who owns the white shoes?\n4. What is the sister's favorite color?\n5. When does the sister wear the blue dress?\n\n## الإجابات\n1. It is blue.\n2. Amir owns it.\n3. Speaker B owns them.\n4. Red.\n5. She wears it to family parties.",
+          "image": null,
+          "data": {
+            "tts_text": "Is this your jacket on the chair? No, my jacket is blue. That black jacket is Amir's. What about these white shoes? They are mine. I wear them to school. And those red shoes near the door? They are my sister's. Her favorite color is red. Is that long blue dress hers too? Yes. She wears that dress to family parties. Nice. This room has a lot of clothes today!",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: الملابس والوصف",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **أسماء الإشارة this / that / these / those ومكان الصفة** داخل موضوع «الملابس والوصف». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| this | one, near | this blue shirt |\n| that | one, farther | that long dress |\n| these | more than one, near | these white shoes |\n| those | more than one, farther | those black jackets |\n| adjective | before noun / after be | a red bag / The bag is red. |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ This blue shirt is clean.\n+ That long dress is nice.\n+ These white shoes are comfortable.\n+ Those black jackets are new.\n- This red bag is not large.\n- Those shoes are not white.\n? Is that your jacket?\n? Are these your new shoes?\n? Is this color blue?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **أسماء الإشارة this / that / these / those ومكان الصفة** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~this shoes~~ -> these shoes\n~~those dress~~ -> that dress\n~~a shirt blue~~ -> a blue shirt\n~~these jacket are new~~ -> these jackets are new\n~~that shoes is black~~ -> those shoes are black\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: الملابس والوصف",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| shirt | /ʃɝːt/ | قميص | This shirt is clean and white, when the class describes clothes during a simple shopping activity. |\n| dress | /dres/ | فستان | That dress is blue, when the class describes clothes during a simple shopping activity. |\n| shoes | /ʃuːz/ | حذاء | These shoes are comfortable, when the class describes clothes during a simple shopping activity. |\n| jacket | /ˈdʒækɪt/ | سترة | My jacket is black, when the class describes clothes during a simple shopping activity. |\n| color | /ˈkʌlər/ | لون | Blue is my favorite color, when the class describes clothes during a simple shopping activity. |\n| white | /waɪt/ | أبيض | The white shirt is on the chair, when the class describes clothes during a simple shopping activity. |\n| black | /blæk/ | أسود | Those black shoes are new, when the class describes clothes during a simple shopping activity. |\n| blue | /bluː/ | أزرق | Her blue dress is very simple, when the class describes clothes during a simple shopping activity. |\n| red | /red/ | أحمر | This red bag is small, when the class describes clothes during a simple shopping activity. |\n| nice | /naɪs/ | لطيف | That is a nice jacket, when the class describes clothes during a simple shopping activity. |\n| short | /ʃɔːrt/ | قصير | These trousers are too short, when the class describes clothes during a simple shopping activity. |\n| long | /lɔːŋ/ | طويل | The long dress is for the party, when the class describes clothes during a simple shopping activity. |\n| wear | /wer/ | يرتدي | I wear a jacket in winter, when the class describes clothes during a simple shopping activity. |\n\n## المتلازمات اللفظية\n- blue shirt\n- long dress\n- black shoes\n- short jacket\n- favorite color\n- wear clothes\n\n## تدريب\n1. This ____ is clean and white.\n2. That blue ____ is long.\n3. These black ____ are new.\n4. My ____ is black and short.\n5. Blue is my favorite ____.\n6. I ____ a jacket in winter.\n\n## الإجابات\n1. shirt\n2. dress\n3. shoes\n4. jacket\n5. color\n6. wear",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: الملابس والوصف",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "___ shirt here is blue.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "This",
+                  "These",
+                  "Those",
+                  "They"
+                ],
+                "correct_answer": "This",
+                "explanation": "الإجابة الصحيحة هي «This» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "___ shoes over there are black.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Those",
+                  "That",
+                  "This",
+                  "It"
+                ],
+                "correct_answer": "Those",
+                "explanation": "الإجابة الصحيحة هي «Those» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "___ two jackets here are new.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "These",
+                  "This",
+                  "That",
+                  "It"
+                ],
+                "correct_answer": "These",
+                "explanation": "الإجابة الصحيحة هي «These» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: dress / red",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "red dress",
+                "explanation": "الإجابة النموذجية هي: «red dress». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "___ long dress over there is nice.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "That",
+                  "Those",
+                  "These",
+                  "They"
+                ],
+                "correct_answer": "That",
+                "explanation": "الإجابة الصحيحة هي «That» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"this shoes\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "The jacket is ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "black",
+                  "a black",
+                  "blacks",
+                  "black jacket"
+                ],
+                "correct_answer": "black",
+                "explanation": "الإجابة الصحيحة هي «black» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the plural demonstrative for something near: this → ___.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "these",
+                "explanation": "الإجابة النموذجية هي: «these». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "___ red bags near me are small.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "These",
+                  "That",
+                  "This",
+                  "It"
+                ],
+                "correct_answer": "These",
+                "explanation": "الإجابة الصحيحة هي «These» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"a blue shirt\" has the adjective in the correct position.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: الملابس والوصف",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «الملابس والوصف». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: أسماء الإشارة this / that / these / those ومكان الصفة.\n\n## إجابة نموذجية\nThis shirt is blue. That jacket is black. These shoes are white. Those dresses are long. This red bag is small.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «الملابس والوصف». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nA: Is this blue shirt good? B: Yes, it is nice. A: What about those black shoes? B: They are too large. A: I like that short jacket.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «الملابس والوصف» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nI wear a blue shirt and black trousers. These shoes are black. My jacket is short. The clothes are simple and nice.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Describe five clothes near and far from you using this/that/these/those.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "This shirt is blue. That jacket is black. These shoes are white. Those dresses are long. This red bag is small.",
+                "explanation": "الإجابة النموذجية هي: «This shirt is blue. That jacket is black. These shoes are white. Those dresses are long. This red bag is small.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Role-play choosing clothes in a shop and mention color and size.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "A: Is this blue shirt good? B: Yes, it is nice. A: What about those black shoes? B: They are too large. A: I like that short jacket.",
+                "explanation": "الإجابة النموذجية هي: «A: Is this blue shirt good? B: Yes, it is nice. A: What about those black shoes? B: They are too large. A: I like that short jacket.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Write a four-line outfit description for a family party.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "I wear a blue shirt and black trousers. These shoes are black. My jacket is short. The clothes are simple and nice.",
+                "explanation": "الإجابة النموذجية هي: «I wear a blue shirt and black trousers. These shoes are black. My jacket is short. The clothes are simple and nice.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: الملابس والوصف",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "___ red bag here is mine.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "This",
+                  "Those",
+                  "These",
+                  "They"
+                ],
+                "correct_answer": "This",
+                "explanation": "الإجابة الصحيحة هي «This» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "___ jackets over there are black.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Those",
+                  "That",
+                  "This",
+                  "It"
+                ],
+                "correct_answer": "Those",
+                "explanation": "الإجابة الصحيحة هي «Those» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the adjective phrase: shoes / white",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "white shoes",
+                "explanation": "الإجابة النموذجية هي: «white shoes». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"these shoes\" is correct for plural nearby shoes.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"سترة\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "jacket",
+                  "shirt",
+                  "dress",
+                  "shoes"
+                ],
+                "correct_answer": "jacket",
+                "explanation": "الإجابة الصحيحة هي «jacket» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"لون\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "color",
+                  "wear",
+                  "nice",
+                  "long"
+                ],
+                "correct_answer": "color",
+                "explanation": "الإجابة الصحيحة هي «color» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Maya prefers the ___ dress.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "blue",
+                  "red",
+                  "white",
+                  "black"
+                ],
+                "correct_answer": "blue",
+                "explanation": "الإجابة الصحيحة هي «blue» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The white shoes are too ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "small",
+                  "large",
+                  "long",
+                  "new"
+                ],
+                "correct_answer": "small",
+                "explanation": "الإجابة الصحيحة هي «small» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Maya chooses ___ shoes.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "black",
+                  "white",
+                  "red",
+                  "blue"
+                ],
+                "correct_answer": "black",
+                "explanation": "الإجابة الصحيحة هي «black» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Her brother sees the shopping ___ at home.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "bags",
+                  "stations",
+                  "meals",
+                  "books only"
+                ],
+                "correct_answer": "bags",
+                "explanation": "الإجابة الصحيحة هي «bags» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the singular far demonstrative: these → ___.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "that",
+                "explanation": "الإجابة النموذجية هي: «that». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"a shirt blue\" is correct adjective order.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Wear means ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "have clothes on your body",
+                  "buy food",
+                  "read a book",
+                  "visit family"
+                ],
+                "correct_answer": "have clothes on your body",
+                "explanation": "الإجابة الصحيحة هي «have clothes on your body» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Maya chooses a short black jacket.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: ___ long dress over there is red.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "That",
+                  "These",
+                  "This",
+                  "Those"
+                ],
+                "correct_answer": "That",
+                "explanation": "الإجابة الصحيحة هي «That» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "order_index": 8,
+      "title": "الوحدة 8 — الأماكن والوقت والاتجاهات البسيطة",
+      "description": "شرح وتدريب باللغة العربية على «الأماكن والوقت والاتجاهات البسيطة» مع الحفاظ على النصوص والأمثلة والتمارين الإنجليزية باعتبارها مادة التعلم المستهدفة.",
+      "contents": [
+        {
+          "content_type": "reading",
+          "title": "القراءة: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 1,
+          "body": "## قبل القراءة\n- What places are near your home?\n- Is there a park on your street?\n- What time do you usually leave home?\n\n## النص الإنجليزي\nHassan lives on Green Street in a busy part of the city. His home is near a small park and a bus station. The station is between a bank and a bookshop. A café is next to the bookshop, and a pharmacy is behind the bank. Every school day, Hassan leaves home before seven thirty. He walks to the bus station and takes the bus at seven forty. His school is not far, so he arrives before eight. After school, Hassan sometimes meets his friend Rami in the park. On Thursday, they go to the bookshop because Rami needs an English book. Hassan knows the area well. When a new student asks, “Where is the station?” Hassan gives a simple answer: “It is near the park, between the bank and the bookshop.” Clear place words make directions easy.\n\n## كلمات مهمة\n| الكلمة | المعنى | المثال |\n| station | محطة | The station is near Hassan's home. |\n| between | بين | It is between the bank and the bookshop. |\n| before | قبل | Hassan leaves before seven thirty. |\n| after | بعد | He meets Rami after school. |\n\n## أسئلة الفهم\n1. Where does Hassan live?\n2. What is near his home?\n3. What places are on each side of the station?\n4. What time does Hassan take the bus?\n5. Where does he sometimes meet Rami?\n6. Why do they go to the bookshop on Thursday?\n\n## الإجابات\n1. He lives on Green Street.\n2. A park and a bus station are near his home.\n3. A bank and a bookshop.\n4. At seven forty.\n5. In the park.\n6. Because Rami needs an English book.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "listening",
+          "title": "الاستماع: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 2,
+          "body": "## قبل الاستماع\n- Listen for place prepositions and time expressions.\n- Follow the route in your mind.\n\n## نص الاستماع بالإنجليزية\nA: Excuse me. Where is the bus station?\nB: It is near here, on River Street.\nA: Is it next to the bank?\nB: Not exactly. The station is between the bank and a small shop.\nA: Is the park behind the station?\nB: Yes, the park is behind it.\nA: What time does the bus leave?\nB: The city bus leaves at nine. Please arrive before nine.\nA: Thank you. I have time for a coffee.\nB: The café is next to the shop. You have time to go there before the bus.\n\n## عبارات مهمة\n- near here\n- next to the bank\n- between the bank and a shop\n- behind the station\n- before nine\n\n## أسئلة الفهم\n1. What place is the visitor looking for?\n2. Which street is it on?\n3. What is the station between?\n4. Where is the park?\n5. What time does the bus leave?\n\n## الإجابات\n1. The bus station.\n2. River Street.\n3. The bank and a small shop.\n4. Behind the station.\n5. At nine.",
+          "image": null,
+          "data": {
+            "tts_text": "Excuse me. Where is the bus station? It is near here, on River Street. Is it next to the bank? Not exactly. The station is between the bank and a small shop. Is the park behind the station? Yes, the park is behind it. What time does the bus leave? The city bus leaves at nine. Please arrive before nine. Thank you. I have time for a coffee. The café is next to the shop. You have time to go there before the bus.",
+            "accent": "us"
+          }
+        },
+        {
+          "content_type": "grammar",
+          "title": "القواعد: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 3,
+          "body": "## لماذا هذه القاعدة مهمة؟\nتركّز هذه الوحدة على **حروف الجر الأساسية للمكان والوقت** داخل موضوع «الأماكن والوقت والاتجاهات البسيطة». الهدف ليس حفظ شكل القاعدة وحده، بل فهم العلاقة بين الصيغة والمعنى ثم استخدامها بصورة صحيحة في القراءة والكتابة والاستماع والتحدث. في مستوى A1.1 (مبتدئ)، يجب أن يلاحظ المتعلم ما الذي يحدد اختيار الصيغة: الفاعل، الزمن، درجة اليقين، العلاقة بين الأحداث، أو الغرض من الجملة.\n\nابدأ دائمًا من المعنى المقصود، ثم حدّد الجزء الذي يتحكم في القاعدة، وبعد ذلك اختر الصيغة المناسبة. من المفيد قراءة الأمثلة بصوت مرتفع، ثم تغيير عنصر واحد فقط في كل مرة مثل الفاعل أو الزمن أو المكان أو درجة التأكد. هذه الطريقة تمنع الحفظ الآلي وتساعد على استخدام القاعدة في مواقف جديدة.\n\n## الصيغة\n| Focus | Form | Example |\n| in | inside an area / part of a day | in the park / in the morning |\n| on | street / day | on Green Street / on Friday |\n| at | exact point or time | at the station / at nine |\n| near / next to / between / behind | relative place | between the bank and the shop |\n| before / after | earlier/later than an event or time | before class / after school |\n\nاقرأ الجدول كدليل لاتخاذ القرار. حدّد أولًا نوع المعنى أو الوظيفة، ثم اختر الصيغة المقابلة لها. إذا وُجد أكثر من تركيب ممكن نحويًا، فاختر التركيب الذي يعبّر بدقة أكبر عن المعنى المقصود في السياق. في المستويات الأعلى، انتبه أيضًا إلى السجل اللغوي، ودرجة الرسمية، وترتيب المعلومات، ومدى قوة الادعاء.\n\n## أمثلة\n+ Hassan lives on Green Street.\n+ The bus station is near the park.\n+ The café is next to the bookshop.\n+ The station is between the bank and the shop.\n+ The pharmacy is behind the bank.\n- The school is not far from the station.\n? Is the park behind the station?\n? Is the lesson at nine?\n? Are you free after school?\n\nالأمثلة السابقة هي نماذج للاستخدام. لا يكفي أن تعرف أن الجملة صحيحة؛ حاول أن تشرح لماذا اختيرت هذه الصيغة وما الذي سيتغير لو استُخدمت صيغة أخرى قريبة منها. بعد ذلك أنشئ مثالًا جديدًا من عندك مع الحفاظ على نفس القاعدة وتغيير المفردات والسياق.\n\n## متى نستخدمها؟\n- استخدم **حروف الجر الأساسية للمكان والوقت** عندما يحتاج المعنى في الجملة إلى الوظيفة التي تعرضها هذه الوحدة.\n- اربط اختيار الصيغة بالسياق، ولا تعتمد على كلمة واحدة فقط كإشارة آلية.\n- راجع الفاعل والزمن والأفعال المساعدة وترتيب الكلمات قبل إنهاء الجملة.\n- في الكتابة، تأكد من أن القاعدة تخدم ترابط الفكرة ولا تجعل الجملة أعقد من اللازم.\n- في التحدث، درّب نفسك على إنتاج الصيغة بسرعة من خلال أمثلة قصيرة ثم انتقل إلى إجابات أطول.\n\nبعد التصحيح، أعد صياغة الجملة بدل الاكتفاء بقراءة الإجابة الصحيحة. اكتب أو قل فكرة ثانية بنفس القاعدة، لأن إعادة الاستخدام هي التي تثبت الفهم الحقيقي وتقلل الاعتماد على الأمثلة المحفوظة.\n\n## أخطاء شائعة\n~~at Green Street~~ -> on Green Street\n~~in nine o’clock~~ -> at nine o’clock\n~~between the bank to the shop~~ -> between the bank and the shop\n~~after of school~~ -> after school\n~~next the café~~ -> next to the café\n\nعند حدوث خطأ، حدّد أولًا موضع المشكلة، ثم ارجع إلى الصيغة في الجدول، وأعد بناء الجملة خطوة بخطوة. بعد ذلك كوّن مثالًا جديدًا يغيّر الفاعل أو الزمن أو السياق. بهذه الطريقة يصبح التصحيح تدريبًا على القاعدة نفسها وليس مجرد حفظ للجملة الصحيحة.\n\n## مراجعة سريعة\n- افهم المعنى قبل اختيار الصيغة.\n- راجع شكل القاعدة في الجدول ثم طبّقه في سياق حقيقي.\n- قارن بين المثال الصحيح والخطأ الشائع لتعرف الفرق بدقة.\n- استخدم القاعدة في جمل مثبتة ومنفية وأسئلة عندما يكون ذلك طبيعيًا.\n- أعد استخدام القاعدة بمفردات جديدة حتى يصبح الاختيار تلقائيًا.",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "vocabulary",
+          "title": "المفردات: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 4,
+          "body": "## قائمة الكلمات\n| الكلمة | النطق الأمريكي | المعنى بالعربية | جملة مثال |\n| street | /striːt/ | شارع | Our school is on King Street, while a visitor follows simple directions through the busy town center. |\n| shop | /ʃɑːp/ | متجر | The shop is next to the bank, while a visitor follows simple directions through the busy town center. |\n| bank | /bæŋk/ | بنك | My father is at the bank, while a visitor follows simple directions through the busy town center. |\n| park | /pɑːrk/ | حديقة | We walk in the park on Friday, while a visitor follows simple directions through the busy town center. |\n| station | /ˈsteɪʃən/ | محطة | The station is near the hotel, while a visitor follows simple directions through the busy town center. |\n| bus | /bʌs/ | حافلة | The bus stops near my home, while a visitor follows simple directions through the busy town center. |\n| near | /nɪr/ | بالقرب من | The pharmacy is near the station, while a visitor follows simple directions through the busy town center. |\n| next | /nekst/ | التالي/المجاور | The café is next to the shop, while a visitor follows simple directions through the busy town center. |\n| between | /bɪˈtwiːn/ | بين | The bank is between two shops, while a visitor follows simple directions through the busy town center. |\n| behind | /bɪˈhaɪnd/ | خلف | The car is behind the bus, while a visitor follows simple directions through the busy town center. |\n| before | /bɪˈfɔːr/ | قبل | I arrive before eight, while a visitor follows simple directions through the busy town center. |\n| after | /ˈæftər/ | بعد | We meet after school, while a visitor follows simple directions through the busy town center. |\n| time | /taɪm/ | وقت | What time is the lesson?, while a visitor follows simple directions through the busy town center. |\n\n## المتلازمات اللفظية\n- bus station\n- near the park\n- next to the bank\n- between two shops\n- before nine\n- after school\n\n## تدريب\n1. The bus ____ is near my home.\n2. The shop is ____ the bank; they are close.\n3. The café is ____ to the shop.\n4. The bank is ____ two shops.\n5. The car is ____ the bus.\n6. We meet ____ school.\n\n## الإجابات\n1. station\n2. near\n3. next\n4. between\n5. behind\n6. after",
+          "image": null,
+          "data": {}
+        },
+        {
+          "content_type": "practice",
+          "title": "التدريب: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 5,
+          "body": "أكمل التدريبات العشرة، ثم اقرأ الشرح العربي بعد كل إجابة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "The school is ___ Green Street.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "on",
+                  "at",
+                  "in",
+                  "between"
+                ],
+                "correct_answer": "on",
+                "explanation": "الإجابة الصحيحة هي «on» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The bus leaves ___ nine.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "at",
+                  "on",
+                  "in",
+                  "near"
+                ],
+                "correct_answer": "at",
+                "explanation": "الإجابة الصحيحة هي «at» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The station is ___ the bank and the shop.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "between",
+                  "behind",
+                  "after",
+                  "on"
+                ],
+                "correct_answer": "between",
+                "explanation": "الإجابة الصحيحة هي «between» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the phrase: school finishes, then we meet → We meet ___ school.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "after",
+                "explanation": "الإجابة النموذجية هي: «after». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "The café is ___ to the shop.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "next",
+                  "between",
+                  "at",
+                  "before"
+                ],
+                "correct_answer": "next",
+                "explanation": "الإجابة الصحيحة هي «next» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"in nine o’clock\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "The park is ___ the station, not in front of it.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "behind",
+                  "before",
+                  "on",
+                  "at"
+                ],
+                "correct_answer": "behind",
+                "explanation": "الإجابة الصحيحة هي «behind» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: Thursday → ___ Thursday",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "on Thursday",
+                "explanation": "الإجابة النموذجية هي: «on Thursday». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "I arrive ___ class, at 7:50 for an 8:00 lesson.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "before",
+                  "after",
+                  "between",
+                  "behind"
+                ],
+                "correct_answer": "before",
+                "explanation": "الإجابة الصحيحة هي «before» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "\"next to the bank\" is a correct place phrase.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "tasks",
+          "title": "المهام: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 6,
+          "body": "## المهمة 1\nاكتب استجابة مناسبة لمستوى A1.1 حول موضوع «الأماكن والوقت والاتجاهات البسيطة». استخدم مفردات الوحدة وطبّق القاعدة المستهدفة بدقة: حروف الجر الأساسية للمكان والوقت.\n\n## إجابة نموذجية\nThe bus station is near the park. It is between the bank and the bookshop. The café is next to the bookshop.\n\n## المهمة 2\nنفّذ مهمة تحدث أو حوارًا حول «الأماكن والوقت والاتجاهات البسيطة». استخدم عدة تبادلات أو نقاط واضحة، وطبّق القاعدة المستهدفة بصورة طبيعية.\n\n## إجابة نموذجية\nMy class is at eight. I study on Sunday. I arrive before class. I have lunch after school. I walk in the park on Friday.\n\n## المهمة 3\nأنشئ نصًا عمليًا مناسبًا للموقف في «الأماكن والوقت والاتجاهات البسيطة» مثل رسالة أو ملاحظة أو ملخص أو تعليق. أدرج المعلومات الأساسية ومفردات الوحدة.\n\n## إجابة نموذجية\nThe bank is on Green Street. The shop is next to the bank. The park is behind the station. The station is between the bank and the café.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "Give directions to a bus station using near, next to, and between.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "The bus station is near the park. It is between the bank and the bookshop. The café is next to the bookshop.",
+                "explanation": "الإجابة النموذجية هي: «The bus station is near the park. It is between the bank and the bookshop. The café is next to the bookshop.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Write five sentences about your schedule using at, on, before, and after.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "My class is at eight. I study on Sunday. I arrive before class. I have lunch after school. I walk in the park on Friday.",
+                "explanation": "الإجابة النموذجية هي: «My class is at eight. I study on Sunday. I arrive before class. I have lunch after school. I walk in the park on Friday.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "Draw a simple street map and describe four locations.",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "The bank is on Green Street. The shop is next to the bank. The park is behind the station. The station is between the bank and the café.",
+                "explanation": "الإجابة النموذجية هي: «The bank is on Green Street. The shop is next to the bank. The park is behind the station. The station is between the bank and the café.». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              }
+            ]
+          }
+        },
+        {
+          "content_type": "test",
+          "title": "الاختبار: الأماكن والوقت والاتجاهات البسيطة",
+          "order_index": 7,
+          "body": "أجب عن جميع الأسئلة الخمسة عشر. استخدم نص القراءة والقواعد والمفردات في الوحدة عند الحاجة.",
+          "image": null,
+          "data": {
+            "questions": [
+              {
+                "question_text": "The pharmacy is ___ the bank.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "behind",
+                  "before",
+                  "at",
+                  "on"
+                ],
+                "correct_answer": "behind",
+                "explanation": "الإجابة الصحيحة هي «behind» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "We meet ___ school.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "after",
+                  "behind",
+                  "between",
+                  "on"
+                ],
+                "correct_answer": "after",
+                "explanation": "الإجابة الصحيحة هي «after» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the phrase: 8:00 → ___ eight",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "at eight",
+                "explanation": "الإجابة النموذجية هي: «at eight». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"on Friday\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Which word means \"محطة\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "station",
+                  "street",
+                  "shop",
+                  "park"
+                ],
+                "correct_answer": "station",
+                "explanation": "الإجابة الصحيحة هي «station» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Which word means \"بين\"?",
+                "question_type": "multiple_choice",
+                "options": [
+                  "between",
+                  "behind",
+                  "after",
+                  "near"
+                ],
+                "correct_answer": "between",
+                "explanation": "الإجابة الصحيحة هي «between» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Hassan lives on ___ Street.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "Green",
+                  "River",
+                  "Blue",
+                  "King"
+                ],
+                "correct_answer": "Green",
+                "explanation": "الإجابة الصحيحة هي «Green» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "The station is between a bank and a ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "bookshop",
+                  "school",
+                  "hospital",
+                  "house"
+                ],
+                "correct_answer": "bookshop",
+                "explanation": "الإجابة الصحيحة هي «bookshop» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Hassan takes the bus at ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "7:40",
+                  "8:40",
+                  "9:00",
+                  "6:30"
+                ],
+                "correct_answer": "7:40",
+                "explanation": "الإجابة الصحيحة هي «7:40» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "He sometimes meets Rami in the ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "park",
+                  "bank",
+                  "station",
+                  "shop"
+                ],
+                "correct_answer": "park",
+                "explanation": "الإجابة الصحيحة هي «park» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Type the correct phrase: ___ the morning",
+                "question_type": "text",
+                "options": [],
+                "correct_answer": "in the morning",
+                "explanation": "الإجابة النموذجية هي: «in the morning». المهم هو الحفاظ على المعنى وتطبيق القاعدة المستهدفة بدقة."
+              },
+              {
+                "question_text": "\"between the bank to the shop\" is correct.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "False",
+                "explanation": "الإجابة الصحيحة هي «خطأ». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Near means ___.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "close to",
+                  "after",
+                  "inside",
+                  "before"
+                ],
+                "correct_answer": "close to",
+                "explanation": "الإجابة الصحيحة هي «close to» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              },
+              {
+                "question_text": "Rami needs an English book on Thursday.",
+                "question_type": "true_false",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correct_answer": "True",
+                "explanation": "الإجابة الصحيحة هي «صح». راجع المعلومة أو القاعدة المستهدفة في الوحدة للتأكد من السبب."
+              },
+              {
+                "question_text": "Complete: The café is next ___ the shop.",
+                "question_type": "multiple_choice",
+                "options": [
+                  "to",
+                  "at",
+                  "on",
+                  "in"
+                ],
+                "correct_answer": "to",
+                "explanation": "الإجابة الصحيحة هي «to» لأنها الاختيار الذي يطابق القاعدة أو المعنى المستهدف في هذه الوحدة."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
