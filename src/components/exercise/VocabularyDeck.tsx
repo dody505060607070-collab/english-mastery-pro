@@ -186,7 +186,7 @@ function WordCard({
       </div>
 
       {word.example && (
-        <p className="text-sm leading-7 text-foreground/85">
+        <p className="text-[13px] leading-6 text-foreground/85">
           <Example text={word.example} word={word.word} />
         </p>
       )}
@@ -196,7 +196,7 @@ function WordCard({
           <span className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Meaning in Arabic</span>
           <div dir="rtl" className="text-right">
             {word.translation && <p className="text-sm font-bold">{word.translation}</p>}
-            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar}</p>}
+            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar.split(/\s+/).slice(0, 12).join(" ")}</p>}
             {!word.translation && !word.example_ar && (
               <p className="text-[11px] opacity-70">لا يوجد معنى متاح</p>
             )}
