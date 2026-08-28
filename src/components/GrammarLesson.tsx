@@ -8,6 +8,7 @@ import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles, Chevr
 type Block =
   | { kind: "para"; text: string }
   | { kind: "bullets"; items: string[] }
+  | { kind: "steps"; items: string[] }
   | { kind: "table"; rows: string[][] }
   | { kind: "examples"; items: { sign: "+" | "-" | "?"; text: string }[] }
   | { kind: "mistakes"; items: { wrong: string; right: string | null }[] };
