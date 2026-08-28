@@ -82,22 +82,23 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20" dir={lang === "ar" ? "rtl" : "ltr"}>
-      {/* Dynamic Background Elements */}
+      {/* Soft ambient wash */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-accent/10 rounded-full blur-[100px]" />
       </div>
 
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
-        <div className="container flex h-24 items-center justify-between">
-          <Link to="/" className="flex items-center gap-4 font-bold text-2xl tracking-tight shrink-0">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/85 backdrop-blur-md">
+        <div className="container flex h-20 items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 font-display font-black text-xl tracking-tight shrink-0">
             <img 
               src={logoAsset.url} 
               alt="Blue Language Logo" 
-              className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" 
+              className="h-12 md:h-14 w-auto object-contain" 
             />
             <span className="hidden sm:inline-block">Blue Language</span>
           </Link>
+
           
           <nav className="hidden lg:flex gap-8">
             <Link to="/" className="text-sm font-semibold hover:text-primary transition-colors relative group">
