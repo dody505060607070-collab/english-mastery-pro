@@ -101,14 +101,31 @@ function WordCard({
   const busy = (owner: string) => audio.owner === owner && audio.status === "loading";
   const active = (owner: string) => audio.owner === owner && audio.status === "playing";
 
+  /** Stable per-word colour so the deck reads as a colourful set of cards. */
+  const CARD_HUES = [
+    { ring: "border-sky-500/40", top: "bg-sky-500", chip: "bg-sky-500/15 text-sky-700 border-sky-500/30", tint: "bg-sky-500/[0.05]" },
+    { ring: "border-violet-500/40", top: "bg-violet-500", chip: "bg-violet-500/15 text-violet-700 border-violet-500/30", tint: "bg-violet-500/[0.05]" },
+    { ring: "border-amber-500/45", top: "bg-amber-500", chip: "bg-amber-500/18 text-amber-700 border-amber-500/30", tint: "bg-amber-500/[0.06]" },
+    { ring: "border-emerald-500/40", top: "bg-emerald-500", chip: "bg-emerald-500/15 text-emerald-700 border-emerald-500/30", tint: "bg-emerald-500/[0.05]" },
+    { ring: "border-pink-500/40", top: "bg-pink-500", chip: "bg-pink-500/15 text-pink-700 border-pink-500/30", tint: "bg-pink-500/[0.05]" },
+    { ring: "border-teal-500/40", top: "bg-teal-500", chip: "bg-teal-500/15 text-teal-700 border-teal-500/30", tint: "bg-teal-500/[0.05]" },
+    { ring: "border-indigo-500/40", top: "bg-indigo-500", chip: "bg-indigo-500/15 text-indigo-700 border-indigo-500/30", tint: "bg-indigo-500/[0.05]" },
+  ];
+  const hue = CARD_HUES[
+    Array.from(word.word).reduce((a, c) => a + c.charCodeAt(0), 0) % CARD_HUES.length
+  ]!;
+
   return (
     <article
       dir="ltr"
       className={cn(
-        "relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-card p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
-        isLearned && "border-emerald-500/40",
+        "relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border-2 bg-card p-5 pt-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
+        hue.ring,
+        hue.tint,
+        isLearned && "border-emerald-500/60",
       )}
     >
+      <span className={cn("absolute inset-x-0 top-0 h-1.5", hue.top)} />
       {/* mastered toggle, top-right */}
       <button
         type="button"
@@ -116,7 +133,7 @@ function WordCard({
         aria-label={isLearned ? `${word.word} mastered` : `Mark ${word.word} as learned`}
         title={isLearned ? "Mastered" : "Mark as learned"}
         className={cn(
-          "absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border transition",
+          "absolute right-3 top-4 grid h-9 w-9 place-items-center rounded-full border transition",
           isLearned
             ? "border-emerald-500 bg-emerald-500 text-primary-foreground"
             : "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20",
@@ -125,17 +142,17 @@ function WordCard({
         <Check className="h-4 w-4" />
       </button>
 
-      <div className="h-10 w-10 overflow-hidden rounded-xl border border-border/70 bg-muted/60">
+      <div className={cn("h-11 w-11 overflow-hidden rounded-xl border-2", hue.ring)}>
         {img ? (
           <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
         ) : (
-          <span className="grid h-full w-full place-items-center text-sm font-black text-muted-foreground">
+          <span className={cn("grid h-full w-full place-items-center text-base font-black", hue.chip)}>
             {word.word.slice(0, 1).toUpperCase()}
           </span>
         )}
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         <h4
           className={cn(
             "font-serif text-2xl font-bold leading-tight tracking-tight",
@@ -146,10 +163,10 @@ function WordCard({
         </h4>
         {word.phonetic && <p className="text-sm font-medium text-primary">/{word.phonetic.replace(/^\/|\/$/g, "")}/</p>}
         {word.category && (
-          <p className="flex items-center gap-1.5 pt-1 text-[11px] font-black uppercase tracking-wider text-muted-foreground">
+          <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider", hue.chip)}>
             <Tag className="h-3 w-3" />
             {word.category}
-          </p>
+          </span>
         )}
       </div>
 
@@ -160,14 +177,18 @@ function WordCard({
       )}
 
       {showTranslation && (
-        <div dir="rtl" className="space-y-1 rounded-xl bg-muted/50 px-3 py-2 text-right">
-          {word.translation && <p className="text-xs font-bold text-primary">{word.translation}</p>}
-          {word.example_ar && <p className="text-[11px] leading-6 text-muted-foreground">{word.example_ar}</p>}
-          {!word.translation && !word.example_ar && (
-            <p className="text-[11px] text-muted-foreground">لا توجد ترجمة متاحة</p>
-          )}
+        <div className={cn("space-y-1.5 rounded-xl border px-3 py-2.5", hue.chip)}>
+          <span className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Meaning in Arabic</span>
+          <div dir="rtl" className="text-right">
+            {word.translation && <p className="text-sm font-bold">{word.translation}</p>}
+            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar}</p>}
+            {!word.translation && !word.example_ar && (
+              <p className="text-[11px] opacity-70">لا يوجد معنى متاح</p>
+            )}
+          </div>
         </div>
       )}
+
 
       <div className="mt-auto flex items-center gap-2 pt-1">
         <Button
