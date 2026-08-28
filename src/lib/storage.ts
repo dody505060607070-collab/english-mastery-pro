@@ -90,10 +90,15 @@ export async function getSignedUrl(bucket: string, path: string, expires = 3600)
   return data?.signedUrl ?? null;
 }
 
-/** Resolves either a full URL or a storage path into a usable src. */
+/** True for bundled public assets like `/images/A1.1-u1-reading.jpg`. */
+const isPublicPath = (p: string) => p.startsWith("/");
+
+/** Resolves a full URL, a bundled public asset, or a storage path into a usable src. */
 export function useMediaUrl(path?: string | null, bucket = "content") {
   const [url, setUrl] = useState<string | null>(
-    path && (path.startsWith("http") || path.startsWith("data:")) ? path : null,
+    path && (path.startsWith("http") || path.startsWith("data:") || isPublicPath(path))
+      ? path
+      : null,
   );
 
   useEffect(() => {
@@ -102,7 +107,7 @@ export function useMediaUrl(path?: string | null, bucket = "content") {
       setUrl(null);
       return;
     }
-    if (path.startsWith("http") || path.startsWith("data:")) {
+    if (path.startsWith("http") || path.startsWith("data:") || isPublicPath(path)) {
       setUrl(path);
       return;
     }

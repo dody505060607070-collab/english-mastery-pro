@@ -1511,6 +1511,7 @@ export type Database = {
           audio_url_uk: string | null
           category: string | null
           created_at: string | null
+          example: string | null
           example_ar: string | null
           id: string
           is_premium: boolean | null
@@ -1525,6 +1526,7 @@ export type Database = {
           audio_url_uk?: string | null
           category?: string | null
           created_at?: string | null
+          example?: string | null
           example_ar?: string | null
           id?: string
           is_premium?: boolean | null
@@ -1539,6 +1541,7 @@ export type Database = {
           audio_url_uk?: string | null
           category?: string | null
           created_at?: string | null
+          example?: string | null
           example_ar?: string | null
           id?: string
           is_premium?: boolean | null
