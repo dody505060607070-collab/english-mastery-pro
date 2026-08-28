@@ -1,0 +1,938 @@
+[
+  {
+    "word": "hello",
+    "translation": "مرحبًا",
+    "phonetic_us": "/həˈloʊ/",
+    "phonetic_uk": "/həˈləʊ/",
+    "example": "Hello, I am Salma, during the first English class at the language school today.",
+    "example_ar": "مرحبًا، أنا سلمى، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "name",
+    "translation": "اسم",
+    "phonetic_us": "/neɪm/",
+    "phonetic_uk": "/neɪm/",
+    "example": "My name is Omar, during the first English class at the language school today.",
+    "example_ar": "اسمي عمر، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "first",
+    "translation": "الأول",
+    "phonetic_us": "/fɝːst/",
+    "phonetic_uk": "/fɜːst/",
+    "example": "My first name is Lina, during the first English class at the language school today.",
+    "example_ar": "اسمي الأول لينا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "last",
+    "translation": "الأخير",
+    "phonetic_us": "/læst/",
+    "phonetic_uk": "/lɑːst/",
+    "example": "His last name is Adel, during the first English class at the language school today.",
+    "example_ar": "اسم عائلته عادل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "meet",
+    "translation": "يقابل",
+    "phonetic_us": "/miːt/",
+    "phonetic_uk": "/miːt/",
+    "example": "I meet a new classmate today, during the first English class at the language school today.",
+    "example_ar": "أقابل زميلًا جديدًا اليوم، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "student",
+    "translation": "طالب",
+    "phonetic_us": "/ˈstuːdənt/",
+    "phonetic_uk": "/ˈstjuːdənt/",
+    "example": "Nora is a student at this school, during the first English class at the language school today.",
+    "example_ar": "نورا طالبة في هذه المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "teacher",
+    "translation": "معلّم",
+    "phonetic_us": "/ˈtiːtʃər/",
+    "phonetic_uk": "/ˈtiːtʃə/",
+    "example": "Mr Hassan is our English teacher, during the first English class at the language school today.",
+    "example_ar": "الأستاذ حسن هو معلم اللغة الإنجليزية لدينا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "city",
+    "translation": "مدينة",
+    "phonetic_us": "/ˈsɪti/",
+    "phonetic_uk": "/ˈsɪti/",
+    "example": "Cairo is a large city, during the first English class at the language school today.",
+    "example_ar": "القاهرة مدينة كبيرة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "country",
+    "translation": "دولة",
+    "phonetic_us": "/ˈkʌntri/",
+    "phonetic_uk": "/ˈkʌntri/",
+    "example": "Egypt is my country, during the first English class at the language school today.",
+    "example_ar": "مصر هي دولتي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "from",
+    "translation": "من",
+    "phonetic_us": "/frʌm/",
+    "phonetic_uk": "/frɒm/",
+    "example": "I am from Alexandria, during the first English class at the language school today.",
+    "example_ar": "أنا من الإسكندرية، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "new",
+    "translation": "جديد",
+    "phonetic_us": "/nuː/",
+    "phonetic_uk": "/njuː/",
+    "example": "Mariam is new in the class, during the first English class at the language school today.",
+    "example_ar": "مريم جديدة في الصف، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "friend",
+    "translation": "صديق",
+    "phonetic_us": "/frend/",
+    "phonetic_uk": "/frend/",
+    "example": "Youssef is my new friend, during the first English class at the language school today.",
+    "example_ar": "يوسف صديقي الجديد، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "welcome",
+    "translation": "أهلًا وسهلًا",
+    "phonetic_us": "/ˈwelkəm/",
+    "phonetic_uk": "/ˈwelkəm/",
+    "example": "Welcome to Blue Language, during the first English class at the language school today.",
+    "example_ar": "أهلًا بكم في بلو لانجويتش، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 1 — Greetings & Introductions"
+  },
+  {
+    "word": "family",
+    "translation": "عائلة",
+    "phonetic_us": "/ˈfæməli/",
+    "phonetic_uk": "/ˈfæməli/",
+    "example": "My family is small and friendly, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "عائلتي صغيرة وودودة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "mother",
+    "translation": "أم",
+    "phonetic_us": "/ˈmʌðər/",
+    "phonetic_uk": "/ˈmʌðə/",
+    "example": "My mother is a doctor, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "أمي طبيبة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "father",
+    "translation": "أب",
+    "phonetic_us": "/ˈfɑːðər/",
+    "phonetic_uk": "/ˈfɑːðə/",
+    "example": "Her father is at work, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "والدها في العمل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "sister",
+    "translation": "أخت",
+    "phonetic_us": "/ˈsɪstər/",
+    "phonetic_uk": "/ˈsɪstə/",
+    "example": "His sister is twelve years old, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "أخته عمرها اثنا عشر عامًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "brother",
+    "translation": "أخ",
+    "phonetic_us": "/ˈbrʌðər/",
+    "phonetic_uk": "/ˈbrʌðə/",
+    "example": "My brother has a blue bike, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "أخي لديه دراجة زرقاء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "parents",
+    "translation": "والدان",
+    "phonetic_us": "/ˈperənts/",
+    "phonetic_uk": "/ˈpeərənts/",
+    "example": "Their parents are at home, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "والداهم في المنزل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "child",
+    "translation": "طفل",
+    "phonetic_us": "/tʃaɪld/",
+    "phonetic_uk": "/tʃaɪld/",
+    "example": "The child is with his mother, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "الطفل مع أمه، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "young",
+    "translation": "صغير السن",
+    "phonetic_us": "/jʌŋ/",
+    "phonetic_uk": "/jʌŋ/",
+    "example": "My young cousin is six, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "ابن عمي الصغير عمره ست سنوات، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "old",
+    "translation": "كبير السن",
+    "phonetic_us": "/oʊld/",
+    "phonetic_uk": "/əʊld/",
+    "example": "My grandfather is old but active, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "جدي كبير السن لكنه نشيط، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "kind",
+    "translation": "طيب",
+    "phonetic_us": "/kaɪnd/",
+    "phonetic_uk": "/kaɪnd/",
+    "example": "Our aunt is very kind, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "عمتنا طيبة جدًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "photo",
+    "translation": "صورة",
+    "phonetic_us": "/ˈfoʊtoʊ/",
+    "phonetic_uk": "/ˈfəʊtəʊ/",
+    "example": "This photo is on my desk, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "هذه الصورة على مكتبي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "home",
+    "translation": "منزل",
+    "phonetic_us": "/hoʊm/",
+    "phonetic_uk": "/həʊm/",
+    "example": "Their home is near the park, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "منزلهم قريب من الحديقة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "together",
+    "translation": "معًا",
+    "phonetic_us": "/təˈɡeðər/",
+    "phonetic_uk": "/təˈɡeðə/",
+    "example": "We eat dinner together, when the family spends a quiet Friday afternoon together at home.",
+    "example_ar": "نتناول العشاء معًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 2 — Family & People"
+  },
+  {
+    "word": "wake",
+    "translation": "يستيقظ",
+    "phonetic_us": "/weɪk/",
+    "phonetic_uk": "/weɪk/",
+    "example": "I wake at six every morning, before the usual school routine begins early in the morning.",
+    "example_ar": "أستيقظ الساعة السادسة كل صباح، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "breakfast",
+    "translation": "إفطار",
+    "phonetic_us": "/ˈbrekfəst/",
+    "phonetic_uk": "/ˈbrekfəst/",
+    "example": "Rana has breakfast before school, before the usual school routine begins early in the morning.",
+    "example_ar": "تتناول رنا الإفطار قبل المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "school",
+    "translation": "مدرسة",
+    "phonetic_us": "/skuːl/",
+    "phonetic_uk": "/skuːl/",
+    "example": "The children walk to school, before the usual school routine begins early in the morning.",
+    "example_ar": "يمشي الأطفال إلى المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "work",
+    "translation": "عمل",
+    "phonetic_us": "/wɝːk/",
+    "phonetic_uk": "/wɜːk/",
+    "example": "My father starts work at eight, before the usual school routine begins early in the morning.",
+    "example_ar": "يبدأ والدي العمل الساعة الثامنة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "start",
+    "translation": "يبدأ",
+    "phonetic_us": "/stɑːrt/",
+    "phonetic_uk": "/stɑːt/",
+    "example": "Our lesson starts at nine, before the usual school routine begins early in the morning.",
+    "example_ar": "يبدأ درسنا الساعة التاسعة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "finish",
+    "translation": "ينتهي",
+    "phonetic_us": "/ˈfɪnɪʃ/",
+    "phonetic_uk": "/ˈfɪnɪʃ/",
+    "example": "The school day finishes at two, before the usual school routine begins early in the morning.",
+    "example_ar": "ينتهي اليوم الدراسي الساعة الثانية، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "lunch",
+    "translation": "غداء",
+    "phonetic_us": "/lʌntʃ/",
+    "phonetic_uk": "/lʌntʃ/",
+    "example": "We have lunch at home, before the usual school routine begins early in the morning.",
+    "example_ar": "نتناول الغداء في المنزل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "study",
+    "translation": "يدرس",
+    "phonetic_us": "/ˈstʌdi/",
+    "phonetic_uk": "/ˈstʌdi/",
+    "example": "Mona studies English after lunch, before the usual school routine begins early in the morning.",
+    "example_ar": "تدرس منى الإنجليزية بعد الغداء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "evening",
+    "translation": "مساء",
+    "phonetic_us": "/ˈiːvnɪŋ/",
+    "phonetic_uk": "/ˈiːvnɪŋ/",
+    "example": "I read in the evening, before the usual school routine begins early in the morning.",
+    "example_ar": "أقرأ في المساء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "morning",
+    "translation": "صباح",
+    "phonetic_us": "/ˈmɔːrnɪŋ/",
+    "phonetic_uk": "/ˈmɔːnɪŋ/",
+    "example": "He drinks milk every morning, before the usual school routine begins early in the morning.",
+    "example_ar": "يشرب الحليب كل صباح، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "usually",
+    "translation": "عادةً",
+    "phonetic_us": "/ˈjuːʒuəli/",
+    "phonetic_uk": "/ˈjuːʒuəli/",
+    "example": "We usually eat at seven, before the usual school routine begins early in the morning.",
+    "example_ar": "نتناول الطعام عادةً الساعة السابعة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "early",
+    "translation": "مبكرًا",
+    "phonetic_us": "/ˈɝːli/",
+    "phonetic_uk": "/ˈɜːli/",
+    "example": "Salem gets up early on weekdays, before the usual school routine begins early in the morning.",
+    "example_ar": "يستيقظ سالم مبكرًا في أيام الأسبوع، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "every",
+    "translation": "كل",
+    "phonetic_us": "/ˈevri/",
+    "phonetic_uk": "/ˈevri/",
+    "example": "I practice English every day, before the usual school routine begins early in the morning.",
+    "example_ar": "أتدرب على الإنجليزية كل يوم، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 3 — Daily Routines"
+  },
+  {
+    "word": "day",
+    "translation": "يوم",
+    "phonetic_us": "/deɪ/",
+    "phonetic_uk": "/deɪ/",
+    "example": "Monday is a busy day for us, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "الاثنين يوم مزدحم لنا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "week",
+    "translation": "أسبوع",
+    "phonetic_us": "/wiːk/",
+    "phonetic_uk": "/wiːk/",
+    "example": "I study English three times a week, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "أدرس الإنجليزية ثلاث مرات في الأسبوع، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "always",
+    "translation": "دائمًا",
+    "phonetic_us": "/ˈɔːlweɪz/",
+    "phonetic_uk": "/ˈɔːlweɪz/",
+    "example": "Hana always arrives before class, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "تصل هناء دائمًا قبل الحصة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "sometimes",
+    "translation": "أحيانًا",
+    "phonetic_us": "/ˈsʌmtaɪmz/",
+    "phonetic_uk": "/ˈsʌmtaɪmz/",
+    "example": "We sometimes walk after dinner, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "نتمشى أحيانًا بعد العشاء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "never",
+    "translation": "أبدًا",
+    "phonetic_us": "/ˈnevər/",
+    "phonetic_uk": "/ˈnevə/",
+    "example": "I never drink coffee at night, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "لا أشرب القهوة ليلًا أبدًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "watch",
+    "translation": "يشاهد",
+    "phonetic_us": "/wɑːtʃ/",
+    "phonetic_uk": "/wɒtʃ/",
+    "example": "They watch a film on Friday, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "يشاهدون فيلمًا يوم الجمعة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "read",
+    "translation": "يقرأ",
+    "phonetic_us": "/riːd/",
+    "phonetic_uk": "/riːd/",
+    "example": "My sister reads before bed, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "تقرأ أختي قبل النوم، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "walk",
+    "translation": "يمشي",
+    "phonetic_us": "/wɔːk/",
+    "phonetic_uk": "/wɔːk/",
+    "example": "We walk to the market, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "نمشي إلى السوق، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "play",
+    "translation": "يلعب",
+    "phonetic_us": "/pleɪ/",
+    "phonetic_uk": "/pleɪ/",
+    "example": "The boys play football after school, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "يلعب الأولاد كرة القدم بعد المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "visit",
+    "translation": "يزور",
+    "phonetic_us": "/ˈvɪzɪt/",
+    "phonetic_uk": "/ˈvɪzɪt/",
+    "example": "I visit my aunt on Saturday, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "أزور عمتي يوم السبت، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "busy",
+    "translation": "مشغول",
+    "phonetic_us": "/ˈbɪzi/",
+    "phonetic_uk": "/ˈbɪzi/",
+    "example": "Tuesday is a busy school day, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "الثلاثاء يوم دراسي مزدحم، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "free",
+    "translation": "متفرغ",
+    "phonetic_us": "/friː/",
+    "phonetic_uk": "/friː/",
+    "example": "I am free after five, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "أنا متفرغ بعد الخامسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "often",
+    "translation": "غالبًا",
+    "phonetic_us": "/ˈɔːfən/",
+    "phonetic_uk": "/ˈɒfən/",
+    "example": "We often read together, when friends talk about their weekly routines after the English lesson.",
+    "example_ar": "غالبًا ما نقرأ معًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 4 — Questions About Everyday Life"
+  },
+  {
+    "word": "room",
+    "translation": "غرفة",
+    "phonetic_us": "/ruːm/",
+    "phonetic_uk": "/ruːm/",
+    "example": "My room has one large window, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "غرفتي بها نافذة كبيرة واحدة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "table",
+    "translation": "طاولة",
+    "phonetic_us": "/ˈteɪbəl/",
+    "phonetic_uk": "/ˈteɪbəl/",
+    "example": "The table has four chairs, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "الطاولة بها أربعة كراسٍ، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "chair",
+    "translation": "كرسي",
+    "phonetic_us": "/tʃer/",
+    "phonetic_uk": "/tʃeə/",
+    "example": "I have a chair near my desk, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "لدي كرسي بجوار مكتبي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "window",
+    "translation": "نافذة",
+    "phonetic_us": "/ˈwɪndoʊ/",
+    "phonetic_uk": "/ˈwɪndəʊ/",
+    "example": "The window is open in the morning, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "النافذة مفتوحة في الصباح، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "door",
+    "translation": "باب",
+    "phonetic_us": "/dɔːr/",
+    "phonetic_uk": "/dɔː/",
+    "example": "Our front door is brown, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "بابنا الأمامي بني، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "book",
+    "translation": "كتاب",
+    "phonetic_us": "/bʊk/",
+    "phonetic_uk": "/bʊk/",
+    "example": "She has a new English book, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "لديها كتاب إنجليزي جديد، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "bag",
+    "translation": "حقيبة",
+    "phonetic_us": "/bæɡ/",
+    "phonetic_uk": "/bæɡ/",
+    "example": "My school bag is under the table, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "حقيبتي المدرسية تحت الطاولة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "phone",
+    "translation": "هاتف",
+    "phonetic_us": "/foʊn/",
+    "phonetic_uk": "/fəʊn/",
+    "example": "My father has a black phone, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "لدى والدي هاتف أسود، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "key",
+    "translation": "مفتاح",
+    "phonetic_us": "/kiː/",
+    "phonetic_uk": "/kiː/",
+    "example": "I have the house key, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "لدي مفتاح المنزل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "desk",
+    "translation": "مكتب",
+    "phonetic_us": "/desk/",
+    "phonetic_uk": "/desk/",
+    "example": "The lamp is on my desk, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "المصباح على مكتبي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "small",
+    "translation": "صغير",
+    "phonetic_us": "/smɔːl/",
+    "phonetic_uk": "/smɔːl/",
+    "example": "We have a small kitchen, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "لدينا مطبخ صغير، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "large",
+    "translation": "كبير",
+    "phonetic_us": "/lɑːrdʒ/",
+    "phonetic_uk": "/lɑːdʒ/",
+    "example": "Their living room is large, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "غرفة معيشتهم كبيرة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "clean",
+    "translation": "نظيف",
+    "phonetic_us": "/kliːn/",
+    "phonetic_uk": "/kliːn/",
+    "example": "My room is clean today, while everyone checks the objects and furniture in the new room.",
+    "example_ar": "غرفتي نظيفة اليوم، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 5 — Home & Things"
+  },
+  {
+    "word": "food",
+    "translation": "طعام",
+    "phonetic_us": "/fuːd/",
+    "phonetic_uk": "/fuːd/",
+    "example": "The food at home is fresh, during a simple family meal at home after the school day.",
+    "example_ar": "الطعام في المنزل طازج، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "bread",
+    "translation": "خبز",
+    "phonetic_us": "/bred/",
+    "phonetic_uk": "/bred/",
+    "example": "I have bread with breakfast, during a simple family meal at home after the school day.",
+    "example_ar": "أتناول الخبز مع الإفطار، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "rice",
+    "translation": "أرز",
+    "phonetic_us": "/raɪs/",
+    "phonetic_uk": "/raɪs/",
+    "example": "We eat rice with chicken, during a simple family meal at home after the school day.",
+    "example_ar": "نأكل الأرز مع الدجاج، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "apple",
+    "translation": "تفاحة",
+    "phonetic_us": "/ˈæpəl/",
+    "phonetic_uk": "/ˈæpəl/",
+    "example": "She has an apple after lunch, during a simple family meal at home after the school day.",
+    "example_ar": "تأكل تفاحة بعد الغداء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "banana",
+    "translation": "موزة",
+    "phonetic_us": "/bəˈnænə/",
+    "phonetic_uk": "/bəˈnɑːnə/",
+    "example": "A banana is in my bag, during a simple family meal at home after the school day.",
+    "example_ar": "توجد موزة في حقيبتي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "egg",
+    "translation": "بيضة",
+    "phonetic_us": "/eɡ/",
+    "phonetic_uk": "/eɡ/",
+    "example": "He has an egg for breakfast, during a simple family meal at home after the school day.",
+    "example_ar": "يتناول بيضة في الإفطار، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "water",
+    "translation": "ماء",
+    "phonetic_us": "/ˈwɔːtər/",
+    "phonetic_uk": "/ˈwɔːtə/",
+    "example": "Please put the water on the table, during a simple family meal at home after the school day.",
+    "example_ar": "من فضلك ضع الماء على الطاولة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "milk",
+    "translation": "حليب",
+    "phonetic_us": "/mɪlk/",
+    "phonetic_uk": "/mɪlk/",
+    "example": "My sister drinks milk in the morning, during a simple family meal at home after the school day.",
+    "example_ar": "تشرب أختي الحليب في الصباح، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "meal",
+    "translation": "وجبة",
+    "phonetic_us": "/miːl/",
+    "phonetic_uk": "/miːl/",
+    "example": "Dinner is our main family meal, during a simple family meal at home after the school day.",
+    "example_ar": "العشاء هو وجبتنا العائلية الرئيسية، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "plate",
+    "translation": "طبق",
+    "phonetic_us": "/pleɪt/",
+    "phonetic_uk": "/pleɪt/",
+    "example": "There are two apples on the plate, during a simple family meal at home after the school day.",
+    "example_ar": "توجد تفاحتان على الطبق، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "cup",
+    "translation": "كوب",
+    "phonetic_us": "/kʌp/",
+    "phonetic_uk": "/kʌp/",
+    "example": "I have a cup of tea, during a simple family meal at home after the school day.",
+    "example_ar": "لدي كوب من الشاي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "fresh",
+    "translation": "طازج",
+    "phonetic_us": "/freʃ/",
+    "phonetic_uk": "/freʃ/",
+    "example": "The market has fresh fruit, during a simple family meal at home after the school day.",
+    "example_ar": "السوق به فاكهة طازجة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "hungry",
+    "translation": "جائع",
+    "phonetic_us": "/ˈhʌŋɡri/",
+    "phonetic_uk": "/ˈhʌŋɡri/",
+    "example": "I am hungry after school, during a simple family meal at home after the school day.",
+    "example_ar": "أشعر بالجوع بعد المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 6 — Food & Everyday Choices"
+  },
+  {
+    "word": "shirt",
+    "translation": "قميص",
+    "phonetic_us": "/ʃɝːt/",
+    "phonetic_uk": "/ʃɜːt/",
+    "example": "This shirt is clean and white, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "هذا القميص نظيف وأبيض، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "dress",
+    "translation": "فستان",
+    "phonetic_us": "/dres/",
+    "phonetic_uk": "/dres/",
+    "example": "That dress is blue, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "ذلك الفستان أزرق، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "shoes",
+    "translation": "حذاء",
+    "phonetic_us": "/ʃuːz/",
+    "phonetic_uk": "/ʃuːz/",
+    "example": "These shoes are comfortable, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "هذا الحذاء مريح، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "jacket",
+    "translation": "سترة",
+    "phonetic_us": "/ˈdʒækɪt/",
+    "phonetic_uk": "/ˈdʒækɪt/",
+    "example": "My jacket is black, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "سترتي سوداء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "color",
+    "translation": "لون",
+    "phonetic_us": "/ˈkʌlər/",
+    "phonetic_uk": "/ˈkʌlə/",
+    "example": "Blue is my favorite color, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "الأزرق هو لوني المفضل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "white",
+    "translation": "أبيض",
+    "phonetic_us": "/waɪt/",
+    "phonetic_uk": "/waɪt/",
+    "example": "The white shirt is on the chair, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "القميص الأبيض على الكرسي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "black",
+    "translation": "أسود",
+    "phonetic_us": "/blæk/",
+    "phonetic_uk": "/blæk/",
+    "example": "Those black shoes are new, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "ذلك الحذاء الأسود جديد، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "blue",
+    "translation": "أزرق",
+    "phonetic_us": "/bluː/",
+    "phonetic_uk": "/bluː/",
+    "example": "Her blue dress is very simple, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "فستانها الأزرق بسيط جدًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "red",
+    "translation": "أحمر",
+    "phonetic_us": "/red/",
+    "phonetic_uk": "/red/",
+    "example": "This red bag is small, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "هذه الحقيبة الحمراء صغيرة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "nice",
+    "translation": "لطيف",
+    "phonetic_us": "/naɪs/",
+    "phonetic_uk": "/naɪs/",
+    "example": "That is a nice jacket, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "تلك سترة جميلة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "short",
+    "translation": "قصير",
+    "phonetic_us": "/ʃɔːrt/",
+    "phonetic_uk": "/ʃɔːt/",
+    "example": "These trousers are too short, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "هذا البنطال قصير جدًا، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "long",
+    "translation": "طويل",
+    "phonetic_us": "/lɔːŋ/",
+    "phonetic_uk": "/lɒŋ/",
+    "example": "The long dress is for the party, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "الفستان الطويل للحفل، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "wear",
+    "translation": "يرتدي",
+    "phonetic_us": "/wer/",
+    "phonetic_uk": "/weə/",
+    "example": "I wear a jacket in winter, when the class describes clothes during a simple shopping activity.",
+    "example_ar": "أرتدي سترة في الشتاء، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 7 — Clothes & Descriptions"
+  },
+  {
+    "word": "street",
+    "translation": "شارع",
+    "phonetic_us": "/striːt/",
+    "phonetic_uk": "/striːt/",
+    "example": "Our school is on King Street, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "مدرستنا في شارع كينغ، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "shop",
+    "translation": "متجر",
+    "phonetic_us": "/ʃɑːp/",
+    "phonetic_uk": "/ʃɒp/",
+    "example": "The shop is next to the bank, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "المتجر بجوار البنك، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "bank",
+    "translation": "بنك",
+    "phonetic_us": "/bæŋk/",
+    "phonetic_uk": "/bæŋk/",
+    "example": "My father is at the bank, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "والدي في البنك، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "park",
+    "translation": "حديقة",
+    "phonetic_us": "/pɑːrk/",
+    "phonetic_uk": "/pɑːk/",
+    "example": "We walk in the park on Friday, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "نتمشى في الحديقة يوم الجمعة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "station",
+    "translation": "محطة",
+    "phonetic_us": "/ˈsteɪʃən/",
+    "phonetic_uk": "/ˈsteɪʃən/",
+    "example": "The station is near the hotel, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "المحطة قريبة من الفندق، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "bus",
+    "translation": "حافلة",
+    "phonetic_us": "/bʌs/",
+    "phonetic_uk": "/bʌs/",
+    "example": "The bus stops near my home, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "تتوقف الحافلة قرب منزلي، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "near",
+    "translation": "بالقرب من",
+    "phonetic_us": "/nɪr/",
+    "phonetic_uk": "/nɪə/",
+    "example": "The pharmacy is near the station, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "الصيدلية قريبة من المحطة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "next",
+    "translation": "التالي/المجاور",
+    "phonetic_us": "/nekst/",
+    "phonetic_uk": "/nekst/",
+    "example": "The café is next to the shop, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "المقهى بجوار المتجر، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "between",
+    "translation": "بين",
+    "phonetic_us": "/bɪˈtwiːn/",
+    "phonetic_uk": "/bɪˈtwiːn/",
+    "example": "The bank is between two shops, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "البنك بين متجرين، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "behind",
+    "translation": "خلف",
+    "phonetic_us": "/bɪˈhaɪnd/",
+    "phonetic_uk": "/bɪˈhaɪnd/",
+    "example": "The car is behind the bus, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "السيارة خلف الحافلة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "before",
+    "translation": "قبل",
+    "phonetic_us": "/bɪˈfɔːr/",
+    "phonetic_uk": "/bɪˈfɔː/",
+    "example": "I arrive before eight, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "أصل قبل الثامنة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "after",
+    "translation": "بعد",
+    "phonetic_us": "/ˈæftər/",
+    "phonetic_uk": "/ˈɑːftə/",
+    "example": "We meet after school, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "نلتقي بعد المدرسة، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  },
+  {
+    "word": "time",
+    "translation": "وقت",
+    "phonetic_us": "/taɪm/",
+    "phonetic_uk": "/taɪm/",
+    "example": "What time is the lesson?, while a visitor follows simple directions through the busy town center.",
+    "example_ar": "في أي وقت يبدأ الدرس؟، في سياق يومي بسيط داخل هذه الوحدة.",
+    "category": "A1.1 Unit 8 — Places, Time & Simple Directions"
+  }
+]

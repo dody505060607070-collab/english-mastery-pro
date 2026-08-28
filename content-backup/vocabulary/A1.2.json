@@ -1,0 +1,938 @@
+[
+  {
+    "word": "hobby",
+    "translation": "هواية",
+    "phonetic_us": "/hˈɑːbi/",
+    "phonetic_uk": "/hˈɒbi/",
+    "example": "The hobby is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «هواية» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "music",
+    "translation": "موسيقى",
+    "phonetic_us": "/mjˈuːzɪk/",
+    "phonetic_uk": "/mjˈuːzɪk/",
+    "example": "The music is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «موسيقى» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "game",
+    "translation": "لعبة",
+    "phonetic_us": "/ɡˈeɪm/",
+    "phonetic_uk": "/ɡˈeɪm/",
+    "example": "The game is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «لعبة» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "football",
+    "translation": "كرة القدم",
+    "phonetic_us": "/fˈʊtbɔːl/",
+    "phonetic_uk": "/fˈʊtbɔːl/",
+    "example": "The football is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «كرة القدم» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "tennis",
+    "translation": "التنس",
+    "phonetic_us": "/tˈɛnᵻs/",
+    "phonetic_uk": "/tˈɛnɪs/",
+    "example": "The tennis is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «التنس» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "paint",
+    "translation": "يرسم بالألوان",
+    "phonetic_us": "/pˈeɪnt/",
+    "phonetic_uk": "/pˈeɪnt/",
+    "example": "Nadia and a classmate paint during the free-time activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Nadia وزميلها فعل «يرسم بالألوان» أثناء نشاط free-time، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "draw",
+    "translation": "يرسم",
+    "phonetic_us": "/dɹˈɔː/",
+    "phonetic_uk": "/dɹˈɔː/",
+    "example": "Nadia and a classmate draw during the free-time activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Nadia وزميلها فعل «يرسم» أثناء نشاط free-time، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "sing",
+    "translation": "يغني",
+    "phonetic_us": "/sˈɪŋ/",
+    "phonetic_uk": "/sˈɪŋ/",
+    "example": "Nadia and a classmate sing during the free-time activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Nadia وزميلها فعل «يغني» أثناء نشاط free-time، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "dance",
+    "translation": "يرقص",
+    "phonetic_us": "/dˈæns/",
+    "phonetic_uk": "/dˈans/",
+    "example": "Nadia and a classmate dance during the free-time activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Nadia وزميلها فعل «يرقص» أثناء نشاط free-time، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "weekend",
+    "translation": "عطلة نهاية الأسبوع",
+    "phonetic_us": "/wˈiːkɛnd/",
+    "phonetic_uk": "/wiːkˈɛnd/",
+    "example": "The weekend is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عطلة نهاية الأسبوع» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "favorite",
+    "translation": "مفضل",
+    "phonetic_us": "/fˈeɪvɹᵻt/",
+    "phonetic_uk": "/fˈeɪvɹɪt/",
+    "example": "The activity is favorite in this free-time example, and Nadia explains the reason to a classmate.",
+    "example_ar": "يكون activity «مفضل» في مثال free-time، وتشرح Nadia السبب لزميلها.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "fun",
+    "translation": "ممتع",
+    "phonetic_us": "/fˈʌn/",
+    "phonetic_uk": "/fˈʌn/",
+    "example": "The activity is fun in this free-time example, and Nadia explains the reason to a classmate.",
+    "example_ar": "يكون activity «ممتع» في مثال free-time، وتشرح Nadia السبب لزميلها.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "activity",
+    "translation": "نشاط",
+    "phonetic_us": "/æktˈɪvɪɾi/",
+    "phonetic_uk": "/aktˈɪvɪti/",
+    "example": "The activity is important in the after-school club, and Nadia talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «نشاط» مهمًا في the after-school club، وتتحدث عنه Nadia مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 1 — Free Time & Likes"
+  },
+  {
+    "word": "classroom",
+    "translation": "فصل دراسي",
+    "phonetic_us": "/klˈæsɹuːm/",
+    "phonetic_uk": "/klˈasɹuːm/",
+    "example": "The classroom is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «فصل دراسي» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "lesson",
+    "translation": "درس",
+    "phonetic_us": "/lˈɛsən/",
+    "phonetic_uk": "/lˈɛsən/",
+    "example": "The lesson is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «درس» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "subject",
+    "translation": "مادة دراسية",
+    "phonetic_us": "/sˈʌbdʒɛkt/",
+    "phonetic_uk": "/sˈʌbdʒɛkt/",
+    "example": "The subject is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مادة دراسية» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "maths",
+    "translation": "الرياضيات",
+    "phonetic_us": "/mˈæθs/",
+    "phonetic_uk": "/mˈaθs/",
+    "example": "The maths is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «الرياضيات» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "science",
+    "translation": "العلوم",
+    "phonetic_us": "/sˈaɪəns/",
+    "phonetic_uk": "/sˈaɪəns/",
+    "example": "The science is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «العلوم» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "history",
+    "translation": "التاريخ",
+    "phonetic_us": "/hˈɪstɚɹi/",
+    "phonetic_uk": "/hˈɪstəɹi/",
+    "example": "The history is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «التاريخ» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "question",
+    "translation": "سؤال",
+    "phonetic_us": "/kwˈɛstʃən/",
+    "phonetic_uk": "/kwˈɛstʃən/",
+    "example": "The question is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سؤال» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "answer",
+    "translation": "إجابة",
+    "phonetic_us": "/ˈænsɚ/",
+    "phonetic_uk": "/ˈansə/",
+    "example": "The answer is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «إجابة» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "homework",
+    "translation": "واجب منزلي",
+    "phonetic_us": "/hˈoʊmwɜːk/",
+    "phonetic_uk": "/hˈəʊmwɜːk/",
+    "example": "The homework is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «واجب منزلي» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "notebook",
+    "translation": "دفتر",
+    "phonetic_us": "/nˈoʊtbʊk/",
+    "phonetic_uk": "/nˈəʊtbʊk/",
+    "example": "The notebook is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «دفتر» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "pencil",
+    "translation": "قلم رصاص",
+    "phonetic_us": "/pˈɛnsəl/",
+    "phonetic_uk": "/pˈɛnsəl/",
+    "example": "The pencil is important in the classroom, and Youssef talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قلم رصاص» مهمًا في the classroom، وتتحدث عنه Youssef مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "difficult",
+    "translation": "صعب",
+    "phonetic_us": "/dˈɪfɪkəlt/",
+    "phonetic_uk": "/dˈɪfɪkəlt/",
+    "example": "The task is difficult in this school example, and Youssef explains the reason to a classmate.",
+    "example_ar": "يكون task «صعب» في مثال school، وتشرح Youssef السبب لزميلها.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "easy",
+    "translation": "سهل",
+    "phonetic_us": "/ˈiːzi/",
+    "phonetic_uk": "/ˈiːzi/",
+    "example": "The task is easy in this school example, and Youssef explains the reason to a classmate.",
+    "example_ar": "يكون task «سهل» في مثال school، وتشرح Youssef السبب لزميلها.",
+    "category": "A1.2 Unit 2 — School & Study"
+  },
+  {
+    "word": "store",
+    "translation": "متجر",
+    "phonetic_us": "/stˈoːɹ/",
+    "phonetic_uk": "/stˈɔː/",
+    "example": "The store is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «متجر» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "price",
+    "translation": "سعر",
+    "phonetic_us": "/pɹˈaɪs/",
+    "phonetic_uk": "/pɹˈaɪs/",
+    "example": "The price is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سعر» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "pound",
+    "translation": "جنيه",
+    "phonetic_us": "/pˈaʊnd/",
+    "phonetic_uk": "/pˈaʊnd/",
+    "example": "The pound is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «جنيه» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "cheap",
+    "translation": "رخيص",
+    "phonetic_us": "/tʃˈiːp/",
+    "phonetic_uk": "/tʃˈiːp/",
+    "example": "The item is cheap in this shopping example, and Hana explains the reason to a classmate.",
+    "example_ar": "يكون item «رخيص» في مثال shopping، وتشرح Hana السبب لزميلها.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "expensive",
+    "translation": "غالي",
+    "phonetic_us": "/ɛkspˈɛnsɪv/",
+    "phonetic_uk": "/ɛkspˈɛnsɪv/",
+    "example": "The item is expensive in this shopping example, and Hana explains the reason to a classmate.",
+    "example_ar": "يكون item «غالي» في مثال shopping، وتشرح Hana السبب لزميلها.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "size",
+    "translation": "مقاس",
+    "phonetic_us": "/sˈaɪz/",
+    "phonetic_uk": "/sˈaɪz/",
+    "example": "The size is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مقاس» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "tiny",
+    "translation": "صغير جدًا",
+    "phonetic_us": "/tˈaɪni/",
+    "phonetic_uk": "/tˈaɪni/",
+    "example": "The item is tiny in this shopping example, and Hana explains the reason to a classmate.",
+    "example_ar": "يكون item «صغير جدًا» في مثال shopping، وتشرح Hana السبب لزميلها.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "medium",
+    "translation": "متوسط",
+    "phonetic_us": "/mˈiːdiəm/",
+    "phonetic_uk": "/mˈiːdiəm/",
+    "example": "The item is medium in this shopping example, and Hana explains the reason to a classmate.",
+    "example_ar": "يكون item «متوسط» في مثال shopping، وتشرح Hana السبب لزميلها.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "big",
+    "translation": "كبير",
+    "phonetic_us": "/bˈɪɡ/",
+    "phonetic_uk": "/bˈɪɡ/",
+    "example": "The item is big in this shopping example, and Hana explains the reason to a classmate.",
+    "example_ar": "يكون item «كبير» في مثال shopping، وتشرح Hana السبب لزميلها.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "buy",
+    "translation": "يشتري",
+    "phonetic_us": "/bˈaɪ/",
+    "phonetic_uk": "/bˈaɪ/",
+    "example": "Hana and a classmate buy during the shopping activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hana وزميلها فعل «يشتري» أثناء نشاط shopping، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "sell",
+    "translation": "يبيع",
+    "phonetic_us": "/sˈɛl/",
+    "phonetic_uk": "/sˈɛl/",
+    "example": "Hana and a classmate sell during the shopping activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Hana وزميلها فعل «يبيع» أثناء نشاط shopping، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "cash",
+    "translation": "نقدًا",
+    "phonetic_us": "/kˈæʃ/",
+    "phonetic_uk": "/kˈaʃ/",
+    "example": "The cash is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «نقدًا» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "receipt",
+    "translation": "إيصال",
+    "phonetic_us": "/ɹɪsˈiːt/",
+    "phonetic_uk": "/ɹɪsˈiːt/",
+    "example": "The receipt is important in the clothes shop, and Hana talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «إيصال» مهمًا في the clothes shop، وتتحدث عنه Hana مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 3 — Shopping & Prices"
+  },
+  {
+    "word": "ATM",
+    "translation": "ماكينة صراف آلي",
+    "phonetic_us": "/ˌeɪtˌiːˈɛm/",
+    "phonetic_uk": "/ˌeɪtˌiːˈɛm/",
+    "example": "The ATM is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ماكينة صراف آلي» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "pharmacy",
+    "translation": "صيدلية",
+    "phonetic_us": "/fˈɑːɹməsi/",
+    "phonetic_uk": "/fˈɑːməsi/",
+    "example": "The pharmacy is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «صيدلية» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "hospital",
+    "translation": "مستشفى",
+    "phonetic_us": "/hˈɑːspɪɾəl/",
+    "phonetic_uk": "/hˈɒspɪtəl/",
+    "example": "The hospital is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مستشفى» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "market",
+    "translation": "سوق",
+    "phonetic_us": "/mˈɑːɹkɪt/",
+    "phonetic_uk": "/mˈɑːkɪt/",
+    "example": "The market is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سوق» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "library",
+    "translation": "مكتبة",
+    "phonetic_us": "/lˈaɪbɹɛɹi/",
+    "phonetic_uk": "/lˈaɪbɹəɹi/",
+    "example": "The library is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مكتبة» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "square",
+    "translation": "ميدان",
+    "phonetic_us": "/skwˈɛɹ/",
+    "phonetic_uk": "/skwˈeə/",
+    "example": "The square is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ميدان» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "museum",
+    "translation": "متحف",
+    "phonetic_us": "/mjuːzˈiəm/",
+    "phonetic_uk": "/mjuːzˈiəm/",
+    "example": "The museum is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «متحف» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "restaurant",
+    "translation": "مطعم",
+    "phonetic_us": "/ɹˈɛstɹɑːnt/",
+    "phonetic_uk": "/ɹˈɛstɹɒnt/",
+    "example": "The restaurant is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «مطعم» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "road",
+    "translation": "طريق",
+    "phonetic_us": "/ɹˈoʊd/",
+    "phonetic_uk": "/ɹˈəʊd/",
+    "example": "The road is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «طريق» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "corner",
+    "translation": "ناصية",
+    "phonetic_us": "/kˈɔːɹnɚ/",
+    "phonetic_uk": "/kˈɔːnə/",
+    "example": "The corner is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ناصية» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "opposite",
+    "translation": "مقابل",
+    "phonetic_us": "/ˈɑːpəsˌɪt/",
+    "phonetic_uk": "/ˈɒpəsˌɪt/",
+    "example": "Samir uses opposite naturally in the town lesson, and the surrounding words make its meaning clear.",
+    "example_ar": "تستخدم Samir «مقابل» بصورة طبيعية في درس town، وتوضح الكلمات المحيطة معناه.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "left",
+    "translation": "يسار",
+    "phonetic_us": "/lˈɛft/",
+    "phonetic_uk": "/lˈɛft/",
+    "example": "The left is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «يسار» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "right",
+    "translation": "يمين",
+    "phonetic_us": "/ɹˈaɪt/",
+    "phonetic_uk": "/ɹˈaɪt/",
+    "example": "The right is important in the town center, and Samir talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «يمين» مهمًا في the town center، وتتحدث عنه Samir مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 4 — Town & Services"
+  },
+  {
+    "word": "weather",
+    "translation": "الطقس",
+    "phonetic_us": "/wˈɛðɚ/",
+    "phonetic_uk": "/wˈɛðə/",
+    "example": "The weather is important in the weather club, and Reem talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «الطقس» مهمًا في the weather club، وتتحدث عنه Reem مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "sunny",
+    "translation": "مشمس",
+    "phonetic_us": "/sˈʌni/",
+    "phonetic_uk": "/sˈʌni/",
+    "example": "The day is sunny in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «مشمس» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "cloudy",
+    "translation": "غائم",
+    "phonetic_us": "/klˈaʊdi/",
+    "phonetic_uk": "/klˈaʊdi/",
+    "example": "The day is cloudy in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «غائم» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "windy",
+    "translation": "عاصف",
+    "phonetic_us": "/wˈɪndi/",
+    "phonetic_uk": "/wˈɪndi/",
+    "example": "The day is windy in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «عاصف» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "rainy",
+    "translation": "ممطر",
+    "phonetic_us": "/ɹˈeɪni/",
+    "phonetic_uk": "/ɹˈeɪni/",
+    "example": "The day is rainy in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «ممطر» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "hot",
+    "translation": "حار",
+    "phonetic_us": "/hˈɑːt/",
+    "phonetic_uk": "/hˈɒt/",
+    "example": "The day is hot in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «حار» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "cold",
+    "translation": "بارد",
+    "phonetic_us": "/kˈoʊld/",
+    "phonetic_uk": "/kˈəʊld/",
+    "example": "The day is cold in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «بارد» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "warm",
+    "translation": "دافئ",
+    "phonetic_us": "/wˈɔːɹm/",
+    "phonetic_uk": "/wˈɔːm/",
+    "example": "The day is warm in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «دافئ» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "cool",
+    "translation": "معتدل البرودة",
+    "phonetic_us": "/kˈuːl/",
+    "phonetic_uk": "/kˈuːl/",
+    "example": "The day is cool in this weather example, and Reem explains the reason to a classmate.",
+    "example_ar": "يكون day «معتدل البرودة» في مثال weather، وتشرح Reem السبب لزميلها.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "season",
+    "translation": "فصل من فصول السنة",
+    "phonetic_us": "/sˈiːzən/",
+    "phonetic_uk": "/sˈiːzən/",
+    "example": "The season is important in the weather club, and Reem talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «فصل من فصول السنة» مهمًا في the weather club، وتتحدث عنه Reem مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "spring",
+    "translation": "الربيع",
+    "phonetic_us": "/spɹˈɪŋ/",
+    "phonetic_uk": "/spɹˈɪŋ/",
+    "example": "The spring is important in the weather club, and Reem talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «الربيع» مهمًا في the weather club، وتتحدث عنه Reem مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "summer",
+    "translation": "الصيف",
+    "phonetic_us": "/sˈʌmɚ/",
+    "phonetic_uk": "/sˈʌmə/",
+    "example": "The summer is important in the weather club, and Reem talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «الصيف» مهمًا في the weather club، وتتحدث عنه Reem مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "winter",
+    "translation": "الشتاء",
+    "phonetic_us": "/wˈɪntɚ/",
+    "phonetic_uk": "/wˈɪntə/",
+    "example": "The winter is important in the weather club, and Reem talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «الشتاء» مهمًا في the weather club، وتتحدث عنه Reem مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 5 — Weather & Seasons"
+  },
+  {
+    "word": "body",
+    "translation": "جسم",
+    "phonetic_us": "/bˈɑːdi/",
+    "phonetic_uk": "/bˈɒdi/",
+    "example": "The body is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «جسم» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "head",
+    "translation": "رأس",
+    "phonetic_us": "/hˈɛd/",
+    "phonetic_uk": "/hˈɛd/",
+    "example": "The head is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «رأس» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "hand",
+    "translation": "يد",
+    "phonetic_us": "/hˈænd/",
+    "phonetic_uk": "/hˈand/",
+    "example": "The hand is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «يد» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "arm",
+    "translation": "ذراع",
+    "phonetic_us": "/ˈɑːɹm/",
+    "phonetic_uk": "/ˈɑːm/",
+    "example": "The arm is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ذراع» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "leg",
+    "translation": "ساق",
+    "phonetic_us": "/lˈɛɡ/",
+    "phonetic_uk": "/lˈɛɡ/",
+    "example": "The leg is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ساق» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "foot",
+    "translation": "قدم",
+    "phonetic_us": "/fˈʊt/",
+    "phonetic_uk": "/fˈʊt/",
+    "example": "The foot is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قدم» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "eye",
+    "translation": "عين",
+    "phonetic_us": "/ˈaɪ/",
+    "phonetic_uk": "/ˈaɪ/",
+    "example": "The eye is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عين» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "ear",
+    "translation": "أذن",
+    "phonetic_us": "/ˈɪɹ/",
+    "phonetic_uk": "/ˈiə/",
+    "example": "The ear is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «أذن» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "tooth",
+    "translation": "سن",
+    "phonetic_us": "/tˈuːθ/",
+    "phonetic_uk": "/tˈuːθ/",
+    "example": "The tooth is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سن» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "stomach",
+    "translation": "معدة",
+    "phonetic_us": "/stˈʌmək/",
+    "phonetic_uk": "/stˈʌmək/",
+    "example": "The stomach is important in the school clinic, and Mona talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «معدة» مهمًا في the school clinic، وتتحدث عنه Mona مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "tired",
+    "translation": "متعب",
+    "phonetic_us": "/tˈaɪɚd/",
+    "phonetic_uk": "/tˈaɪəd/",
+    "example": "The person is tired in this health example, and Mona explains the reason to a classmate.",
+    "example_ar": "يكون person «متعب» في مثال health، وتشرح Mona السبب لزميلها.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "sick",
+    "translation": "مريض",
+    "phonetic_us": "/sˈɪk/",
+    "phonetic_uk": "/sˈɪk/",
+    "example": "The person is sick in this health example, and Mona explains the reason to a classmate.",
+    "example_ar": "يكون person «مريض» في مثال health، وتشرح Mona السبب لزميلها.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "healthy",
+    "translation": "بصحة جيدة",
+    "phonetic_us": "/hˈɛlθi/",
+    "phonetic_uk": "/hˈɛlθi/",
+    "example": "The person is healthy in this health example, and Mona explains the reason to a classmate.",
+    "example_ar": "يكون person «بصحة جيدة» في مثال health، وتشرح Mona السبب لزميلها.",
+    "category": "A1.2 Unit 6 — Health & Body"
+  },
+  {
+    "word": "tram",
+    "translation": "ترام",
+    "phonetic_us": "/tɹˈæm/",
+    "phonetic_uk": "/tɹˈam/",
+    "example": "The tram is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «ترام» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "train",
+    "translation": "قطار",
+    "phonetic_us": "/tɹˈeɪn/",
+    "phonetic_uk": "/tɹˈeɪn/",
+    "example": "The train is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «قطار» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "car",
+    "translation": "سيارة",
+    "phonetic_us": "/kˈɑːɹ/",
+    "phonetic_uk": "/kˈɑː/",
+    "example": "The car is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سيارة» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "taxi",
+    "translation": "سيارة أجرة",
+    "phonetic_us": "/tˈæksi/",
+    "phonetic_uk": "/tˈaksi/",
+    "example": "The taxi is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سيارة أجرة» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "bicycle",
+    "translation": "دراجة",
+    "phonetic_us": "/bˈaɪsɪkəl/",
+    "phonetic_uk": "/bˈaɪsɪkəl/",
+    "example": "The bicycle is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «دراجة» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "ticket",
+    "translation": "تذكرة",
+    "phonetic_us": "/tˈɪkɪt/",
+    "phonetic_uk": "/tˈɪkɪt/",
+    "example": "The ticket is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «تذكرة» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "journey",
+    "translation": "رحلة",
+    "phonetic_us": "/dʒˈɜːni/",
+    "phonetic_uk": "/dʒˈɜːni/",
+    "example": "The journey is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «رحلة» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "stop",
+    "translation": "موقف",
+    "phonetic_us": "/stˈɑːp/",
+    "phonetic_uk": "/stˈɒp/",
+    "example": "The stop is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «موقف» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "driver",
+    "translation": "سائق",
+    "phonetic_us": "/dɹˈaɪvɚ/",
+    "phonetic_uk": "/dɹˈaɪvə/",
+    "example": "The driver is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «سائق» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "passenger",
+    "translation": "راكب",
+    "phonetic_us": "/pˈæsɪndʒɚ/",
+    "phonetic_uk": "/pˈasɪndʒə/",
+    "example": "The passenger is important in the bus station, and Khaled talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «راكب» مهمًا في the bus station، وتتحدث عنه Khaled مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "arrive",
+    "translation": "يصل",
+    "phonetic_us": "/ɚɹˈaɪv/",
+    "phonetic_uk": "/ɐɹˈaɪv/",
+    "example": "Khaled and a classmate arrive during the transport activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Khaled وزميلها فعل «يصل» أثناء نشاط transport، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "leave",
+    "translation": "يغادر",
+    "phonetic_us": "/lˈiːv/",
+    "phonetic_uk": "/lˈiːv/",
+    "example": "Khaled and a classmate leave during the transport activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Khaled وزميلها فعل «يغادر» أثناء نشاط transport، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "travel",
+    "translation": "يسافر",
+    "phonetic_us": "/tɹˈævəl/",
+    "phonetic_uk": "/tɹˈavəl/",
+    "example": "Khaled and a classmate travel during the transport activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Khaled وزميلها فعل «يسافر» أثناء نشاط transport، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 7 — Transport & Travel Basics"
+  },
+  {
+    "word": "message",
+    "translation": "رسالة",
+    "phonetic_us": "/mˈɛsɪdʒ/",
+    "phonetic_uk": "/mˈɛsɪdʒ/",
+    "example": "The message is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «رسالة» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "mobile",
+    "translation": "هاتف محمول",
+    "phonetic_us": "/mˈoʊbəl/",
+    "phonetic_uk": "/mˈəʊbaɪl/",
+    "example": "The mobile is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «هاتف محمول» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "email",
+    "translation": "بريد إلكتروني",
+    "phonetic_us": "/ˈiːmeɪl/",
+    "phonetic_uk": "/ˈiːmeɪl/",
+    "example": "The email is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «بريد إلكتروني» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "address",
+    "translation": "عنوان",
+    "phonetic_us": "/ɐdɹˈɛs/",
+    "phonetic_uk": "/ɐdɹˈɛs/",
+    "example": "The address is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «عنوان» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "number",
+    "translation": "رقم",
+    "phonetic_us": "/nˈʌmbɚ/",
+    "phonetic_uk": "/nˈʌmbə/",
+    "example": "The number is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «رقم» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "spell",
+    "translation": "يتهجّى",
+    "phonetic_us": "/spˈɛl/",
+    "phonetic_uk": "/spˈɛl/",
+    "example": "Dina and a classmate spell during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يتهجّى» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "repeat",
+    "translation": "يكرر",
+    "phonetic_us": "/ɹɪpˈiːt/",
+    "phonetic_uk": "/ɹɪpˈiːt/",
+    "example": "Dina and a classmate repeat during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يكرر» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "understand",
+    "translation": "يفهم",
+    "phonetic_us": "/ˌʌndɚstˈænd/",
+    "phonetic_uk": "/ˌʌndəstˈand/",
+    "example": "Dina and a classmate understand during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يفهم» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "speak",
+    "translation": "يتحدث",
+    "phonetic_us": "/spˈiːk/",
+    "phonetic_uk": "/spˈiːk/",
+    "example": "Dina and a classmate speak during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يتحدث» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "listen",
+    "translation": "يستمع",
+    "phonetic_us": "/lˈɪsən/",
+    "phonetic_uk": "/lˈɪsən/",
+    "example": "Dina and a classmate listen during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يستمع» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "ask",
+    "translation": "يسأل",
+    "phonetic_us": "/ˈæsk/",
+    "phonetic_uk": "/ˈask/",
+    "example": "Dina and a classmate ask during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يسأل» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "tell",
+    "translation": "يخبر",
+    "phonetic_us": "/tˈɛl/",
+    "phonetic_uk": "/tˈɛl/",
+    "example": "Dina and a classmate tell during the communication activity, and they check the result together afterward.",
+    "example_ar": "تستخدم Dina وزميلها فعل «يخبر» أثناء نشاط communication، ثم يراجعان النتيجة معًا بعد ذلك.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  },
+  {
+    "word": "information",
+    "translation": "معلومات",
+    "phonetic_us": "/ˌɪnfɚmˈeɪʃən/",
+    "phonetic_uk": "/ˌɪnfəmˈeɪʃən/",
+    "example": "The information is important in the language center, and Dina talks about it with a classmate after the activity.",
+    "example_ar": "يُعدّ معنى «معلومات» مهمًا في the language center، وتتحدث عنه Dina مع زميل بعد النشاط.",
+    "category": "A1.2 Unit 8 — Everyday Communication"
+  }
+]
