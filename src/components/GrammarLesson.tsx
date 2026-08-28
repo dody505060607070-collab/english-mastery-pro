@@ -193,7 +193,8 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   }
 
 
-  if (block.kind === "table")
+  if (block.kind === "table") {
+    if (isWordListTable(block.rows)) return <WordListCards rows={block.rows} />;
     return (
       <div className="overflow-x-auto rounded-2xl border border-primary/30 shadow-sm">
         <table className="w-full min-w-[420px] border-collapse text-sm">
@@ -225,6 +226,8 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
         </table>
       </div>
     );
+  }
+
 
   if (block.kind === "examples")
     return (
