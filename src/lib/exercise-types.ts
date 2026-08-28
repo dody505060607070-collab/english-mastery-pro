@@ -16,6 +16,8 @@ export interface Question {
   /** mcq/truefalse/fill: string. multi/order: string[]. */
   answer?: string | string[];
   points?: number;
+  /** Shown after checking, explains why the answer is correct. */
+  explanation?: string;
 }
 
 export type AnswerValue = string | string[] | Record<string, string> | undefined;

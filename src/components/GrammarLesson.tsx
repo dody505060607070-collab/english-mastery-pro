@@ -12,19 +12,70 @@ type Block =
 
 type Section = { title: string; blocks: Block[] };
 
-const TONE = "bg-primary/20 text-primary border-primary/35";
+type Tone = {
+  head: string;
+  ring: string;
+  wash: string;
+  text: string;
+};
 
-const ICONS: { match: RegExp; icon: typeof BookText; tone: string }[] = [
-  { match: /(learn|objective|goal|هدف)/i, icon: Lightbulb, tone: TONE },
-  { match: /(form|structure|rule|قاعدة)/i, icon: Table2, tone: TONE },
-  { match: /(example|أمثلة)/i, icon: Sparkles, tone: TONE },
-  { match: /(mistake|error|أخطاء)/i, icon: AlertTriangle, tone: TONE },
-  { match: /(practice|drill|exercise|تدريب)/i, icon: ListChecks, tone: TONE },
+const TONES: Record<string, Tone> = {
+  primary: {
+    head: "bg-primary/15 border-primary/30",
+    ring: "border-primary/30",
+    wash: "from-primary/[0.10]",
+    text: "text-primary",
+  },
+  amber: {
+    head: "bg-amber-500/15 border-amber-500/30",
+    ring: "border-amber-500/30",
+    wash: "from-amber-500/[0.10]",
+    text: "text-amber-600",
+  },
+  sky: {
+    head: "bg-sky-500/15 border-sky-500/30",
+    ring: "border-sky-500/30",
+    wash: "from-sky-500/[0.10]",
+    text: "text-sky-600",
+  },
+  emerald: {
+    head: "bg-emerald-500/15 border-emerald-500/30",
+    ring: "border-emerald-500/30",
+    wash: "from-emerald-500/[0.10]",
+    text: "text-emerald-600",
+  },
+  rose: {
+    head: "bg-rose-500/15 border-rose-500/30",
+    ring: "border-rose-500/30",
+    wash: "from-rose-500/[0.10]",
+    text: "text-rose-600",
+  },
+  violet: {
+    head: "bg-violet-500/15 border-violet-500/30",
+    ring: "border-violet-500/30",
+    wash: "from-violet-500/[0.10]",
+    text: "text-violet-600",
+  },
+};
+
+const ICONS: { match: RegExp; icon: typeof BookText; tone: keyof typeof TONES }[] = [
+  { match: /(learn|objective|goal|why|important|هدف|لماذا|قبل)/i, icon: Lightbulb, tone: "amber" },
+  { match: /(form|structure|rule|table|قاعدة|الصيغة|التكوين)/i, icon: Table2, tone: "sky" },
+  { match: /(example|أمثلة|نموذج)/i, icon: Sparkles, tone: "emerald" },
+  { match: /(mistake|error|avoid|أخطاء|تجنب)/i, icon: AlertTriangle, tone: "rose" },
+  { match: /(practice|drill|exercise|task|question|تدريب|أسئلة|مهام|تمرين)/i, icon: ListChecks, tone: "violet" },
 ];
 
 function sectionStyle(title: string) {
   const hit = ICONS.find((i) => i.match.test(title));
-  return hit ?? { icon: BookText, tone: TONE, match: /./ };
+  return { icon: hit?.icon ?? BookText, tone: TONES[hit?.tone ?? "primary"]! };
+}
+
+/** True when the text is mainly Arabic, so it should be read right-to-left. */
+export function isRtlText(text: string) {
+  const ar = (text.match(/[\u0600-\u06FF]/g) ?? []).length;
+  const en = (text.match(/[A-Za-z]/g) ?? []).length;
+  return ar > en;
 }
 
 /** Parses plain / lightly-marked lesson text into readable sections. */
@@ -99,24 +150,41 @@ export function parseGrammar(body: string): Section[] {
   return sections.filter((s) => s.title || s.blocks.length);
 }
 
-function BlockView({ block }: { block: Block }) {
+function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   if (block.kind === "para")
-    return <InteractiveText text={block.text} className="text-[15px] leading-8 text-foreground/90" />;
+    return (
+      <div dir={isRtlText(block.text) ? "rtl" : "ltr"} className={isRtlText(block.text) ? "text-right" : "text-left"}>
+        <InteractiveText text={block.text} className="text-[15.5px] leading-9 text-foreground/90" />
+      </div>
+    );
 
   if (block.kind === "bullets")
     return (
       <ul className="grid gap-2 sm:grid-cols-2">
-        {block.items.map((it, i) => (
-          <li
-            key={i}
-            className="flex gap-2.5 rounded-xl border border-primary/25 bg-primary/[0.10] px-3 py-2 text-sm leading-7"
-          >
-            <span className="mt-2 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/25 text-[10px] font-black text-primary">
-              {i + 1}
-            </span>
-            <InteractiveText text={it} className="text-sm text-foreground/90" />
-          </li>
-        ))}
+        {block.items.map((it, i) => {
+          const rtl = isRtlText(it);
+          return (
+            <li
+              key={i}
+              dir={rtl ? "rtl" : "ltr"}
+              className={cn(
+                "flex gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7 shadow-sm",
+                tone.ring,
+                rtl ? "text-right" : "text-left",
+              )}
+            >
+              <span
+                className={cn(
+                  "mt-1.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-muted text-[10px] font-black",
+                  tone.text,
+                )}
+              >
+                {i + 1}
+              </span>
+              <InteractiveText text={it} className="text-sm leading-7 text-foreground/90" />
+            </li>
+          );
+        })}
       </ul>
     );
 
@@ -207,25 +275,39 @@ export function GrammarLesson({ body }: { body: string }) {
       {sections.map((s, i) => {
         const style = sectionStyle(s.title);
         const Icon = style.icon;
+        const tone = style.tone;
+        const rtlTitle = isRtlText(s.title);
         return (
           <section
             key={i}
-            className="overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/[0.15] to-transparent shadow-sm transition-shadow hover:shadow-md"
+            className={cn(
+              "overflow-hidden rounded-3xl border bg-gradient-to-b to-transparent shadow-sm transition-shadow hover:shadow-md",
+              tone.ring,
+              tone.wash,
+            )}
           >
             {s.title && (
-              <header className="flex items-center gap-2.5 border-b border-primary/30 bg-primary/20 px-4 py-3">
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-card text-primary shadow-sm">
-                  <Icon className="h-4 w-4" />
+              <header
+                dir={rtlTitle ? "rtl" : "ltr"}
+                className={cn("flex items-center gap-2.5 border-b px-4 py-3", tone.head)}
+              >
+                <span className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-card shadow-sm", tone.text)}>
+                  <Icon className="h-4.5 w-4.5" />
                 </span>
-                <h3 className="truncate text-base font-black tracking-tight text-primary">{s.title}</h3>
-                <span className="ml-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black text-primary/70">
+                <h3 className={cn("truncate text-base font-black tracking-tight", tone.text)}>{s.title}</h3>
+                <span
+                  className={cn(
+                    "ms-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black opacity-80",
+                    tone.text,
+                  )}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </header>
             )}
             <div className="space-y-3.5 bg-card/80 p-4 md:p-5">
               {s.blocks.map((b, bi) => (
-                <BlockView key={bi} block={b} />
+                <BlockView key={bi} block={b} tone={tone} />
               ))}
             </div>
           </section>

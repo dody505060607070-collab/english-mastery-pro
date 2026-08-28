@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -153,40 +153,77 @@ export function QuestionRunner({
           <Card
             key={q.id}
             className={cn(
-              "border transition",
-              res?.correct === true && "border-emerald-500/50 bg-emerald-500/5",
-              res?.correct === false && "border-destructive/50 bg-destructive/5",
-              res?.correct === null && "border-amber-500/50 bg-amber-500/5",
+              "overflow-hidden border-2 transition",
+              res === undefined && "border-border/60",
+              res?.correct === true && "border-emerald-500/50 bg-emerald-500/[0.06]",
+              res?.correct === false && "border-destructive/50 bg-destructive/[0.06]",
+              res?.correct === null && "border-amber-500/50 bg-amber-500/[0.06]",
             )}
           >
             <CardContent className="p-4 space-y-3">
-              <div className="flex items-start gap-2">
-                <Badge variant="secondary" className="shrink-0 font-black">
+              <div className="flex items-start gap-2.5">
+                <span
+                  className={cn(
+                    "grid h-8 w-8 shrink-0 place-items-center rounded-xl text-sm font-black",
+                    res?.correct === true
+                      ? "bg-emerald-500/15 text-emerald-600"
+                      : res?.correct === false
+                        ? "bg-destructive/15 text-destructive"
+                        : res?.correct === null
+                          ? "bg-amber-500/15 text-amber-600"
+                          : "bg-primary/10 text-primary",
+                  )}
+                >
                   {i + 1}
-                </Badge>
-                <p className="font-bold flex-1" dir="auto">
+                </span>
+                <p className="flex-1 text-[15px] font-bold leading-7" dir="auto">
                   {q.prompt}
                 </p>
                 <Badge variant="outline" className="shrink-0 text-[10px]">
                   {q.points ?? 1} pt
                 </Badge>
-                {res?.correct === true && <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />}
-                {res?.correct === false && <XCircle className="h-5 w-5 text-destructive shrink-0" />}
-                {res?.correct === null && <HelpCircle className="h-5 w-5 text-amber-600 shrink-0" />}
+                {res?.correct === true && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />}
+                {res?.correct === false && <XCircle className="h-5 w-5 shrink-0 text-destructive" />}
+                {res?.correct === null && <HelpCircle className="h-5 w-5 shrink-0 text-amber-600" />}
               </div>
 
-              <QuestionInput q={q} value={answers[q.id]} onChange={(v) => set(q.id, v)} locked={locked} />
+              <QuestionInput
+                q={q}
+                value={answers[q.id]}
+                onChange={(v) => set(q.id, v)}
+                locked={locked}
+                revealed={!!res}
+              />
 
               {res && (
-                <div className="rounded-xl bg-muted/50 p-3 text-xs space-y-1" dir="auto">
-                  <p>
-                    <span className="font-black">Your answer: </span>
+                <div className="grid gap-2 sm:grid-cols-2" dir="auto">
+                  <div
+                    className={cn(
+                      "rounded-xl border px-3 py-2 text-xs font-bold",
+                      res.correct === true
+                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700"
+                        : res.correct === false
+                          ? "border-destructive/40 bg-destructive/10 text-destructive"
+                          : "border-amber-500/40 bg-amber-500/10 text-amber-700",
+                    )}
+                  >
+                    <span className="opacity-70">Your answer: </span>
                     {res.yourAnswer}
-                  </p>
-                  <p>
-                    <span className="font-black">Correct answer: </span>
+                  </div>
+                  <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-700">
+                    <span className="opacity-70">Correct answer: </span>
                     {res.correctAnswer}
-                  </p>
+                  </div>
+                </div>
+              )}
+
+              {res && q.explanation && (
+                <div
+                  dir="auto"
+                  className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7"
+                >
+                  <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
+                  <span className="text-foreground/90">{q.explanation}</span>
                 </div>
               )}
             </CardContent>
@@ -209,11 +246,13 @@ function QuestionInput({
   value,
   onChange,
   locked,
+  revealed = false,
 }: {
   q: Question;
   value: AnswerValue;
   onChange: (v: AnswerValue) => void;
   locked: boolean;
+  revealed?: boolean;
 }) {
   const rightOptions = useMemo(
     () => shuffle((q.pairs ?? []).map((p) => p.right)),
@@ -331,6 +370,10 @@ function QuestionInput({
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
+        const ans = q.answer;
+        const isRight = Array.isArray(ans)
+          ? ans.map((a) => String(a).trim().toLowerCase()).includes(opt.trim().toLowerCase())
+          : String(ans ?? "").trim().toLowerCase() === opt.trim().toLowerCase();
         return (
           <button
             key={`${opt}-${i}`}
@@ -342,9 +385,12 @@ function QuestionInput({
                 : onChange(opt)
             }
             className={cn(
-              "flex items-center gap-2 rounded-xl border p-3 text-right transition text-sm font-bold",
-              active ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted/60",
-              locked && "opacity-90 cursor-not-allowed",
+              "flex items-center gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold",
+              !revealed && (active ? "border-primary bg-primary/10 text-primary" : "border-border/70 hover:bg-muted/60"),
+              revealed && isRight && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700",
+              revealed && !isRight && active && "border-destructive/60 bg-destructive/10 text-destructive",
+              revealed && !isRight && !active && "border-border/50 opacity-60",
+              locked && "cursor-not-allowed",
             )}
             dir="auto"
           >
@@ -354,6 +400,8 @@ function QuestionInput({
               </span>
             )}
             <span className="flex-1">{label}</span>
+            {revealed && isRight && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />}
+            {revealed && !isRight && active && <XCircle className="h-4 w-4 shrink-0 text-destructive" />}
           </button>
         );
       })}
