@@ -152,7 +152,76 @@ export function parseGrammar(body: string): Section[] {
   return sections.filter((s) => s.title || s.blocks.length);
 }
 
+/** A vocabulary-style table: word | /phonetic/ | arabic | example sentence */
+function isWordListTable(rows: string[][]) {
+  const body = rows.filter((r) => r.length >= 3);
+  if (body.length < 3) return false;
+  const phon = body.filter((r) => /^\/.+\/$/.test((r[1] ?? "").trim())).length;
+  return phon >= Math.max(2, Math.floor(body.length * 0.5));
+}
+
+const WORD_HUES = [
+  "border-sky-500/40 bg-sky-500/[0.06]",
+  "border-violet-500/40 bg-violet-500/[0.06]",
+  "border-amber-500/45 bg-amber-500/[0.07]",
+  "border-emerald-500/40 bg-emerald-500/[0.06]",
+  "border-pink-500/40 bg-pink-500/[0.06]",
+  "border-teal-500/40 bg-teal-500/[0.06]",
+];
+
+/** Trim an example down to the short clause that contains the word. */
+function shortExample(text: string, word: string, maxWords = 8) {
+  const stem = word.replace(/[^A-Za-z]/g, "").toLowerCase();
+  const parts = text.split(/(?<=[.!?])\s+|,\s+/).filter(Boolean);
+  let pick = parts.find((s) => s.toLowerCase().includes(stem)) ?? parts[0] ?? text;
+  const ws = pick.trim().split(/\s+/);
+  if (ws.length > maxWords) {
+    const at = Math.max(0, ws.findIndex((w) => w.toLowerCase().includes(stem)));
+    const start = Math.max(0, Math.min(at - 3, ws.length - maxWords));
+    pick = (start > 0 ? "… " : "") + ws.slice(start, start + maxWords).join(" ") + " …";
+  }
+  return pick.replace(/\s*[,;:]\s*$/, "").trim();
+}
+
+function WordListCards({ rows }: { rows: string[][] }) {
+  const body = rows.filter((r) => /^\/.+\/$/.test((r[1] ?? "").trim()));
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      {body.map((row, i) => {
+        const [word = "", phonetic = "", arabic = "", example = ""] = row;
+        return (
+          <article
+            key={`${word}-${i}`}
+            dir="ltr"
+            className={cn(
+              "flex h-full flex-col gap-1.5 rounded-2xl border-2 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
+              WORD_HUES[i % WORD_HUES.length],
+            )}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <h4 className="font-serif text-xl font-bold leading-tight">{word}</h4>
+              <SpeakButton text={word} />
+            </div>
+            {phonetic && <p className="font-mono text-xs text-primary">{phonetic}</p>}
+            {arabic && (
+              <p dir="rtl" className="text-right text-sm font-bold text-muted-foreground">
+                {arabic}
+              </p>
+            )}
+            {example && (
+              <p className="mt-auto pt-1 text-[13px] leading-6 text-foreground/85">
+                {shortExample(example, word)}
+              </p>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
 function BlockView({ block, tone }: { block: Block; tone: Tone }) {
+
   if (block.kind === "para")
     return (
       <div dir={isRtlText(block.text) ? "rtl" : "ltr"} className={isRtlText(block.text) ? "text-right" : "text-left"}>
