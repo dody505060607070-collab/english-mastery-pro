@@ -185,8 +185,19 @@ iframe[title*="Lovable"] {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :lang(ar), [dir="rtl"] {
     font-family: 'Cairo', sans-serif;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Fraunces', 'Cairo', Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
   
   .glass {
     background: rgba(255, 255, 255, 0.7);
