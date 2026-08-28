@@ -364,9 +364,11 @@ function QuestionInput({
   const options = q.type === "truefalse" ? ["true", "false"] : (q.options ?? []).filter((o) => o !== "");
   const isMulti = q.type === "multi";
   const selected = isMulti ? (Array.isArray(value) ? value : []) : [];
+  const longOptions = options.some((o) => o.length > 38);
 
   return (
-    <div className="grid gap-2 sm:grid-cols-2">
+    <div className={cn("grid gap-2", longOptions ? "grid-cols-1" : "sm:grid-cols-2")}>
+
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
