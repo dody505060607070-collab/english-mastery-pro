@@ -132,8 +132,6 @@ function StudentViewPage() {
 
                 </div>
 
-
-                </div>
               ))}
             </CardContent>
           </Card>
