@@ -276,6 +276,38 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
     );
   }
 
+  if (block.kind === "steps") {
+    return (
+      <ol className="grid gap-2.5">
+        {block.items.map((it, i) => {
+          const rtl = isRtlText(it);
+          return (
+            <li
+              key={i}
+              dir={rtl ? "rtl" : "ltr"}
+              className={cn(
+                "flex min-w-0 items-start gap-3 rounded-2xl border-2 px-3.5 py-3 shadow-sm transition hover:shadow-md",
+                WORD_HUES[i % WORD_HUES.length],
+                rtl ? "text-right" : "text-left",
+              )}
+            >
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-xl bg-card text-xs font-black text-primary shadow-sm">
+                {i + 1}
+              </span>
+              <InteractiveText
+                text={it}
+                className="min-w-0 flex-1 text-[15px] leading-7 text-foreground/90 break-words"
+              />
+              <span className="shrink-0">
+                <SpeakButton text={it} />
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
+
 
   if (block.kind === "table") {
     if (isWordListTable(block.rows)) return <WordListCards rows={block.rows} />;
