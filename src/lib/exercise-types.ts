@@ -40,6 +40,8 @@ export interface ExerciseData {
 export interface VocabWord {
   word: string;
   translation?: string;
+  phonetic?: string | null;
+  category?: string | null;
   example?: string;
   example_ar?: string;
   image_url?: string | null;
