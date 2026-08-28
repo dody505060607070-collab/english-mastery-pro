@@ -49,14 +49,14 @@ export function VocabularyDeck({
 }
 
 /** Keeps only the short sentence/clause that actually contains the word. */
-export function shortenExample(text: string, word: string, maxWords = 12) {
+export function shortenExample(text: string, word: string, maxWords = 8) {
   const stem = word.replace(/[^A-Za-z]/g, "").toLowerCase();
-  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const sentences = text.split(/(?<=[.!?])\s+|,\s+/).filter(Boolean);
   let pick = sentences.find((s) => s.toLowerCase().includes(stem)) ?? sentences[0] ?? text;
   const words = pick.trim().split(/\s+/);
   if (words.length > maxWords) {
     const at = Math.max(0, words.findIndex((w) => w.toLowerCase().includes(stem)));
-    const start = Math.max(0, Math.min(at - 4, words.length - maxWords));
+    const start = Math.max(0, Math.min(at - 3, words.length - maxWords));
     pick = (start > 0 ? "… " : "") + words.slice(start, start + maxWords).join(" ");
     if (start + maxWords < words.length) pick = pick.replace(/[,;:]?$/, "") + " …";
   }
@@ -196,7 +196,7 @@ function WordCard({
           <span className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Meaning in Arabic</span>
           <div dir="rtl" className="text-right">
             {word.translation && <p className="text-sm font-bold">{word.translation}</p>}
-            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar.split(/\s+/).slice(0, 12).join(" ")}</p>}
+            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar.split(/\s+/).slice(0, 8).join(" ")}</p>}
             {!word.translation && !word.example_ar && (
               <p className="text-[11px] opacity-70">لا يوجد معنى متاح</p>
             )}
