@@ -96,9 +96,9 @@ function StudentViewPage() {
                 <p className="text-sm text-muted-foreground">Students in this level see no units yet.</p>
               )}
               {data.units.map((u) => (
-                <div key={u.id} className="rounded-xl border p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-bold">{u.title}</p>
+                <div key={u.id} className="rounded-2xl border bg-card p-5 shadow-[var(--shadow-soft)]">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <p className="font-display font-black text-base leading-snug">{u.title}</p>
                     <div className="flex items-center gap-2">
                       {!!u.hiddenContents && (
                         <Badge variant="secondary">{u.hiddenContents} hidden</Badge>
@@ -108,7 +108,7 @@ function StudentViewPage() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-2 mt-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-4">
                     {u.contents.map((c) => {
                       const m = contentMeta(c.content_type);
                       const col = contentColor(c.content_type);
@@ -116,12 +116,12 @@ function StudentViewPage() {
                         <span
                           key={c.id}
                           className={cn(
-                            "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold",
+                            "flex items-center gap-2 rounded-xl border-2 px-3.5 py-2.5 text-xs font-bold leading-snug break-words",
                             col.soft,
                           )}
                         >
-                          <m.icon className="h-3.5 w-3.5" />
-                          {c.title}
+                          <m.icon className="h-4 w-4 shrink-0" />
+                          <span className="min-w-0">{c.title}</span>
                         </span>
                       );
                     })}
@@ -131,6 +131,7 @@ function StudentViewPage() {
                   </div>
 
                 </div>
+
               ))}
             </CardContent>
           </Card>
