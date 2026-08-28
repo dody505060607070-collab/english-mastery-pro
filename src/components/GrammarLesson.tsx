@@ -154,13 +154,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   if (block.kind === "para")
     return (
       <div dir={isRtlText(block.text) ? "rtl" : "ltr"} className={isRtlText(block.text) ? "text-right" : "text-left"}>
-        <InteractiveText text={block.text} className="text-[15.5px] leading-9 text-foreground/90" />
+        <InteractiveText text={block.text} className="text-[15px] leading-8 text-foreground/90 break-words" />
       </div>
     );
 
-  if (block.kind === "bullets")
+  if (block.kind === "bullets") {
+    const long = block.items.some((it) => it.length > 70);
     return (
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className={cn("grid gap-2", long ? "grid-cols-1" : "sm:grid-cols-2")}>
         {block.items.map((it, i) => {
           const rtl = isRtlText(it);
           return (
@@ -168,7 +169,7 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
               key={i}
               dir={rtl ? "rtl" : "ltr"}
               className={cn(
-                "flex gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7 shadow-sm",
+                "flex min-w-0 gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7",
                 tone.ring,
                 rtl ? "text-right" : "text-left",
               )}
@@ -181,12 +182,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
               >
                 {i + 1}
               </span>
-              <InteractiveText text={it} className="text-sm leading-7 text-foreground/90" />
+              <InteractiveText text={it} className="min-w-0 text-sm leading-7 text-foreground/90 break-words" />
             </li>
           );
         })}
       </ul>
     );
+  }
+
 
   if (block.kind === "table")
     return (
