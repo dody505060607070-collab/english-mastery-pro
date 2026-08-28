@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, Volume2, ImageOff, Loader2 } from "lucide-react";
+import { Check, Volume2, Languages, Loader2, Tag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { primeAudio, playText, playUrl, useAudioState } from "@/lib/audio";
 import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { SaveWordBookmark } from "@/components/SaveWordBookmark";
-import { HIGHLIGHT_CLASSES, HIGHLIGHT_SWATCHES, setHighlight, useHighlight, type HighlightColor } from "@/lib/highlights";
+import { HIGHLIGHT_CLASSES, useHighlight } from "@/lib/highlights";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
@@ -24,10 +21,12 @@ export function VocabularyDeck({
   onToggle?: (word: string, isLearned: boolean) => void;
 }) {
   const learnedSet = new Set(learned.map((w) => w.toLowerCase()));
-  const progress = words.length ? Math.round((words.filter((w) => learnedSet.has(w.word.toLowerCase())).length / words.length) * 100) : 0;
+  const progress = words.length
+    ? Math.round((words.filter((w) => learnedSet.has(w.word.toLowerCase())).length / words.length) * 100)
+    : 0;
 
   if (!words.length) {
-    return <p className="text-sm font-bold text-muted-foreground text-center py-6">No words yet</p>;
+    return <p className="py-6 text-center text-sm font-bold text-muted-foreground">No words yet</p>;
   }
 
   return (
@@ -40,17 +39,32 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
-          <WordCard
-            key={w.word}
-            word={w}
-            isLearned={learnedSet.has(w.word.toLowerCase())}
-            onToggle={onToggle}
-          />
+          <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
         ))}
       </div>
     </div>
+  );
+}
+
+/** Bolds the target word inside the example sentence, like a printed glossary. */
+function Example({ text, word }: { text: string; word: string }) {
+  const stem = word.replace(/[^A-Za-z]/g, "");
+  if (!stem) return <>{text}</>;
+  const parts = text.split(new RegExp(`(${stem}\\w*)`, "gi"));
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.toLowerCase().startsWith(stem.toLowerCase()) ? (
+          <strong key={i} className="rounded bg-primary/15 px-0.5 font-bold text-foreground">
+            {p}
+          </strong>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
   );
 }
 
@@ -63,7 +77,7 @@ function WordCard({
   isLearned: boolean;
   onToggle?: ((word: string, isLearned: boolean) => void) | undefined;
 }) {
-  const [flipped, setFlipped] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
   const img = useMediaUrl(word.image_url);
   const wordAudio = useMediaUrl(word.word_audio);
   const sentenceAudio = useMediaUrl(word.sentence_audio);
@@ -74,7 +88,6 @@ function WordCard({
   const sentenceOwner = `vocab-sentence:${word.word}`;
 
   function play(owner: string, url: string | null, fallbackText?: string) {
-    // Prime synchronously inside the tap so mobile browsers allow playback.
     primeAudio();
     if (url) {
       void playUrl(url, owner).catch(() => {
@@ -88,121 +101,122 @@ function WordCard({
   const busy = (owner: string) => audio.owner === owner && audio.status === "loading";
   const active = (owner: string) => audio.owner === owner && audio.status === "playing";
 
-
   return (
-    <motion.div whileHover={{ y: -3 }}>
-      <Card
+    <article
+      dir="ltr"
+      className={cn(
+        "relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-card p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
+        isLearned && "border-emerald-500/40",
+      )}
+    >
+      {/* mastered toggle, top-right */}
+      <button
+        type="button"
+        onClick={() => onToggle?.(word.word, !isLearned)}
+        aria-label={isLearned ? `${word.word} mastered` : `Mark ${word.word} as learned`}
+        title={isLearned ? "Mastered" : "Mark as learned"}
         className={cn(
-          "overflow-hidden h-full border-primary/30 bg-gradient-to-b from-primary/[0.14] to-transparent shadow-sm transition-shadow hover:shadow-md",
-          isLearned && "border-emerald-500/50 from-emerald-500/[0.12]",
+          "absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border transition",
+          isLearned
+            ? "border-emerald-500 bg-emerald-500 text-primary-foreground"
+            : "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20",
         )}
       >
-        <CardContent className="p-4 space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/20 grid place-items-center overflow-hidden ring-1 ring-primary/25">
-              {img ? (
-                <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
-              ) : (
-                <ImageOff className="h-5 w-5 text-primary/60" />
-              )}
-            </div>
-            <div className="flex-1 min-w-0" dir="ltr">
-              <div className="flex items-center gap-1.5">
-                <p className={cn("font-black text-lg truncate tracking-tight", highlight && HIGHLIGHT_CLASSES[highlight])}>
-                  {word.word}
-                </p>
+        <Check className="h-4 w-4" />
+      </button>
 
-                <Button
-                  size="icon"
-                  variant={active(wordOwner) ? "default" : "ghost"}
-                  className="h-9 w-9 shrink-0 touch-manipulation"
-                  onClick={() => play(wordOwner, wordAudio, word.word)}
-                  aria-label={`Listen to ${word.word}`}
-                >
-                  {busy(wordOwner) ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
-                  )}
-                </Button>
-                <SaveWordBookmark
-                  word={word.word}
-                  translation={word.translation ?? null}
-                  example={word.example ?? null}
-                  example_ar={word.example_ar ?? null}
-                  className="ml-auto h-9 w-9"
-                />
-              </div>
-              {flipped && word.translation && (
-                <p className="text-sm font-bold text-primary" dir="rtl">
-                  {word.translation}
-                </p>
-              )}
-            </div>
-          </div>
+      <div className="h-10 w-10 overflow-hidden rounded-xl border border-border/70 bg-muted/60">
+        {img ? (
+          <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
+        ) : (
+          <span className="grid h-full w-full place-items-center text-sm font-black text-muted-foreground">
+            {word.word.slice(0, 1).toUpperCase()}
+          </span>
+        )}
+      </div>
 
-          {flipped && word.example && (
-            <div className="rounded-xl bg-muted/50 p-3 space-y-1">
-              <div className="flex items-start gap-2" dir="ltr">
-                <p className="text-sm flex-1">{word.example}</p>
-                <Button
-                  size="icon"
-                  variant={active(sentenceOwner) ? "default" : "ghost"}
-                  className="h-9 w-9 shrink-0 touch-manipulation"
-                  onClick={() => play(sentenceOwner, sentenceAudio, word.example ?? undefined)}
-                  aria-label="Listen to example"
-                >
-                  {busy(sentenceOwner) ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
-                  )}
-                </Button>
-
-              </div>
-              {word.example_ar && <p className="text-xs text-muted-foreground">{word.example_ar}</p>}
-            </div>
+      <div className="space-y-1">
+        <h4
+          className={cn(
+            "font-serif text-2xl font-bold leading-tight tracking-tight",
+            highlight && HIGHLIGHT_CLASSES[highlight],
           )}
+        >
+          {word.word}
+        </h4>
+        {word.phonetic && <p className="text-sm font-medium text-primary">/{word.phonetic.replace(/^\/|\/$/g, "")}/</p>}
+        {word.category && (
+          <p className="flex items-center gap-1.5 pt-1 text-[11px] font-black uppercase tracking-wider text-muted-foreground">
+            <Tag className="h-3 w-3" />
+            {word.category}
+          </p>
+        )}
+      </div>
 
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="flex-1 font-bold" onClick={() => setFlipped((f) => !f)}>
-              {flipped ? "Hide meaning" : "Show meaning"}
-            </Button>
-            <Button
-              size="sm"
-              variant={isLearned ? "secondary" : "default"}
-              className="font-bold"
-              onClick={() => onToggle?.(word.word, !isLearned)}
-            >
-              <Check className="h-4 w-4 ml-1" />
-              {isLearned ? "Mastered" : "Learned it"}
-            </Button>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-muted-foreground">Highlight</span>
-            {(Object.keys(HIGHLIGHT_SWATCHES) as HighlightColor[]).map((c) => (
-              <button
-                key={c}
-                type="button"
-                aria-label={`Highlight ${word.word} ${c}`}
-                onClick={() => setHighlight(word.word, highlight === c ? null : c)}
-                className={cn(
-                  "h-5 w-5 rounded-full ring-2 ring-transparent transition",
-                  HIGHLIGHT_SWATCHES[c],
-                  highlight === c && "ring-foreground/60 scale-110",
-                )}
-              />
-            ))}
-          </div>
+      {word.example && (
+        <p className="text-sm leading-7 text-foreground/85">
+          <Example text={word.example} word={word.word} />
+        </p>
+      )}
 
-
-          {isLearned && (
-            <Badge variant="secondary" className="text-[10px]">
-              Learned
-            </Badge>
+      {showTranslation && (
+        <div dir="rtl" className="space-y-1 rounded-xl bg-muted/50 px-3 py-2 text-right">
+          {word.translation && <p className="text-xs font-bold text-primary">{word.translation}</p>}
+          {word.example_ar && <p className="text-[11px] leading-6 text-muted-foreground">{word.example_ar}</p>}
+          {!word.translation && !word.example_ar && (
+            <p className="text-[11px] text-muted-foreground">لا توجد ترجمة متاحة</p>
           )}
-        </CardContent>
-      </Card>
-    </motion.div>
+        </div>
+      )}
+
+      <div className="mt-auto flex items-center gap-2 pt-1">
+        <Button
+          size="sm"
+          variant="secondary"
+          className="h-8 rounded-lg bg-primary/10 px-3 text-xs font-bold text-primary hover:bg-primary/20"
+          onClick={() => setShowTranslation((v) => !v)}
+        >
+          <Languages className="mr-1 h-3.5 w-3.5" />
+          Translate
+        </Button>
+        <Button
+          size="sm"
+          variant="secondary"
+          className={cn("h-8 rounded-lg px-3 text-xs font-bold", active(wordOwner) && "bg-primary/20 text-primary")}
+          onClick={() => play(wordOwner, wordAudio, word.word)}
+          aria-label={`Listen to ${word.word}`}
+        >
+          {busy(wordOwner) ? (
+            <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Volume2 className="mr-1 h-3.5 w-3.5" />
+          )}
+          Listen
+        </Button>
+        {word.example && (
+          <Button
+            size="sm"
+            variant="ghost"
+            className={cn("h-8 rounded-lg px-2 text-xs font-bold", active(sentenceOwner) && "text-primary")}
+            onClick={() => play(sentenceOwner, sentenceAudio, word.example ?? undefined)}
+            aria-label="Listen to the example sentence"
+          >
+            {busy(sentenceOwner) ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Volume2 className="h-3.5 w-3.5" />
+            )}
+          </Button>
+        )}
+        <SaveWordBookmark
+          word={word.word}
+          translation={word.translation ?? null}
+          phonetic={word.phonetic ?? null}
+          example={word.example ?? null}
+          example_ar={word.example_ar ?? null}
+          className="ml-auto h-8 w-8 border-transparent bg-transparent"
+        />
+      </div>
+    </article>
   );
 }
