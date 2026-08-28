@@ -12,19 +12,70 @@ type Block =
 
 type Section = { title: string; blocks: Block[] };
 
-const TONE = "bg-primary/20 text-primary border-primary/35";
+type Tone = {
+  head: string;
+  ring: string;
+  wash: string;
+  text: string;
+};
 
-const ICONS: { match: RegExp; icon: typeof BookText; tone: string }[] = [
-  { match: /(learn|objective|goal|هدف)/i, icon: Lightbulb, tone: TONE },
-  { match: /(form|structure|rule|قاعدة)/i, icon: Table2, tone: TONE },
-  { match: /(example|أمثلة)/i, icon: Sparkles, tone: TONE },
-  { match: /(mistake|error|أخطاء)/i, icon: AlertTriangle, tone: TONE },
-  { match: /(practice|drill|exercise|تدريب)/i, icon: ListChecks, tone: TONE },
+const TONES: Record<string, Tone> = {
+  primary: {
+    head: "bg-primary/15 border-primary/30",
+    ring: "border-primary/30",
+    wash: "from-primary/[0.10]",
+    text: "text-primary",
+  },
+  amber: {
+    head: "bg-amber-500/15 border-amber-500/30",
+    ring: "border-amber-500/30",
+    wash: "from-amber-500/[0.10]",
+    text: "text-amber-600",
+  },
+  sky: {
+    head: "bg-sky-500/15 border-sky-500/30",
+    ring: "border-sky-500/30",
+    wash: "from-sky-500/[0.10]",
+    text: "text-sky-600",
+  },
+  emerald: {
+    head: "bg-emerald-500/15 border-emerald-500/30",
+    ring: "border-emerald-500/30",
+    wash: "from-emerald-500/[0.10]",
+    text: "text-emerald-600",
+  },
+  rose: {
+    head: "bg-rose-500/15 border-rose-500/30",
+    ring: "border-rose-500/30",
+    wash: "from-rose-500/[0.10]",
+    text: "text-rose-600",
+  },
+  violet: {
+    head: "bg-violet-500/15 border-violet-500/30",
+    ring: "border-violet-500/30",
+    wash: "from-violet-500/[0.10]",
+    text: "text-violet-600",
+  },
+};
+
+const ICONS: { match: RegExp; icon: typeof BookText; tone: keyof typeof TONES }[] = [
+  { match: /(learn|objective|goal|why|important|هدف|لماذا|قبل)/i, icon: Lightbulb, tone: "amber" },
+  { match: /(form|structure|rule|table|قاعدة|الصيغة|التكوين)/i, icon: Table2, tone: "sky" },
+  { match: /(example|أمثلة|نموذج)/i, icon: Sparkles, tone: "emerald" },
+  { match: /(mistake|error|avoid|أخطاء|تجنب)/i, icon: AlertTriangle, tone: "rose" },
+  { match: /(practice|drill|exercise|task|question|تدريب|أسئلة|مهام|تمرين)/i, icon: ListChecks, tone: "violet" },
 ];
 
 function sectionStyle(title: string) {
   const hit = ICONS.find((i) => i.match.test(title));
-  return hit ?? { icon: BookText, tone: TONE, match: /./ };
+  return { icon: hit?.icon ?? BookText, tone: TONES[hit?.tone ?? "primary"]! };
+}
+
+/** True when the text is mainly Arabic, so it should be read right-to-left. */
+export function isRtlText(text: string) {
+  const ar = (text.match(/[\u0600-\u06FF]/g) ?? []).length;
+  const en = (text.match(/[A-Za-z]/g) ?? []).length;
+  return ar > en;
 }
 
 /** Parses plain / lightly-marked lesson text into readable sections. */
