@@ -146,73 +146,42 @@ function Index() {
         {/* Hero Section */}
         <section className="relative bg-warm border-b overflow-hidden">
           <div className="container relative z-10 py-16 md:py-24">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center lg:text-start"
-              >
-                <span className="pill-badge mb-6">
-                  <Sparkles className="h-3.5 w-3.5" /> A1 → C2 · Structured Path
-                </span>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] mb-5">
-                  {T("home.hero.title", "Learn English")}{" "}
-                  <span className="text-primary italic">{T("home.hero.subtitle", "in the right order")}</span>
-                </h1>
-                <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                  {T("home.hero.description", "Every lesson guided, from A1 to C2 — grammar, vocabulary, reading and listening taught in the order the language actually builds.")}
-                </p>
-                <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3">
-                  <Link to="/auth" className="w-full sm:w-auto">
-                    <Button size="lg" className="h-14 px-8 text-base font-bold w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 shadow-[var(--shadow-lift)]">
-                      {T("home.hero.cta", "Start Learning Free")}
-                      <ArrowRight className="ms-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link to="/placement-test" className="w-full sm:w-auto">
-                    <Button size="lg" variant="outline" className="h-14 px-8 text-base font-bold w-full sm:w-auto border-2 bg-card hover:bg-secondary">
-                      Test Your Level
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center text-center"
+            >
+              <img
+                src={logoAsset.url}
+                alt="Blue Language"
+                className="h-40 sm:h-52 md:h-64 w-auto object-contain drop-shadow-xl mb-6"
+              />
+              <span className="pill-badge mb-6">
+                <Sparkles className="h-3.5 w-3.5" /> A1 → C2 · Structured Path
+              </span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] mb-5">
+                {T("home.hero.title", "Learn English")}{" "}
+                <span className="text-primary italic">{T("home.hero.subtitle", "in the right order")}</span>
+              </h1>
+              <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl leading-relaxed">
+                {T("home.hero.description", "Every lesson guided, from A1 to C2 — grammar, vocabulary, reading and listening taught in the order the language actually builds.")}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+                <Link to="/auth" className="w-full sm:w-auto">
+                  <Button size="lg" className="h-14 px-8 text-base font-bold w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 shadow-[var(--shadow-lift)]">
+                    {T("home.hero.cta", "Start Learning Free")}
+                    <ArrowRight className="ms-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link to="/placement-test" className="w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="h-14 px-8 text-base font-bold w-full sm:w-auto border-2 bg-card hover:bg-secondary">
+                    Test Your Level
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.15, duration: 0.5 }}
-                className="surface-lift p-6 md:p-8 relative"
-              >
-                <div className="eyebrow mb-4 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-primary inline-block" /> Inside the curriculum
-                </div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="pill-badge">Grammar Track · B1</span>
-                  <span className="text-xs font-bold text-muted-foreground">Unit 12 of 96</span>
-                </div>
-                <h3 className="text-xl md:text-2xl font-black mb-3">Past Simple — learned inside a story</h3>
-                <p className="text-base leading-relaxed mb-5">
-                  Last night, Maya <span className="text-primary font-bold underline decoration-accent decoration-2 underline-offset-4">found</span> an old letter hidden under the floorboards.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-4 py-2 rounded-full text-sm font-bold bg-primary/10 text-primary border border-primary/25">✓ found</span>
-                  <span className="px-4 py-2 rounded-full text-sm font-semibold bg-secondary text-muted-foreground border">finded</span>
-                  <span className="px-4 py-2 rounded-full text-sm font-semibold bg-secondary text-muted-foreground border">was finding</span>
-                </div>
-                <div className="grid grid-cols-4 gap-2">
-                  {["A1", "A2", "B1", "B2"].map((lvl) => (
-                    <span
-                      key={lvl}
-                      className={`text-center text-xs font-black py-2 rounded-lg border ${lvl === "B1" ? "bg-primary text-primary-foreground border-primary" : "bg-secondary text-muted-foreground"}`}
-                    >
-                      {lvl}
-                    </span>
-                  ))}
-                </div>
-                <img src={logoAsset.url} alt="Blue Language" className="absolute -top-8 -end-4 h-16 w-auto object-contain opacity-90 hidden md:block" />
-              </motion.div>
-            </div>
 
             {/* Stats row */}
             <div className="mt-14 md:mt-20 pt-10 border-t grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
