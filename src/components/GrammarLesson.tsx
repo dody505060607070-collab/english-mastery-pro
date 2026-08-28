@@ -150,24 +150,41 @@ export function parseGrammar(body: string): Section[] {
   return sections.filter((s) => s.title || s.blocks.length);
 }
 
-function BlockView({ block }: { block: Block }) {
+function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   if (block.kind === "para")
-    return <InteractiveText text={block.text} className="text-[15px] leading-8 text-foreground/90" />;
+    return (
+      <div dir={isRtlText(block.text) ? "rtl" : "ltr"} className={isRtlText(block.text) ? "text-right" : "text-left"}>
+        <InteractiveText text={block.text} className="text-[15.5px] leading-9 text-foreground/90" />
+      </div>
+    );
 
   if (block.kind === "bullets")
     return (
       <ul className="grid gap-2 sm:grid-cols-2">
-        {block.items.map((it, i) => (
-          <li
-            key={i}
-            className="flex gap-2.5 rounded-xl border border-primary/25 bg-primary/[0.10] px-3 py-2 text-sm leading-7"
-          >
-            <span className="mt-2 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/25 text-[10px] font-black text-primary">
-              {i + 1}
-            </span>
-            <InteractiveText text={it} className="text-sm text-foreground/90" />
-          </li>
-        ))}
+        {block.items.map((it, i) => {
+          const rtl = isRtlText(it);
+          return (
+            <li
+              key={i}
+              dir={rtl ? "rtl" : "ltr"}
+              className={cn(
+                "flex gap-2.5 rounded-xl border bg-card/70 px-3 py-2 text-sm leading-7 shadow-sm",
+                tone.ring,
+                rtl ? "text-right" : "text-left",
+              )}
+            >
+              <span
+                className={cn(
+                  "mt-1.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-muted text-[10px] font-black",
+                  tone.text,
+                )}
+              >
+                {i + 1}
+              </span>
+              <InteractiveText text={it} className="text-sm leading-7 text-foreground/90" />
+            </li>
+          );
+        })}
       </ul>
     );
 
