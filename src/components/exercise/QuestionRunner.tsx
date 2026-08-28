@@ -176,9 +176,10 @@ export function QuestionRunner({
                 >
                   {i + 1}
                 </span>
-                <p className="flex-1 text-[15px] font-bold leading-7" dir="auto">
+                <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 break-words" dir="auto">
                   {q.prompt}
                 </p>
+
                 <Badge variant="outline" className="shrink-0 text-[10px]">
                   {q.points ?? 1} pt
                 </Badge>
