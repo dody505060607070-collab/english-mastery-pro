@@ -101,26 +101,32 @@ iframe[title*="Lovable"] {
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.40 0.21 250); /* Deep, distinctive royal blue */
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.65 0.14 240); /* Deeper sky-blue accent */
-  --accent-foreground: oklch(0.984 0.003 247.858);
+  --radius: 1rem;
+  --background: oklch(0.985 0.012 95);          /* warm cream paper */
+  --foreground: oklch(0.24 0.035 255);
+  --card: oklch(0.995 0.005 95);
+  --card-foreground: oklch(0.24 0.035 255);
+  --popover: oklch(0.995 0.005 95);
+  --popover-foreground: oklch(0.24 0.035 255);
+  --primary: oklch(0.36 0.14 252);              /* deep ink blue */
+  --primary-foreground: oklch(0.985 0.012 95);
+  --secondary: oklch(0.95 0.018 95);
+  --secondary-foreground: oklch(0.30 0.05 255);
+  --muted: oklch(0.955 0.014 95);
+  --muted-foreground: oklch(0.52 0.03 255);
+  --accent: oklch(0.78 0.14 78);                /* warm gold */
+  --accent-foreground: oklch(0.26 0.05 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.40 0.21 250);
+  --border: oklch(0.90 0.018 92);
+  --input: oklch(0.90 0.018 92);
+  --ring: oklch(0.36 0.14 252);
+  --shadow-soft: 0 1px 2px oklch(0.24 0.035 255 / 0.05), 0 10px 30px -18px oklch(0.24 0.035 255 / 0.18);
+  --shadow-lift: 0 2px 4px oklch(0.24 0.035 255 / 0.06), 0 24px 50px -24px oklch(0.24 0.035 255 / 0.28);
+  --gradient-warm: linear-gradient(180deg, oklch(0.985 0.012 95) 0%, oklch(0.97 0.02 90) 100%);
+
+
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -179,8 +185,19 @@ iframe[title*="Lovable"] {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :lang(ar), [dir="rtl"] {
     font-family: 'Cairo', sans-serif;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Fraunces', 'Cairo', Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
   
   .glass {
     background: rgba(255, 255, 255, 0.7);
@@ -212,4 +229,46 @@ iframe[title*="Lovable"] {
   @media (width >= 1024px) { padding-inline: 2rem; max-width: 1024px; }
   @media (width >= 1280px) { max-width: 1280px; }
   @media (width >= 1536px) { max-width: 1400px; }
+}
+
+/* --- Editorial surface kit (reference-inspired) --- */
+@utility surface-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility surface-lift {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lift);
+}
+
+@utility pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 22%, transparent);
+}
+
+@utility eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+@utility bg-warm {
+  background: var(--gradient-warm);
 }
