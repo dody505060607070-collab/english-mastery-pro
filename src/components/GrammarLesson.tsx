@@ -397,7 +397,10 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
 }
 
 export function GrammarLesson({ body }: { body: string }) {
-  const sections = parseGrammar(body);
+  const parsed = parseGrammar(body);
+  // Keep the study flow simple: answer keys / extra notes always sit at the end.
+  const isExtra = (t: string) => /(answer|key|solution|note|extra|إجاب|الحل|ملاحظ)/i.test(t);
+  const sections = [...parsed.filter((s) => !isExtra(s.title)), ...parsed.filter((s) => isExtra(s.title))];
   const [open, setOpen] = useState<Record<number, boolean>>({});
   if (!sections.length) return null;
 
