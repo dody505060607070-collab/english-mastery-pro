@@ -143,58 +143,93 @@ function Index() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative py-24 md:py-32 overflow-hidden">
-          <div className="container relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="flex justify-center mb-10">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-                  className="relative group"
-                >
-                  <img 
-                    src={logoAsset.url} 
-                    alt="Blue Language" 
-                    className="h-48 sm:h-64 md:h-96 w-auto object-contain drop-shadow-[0_25px_60px_rgba(88,166,255,0.4)] transition-transform duration-500 group-hover:scale-105" 
-                  />
-                  <div className="absolute inset-0 bg-primary/25 blur-[120px] -z-10 rounded-full scale-150 opacity-60 animate-pulse" />
-                </motion.div>
-              </div>
-              
-              <span className="inline-block py-1.5 px-5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 border border-primary/20 backdrop-blur-sm">
-                Blue Language - #1 Platform in the Arab World
-              </span>
-              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mb-6 md:mb-8 leading-[1.2] md:leading-[1.15] bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
-                {T("home.hero.title", "Master English")} <br />
-                <span className="text-primary italic">{T("home.hero.subtitle", "Modern & Interactive")}</span>
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-4 text-center">
-                {T("home.hero.description", "A unique educational experience combining modern technology with the best global curricula. Learn, practice, and speak fluently from anywhere in the world.")}
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
-                <Button size="lg" className="h-14 md:h-16 px-8 md:px-10 text-lg md:text-xl font-black w-full sm:w-auto shadow-2xl shadow-primary/30 group relative overflow-hidden">
-                  <span className="relative z-10">{T("home.hero.cta", "Register Free Now")}</span>
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                </Button>
-                <Link to="/placement-test" className="w-full sm:w-auto">
-                  <Button size="lg" variant="outline" className="h-14 md:h-16 px-8 md:px-10 text-lg md:text-xl font-black w-full sm:w-auto border-2 hover:bg-primary/5 group">
-                    <Sparkles className="ml-2 h-5 md:h-6 w-5 md:w-6 text-primary group-hover:animate-pulse" />
-                    Test Your Level
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
+        <section className="relative bg-warm border-b overflow-hidden">
+          <div className="container relative z-10 py-16 md:py-24">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center lg:text-start"
+              >
+                <span className="pill-badge mb-6">
+                  <Sparkles className="h-3.5 w-3.5" /> A1 → C2 · Structured Path
+                </span>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] mb-5">
+                  {T("home.hero.title", "Learn English")}{" "}
+                  <span className="text-primary italic">{T("home.hero.subtitle", "in the right order")}</span>
+                </h1>
+                <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                  {T("home.hero.description", "Every lesson guided, from A1 to C2 — grammar, vocabulary, reading and listening taught in the order the language actually builds.")}
+                </p>
+                <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3">
+                  <Link to="/auth" className="w-full sm:w-auto">
+                    <Button size="lg" className="h-14 px-8 text-base font-bold w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 shadow-[var(--shadow-lift)]">
+                      {T("home.hero.cta", "Start Learning Free")}
+                      <ArrowRight className="ms-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link to="/placement-test" className="w-full sm:w-auto">
+                    <Button size="lg" variant="outline" className="h-14 px-8 text-base font-bold w-full sm:w-auto border-2 bg-card hover:bg-secondary">
+                      Test Your Level
+                    </Button>
+                  </Link>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15, duration: 0.5 }}
+                className="surface-lift p-6 md:p-8 relative"
+              >
+                <div className="eyebrow mb-4 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-primary inline-block" /> Inside the curriculum
+                </div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="pill-badge">Grammar Track · B1</span>
+                  <span className="text-xs font-bold text-muted-foreground">Unit 12 of 96</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-black mb-3">Past Simple — learned inside a story</h3>
+                <p className="text-base leading-relaxed mb-5">
+                  Last night, Maya <span className="text-primary font-bold underline decoration-accent decoration-2 underline-offset-4">found</span> an old letter hidden under the floorboards.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <span className="px-4 py-2 rounded-full text-sm font-bold bg-primary/10 text-primary border border-primary/25">✓ found</span>
+                  <span className="px-4 py-2 rounded-full text-sm font-semibold bg-secondary text-muted-foreground border">finded</span>
+                  <span className="px-4 py-2 rounded-full text-sm font-semibold bg-secondary text-muted-foreground border">was finding</span>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {["A1", "A2", "B1", "B2"].map((lvl) => (
+                    <span
+                      key={lvl}
+                      className={`text-center text-xs font-black py-2 rounded-lg border ${lvl === "B1" ? "bg-primary text-primary-foreground border-primary" : "bg-secondary text-muted-foreground"}`}
+                    >
+                      {lvl}
+                    </span>
+                  ))}
+                </div>
+                <img src={logoAsset.url} alt="Blue Language" className="absolute -top-8 -end-4 h-16 w-auto object-contain opacity-90 hidden md:block" />
+              </motion.div>
+            </div>
+
+            {/* Stats row */}
+            <div className="mt-14 md:mt-20 pt-10 border-t grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { n: "1,200+", l: "words · A1–C2" },
+                { n: "672", l: "guided lessons" },
+                { n: "2,600+", l: "exercises" },
+                { n: "96", l: "units" },
+              ].map((s) => (
+                <div key={s.l}>
+                  <div className="font-display text-3xl md:text-4xl font-black text-primary">{s.n}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-1">{s.l}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          
-          {/* Abstract 3D Shapes */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -z-10 animate-pulse" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-[100px] -z-10" />
         </section>
+
 
         {/* Categories Section */}
         <section className="py-24 container relative">
