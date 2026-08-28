@@ -383,7 +383,7 @@ function QuestionInput({
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
-        const hue = OPTION_HUES[i % OPTION_HUES.length];
+        const hue = OPTION_HUES[i % OPTION_HUES.length]!;
         const ans = q.answer;
         const isRight = Array.isArray(ans)
           ? ans.map((a) => String(a).trim().toLowerCase()).includes(opt.trim().toLowerCase())
