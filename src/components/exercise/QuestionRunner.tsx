@@ -35,7 +35,7 @@ export function QuestionRunner({
   questions,
   onSubmit,
   submitting,
-  submitLabel = "Done / Check answers",
+  submitLabel = "Finish",
   timeLimitMinutes,
   passScore,
   allowRetry = true,
@@ -49,23 +49,19 @@ export function QuestionRunner({
   allowRetry?: boolean | undefined;
 }) {
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
+  const [revealed, setRevealed] = useState<Record<string, true>>({});
+  const [index, setIndex] = useState(0);
   const [checked, setChecked] = useState<RunnerSubmitPayload | null>(null);
   const [attemptKey, setAttemptKey] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(
+    timeLimitMinutes ? timeLimitMinutes * 60 : null,
+  );
 
-  const locked = !!checked;
-  const answeredCount = questions.filter((q) => {
-    const v = answers[q.id];
-    if (Array.isArray(v)) return v.length > 0;
-    if (v && typeof v === "object") return Object.keys(v).length > 0;
-    return v !== undefined && v !== "";
-  }).length;
+  const total = questions.length;
+  const q = questions[Math.min(index, Math.max(total - 1, 0))];
+  const isRevealed = q ? !!revealed[q.id] : false;
 
-  function set(id: string, value: AnswerValue) {
-    if (locked) return;
-    setAnswers((prev) => ({ ...prev, [id]: value }));
-  }
-
-  function check() {
+  function finish() {
     const graded = gradeAll(questions, answers);
     const payload: RunnerSubmitPayload = {
       answers,
@@ -80,10 +76,29 @@ export function QuestionRunner({
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  useEffect(() => {
+    if (secondsLeft === null || checked) return;
+    if (secondsLeft <= 0) {
+      finish();
+      return;
+    }
+    const t = setTimeout(() => setSecondsLeft((s) => (s === null ? s : s - 1)), 1000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [secondsLeft, checked]);
+
   function retry() {
     setAnswers({});
+    setRevealed({});
+    setIndex(0);
     setChecked(null);
+    setSecondsLeft(timeLimitMinutes ? timeLimitMinutes * 60 : null);
     setAttemptKey((k) => k + 1);
+  }
+
+  function set(id: string, value: AnswerValue) {
+    if (isRevealed) return;
+    setAnswers((prev) => ({ ...prev, [id]: value }));
   }
 
   const resultById = useMemo(() => {
@@ -100,19 +115,15 @@ export function QuestionRunner({
     );
   }
 
-  const graded = checked ? gradeAll(questions, checked.answers) : null;
-
-  return (
-    <div className="space-y-4" key={attemptKey}>
-      {checked && graded && (
+  // ---------- Result screen ----------
+  if (checked) {
+    const graded = gradeAll(questions, checked.answers);
+    const passed = graded.percentage >= (passScore ?? 50);
+    return (
+      <div className="space-y-4" key={attemptKey}>
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
-          <Card
-            className={cn(
-              "border-2",
-              graded.percentage >= (passScore ?? 50) ? "border-emerald-500/50 bg-emerald-500/5" : "border-destructive/40 bg-destructive/5",
-            )}
-          >
-            <CardContent className="p-5 space-y-3 text-center">
+          <Card className={cn("border-2", passed ? "border-emerald-500/50 bg-emerald-500/5" : "border-destructive/40 bg-destructive/5")}>
+            <CardContent className="p-6 space-y-3 text-center">
               <p className="text-sm font-bold text-muted-foreground">Your Score</p>
               <p className="text-4xl font-black">
                 {graded.score} / {graded.maxScore}
@@ -126,121 +137,229 @@ export function QuestionRunner({
               </div>
               {allowRetry && (
                 <Button variant="outline" onClick={retry} className="font-bold">
-                  <RotateCcw className="h-4 w-4 ml-2" /> Retry
+                  <RotateCcw className="h-4 w-4 mr-2" /> Try again
                 </Button>
               )}
             </CardContent>
           </Card>
         </motion.div>
-      )}
 
-      {!checked && (
-        <div className="flex items-center justify-between text-xs font-bold text-muted-foreground">
-          <span>
-            {answeredCount} / {questions.length} answered
-          </span>
-          {timeLimitMinutes ? (
-            <span className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" /> {timeLimitMinutes} minutes
-            </span>
-          ) : null}
-        </div>
-      )}
+        {questions.map((qq, i) => {
+          const res = resultById.get(qq.id);
+          return (
+            <Card
+              key={qq.id}
+              className={cn(
+                "border-2",
+                res?.correct === true && "border-emerald-500/50 bg-emerald-500/[0.06]",
+                res?.correct === false && "border-destructive/50 bg-destructive/[0.06]",
+                res?.correct === null && "border-amber-500/50 bg-amber-500/[0.06]",
+              )}
+            >
+              <CardContent className="p-4 space-y-2">
+                <div className="flex items-start gap-2.5">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/10 text-xs font-black text-primary">
+                    {i + 1}
+                  </span>
+                  <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 break-words" dir="auto">
+                    {qq.prompt}
+                  </p>
+                  {res?.correct === true && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />}
+                  {res?.correct === false && <XCircle className="h-5 w-5 shrink-0 text-destructive" />}
+                  {res?.correct === null && <HelpCircle className="h-5 w-5 shrink-0 text-amber-600" />}
+                </div>
+                {res && (
+                  <div className="grid gap-2 sm:grid-cols-2" dir="auto">
+                    <div className="rounded-xl border px-3 py-2 text-xs font-bold">
+                      <span className="opacity-70">Your answer: </span>
+                      {res.yourAnswer}
+                    </div>
+                    <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-700">
+                      <span className="opacity-70">Correct answer: </span>
+                      {res.correctAnswer}
+                    </div>
+                  </div>
+                )}
+                {res && qq.explanation && (
+                  <div dir="auto" className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7">
+                    <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
+                    <span className="text-foreground/90">{qq.explanation}</span>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  }
 
-      {questions.map((q, i) => {
-        const res = resultById.get(q.id);
-        return (
-          <Card
-            key={q.id}
+  if (!q) return null;
+
+  // ---------- One question at a time ----------
+  const answeredCount = Object.keys(revealed).length;
+  const stepResult = isRevealed ? gradeQuestion(q, answers[q.id]) : null;
+  const hasAnswer = (() => {
+    const v = answers[q.id];
+    if (Array.isArray(v)) return v.length > 0;
+    if (v && typeof v === "object") return Object.keys(v).length > 0;
+    return v !== undefined && v !== "";
+  })();
+
+  return (
+    <div className="space-y-4" key={attemptKey} dir="ltr">
+      <div className="flex items-center gap-3">
+        <Progress value={((index + 1) / total) * 100} className="h-2 flex-1" />
+        <span className="shrink-0 text-sm font-black tabular-nums">
+          {index + 1} / {total}
+        </span>
+        {secondsLeft !== null && (
+          <span
             className={cn(
-              "overflow-hidden border-2 transition",
-              res === undefined && "border-border/60",
-              res?.correct === true && "border-emerald-500/50 bg-emerald-500/[0.06]",
-              res?.correct === false && "border-destructive/50 bg-destructive/[0.06]",
-              res?.correct === null && "border-amber-500/50 bg-amber-500/[0.06]",
+              "flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-black tabular-nums",
+              secondsLeft <= 30 ? "bg-destructive/15 text-destructive" : "bg-primary/10 text-primary",
             )}
           >
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-start gap-2.5">
-                <span
-                  className={cn(
-                    "grid h-8 w-8 shrink-0 place-items-center rounded-xl text-sm font-black",
-                    res?.correct === true
-                      ? "bg-emerald-500/15 text-emerald-600"
-                      : res?.correct === false
-                        ? "bg-destructive/15 text-destructive"
-                        : res?.correct === null
-                          ? "bg-amber-500/15 text-amber-600"
-                          : "bg-primary/10 text-primary",
-                  )}
-                >
-                  {i + 1}
-                </span>
-                <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 break-words" dir="auto">
-                  {q.prompt}
-                </p>
+            <Clock className="h-3.5 w-3.5" />
+            {String(Math.floor(secondsLeft / 60)).padStart(2, "0")}:{String(secondsLeft % 60).padStart(2, "0")}
+          </span>
+        )}
+      </div>
 
-                <Badge variant="outline" className="shrink-0 text-[10px]">
-                  {q.points ?? 1} pt
-                </Badge>
-                {res?.correct === true && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />}
-                {res?.correct === false && <XCircle className="h-5 w-5 shrink-0 text-destructive" />}
-                {res?.correct === null && <HelpCircle className="h-5 w-5 shrink-0 text-amber-600" />}
+      <motion.div key={q.id} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2 }}>
+        <Card
+          className={cn(
+            "overflow-hidden border-2 shadow-sm",
+            !stepResult && "border-border/60",
+            stepResult?.correct === true && "border-emerald-500/60 bg-emerald-500/[0.05]",
+            stepResult?.correct === false && "border-destructive/60 bg-destructive/[0.05]",
+            stepResult?.correct === null && "border-amber-500/60 bg-amber-500/[0.05]",
+          )}
+        >
+          <CardContent className="p-5 space-y-4">
+            <div className="flex items-start gap-3">
+              <p className="min-w-0 flex-1 text-lg font-black leading-8 break-words" dir="auto">
+                {q.prompt}
+              </p>
+              <Badge variant="outline" className="shrink-0 text-[10px]">
+                {q.points ?? 1} pt
+              </Badge>
+            </div>
+
+            <QuestionInput
+              q={q}
+              value={answers[q.id]}
+              onChange={(v) => set(q.id, v)}
+              locked={isRevealed}
+              revealed={isRevealed}
+            />
+
+            {stepResult && (
+              <div
+                className={cn(
+                  "flex items-center gap-2 rounded-2xl border-2 px-4 py-3 text-sm font-black",
+                  stepResult.correct === true && "border-emerald-500/50 bg-emerald-500/10 text-emerald-700",
+                  stepResult.correct === false && "border-destructive/50 bg-destructive/10 text-destructive",
+                  stepResult.correct === null && "border-amber-500/50 bg-amber-500/10 text-amber-700",
+                )}
+              >
+                {stepResult.correct === true ? (
+                  <>
+                    <CheckCircle2 className="h-5 w-5" /> Correct!
+                  </>
+                ) : stepResult.correct === false ? (
+                  <>
+                    <XCircle className="h-5 w-5" /> Wrong — correct answer: {stepResult.correctAnswer}
+                  </>
+                ) : (
+                  <>
+                    <HelpCircle className="h-5 w-5" /> Saved — your teacher will review it
+                  </>
+                )}
               </div>
+            )}
 
-              <QuestionInput
-                q={q}
-                value={answers[q.id]}
-                onChange={(v) => set(q.id, v)}
-                locked={locked}
-                revealed={!!res}
-              />
+            {isRevealed && q.explanation && (
+              <div dir="auto" className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7">
+                <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
+                <span className="text-foreground/90">{q.explanation}</span>
+              </div>
+            )}
 
-              {res && (
-                <div className="grid gap-2 sm:grid-cols-2" dir="auto">
-                  <div
-                    className={cn(
-                      "rounded-xl border px-3 py-2 text-xs font-bold",
-                      res.correct === true
-                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700"
-                        : res.correct === false
-                          ? "border-destructive/40 bg-destructive/10 text-destructive"
-                          : "border-amber-500/40 bg-amber-500/10 text-amber-700",
-                    )}
-                  >
-                    <span className="opacity-70">Your answer: </span>
-                    {res.yourAnswer}
-                  </div>
-                  <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-700">
-                    <span className="opacity-70">Correct answer: </span>
-                    {res.correctAnswer}
-                  </div>
-                </div>
-              )}
-
-              {res && q.explanation && (
-                <div
-                  dir="auto"
-                  className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7"
+            <div className="flex items-center gap-2 pt-1">
+              <Button
+                variant="outline"
+                className="font-bold"
+                onClick={() => setIndex((i) => Math.max(0, i - 1))}
+                disabled={index === 0}
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+              </Button>
+              <div className="flex-1" />
+              {!isRevealed ? (
+                <Button
+                  className="font-black min-w-32"
+                  disabled={!hasAnswer}
+                  onClick={() => setRevealed((r) => ({ ...r, [q.id]: true }))}
                 >
-                  <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
-                  <span className="text-foreground/90">{q.explanation}</span>
-                </div>
+                  Check
+                </Button>
+              ) : index < total - 1 ? (
+                <Button className="font-black min-w-32" onClick={() => setIndex((i) => i + 1)}>
+                  Next <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              ) : (
+                <Button className="font-black min-w-32" onClick={finish} disabled={submitting}>
+                  {submitting && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                  {submitLabel}
+                </Button>
               )}
-            </CardContent>
-          </Card>
-        );
-      })}
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      {!checked && (
-        <Button className="w-full font-black h-12 text-base" onClick={check} disabled={submitting}>
-          {submitting && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
-          {submitLabel}
-        </Button>
-      )}
+      <div className="flex items-center justify-between text-xs font-bold text-muted-foreground">
+        <span>
+          {answeredCount} / {total} answered
+        </span>
+        {answeredCount > 0 && (
+          <button type="button" className="underline" onClick={finish}>
+            Finish now
+          </button>
+        )}
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        {questions.map((qq, i) => {
+          const done = !!revealed[qq.id];
+          const ok = done ? gradeQuestion(qq, answers[qq.id]).correct : undefined;
+          return (
+            <button
+              key={qq.id}
+              type="button"
+              onClick={() => setIndex(i)}
+              className={cn(
+                "h-7 w-7 rounded-lg text-[11px] font-black transition",
+                i === index && "ring-2 ring-primary ring-offset-1",
+                ok === true
+                  ? "bg-emerald-500/20 text-emerald-700"
+                  : ok === false
+                    ? "bg-destructive/15 text-destructive"
+                    : done
+                      ? "bg-amber-500/20 text-amber-700"
+                      : "bg-muted text-muted-foreground",
+              )}
+            >
+              {i + 1}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
+
 
 function QuestionInput({
   q,
