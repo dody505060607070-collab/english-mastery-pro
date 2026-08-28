@@ -388,7 +388,7 @@ function QuestionInput({
                 : onChange(opt)
             }
             className={cn(
-              "flex items-center gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold",
+              "flex items-start gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold leading-6",
               !revealed && (active ? "border-primary bg-primary/10 text-primary" : "border-border/70 hover:bg-muted/60"),
               revealed && isRight && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700",
               revealed && !isRight && active && "border-destructive/60 bg-destructive/10 text-destructive",
@@ -402,7 +402,7 @@ function QuestionInput({
                 {OPTION_LETTERS[i]}
               </span>
             )}
-            <span className="flex-1">{label}</span>
+            <span className="min-w-0 flex-1 break-words">{label}</span>
             {revealed && isRight && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />}
             {revealed && !isRight && active && <XCircle className="h-4 w-4 shrink-0 text-destructive" />}
           </button>
