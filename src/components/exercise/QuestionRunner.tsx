@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -246,11 +246,13 @@ function QuestionInput({
   value,
   onChange,
   locked,
+  revealed = false,
 }: {
   q: Question;
   value: AnswerValue;
   onChange: (v: AnswerValue) => void;
   locked: boolean;
+  revealed?: boolean;
 }) {
   const rightOptions = useMemo(
     () => shuffle((q.pairs ?? []).map((p) => p.right)),
@@ -368,6 +370,10 @@ function QuestionInput({
       {options.map((opt, i) => {
         const active = isMulti ? selected.includes(opt) : value === opt;
         const label = q.type === "truefalse" ? (opt === "true" ? "True" : "False") : opt;
+        const ans = q.answer;
+        const isRight = Array.isArray(ans)
+          ? ans.map((a) => String(a).trim().toLowerCase()).includes(opt.trim().toLowerCase())
+          : String(ans ?? "").trim().toLowerCase() === opt.trim().toLowerCase();
         return (
           <button
             key={`${opt}-${i}`}
@@ -379,9 +385,12 @@ function QuestionInput({
                 : onChange(opt)
             }
             className={cn(
-              "flex items-center gap-2 rounded-xl border p-3 text-right transition text-sm font-bold",
-              active ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted/60",
-              locked && "opacity-90 cursor-not-allowed",
+              "flex items-center gap-2 rounded-xl border-2 p-3 text-start transition text-sm font-bold",
+              !revealed && (active ? "border-primary bg-primary/10 text-primary" : "border-border/70 hover:bg-muted/60"),
+              revealed && isRight && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700",
+              revealed && !isRight && active && "border-destructive/60 bg-destructive/10 text-destructive",
+              revealed && !isRight && !active && "border-border/50 opacity-60",
+              locked && "cursor-not-allowed",
             )}
             dir="auto"
           >
@@ -391,6 +400,8 @@ function QuestionInput({
               </span>
             )}
             <span className="flex-1">{label}</span>
+            {revealed && isRight && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />}
+            {revealed && !isRight && active && <XCircle className="h-4 w-4 shrink-0 text-destructive" />}
           </button>
         );
       })}
