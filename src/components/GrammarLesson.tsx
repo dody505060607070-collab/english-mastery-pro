@@ -242,8 +242,14 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
             >
               {it.sign}
             </span>
-            <InteractiveText text={it.text} className="text-[15px] leading-7 text-foreground/90" />
-            <SpeakButton text={it.text} />
+            <InteractiveText
+              text={it.text}
+              className="min-w-0 flex-1 text-[15px] leading-7 text-foreground/90 break-words"
+            />
+            <span className="shrink-0">
+              <SpeakButton text={it.text} />
+            </span>
+
           </div>
         ))}
       </div>
