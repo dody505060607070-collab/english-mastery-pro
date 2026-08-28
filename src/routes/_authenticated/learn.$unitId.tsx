@@ -242,9 +242,34 @@ function UnitPage() {
 
       ) : (
         <div className="space-y-4">
-          <Button variant="ghost" size="sm" className="font-bold" onClick={() => setActiveId(null)}>
-            <ArrowRight className="h-4 w-4 ml-1" /> All sections
-          </Button>
+          <div className="sticky top-0 z-20 -mx-4 border-b bg-background/85 px-4 py-2 backdrop-blur md:-mx-8 md:px-8">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <Button variant="ghost" size="sm" className="shrink-0 font-bold" onClick={() => setActiveId(null)}>
+                <ArrowRight className="h-4 w-4 ml-1" /> All
+              </Button>
+              {contents.map((c, i) => {
+                const m = contentMeta(c.content_type);
+                const cc = contentColor(c.content_type);
+                const isActive = c.id === activeId;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setActiveId(c.id)}
+                    className={cn(
+                      "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition",
+                      isActive ? cn("border-transparent", cc.tile) : "border-border/60 text-muted-foreground hover:bg-muted",
+                      done.has(c.id) && !isActive && "border-emerald-500/40 text-emerald-600",
+                    )}
+                  >
+                    <m.icon className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">{m.label}</span>
+                    <span className="sm:hidden">{i + 1}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div className="space-y-4">
             {active && (
               <ContentPanel
@@ -278,6 +303,7 @@ function UnitPage() {
             </div>
           </div>
         </div>
+
       )}
     </div>
   );
