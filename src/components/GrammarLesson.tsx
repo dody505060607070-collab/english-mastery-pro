@@ -275,25 +275,39 @@ export function GrammarLesson({ body }: { body: string }) {
       {sections.map((s, i) => {
         const style = sectionStyle(s.title);
         const Icon = style.icon;
+        const tone = style.tone;
+        const rtlTitle = isRtlText(s.title);
         return (
           <section
             key={i}
-            className="overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/[0.15] to-transparent shadow-sm transition-shadow hover:shadow-md"
+            className={cn(
+              "overflow-hidden rounded-3xl border bg-gradient-to-b to-transparent shadow-sm transition-shadow hover:shadow-md",
+              tone.ring,
+              tone.wash,
+            )}
           >
             {s.title && (
-              <header className="flex items-center gap-2.5 border-b border-primary/30 bg-primary/20 px-4 py-3">
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-card text-primary shadow-sm">
-                  <Icon className="h-4 w-4" />
+              <header
+                dir={rtlTitle ? "rtl" : "ltr"}
+                className={cn("flex items-center gap-2.5 border-b px-4 py-3", tone.head)}
+              >
+                <span className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-card shadow-sm", tone.text)}>
+                  <Icon className="h-4.5 w-4.5" />
                 </span>
-                <h3 className="truncate text-base font-black tracking-tight text-primary">{s.title}</h3>
-                <span className="ml-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black text-primary/70">
+                <h3 className={cn("truncate text-base font-black tracking-tight", tone.text)}>{s.title}</h3>
+                <span
+                  className={cn(
+                    "ms-auto rounded-full bg-card/80 px-2 py-0.5 text-[10px] font-black opacity-80",
+                    tone.text,
+                  )}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </header>
             )}
             <div className="space-y-3.5 bg-card/80 p-4 md:p-5">
               {s.blocks.map((b, bi) => (
-                <BlockView key={bi} block={b} />
+                <BlockView key={bi} block={b} tone={tone} />
               ))}
             </div>
           </section>
