@@ -48,11 +48,26 @@ export function VocabularyDeck({
   );
 }
 
+/** Keeps only the short sentence/clause that actually contains the word. */
+export function shortenExample(text: string, word: string, maxWords = 12) {
+  const stem = word.replace(/[^A-Za-z]/g, "").toLowerCase();
+  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  let pick = sentences.find((s) => s.toLowerCase().includes(stem)) ?? sentences[0] ?? text;
+  const words = pick.trim().split(/\s+/);
+  if (words.length > maxWords) {
+    const at = Math.max(0, words.findIndex((w) => w.toLowerCase().includes(stem)));
+    const start = Math.max(0, Math.min(at - 4, words.length - maxWords));
+    pick = (start > 0 ? "… " : "") + words.slice(start, start + maxWords).join(" ");
+    if (start + maxWords < words.length) pick = pick.replace(/[,;:]?$/, "") + " …";
+  }
+  return pick.trim();
+}
+
 /** Bolds the target word inside the example sentence, like a printed glossary. */
 function Example({ text, word }: { text: string; word: string }) {
   const stem = word.replace(/[^A-Za-z]/g, "");
-  if (!stem) return <>{text}</>;
-  const parts = text.split(new RegExp(`(${stem}\\w*)`, "gi"));
+  if (!stem) return <>{shortenExample(text, word)}</>;
+  const parts = shortenExample(text, word).split(new RegExp(`(${stem}\\w*)`, "gi"));
   return (
     <>
       {parts.map((p, i) =>
@@ -171,7 +186,7 @@ function WordCard({
       </div>
 
       {word.example && (
-        <p className="text-sm leading-7 text-foreground/85">
+        <p className="text-[13px] leading-6 text-foreground/85">
           <Example text={word.example} word={word.word} />
         </p>
       )}
@@ -181,7 +196,7 @@ function WordCard({
           <span className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Meaning in Arabic</span>
           <div dir="rtl" className="text-right">
             {word.translation && <p className="text-sm font-bold">{word.translation}</p>}
-            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar}</p>}
+            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar.split(/\s+/).slice(0, 12).join(" ")}</p>}
             {!word.translation && !word.example_ar && (
               <p className="text-[11px] opacity-70">لا يوجد معنى متاح</p>
             )}
