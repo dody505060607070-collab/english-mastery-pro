@@ -18,16 +18,16 @@ function fmt(sec: number) {
 
 /** Picks the best container/codec the current browser can actually record. */
 function pickMime() {
-  // MP4 first: it carries real duration/seek info, so hour-long lectures play and
-  // seek correctly everywhere (including iPhone). WebM is the fallback and gets
-  // its duration repaired before upload.
+  // Chromium's MP4 MediaRecorder implementation is still less reliable during
+  // multi-hour screen captures. VP8/WebM is the proven long-session path; its
+  // seek metadata is repaired before upload.
   const candidates = [
-    "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
-    "video/mp4;codecs=avc1,mp4a.40.2",
-    "video/mp4",
     "video/webm;codecs=vp8,opus",
     "video/webm;codecs=vp9,opus",
     "video/webm",
+    "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
+    "video/mp4;codecs=avc1,mp4a.40.2",
+    "video/mp4",
   ];
   for (const c of candidates) {
     if (typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(c)) return c;
@@ -120,7 +120,7 @@ function runTx<T>(db: IDBDatabase, stores: string[], mode: IDBTransactionMode, f
 }
 
 /** Append one chunk + refresh the session meta (best-effort, never throws). */
-async function backupAppendChunk(chunk: Blob, meta: BackupMeta): Promise<void> {
+async function backupAppendChunk(chunk: Blob, meta: BackupMeta): Promise<boolean> {
   try {
     const db = await openBackupDb();
     await runTx(db, ["meta", "chunks"], "readwrite", (tx) => {
@@ -128,8 +128,10 @@ async function backupAppendChunk(chunk: Blob, meta: BackupMeta): Promise<void> {
       tx.objectStore("meta").put({ ...meta, updatedAt: Date.now() }, "active");
     });
     db.close();
+    return true;
   } catch {
     // Backup is best-effort; recording itself must never fail because of it.
+    return false;
   }
 }
 
@@ -142,8 +144,10 @@ async function backupRead(): Promise<{ meta: BackupMeta; chunks: Blob[] } | null
     await runTx(db, ["meta", "chunks"], "readonly", (tx) => {
       const metaReq = tx.objectStore("meta").get("active");
       const chunksReq = tx.objectStore("chunks").getAll();
-      tx.oncomplete = () => {
+      metaReq.onsuccess = () => {
         meta = metaReq.result as BackupMeta | undefined;
+      };
+      chunksReq.onsuccess = () => {
         chunks = ((chunksReq.result as Blob[] | undefined) ?? []).filter((b) => b && b.size > 0);
       };
     });
@@ -224,6 +228,10 @@ export function LectureRecorder({
   const analyserRef = useRef<AnalyserNode | null>(null);
   const displayRef = useRef<MediaStream | null>(null);
   const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
+  const backupWriteChainRef = useRef<Promise<void>>(Promise.resolve());
+  const backupFailedRef = useRef(false);
+  const meterTimerRef = useRef<number | null>(null);
+  const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
 
 
   useEffect(() => {
@@ -338,21 +346,21 @@ export function LectureRecorder({
       }
       finalizingRef.current = false;
 
-      // Chrome tab capture is the only cross-device browser path that reliably
-      // includes Google Meet / YouTube audio. Entire Screen frequently has no
-      // system-audio track (especially on macOS), even when video capture works.
+      // One Entire Screen permission keeps capture alive while moving between
+      // Meet, YouTube and other tabs. The microphone is captured independently,
+      // so muting the microphone inside Meet does not mute this recording.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 30, max: 30 },
+          frameRate: { ideal: 15, max: 20 },
           width: { ideal: 1280 },
           height: { ideal: 720 },
-          displaySurface: "browser",
+          displaySurface: "monitor",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
         ...({
           systemAudio: "include",
-          surfaceSwitching: "include",
-          monitorTypeSurfaces: "exclude",
+          surfaceSwitching: "exclude",
+          monitorTypeSurfaces: "include",
           preferCurrentTab: false,
           selfBrowserSurface: "exclude",
         } as Record<string, unknown>),
@@ -386,8 +394,8 @@ export function LectureRecorder({
       if (!displayHasAudio) {
         toast.warning(
           capturedSurface === "browser"
-            ? "Tab audio was not enabled. Stop and select the Google Meet tab, then enable 'Also share tab audio'."
-            : "This source has no audio. Stop and select the Google Meet Chrome tab instead of a window or screen.",
+            ? "Tab audio was not enabled. Enable 'Also share tab audio' in Chrome."
+            : "System audio was not shared. On Windows, select Entire Screen and enable 'Also share system audio'. On macOS, Chrome cannot capture all system audio; share the Meet tab instead.",
         );
       }
 
@@ -443,9 +451,9 @@ export function LectureRecorder({
       }
       const stream = new MediaStream([...display.getVideoTracks(), ...recorderAudio]);
 
-      // live mic level meter so the admin can confirm the sound is captured
+       // A low-frequency meter confirms audio without a 60fps animation competing
+       // with Meet/video playback and the encoder.
       const buf = new Uint8Array(analyser.fftSize);
-      let lastUiUpdate = 0;
       let wasSilent = false;
       const tick = () => {
         analyser.getByteTimeDomainData(buf);
@@ -454,19 +462,14 @@ export function LectureRecorder({
         if (peak > 0.02) {
           loudAtRef.current = Date.now();
         }
-        const now = performance.now();
         const isSilent = Date.now() - loudAtRef.current > 5000;
-        // Keep the canvas smooth, but avoid re-rendering the whole recorder at 60fps.
-        if (now - lastUiUpdate >= 100) {
-          setLevel(peak);
-          lastUiUpdate = now;
-        }
+         setLevel(peak);
         if (isSilent !== wasSilent) {
           setSilent(isSilent);
           wasSilent = isSilent;
         }
         drawWave(canvasRef.current, buf, peak);
-        rafRef.current = requestAnimationFrame(tick);
+         meterTimerRef.current = window.setTimeout(tick, 250);
       };
       tick();
 
@@ -483,7 +486,7 @@ export function LectureRecorder({
         audioBitsPerSecond: 96_000,
         // Screen/slide content stays sharp at this rate while keeping hour-long
         // lectures small enough to upload and stream smoothly.
-        videoBitsPerSecond: 1_200_000,
+        videoBitsPerSecond: 900_000,
 
       });
       chunksRef.current = [];
@@ -497,7 +500,11 @@ export function LectureRecorder({
         dest.stream.getTracks().forEach((t) => t.stop());
         void ctx.close().catch(() => undefined);
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        if (meterTimerRef.current) window.clearTimeout(meterTimerRef.current);
         rafRef.current = null;
+        meterTimerRef.current = null;
+        void wakeLockRef.current?.release().catch(() => undefined);
+        wakeLockRef.current = null;
         displayRef.current = null;
         displayAudioNodesRef.current = null;
         audioCtxRef.current = null;
@@ -518,10 +525,18 @@ export function LectureRecorder({
 
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) {
-          chunksRef.current.push(e.data);
-          // Persist each recorder chunk. Five-second chunks greatly reduce disk work
-          // and startup lag while still keeping a crash-safe local backup.
-          void backupAppendChunk(e.data, backupMeta);
+          // Serialize disk writes and do not retain successful chunks in RAM. This
+          // prevents memory growth and lag during multi-hour lectures.
+          backupWriteChainRef.current = backupWriteChainRef.current.then(async () => {
+            const saved = await backupAppendChunk(e.data, backupMeta);
+            if (!saved) {
+              chunksRef.current.push(e.data);
+              if (!backupFailedRef.current) {
+                backupFailedRef.current = true;
+                toast.warning("Local backup storage is full; keep this page open until recording is stopped.");
+              }
+            }
+          });
         }
       };
       rec.onstop = () => {
@@ -539,6 +554,15 @@ export function LectureRecorder({
       };
       rec.start(5000);
       recorderRef.current = rec;
+      backupFailedRef.current = false;
+      if ("wakeLock" in navigator) {
+        void (navigator as Navigator & { wakeLock: { request: (type: "screen") => Promise<{ release: () => Promise<void> }> } }).wakeLock
+          .request("screen")
+          .then((lock) => {
+            wakeLockRef.current = lock;
+          })
+          .catch(() => undefined);
+      }
       startedAtRef.current = Date.now();
       setElapsed(0);
       setRecording(true);
@@ -573,9 +597,13 @@ export function LectureRecorder({
     }
     cleanupRef.current?.();
     cleanupRef.current = null;
+    await backupWriteChainRef.current;
     const duration = Math.floor((Date.now() - startedAtRef.current) / 1000);
     const mime = mimeRef.current;
-    const { blob: rawBlob, type, ext } = backupBlob(chunksRef.current, mime);
+    const savedBackup = await backupRead();
+    const persistedChunks = savedBackup?.chunks ?? [];
+    const allChunks = persistedChunks.length > 0 ? [...persistedChunks, ...chunksRef.current] : chunksRef.current;
+    const { blob: rawBlob, type, ext } = backupBlob(allChunks, mime);
     const blob = await repairBlob(rawBlob, type);
 
     chunksRef.current = [];
@@ -775,8 +803,8 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-          The microphone is recorded independently. Google Meet and YouTube sound requires selecting the Google Meet
-          Chrome tab and enabling "Also share tab audio" in the share dialog.
+           Select Entire Screen once to move between tabs without new access prompts. The recording microphone stays
+           active even if your microphone is muted inside Google Meet.
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
@@ -836,7 +864,7 @@ export function LectureRecorder({
         </div>
       )}
       <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record Google Meet tab
+        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture screen
       </Button>
     </div>
   );
