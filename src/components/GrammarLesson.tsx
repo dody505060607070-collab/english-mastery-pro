@@ -8,6 +8,7 @@ import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles, Chevr
 type Block =
   | { kind: "para"; text: string }
   | { kind: "bullets"; items: string[] }
+  | { kind: "steps"; items: string[] }
   | { kind: "table"; rows: string[][] }
   | { kind: "examples"; items: { sign: "+" | "-" | "?"; text: string }[] }
   | { kind: "mistakes"; items: { wrong: string; right: string | null }[] };
@@ -90,8 +91,22 @@ export function parseGrammar(body: string): Section[] {
   const flushPara = () => {
     const text = buffer.join(" ").trim();
     buffer = [];
-    if (text) current.blocks.push({ kind: "para", text });
+    if (!text) return;
+    // "1. ... 2. ... 3. ..." crammed into one paragraph → readable numbered cards
+    const marks = text.match(/(?:^|\s)\d{1,2}[.)]\s/g) ?? [];
+    if (marks.length >= 2) {
+      const items = text
+        .split(/(?:^|\s)\d{1,2}[.)]\s+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (items.length >= 2) {
+        current.blocks.push({ kind: "steps", items });
+        return;
+      }
+    }
+    current.blocks.push({ kind: "para", text });
   };
+
   const pushSection = () => {
     flushPara();
     if (current.title || current.blocks.length) sections.push(current);
@@ -261,6 +276,38 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
     );
   }
 
+  if (block.kind === "steps") {
+    return (
+      <ol className="grid gap-2.5">
+        {block.items.map((it, i) => {
+          const rtl = isRtlText(it);
+          return (
+            <li
+              key={i}
+              dir={rtl ? "rtl" : "ltr"}
+              className={cn(
+                "flex min-w-0 items-start gap-3 rounded-2xl border-2 px-3.5 py-3 shadow-sm transition hover:shadow-md",
+                WORD_HUES[i % WORD_HUES.length],
+                rtl ? "text-right" : "text-left",
+              )}
+            >
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-xl bg-card text-xs font-black text-primary shadow-sm">
+                {i + 1}
+              </span>
+              <InteractiveText
+                text={it}
+                className="min-w-0 flex-1 text-[15px] leading-7 text-foreground/90 break-words"
+              />
+              <span className="shrink-0">
+                <SpeakButton text={it} />
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
+
 
   if (block.kind === "table") {
     if (isWordListTable(block.rows)) return <WordListCards rows={block.rows} />;
@@ -350,7 +397,10 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
 }
 
 export function GrammarLesson({ body }: { body: string }) {
-  const sections = parseGrammar(body);
+  const parsed = parseGrammar(body);
+  // Keep the study flow simple: answer keys / extra notes always sit at the end.
+  const isExtra = (t: string) => /(answer|key|solution|note|extra|إجاب|الحل|ملاحظ)/i.test(t);
+  const sections = [...parsed.filter((s) => !isExtra(s.title)), ...parsed.filter((s) => isExtra(s.title))];
   const [open, setOpen] = useState<Record<number, boolean>>({});
   if (!sections.length) return null;
 
