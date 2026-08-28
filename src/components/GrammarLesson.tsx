@@ -91,8 +91,22 @@ export function parseGrammar(body: string): Section[] {
   const flushPara = () => {
     const text = buffer.join(" ").trim();
     buffer = [];
-    if (text) current.blocks.push({ kind: "para", text });
+    if (!text) return;
+    // "1. ... 2. ... 3. ..." crammed into one paragraph → readable numbered cards
+    const marks = text.match(/(?:^|\s)\d{1,2}[.)]\s/g) ?? [];
+    if (marks.length >= 2) {
+      const items = text
+        .split(/(?:^|\s)\d{1,2}[.)]\s+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (items.length >= 2) {
+        current.blocks.push({ kind: "steps", items });
+        return;
+      }
+    }
+    current.blocks.push({ kind: "para", text });
   };
+
   const pushSection = () => {
     flushPara();
     if (current.title || current.blocks.length) sections.push(current);
