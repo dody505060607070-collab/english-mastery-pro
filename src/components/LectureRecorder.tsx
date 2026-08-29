@@ -21,6 +21,8 @@ type RecState = {
   recovering: boolean;
   attemptNo: number;
   micMuted: boolean;
+  /** Which recorder card owns the running session. */
+  owner: string | null;
 };
 
 type Box<T> = { current: T };
@@ -78,6 +80,7 @@ function getSession(): RecSession {
         recovering: false,
         attemptNo: 0,
         micMuted: false,
+        owner: null,
       },
       listeners: new Set(),
       refs: {
@@ -364,6 +367,8 @@ export function LectureRecorder({
     Object.assign(S.state, p);
     S.listeners.forEach((l) => l());
   };
+  const ownerKey = liveSessionId ?? "default";
+  const isOwner = !st.owner || st.owner === ownerKey;
   const setRecording = (v: boolean) => patch({ recording: v });
   const setSaving = (v: boolean) => patch({ saving: v });
   const setUploadProgress = (v: number) => patch({ uploadProgress: v });
@@ -753,7 +758,7 @@ export function LectureRecorder({
 
       startedAtRef.current = Date.now();
       setElapsed(0);
-      setRecording(true);
+      patch({ recording: true, owner: ownerKey });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -929,7 +934,7 @@ export function LectureRecorder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart]);
 
-  if (saving) {
+  if (saving && isOwner) {
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
@@ -944,7 +949,7 @@ export function LectureRecorder({
     );
   }
 
-  return recording ? (
+  return recording && isOwner ? (
     <div className="w-full space-y-3">
       <div className="rounded-xl border bg-muted/40 p-3 space-y-2">
         <div className="flex items-center justify-between gap-2">
