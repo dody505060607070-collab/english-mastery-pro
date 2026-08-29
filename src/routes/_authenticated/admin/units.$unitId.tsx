@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FormattedTextarea } from "@/components/FormattedTextarea";
+import { VisualLessonEditor } from "@/components/admin/VisualLessonEditor";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -200,7 +201,6 @@ function ContentDialog({
   const [body, setBody] = useState(content.body ?? "");
   const [editMode, setEditMode] = useState<"visual" | "markdown">("visual");
   const [visualKey, setVisualKey] = useState(0);
-  void setVisualKey;
 
   const [mediaUrl, setMediaUrl] = useState(content.media_url ?? "");
   const [published, setPublished] = useState(content.is_published ?? true);
@@ -276,7 +276,7 @@ function ContentDialog({
                   size="sm"
                   variant={editMode === "visual" ? "default" : "ghost"}
                   className="rounded-full h-7 text-xs font-bold"
-                  onClick={() => setEditMode("visual")}
+                  onClick={() => { setEditMode("visual"); setVisualKey((k) => k + 1); }}
                 >
                   Visual
                 </Button>
