@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { InteractiveText, SpeakButton } from "@/components/InteractiveText";
 import { RichText } from "@/lib/richtext";
+import { WordCard } from "@/components/exercise/VocabularyDeck";
 import { cn } from "@/lib/utils";
 import { BookText, Lightbulb, ListChecks, AlertTriangle, Table2, Sparkles, ChevronDown } from "lucide-react";
 
@@ -201,34 +202,20 @@ function shortExample(text: string, word: string, maxWords = 8) {
 function WordListCards({ rows }: { rows: string[][] }) {
   const body = rows.filter((r) => /^\/.+\/$/.test((r[1] ?? "").trim()));
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {body.map((row, i) => {
         const [word = "", phonetic = "", arabic = "", example = ""] = row;
         return (
-          <article
+          <WordCard
             key={`${word}-${i}`}
-            dir="ltr"
-            className={cn(
-              "flex h-full flex-col gap-1.5 rounded-2xl border-2 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
-              WORD_HUES[i % WORD_HUES.length],
-            )}
-          >
-            <div className="flex items-start justify-between gap-2">
-              <h4 className="font-serif text-xl font-bold leading-tight">{word}</h4>
-              <SpeakButton text={word} />
-            </div>
-            {phonetic && <p className="font-mono text-xs text-primary">{phonetic}</p>}
-            {arabic && (
-              <p dir="rtl" className="text-right text-sm font-bold text-muted-foreground">
-                {arabic}
-              </p>
-            )}
-            {example && (
-              <p className="mt-auto pt-1 text-[13px] leading-6 text-foreground/85">
-                {shortExample(example, word)}
-              </p>
-            )}
-          </article>
+            word={{
+              word,
+              phonetic: phonetic || null,
+              ...(arabic ? { translation: arabic } : {}),
+              ...(example ? { example: shortExample(example, word) } : {}),
+            }}
+            isLearned={false}
+          />
         );
       })}
     </div>
