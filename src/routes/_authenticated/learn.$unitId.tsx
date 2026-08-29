@@ -279,6 +279,7 @@ function UnitPage() {
               <ContentPanel
                 key={active.id}
                 content={active}
+                levelName={(data.unit as any).sections?.name ?? null}
                 learnedWords={learnedWords.filter((w) => w.content_id === active.id).map((w) => w.word)}
                 isDone={done.has(active.id)}
                 onSubmitExercise={(payload) => submit.mutate({ contentId: active.id, payload })}
@@ -326,6 +327,7 @@ const VOCAB_STRIP = /^#{1,4}\s*(practice|drills?|exercises?|تدريب|تمار�
 
 function ContentPanel({
   content,
+  levelName,
   learnedWords,
   isDone,
   onSubmitExercise,
@@ -334,6 +336,7 @@ function ContentPanel({
   busy,
 }: {
   content: ContentRow;
+  levelName?: string | null;
   learnedWords: string[];
   isDone: boolean;
   onSubmitExercise: (payload: RunnerSubmitPayload) => void;
@@ -405,7 +408,7 @@ function ContentPanel({
         {isListening ? (
           <div className="space-y-3">
             {listeningTurns.length > 0 ? (
-              <DialogueLesson body={listeningText} level={(data.unit as any).sections?.name} />
+              <DialogueLesson body={listeningText} level={levelName ?? undefined} />
             ) : (
               <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
                 <InteractiveText text={listeningText} className="text-[15px] leading-8 text-foreground/90" />
@@ -446,7 +449,7 @@ function ContentPanel({
         )}
 
         {isVocab && words.length > 0 && (
-          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} level={(data.unit as any)?.sections?.name} />
+          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} level={levelName} />
         )}
 
         {questions.length > 0 && (
