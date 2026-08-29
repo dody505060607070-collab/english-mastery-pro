@@ -109,7 +109,7 @@ export const enrichWord = createServerFn({ method: "POST" })
           {
             role: "system",
             content:
-              'Reply with ONLY minified JSON: {"translation":"<short Arabic meaning>","phonetic":"<US IPA>","phonetic_uk":"<UK IPA>","category":"<one English topic word>","example_ar":"<short Arabic example sentence>"}',
+              'Reply with ONLY minified JSON: {"translation":"<short Arabic meaning>","phonetic":"<US IPA>","phonetic_uk":"<UK IPA>","category":"<one English topic word>","example":"<one short simple English example sentence, max 8 words>","example_ar":"<Arabic translation of that same sentence>"}',
           },
           { role: "user", content: data.word },
         ],
@@ -125,6 +125,7 @@ export const enrichWord = createServerFn({ method: "POST" })
       phonetic: parsed["phonetic"] ?? "",
       phonetic_uk: parsed["phonetic_uk"] ?? "",
       category: parsed["category"] ?? "",
+      example: parsed["example"] ?? "",
       example_ar: parsed["example_ar"] ?? "",
     };
   });

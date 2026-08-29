@@ -183,6 +183,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
       if (d.phonetic) setPhonetic(d.phonetic);
       if (d.phonetic_uk) setPhoneticUk(d.phonetic_uk);
       if (d.category) setCategory(d.category);
+      if (d.example) setExample(d.example);
       if (d.example_ar) setExampleAr(d.example_ar);
       toast.success("Data filled automatically");
     },
