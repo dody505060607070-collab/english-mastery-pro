@@ -22,6 +22,7 @@ type RecState = {
   uploadProgress: number;
   elapsed: number;
   level: number;
+  tabLevel: number;
   hasMic: boolean;
   hasSystemAudio: boolean;
   micDenied: boolean;
@@ -65,7 +66,7 @@ type RecSession = {
     audioDest: Box<MediaStreamAudioDestinationNode | null>;
     analyser: Box<AnalyserNode | null>;
     display: Box<MediaStream | null>;
-    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>;
+    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode } | null>;
     backupChain: Box<Promise<void>>;
     backupFailed: Box<boolean>;
     meterTimer: Box<number | null>;
@@ -92,6 +93,7 @@ function getSession(): RecSession {
         uploadProgress: 0,
         elapsed: 0,
         level: 0,
+        tabLevel: 0,
         hasMic: true,
         hasSystemAudio: false,
         micDenied: false,
@@ -127,7 +129,7 @@ function getSession(): RecSession {
         audioDest: box<MediaStreamAudioDestinationNode | null>(null),
         analyser: box<AnalyserNode | null>(null),
         display: box<MediaStream | null>(null),
-        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null),
+        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode } | null>(null),
         backupChain: box<Promise<void>>(Promise.resolve()),
         backupFailed: box(false),
         meterTimer: box<number | null>(null),
@@ -138,7 +140,9 @@ function getSession(): RecSession {
       },
     };
   }
-  return g.__lectureRecSession;
+  const session = g.__lectureRecSession;
+  if (!session) throw new Error("Could not initialize lecture recorder session");
+  return session;
 }
 
 
@@ -387,6 +391,7 @@ export function LectureRecorder({
     uploadProgress,
     elapsed,
     level,
+    tabLevel = 0,
     hasMic,
     hasSystemAudio,
     micDenied,
@@ -416,6 +421,7 @@ export function LectureRecorder({
   const setUploadProgress = (v: number) => patch({ uploadProgress: v });
   const setElapsed = (v: number) => patch({ elapsed: v });
   const setLevel = (v: number) => patch({ level: v });
+  const setTabLevel = (v: number) => patch({ tabLevel: v });
   const setHasMic = (v: boolean) => patch({ hasMic: v });
   const setHasSystemAudio = (v: boolean) => patch({ hasSystemAudio: v });
   const setMicDenied = (v: boolean) => patch({ micDenied: v });
@@ -632,21 +638,20 @@ export function LectureRecorder({
       finalizingRef.current = false;
       const Q = QUALITY[S.state.quality];
 
-      // Ask Chrome for shared-source audio explicitly. The user must still enable
-      // "Also share tab audio" (or system audio on supported Windows devices) in
-      // Chrome's picker; browsers do not let sites switch that permission on.
+      // Prefer a browser tab because Chrome can reliably expose that tab's audio.
+      // Entire-screen/system audio is OS-dependent and is unavailable on macOS.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
           frameRate: { ideal: Q.fps, max: Q.fps },
           width: { ideal: Q.w },
           height: { ideal: Q.h },
-          displaySurface: "monitor",
+          displaySurface: "browser",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
         ...({
           systemAudio: "include",
           windowAudio: "system",
-          surfaceSwitching: "exclude",
+          surfaceSwitching: "include",
           monitorTypeSurfaces: "include",
           preferCurrentTab: false,
           selfBrowserSurface: "exclude",
@@ -655,6 +660,9 @@ export function LectureRecorder({
       } as DisplayMediaStreamOptions);
 
       const displayHasAudio = display.getAudioTracks().some((track) => track.readyState === "live");
+      display.getAudioTracks().forEach((track) => {
+        track.enabled = true;
+      });
       setHasSystemAudio(displayHasAudio);
       const capturedSurface = display.getVideoTracks()[0]?.getSettings().displaySurface;
 
@@ -712,15 +720,19 @@ export function LectureRecorder({
       analyserRef.current = analyser;
       displayRef.current = display;
 
-      const attach = (s: MediaStream, gain: number) => {
+      const attach = (s: MediaStream, gain: number, withOwnAnalyser = false) => {
         if (s.getAudioTracks().length === 0) return null;
-        const src = ctx.createMediaStreamSource(s);
+        const audioOnlyStream = new MediaStream(s.getAudioTracks());
+        const src = ctx.createMediaStreamSource(audioOnlyStream);
         const g = ctx.createGain();
+        const sourceAnalyser = ctx.createAnalyser();
+        sourceAnalyser.fftSize = 512;
         g.gain.value = gain;
         src.connect(g);
         g.connect(comp);
         g.connect(analyser);
-        return { src, gain: g };
+        if (withOwnAnalyser) g.connect(sourceAnalyser);
+        return { src, gain: g, analyser: sourceAnalyser };
       };
 
       setMicMuted(false);
@@ -728,7 +740,7 @@ export function LectureRecorder({
       micGainRef.current = micHasAudio && mic ? attach(mic, S.state.micVol)?.gain ?? null : null;
 
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      displayAudioNodesRef.current = attach(display, S.state.tabVol);
+      displayAudioNodesRef.current = attach(display, S.state.tabVol, true);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0 || ctx.state === "closed") {
@@ -760,6 +772,7 @@ export function LectureRecorder({
        // A low-frequency meter confirms audio without a 60fps animation competing
        // with Meet/video playback and the encoder.
       const buf = new Uint8Array(analyser.fftSize);
+      const tabBuf = new Uint8Array(512);
       let wasSilent = false;
       const tick = () => {
         analyser.getByteTimeDomainData(buf);
@@ -769,7 +782,16 @@ export function LectureRecorder({
           loudAtRef.current = Date.now();
         }
         const isSilent = Date.now() - loudAtRef.current > 5000;
-         setLevel(peak);
+        setLevel(peak);
+        const tabAnalyser = displayAudioNodesRef.current?.analyser;
+        let sharedPeak = 0;
+        if (tabAnalyser) {
+          tabAnalyser.getByteTimeDomainData(tabBuf);
+          for (let i = 0; i < tabBuf.length; i++) {
+            sharedPeak = Math.max(sharedPeak, Math.abs((tabBuf[i] ?? 128) - 128) / 128);
+          }
+        }
+        setTabLevel(sharedPeak);
         if (isSilent !== wasSilent) {
           setSilent(isSilent);
           wasSilent = isSilent;
@@ -819,6 +841,7 @@ export function LectureRecorder({
         audioDestRef.current = null;
         analyserRef.current = null;
         setLevel(0);
+        setTabLevel(0);
       };
 
 
@@ -1213,6 +1236,24 @@ export function LectureRecorder({
             style={{ width: `${Math.min(100, Math.round(level * 160))}%` }}
           />
         </div>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-[11px] font-bold">
+            <span>Meet / YouTube audio input</span>
+            <span>{hasSystemAudio ? `${Math.min(100, Math.round(tabLevel * 160))}%` : "Not connected"}</span>
+          </div>
+          <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full bg-primary transition-[width] duration-75"
+              style={{ width: `${Math.min(100, Math.round(tabLevel * 160))}%` }}
+            />
+          </div>
+        </div>
+        {!hasSystemAudio && (
+          <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-xs font-bold text-destructive">
+            Tab audio is NOT being recorded. Stop and start again, choose the YouTube/Meet tab (not Window or Entire
+            Screen), then enable “Also share tab audio” before pressing Share.
+          </div>
+        )}
         {(micDenied || silent) && (
           <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs font-bold space-y-1">
             <p className="flex items-center gap-1.5 text-destructive">
@@ -1400,7 +1441,9 @@ export function LectureRecorder({
             <MonitorUp className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs font-black">Meet / YouTube audio</p>
-              <p className="text-[11px] text-muted-foreground">Enable “Also share tab audio”</p>
+              <p className="text-[11px] text-muted-foreground">
+                Choose the Chrome Tab category, select the playing tab, then enable “Also share tab audio”.
+              </p>
             </div>
           </div>
         </div>
