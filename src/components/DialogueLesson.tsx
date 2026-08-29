@@ -1,8 +1,8 @@
-import { MessageSquare, Volume2 } from "lucide-react";
+import { MessageSquare, Play, Square, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InteractiveText } from "@/components/InteractiveText";
-import { primeAudio, playText } from "@/lib/audio";
+import { isOwnerActive, primeAudio, playText, stopAudio, useAudioState } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 type Turn = { speaker: string; text: string };
