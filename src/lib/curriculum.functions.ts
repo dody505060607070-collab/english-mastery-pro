@@ -399,13 +399,15 @@ export const getLevelUnits = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: roles }, { data: section }] = await Promise.all([
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: roles }, { data: section }, allowedSectionIds] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase
         .from("sections")
         .select("id, name, description, is_visible, is_locked")
         .eq("id", data.sectionId)
         .maybeSingle(),
+      getAccessibleSectionIds(supabase, userId),
     ]);
 
     const isStaff = (roles ?? []).some((r) =>
@@ -413,9 +415,10 @@ export const getLevelUnits = createServerFn({ method: "GET" })
     );
 
     if (!section) throw new Error("Level not found");
-    if (!isStaff && (!section.is_visible || section.is_locked)) {
+    if (!isStaff && (!section.is_visible || section.is_locked || !allowedSectionIds.includes(section.id))) {
       return { section, locked: true, units: [], totalContents: 0, completedCount: 0, overallProgress: 0 };
     }
+
 
     let unitsQuery = supabase
       .from("units")
