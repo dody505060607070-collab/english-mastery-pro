@@ -68,6 +68,7 @@ type RecSession = {
     wakeLock: Box<{ release: () => Promise<void> } | null>;
     micGain: Box<GainNode | null>;
     micStream: Box<MediaStream | null>;
+    pausedAt: Box<number>;
   };
 };
 
@@ -125,6 +126,7 @@ function getSession(): RecSession {
         wakeLock: box<{ release: () => Promise<void> } | null>(null),
         micGain: box<GainNode | null>(null),
         micStream: box<MediaStream | null>(null),
+        pausedAt: box(0),
       },
     };
   }
@@ -356,6 +358,7 @@ export function LectureRecorder({
   const wakeLockRef = R.wakeLock;
   const micGainRef = R.micGain;
   const micStreamRef = R.micStream;
+  const pausedAtRef = R.pausedAt;
 
   const [, force] = useReducer((n: number) => n + 1, 0);
   useEffect(() => {
@@ -501,11 +504,11 @@ export function LectureRecorder({
 
 
   useEffect(() => {
-    if (!recording) return;
+    if (!recording || paused) return;
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000)), 1000);
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recording]);
+  }, [recording, paused]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -607,15 +610,16 @@ export function LectureRecorder({
         setRecovery(null);
       }
       finalizingRef.current = false;
+      const Q = QUALITY[S.state.quality];
 
       // Ask Chrome for shared-source audio explicitly. The user must still enable
       // "Also share tab audio" (or system audio on supported Windows devices) in
       // Chrome's picker; browsers do not let sites switch that permission on.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 24, max: 30 },
-          width: { ideal: 1600 },
-          height: { ideal: 900 },
+          frameRate: { ideal: Q.fps, max: Q.fps },
+          width: { ideal: Q.w },
+          height: { ideal: Q.h },
           displaySurface: "monitor",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
@@ -702,10 +706,10 @@ export function LectureRecorder({
 
       setMicMuted(false);
       micStreamRef.current = mic;
-      micGainRef.current = micHasAudio && mic ? attach(mic, 1.0)?.gain ?? null : null;
+      micGainRef.current = micHasAudio && mic ? attach(mic, S.state.micVol)?.gain ?? null : null;
 
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      displayAudioNodesRef.current = attach(display, 2.2);
+      displayAudioNodesRef.current = attach(display, S.state.tabVol);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0 || ctx.state === "closed") {
@@ -765,10 +769,10 @@ export function LectureRecorder({
       mimeRef.current = mime;
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
-        audioBitsPerSecond: 128_000,
+        audioBitsPerSecond: Q.audio,
         // Slides/screen stay readable at this rate while an hour-long lecture stays
         // around ~300MB, so it uploads reliably and streams on phones.
-        videoBitsPerSecond: 1_800_000,
+        videoBitsPerSecond: Q.video,
 
       });
 
@@ -878,7 +882,8 @@ export function LectureRecorder({
 
       startedAtRef.current = Date.now();
       setElapsed(0);
-      patch({ recording: true, owner: ownerKey });
+      pausedAtRef.current = 0;
+      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -904,7 +909,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, owner: null, silent: false });
+    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
