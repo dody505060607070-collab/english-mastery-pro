@@ -148,13 +148,13 @@ function pickMime() {
  */
 async function repairBlob(blob: Blob, type: string): Promise<Blob> {
   if (!type.includes("webm")) return blob;
-  // Rewriting metadata loads the whole file in memory. Above ~700MB (≈2h) that
-  // can crash the tab and lose the lecture, so the raw blob is kept instead.
-  if (blob.size > 700 * 1024 * 1024) return blob;
   try {
+    // This implementation streams the source blob and supports files beyond 2GB.
+    // Always repair it: an unfinalized WebM commonly reports only the first few
+    // seconds and then buffers forever even though every recorded chunk exists.
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
-    return fixed.size > 1000 ? fixed : blob;
+    return fixed.size >= blob.size * 0.98 ? fixed : blob;
   } catch {
     return blob;
   }
@@ -478,6 +478,9 @@ export function LectureRecorder({
     const ctx = new Ctx();
     const initialResume = ctx.state === "suspended" ? ctx.resume().catch(() => undefined) : Promise.resolve();
     try {
+      // Ask the browser not to evict a multi-hour local backup under storage pressure.
+      // Unsupported browsers simply continue with normal IndexedDB storage.
+      await navigator.storage?.persist?.().catch(() => false);
       // Never silently discard an interrupted session: it must be recovered or deleted first.
       const existing = await backupRead();
       if (existing) {
@@ -730,20 +733,12 @@ export function LectureRecorder({
       };
       document.addEventListener("visibilitychange", onVisible);
 
-      // Watchdog: long lectures can be killed by the OS/tab throttling. Every 10s
-      // we force a flush and, if the recorder died silently, we save what exists
-      // instead of losing the lecture.
+      // Watchdog: detect if the browser/OS killed a long recording. MediaRecorder's
+      // own 3-second timeslice already flushes continuously; extra requestData calls
+      // can create unnecessary WebM boundaries in some Chrome versions.
       const watchdog = window.setInterval(() => {
         const current = recorderRef.current;
         if (!current) return;
-        if (current.state === "recording") {
-          try {
-            current.requestData();
-          } catch {
-            // ignore — the timeslice keeps producing chunks
-          }
-          return;
-        }
         if (current.state === "inactive" && !finalizingRef.current) {
           toast.error("Recording was interrupted by the system — saving what was recorded.");
           void finalize();
