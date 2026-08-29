@@ -1,8 +1,8 @@
-import { MessageSquare, Volume2 } from "lucide-react";
+import { MessageSquare, Play, Square, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InteractiveText } from "@/components/InteractiveText";
-import { primeAudio, playText } from "@/lib/audio";
+import { isOwnerActive, primeAudio, playText, stopAudio, useAudioState } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 type Turn = { speaker: string; text: string };
@@ -38,9 +38,11 @@ const VOICES = ["alloy", "nova", "echo", "shimmer"];
 /** Renders a listening transcript as a readable two-person conversation. */
 export function DialogueLesson({ body }: { body: string }) {
   const turns = parseDialogueTurns(body);
+  const audio = useAudioState();
   if (!turns.length) return null;
 
   const speakers = Array.from(new Set(turns.map((t) => t.speaker)));
+  const playing = isOwnerActive("dialogue-all", audio);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-primary/30 bg-card shadow-sm">
@@ -48,10 +50,32 @@ export function DialogueLesson({ body }: { body: string }) {
         <span className="grid h-9 w-9 place-items-center rounded-xl bg-card text-primary shadow-sm">
           <MessageSquare className="h-5 w-5" />
         </span>
-        <div>
+        <div className="flex-1">
           <p className="text-[10px] font-black uppercase text-primary">Conversation</p>
           <h3 className="text-base font-black">{speakers.join(" & ")}</h3>
         </div>
+        <Button
+          type="button"
+          size="sm"
+          variant={playing ? "destructive" : "default"}
+          className="gap-1.5 font-bold"
+          onClick={() => {
+            if (playing) {
+              stopAudio();
+              return;
+            }
+            primeAudio();
+            // playText detects the A:/B: dialogue, strips the labels, and
+            // assigns a distinct voice per speaker automatically. Pass a
+            // clean reconstructed transcript so markdown noise never breaks
+            // the parser.
+            const transcript = turns.map((t) => `${t.speaker}: ${t.text}`).join("\n");
+            void playText(transcript, "dialogue-all");
+          }}
+        >
+          {playing ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+          {playing ? "Stop" : "Play conversation"}
+        </Button>
       </header>
 
       <div className="space-y-3 px-4 py-5 md:px-6" dir="ltr">
