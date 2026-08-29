@@ -321,15 +321,14 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
     [parsed.focus, body, level],
   );
   const tier = tierFor(level);
+  const picked = useMemo(() => selectForLevel(pattern, level), [pattern, level]);
   const [speed, setSpeed] = useState(() => snapSpeed(rateForLevel(level)));
   const [scores, setScores] = useState<Record<string, number>>({});
 
-  const pairs = parsed.pairs.length ? parsed.pairs : pattern.pairs.slice(0, tier.pairs);
-  const words = (parsed.words.length ? parsed.words : pattern.words).slice(0, tier.words);
-  const sentences = (parsed.sentences.length ? parsed.sentences : pattern.sentences).slice(
-    0,
-    tier.sentences,
-  );
+  const pairs = parsed.pairs.length ? parsed.pairs.slice(0, tier.pairs) : picked.pairs;
+  const words = parsed.words.length ? parsed.words.slice(0, tier.words) : picked.words;
+  const sentences = parsed.sentences.length ? parsed.sentences.slice(0, tier.sentences) : picked.sentences;
+
   const drills = useMemo(() => [...words, ...sentences], [words.join("|"), sentences.join("|")]);
   const attempted = Object.keys(scores).length;
   const average = attempted
