@@ -217,7 +217,7 @@ function RecordingCard({ rec }: { rec: any }) {
 
   return (
     <Card className="overflow-hidden">
-      {src && !isImage && !isPdf && !hasDuration && (
+      {src && !isImage && !isPdf && !hasDuration && !ytEmbed && (
         <video
           src={src}
           preload="metadata"
@@ -281,6 +281,10 @@ function RecordingCard({ rec }: { rec: any }) {
               src={src}
               poster={(rec as any).cover_url ?? undefined}
               playsInline
+              controlsList="nodownload noplaybackrate"
+              disablePictureInPicture
+              onContextMenu={(event) => event.preventDefault()}
+
               className="w-full h-full bg-background object-contain"
               preload="auto"
               onClick={togglePlayback}
