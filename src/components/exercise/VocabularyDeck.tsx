@@ -59,7 +59,7 @@ export function VocabularyDeck({
         ))}
       </div>
 
-      <WordsInContext words={words} />
+      <WordsInContext words={words} maxSentences={sentencesForLevel(level)} />
     </div>
   );
 }
@@ -69,20 +69,21 @@ export function VocabularyDeck({
  * as possible in context. Sentences are chosen greedily from the words' own
  * examples so the final set covers the most distinct vocabulary words.
  */
-function WordsInContext({ words }: { words: VocabWord[] }) {
+function WordsInContext({ words, maxSentences = 3 }: { words: VocabWord[]; maxSentences?: number }) {
   const pool = words
     .map((w) => ({ word: w.word, example: (w.example ?? "").trim() }))
     .filter((x) => x.example.length > 0)
     .map((x) => ({ ...x, example: /[.!?]$/.test(x.example) ? x.example : `${x.example}.` }));
 
   if (pool.length < 3) return null;
+  const limit = Math.min(maxSentences, pool.length);
 
   const stems = words.map((w) => w.word.replace(/[^A-Za-z]/g, "").toLowerCase()).filter(Boolean);
   const covered = new Set<string>();
   const picked: string[] = [];
   const remaining = [...pool];
 
-  while (picked.length < 3 && remaining.length) {
+  while (picked.length < limit && remaining.length) {
     let bestIdx = 0;
     let bestGain = -1;
     for (let i = 0; i < remaining.length; i++) {

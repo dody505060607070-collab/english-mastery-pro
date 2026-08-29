@@ -446,7 +446,7 @@ function ContentPanel({
         )}
 
         {isVocab && words.length > 0 && (
-          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} />
+          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} level={(data.unit as any)?.sections?.name} />
         )}
 
         {questions.length > 0 && (
