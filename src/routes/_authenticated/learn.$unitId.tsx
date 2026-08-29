@@ -342,10 +342,11 @@ function ContentPanel({
   const data = parseData(content.data);
   const words = (data.words ?? []) as VocabWord[];
   const stored = (data.questions ?? []) as Question[];
+  const isVocab = content.content_type === "vocabulary";
   const questions = useMemo(
-    () => (stored.length ? stored : buildAutoQuestions(content.content_type, content.body, words)),
+    () => (isVocab ? [] : stored.length ? stored : buildAutoQuestions(content.content_type, content.body, words)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [content.id],
+    [content.id, isVocab],
   );
   const lessonBody = useMemo(() => {
     const body = stripAnswers(content.body);
@@ -356,7 +357,6 @@ function ContentPanel({
   const image = useMediaUrl(data.image_url ?? null);
 
   const isListening = content.content_type === "listening";
-  const isVocab = content.content_type === "vocabulary";
 
   const color = contentColor(content.content_type);
 
