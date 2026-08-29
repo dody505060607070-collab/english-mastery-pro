@@ -214,6 +214,13 @@ function parseDialogue(raw: string): DialogueSegment[] | null {
   const parts: DialogueSegment[] = [];
   let labelled = 0;
   for (const line of lines) {
+    // Markdown headings are section boundaries: ignore ones before the
+    // dialogue ("## Before you listen") and stop at ones after it
+    // ("## Key phrases", "## Comprehension").
+    if (/^#{1,4}\s/.test(line)) {
+      if (parts.length) break;
+      continue;
+    }
     const m = line.match(/^([A-Za-z][A-Za-z ]{0,18})\s*[:：]\s*(.+)$/);
     if (m) {
       labelled++;
