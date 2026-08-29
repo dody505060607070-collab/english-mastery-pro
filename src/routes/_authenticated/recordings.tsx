@@ -52,7 +52,10 @@ function RecordingCard({ rec }: { rec: any }) {
   const [autoSound, setAutoSound] = useState(true);
   const [mediaDuration, setMediaDuration] = useState<number | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const [scrubTime, setScrubTime] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
+  const playAfterSeekRef = useRef(false);
+  const pendingSeekRef = useRef<number | null>(null);
   const path = rec.video_url ?? "";
   const isImage = /\.(png|jpe?g|webp|gif|heic)$/i.test(path);
   const isPdf = /\.pdf$/i.test(path);
@@ -117,18 +120,43 @@ function RecordingCard({ rec }: { rec: any }) {
 
   const totalDuration = mediaDuration ?? rec.duration_seconds ?? 0;
 
-  function seekTo(seconds: number) {
+  function seekTo(seconds: number, resumePlayback = playing) {
     const el = videoRef.current;
     if (!el || !Number.isFinite(seconds)) return;
     const bounded = Math.max(0, Math.min(totalDuration || seconds, seconds));
-    el.currentTime = bounded;
+    pendingSeekRef.current = bounded;
+    playAfterSeekRef.current = resumePlayback;
+    setScrubTime(null);
     setCurrentTime(bounded);
+    setWaiting(true);
+
+    if (el.readyState === HTMLMediaElement.HAVE_NOTHING) {
+      el.load();
+      return;
+    }
+
+    const seekable = el.seekable;
+    const canFastSeek = typeof (el as HTMLVideoElement & { fastSeek?: (time: number) => void }).fastSeek === "function";
+    let target = bounded;
+    if (seekable.length > 0) {
+      const start = seekable.start(0);
+      const end = seekable.end(seekable.length - 1);
+      target = Math.max(start, Math.min(end, bounded));
+    }
+    if (canFastSeek) (el as HTMLVideoElement & { fastSeek: (time: number) => void }).fastSeek(target);
+    else el.currentTime = target;
   }
 
   function togglePlayback() {
     const el = videoRef.current;
     if (!el) return;
-    if (el.paused) void el.play();
+    if (el.seeking) {
+      playAfterSeekRef.current = true;
+      setWaiting(true);
+    } else if (el.paused) {
+      setWaiting(true);
+      void el.play().catch(() => setWaiting(false));
+    }
     else el.pause();
   }
 
@@ -170,22 +198,38 @@ function RecordingCard({ rec }: { rec: any }) {
               onLoadedMetadata={(event) => {
                 const seconds = event.currentTarget.duration;
                 if (Number.isFinite(seconds) && seconds > 0) setMediaDuration(Math.round(seconds));
+                const pending = pendingSeekRef.current;
+                if (pending !== null) event.currentTarget.currentTime = pending;
               }}
               onDurationChange={(event) => {
                 const seconds = event.currentTarget.duration;
                 if (Number.isFinite(seconds) && seconds > 0) setMediaDuration(Math.round(seconds));
               }}
-              onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+              onTimeUpdate={(event) => {
+                if (scrubTime === null) setCurrentTime(event.currentTarget.currentTime);
+              }}
               onCanPlay={() => setWaiting(false)}
               onPlaying={() => { setWaiting(false); setPlaying(true); }}
               onPause={() => setPlaying(false)}
               onEnded={() => setPlaying(false)}
+              onSeeking={() => setWaiting(true)}
+              onSeeked={(event) => {
+                pendingSeekRef.current = null;
+                setCurrentTime(event.currentTarget.currentTime);
+                setWaiting(false);
+                if (playAfterSeekRef.current) {
+                  playAfterSeekRef.current = false;
+                  void event.currentTarget.play().catch(() => setWaiting(false));
+                }
+              }}
               onError={() => { setWaiting(false); setFailed(true); }}
               onStalled={() => setWaiting(true)}
+              onWaiting={() => setWaiting(true)}
             />
             {waiting && (
-              <div className="absolute inset-0 flex items-center justify-center bg-background/70 pointer-events-none">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/70 pointer-events-none">
                 <Loader2 className="h-7 w-7 animate-spin text-primary" />
+                <span className="text-xs font-bold text-foreground">Loading selected minute…</span>
               </div>
             )}
           </div>
@@ -207,14 +251,15 @@ function RecordingCard({ rec }: { rec: any }) {
         <div className="space-y-3 border-b bg-muted/40 px-4 py-3">
           <div className="flex items-center gap-3">
             <span className="w-14 shrink-0 text-right text-xs font-black tabular-nums">
-              {fmtDuration(currentTime) ?? "0:00"}
+              {fmtDuration(scrubTime ?? currentTime) ?? "0:00"}
             </span>
             <Slider
               className="min-w-0 flex-1"
-              value={[Math.min(currentTime, totalDuration || currentTime)]}
+              value={[Math.min(scrubTime ?? currentTime, totalDuration || scrubTime || currentTime)]}
               max={Math.max(1, totalDuration)}
               step={1}
-              onValueChange={(value) => seekTo(value[0] ?? 0)}
+              onValueChange={(value) => setScrubTime(value[0] ?? 0)}
+              onValueCommit={(value) => seekTo(value[0] ?? 0, true)}
               aria-label="Lecture timeline"
             />
             <span className="w-14 shrink-0 text-xs font-black tabular-nums">
