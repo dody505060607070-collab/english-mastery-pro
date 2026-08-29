@@ -1074,6 +1074,26 @@ export function LectureRecorder({
     }
   }
 
+  // Auto-start the live mic meter when permission was already granted, so the bar
+  // moves as soon as the page opens (no click needed).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const perm = await (navigator.permissions as any)?.query?.({ name: "microphone" as PermissionName });
+        if (!cancelled && perm?.state === "granted" && !micTestRef.current && !recording) {
+          void startMicTest();
+        }
+      } catch {
+        /* permissions API unavailable — user can press "Test my mic" */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => () => stopMicTest(), []);
 
   async function downloadBackup() {
