@@ -1,10 +1,142 @@
-import { useEffect, useRef, useState } from "react";
-import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, RotateCcw, Square } from "lucide-react";
+import { useEffect, useReducer } from "react";
+import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+
+export type RecQuality = "normal" | "high" | "max";
+
+const QUALITY: Record<RecQuality, { w: number; h: number; fps: number; video: number; audio: number; label: string }> = {
+  normal: { w: 1280, h: 720, fps: 20, video: 1_100_000, audio: 96_000, label: "Normal (720p) — smallest files" },
+  high: { w: 1600, h: 900, fps: 24, video: 1_800_000, audio: 128_000, label: "High (900p) — balanced" },
+  max: { w: 1920, h: 1080, fps: 30, video: 3_200_000, audio: 160_000, label: "Max (1080p) — sharpest text" },
+};
+
+type RecState = {
+  starting: boolean;
+  recording: boolean;
+  paused: boolean;
+  saving: boolean;
+  uploadProgress: number;
+  elapsed: number;
+  level: number;
+  hasMic: boolean;
+  hasSystemAudio: boolean;
+  micDenied: boolean;
+  silent: boolean;
+  recovery: { url: string; name: string } | null;
+  unfinished: { meta: BackupMeta; size: number } | null;
+  recovering: boolean;
+  attemptNo: number;
+  micMuted: boolean;
+  quality: RecQuality;
+  micVol: number;
+  tabVol: number;
+  lowSpace: string | null;
+  saved: { title: string; duration: number } | null;
+  /** Which recorder card owns the running session. */
+  owner: string | null;
+};
+
+type Box<T> = { current: T };
+const box = <T,>(v: T): Box<T> => ({ current: v });
+
+
+type RecSession = {
+  state: RecState;
+  listeners: Set<() => void>;
+  refs: {
+    recorder: Box<MediaRecorder | null>;
+    chunks: Box<Blob[]>;
+    startedAt: Box<number>;
+    mime: Box<string>;
+    cleanup: Box<(() => void) | null>;
+    raf: Box<number | null>;
+    finalizing: Box<boolean>;
+    mounted: Box<boolean>;
+    canvas: Box<HTMLCanvasElement | null>;
+    loudAt: Box<number>;
+    shareEnd: Box<(() => void) | null>;
+    audioCtx: Box<AudioContext | null>;
+    audioDest: Box<MediaStreamAudioDestinationNode | null>;
+    analyser: Box<AnalyserNode | null>;
+    display: Box<MediaStream | null>;
+    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>;
+    backupChain: Box<Promise<void>>;
+    backupFailed: Box<boolean>;
+    meterTimer: Box<number | null>;
+    wakeLock: Box<{ release: () => Promise<void> } | null>;
+    micGain: Box<GainNode | null>;
+    micStream: Box<MediaStream | null>;
+    pausedAt: Box<number>;
+  };
+};
+
+/**
+ * One module-level recording session shared by every mount of the recorder, so
+ * the lecture keeps recording while the admin navigates between pages.
+ */
+function getSession(): RecSession {
+  const g = globalThis as unknown as { __lectureRecSession?: RecSession };
+  if (!g.__lectureRecSession) {
+    g.__lectureRecSession = {
+      state: {
+        starting: false,
+        recording: false,
+        paused: false,
+        saving: false,
+        uploadProgress: 0,
+        elapsed: 0,
+        level: 0,
+        hasMic: true,
+        hasSystemAudio: false,
+        micDenied: false,
+        silent: false,
+        recovery: null,
+        unfinished: null,
+        recovering: false,
+        attemptNo: 0,
+        micMuted: false,
+        quality: "high",
+        micVol: 1,
+        tabVol: 2.2,
+        lowSpace: null,
+        saved: null,
+        owner: null,
+      },
+      listeners: new Set(),
+      refs: {
+        recorder: box<MediaRecorder | null>(null),
+        chunks: box<Blob[]>([]),
+        startedAt: box(0),
+        mime: box("video/webm"),
+        cleanup: box<(() => void) | null>(null),
+        raf: box<number | null>(null),
+        finalizing: box(false),
+        mounted: box(true),
+        canvas: box<HTMLCanvasElement | null>(null),
+        loudAt: box(0),
+        shareEnd: box<(() => void) | null>(null),
+        audioCtx: box<AudioContext | null>(null),
+        audioDest: box<MediaStreamAudioDestinationNode | null>(null),
+        analyser: box<AnalyserNode | null>(null),
+        display: box<MediaStream | null>(null),
+        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null),
+        backupChain: box<Promise<void>>(Promise.resolve()),
+        backupFailed: box(false),
+        meterTimer: box<number | null>(null),
+        wakeLock: box<{ release: () => Promise<void> } | null>(null),
+        micGain: box<GainNode | null>(null),
+        micStream: box<MediaStream | null>(null),
+        pausedAt: box(0),
+      },
+    };
+  }
+  return g.__lectureRecSession;
+}
+
 
 function fmt(sec: number) {
   const m = Math.floor(sec / 60)
@@ -22,8 +154,8 @@ function pickMime() {
   // multi-hour screen captures. VP8/WebM is the proven long-session path; its
   // seek metadata is repaired before upload.
   const candidates = [
-    "video/webm;codecs=vp8,opus",
     "video/webm;codecs=vp9,opus",
+    "video/webm;codecs=vp8,opus",
     "video/webm",
     "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
     "video/mp4;codecs=avc1,mp4a.40.2",
@@ -41,13 +173,13 @@ function pickMime() {
  */
 async function repairBlob(blob: Blob, type: string): Promise<Blob> {
   if (!type.includes("webm")) return blob;
-  // Rewriting metadata loads the whole file in memory. Above ~700MB (≈2h) that
-  // can crash the tab and lose the lecture, so the raw blob is kept instead.
-  if (blob.size > 700 * 1024 * 1024) return blob;
   try {
+    // This implementation streams the source blob and supports files beyond 2GB.
+    // Always repair it: an unfinalized WebM commonly reports only the first few
+    // seconds and then buffers forever even though every recorded chunk exists.
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
-    return fixed.size > 1000 ? fixed : blob;
+    return fixed.size >= blob.size * 0.98 ? fixed : blob;
   } catch {
     return blob;
   }
@@ -203,66 +335,193 @@ export function LectureRecorder({
   onSaved?: () => void;
   autoStart?: boolean;
 }) {
-  const recorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const startedAtRef = useRef<number>(0);
-  const mimeRef = useRef<string>("video/webm");
-  const cleanupRef = useRef<(() => void) | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const finalizingRef = useRef(false);
-  const mountedRef = useRef(true);
-  const [recording, setRecording] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const [level, setLevel] = useState(0);
-  const [hasMic, setHasMic] = useState(true);
-  const [hasSystemAudio, setHasSystemAudio] = useState(false);
-  const [micDenied, setMicDenied] = useState(false);
-  const [silent, setSilent] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const loudAtRef = useRef<number>(0);
-  const [recovery, setRecovery] = useState<{ url: string; name: string } | null>(null);
-  const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
-  const [recovering, setRecovering] = useState(false);
-  const [attemptNo, setAttemptNo] = useState(0);
-  const shareEndCleanupRef = useRef<(() => void) | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const displayRef = useRef<MediaStream | null>(null);
-  const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
-  const backupWriteChainRef = useRef<Promise<void>>(Promise.resolve());
-  const backupFailedRef = useRef(false);
-  const meterTimerRef = useRef<number | null>(null);
-  const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
-  // Mutes only the teacher's own microphone; shared tab/system audio keeps recording.
-  const micGainRef = useRef<GainNode | null>(null);
-  const micStreamRef = useRef<MediaStream | null>(null);
-  const [micMuted, setMicMuted] = useState(false);
+  // ---- Cross-page session -------------------------------------------------
+  // Everything mutable lives in one module-level session so navigating to another
+  // admin page (or unmounting this component) never stops an ongoing recording.
+  const S = getSession();
+  const R = S.refs;
+  const recorderRef = R.recorder;
+  const chunksRef = R.chunks;
+  const startedAtRef = R.startedAt;
+  const mimeRef = R.mime;
+  const cleanupRef = R.cleanup;
+  const rafRef = R.raf;
+  const finalizingRef = R.finalizing;
+  const mountedRef = R.mounted;
+  const canvasRef = R.canvas;
+  const loudAtRef = R.loudAt;
+  const shareEndCleanupRef = R.shareEnd;
+  const audioCtxRef = R.audioCtx;
+  const audioDestRef = R.audioDest;
+  const analyserRef = R.analyser;
+  const displayRef = R.display;
+  const displayAudioNodesRef = R.displayAudioNodes;
+  const backupWriteChainRef = R.backupChain;
+  const backupFailedRef = R.backupFailed;
+  const meterTimerRef = R.meterTimer;
+  const wakeLockRef = R.wakeLock;
+  const micGainRef = R.micGain;
+  const micStreamRef = R.micStream;
+  const pausedAtRef = R.pausedAt;
+
+  const [, force] = useReducer((n: number) => n + 1, 0);
+  useEffect(() => {
+    S.listeners.add(force);
+    return () => {
+      S.listeners.delete(force);
+    };
+  }, [S]);
+
+  const st = S.state;
+  const {
+    starting,
+    recording,
+    saving,
+    uploadProgress,
+    elapsed,
+    level,
+    hasMic,
+    hasSystemAudio,
+    micDenied,
+    silent,
+    recovery,
+    unfinished,
+    recovering,
+    attemptNo,
+    micMuted,
+    paused,
+    quality,
+    micVol,
+    tabVol,
+    lowSpace,
+    saved,
+  } = st;
+  const patch = (p: Partial<RecState>) => {
+    Object.assign(S.state, p);
+    S.listeners.forEach((l) => l());
+  };
+  const ownerKey = liveSessionId ?? "default";
+  const isOwner = !st.owner || st.owner === ownerKey;
+  const setRecording = (v: boolean) => patch({ recording: v });
+  const setSaving = (v: boolean) => patch({ saving: v });
+  const setUploadProgress = (v: number) => patch({ uploadProgress: v });
+  const setElapsed = (v: number) => patch({ elapsed: v });
+  const setLevel = (v: number) => patch({ level: v });
+  const setHasMic = (v: boolean) => patch({ hasMic: v });
+  const setHasSystemAudio = (v: boolean) => patch({ hasSystemAudio: v });
+  const setMicDenied = (v: boolean) => patch({ micDenied: v });
+  const setSilent = (v: boolean) => patch({ silent: v });
+  const setRecovery = (v: RecState["recovery"]) => patch({ recovery: v });
+  const setUnfinished = (v: RecState["unfinished"]) => patch({ unfinished: v });
+  const setRecovering = (v: boolean) => patch({ recovering: v });
+  const setAttemptNo = (v: number) => patch({ attemptNo: v });
+  const setMicMuted = (v: boolean) => patch({ micMuted: v });
 
   function toggleMicMute() {
     const next = !micMuted;
     setMicMuted(next);
-    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.35;
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : micVol;
     micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
 
+  /** Live mixing controls: fix low YouTube/Meet volume without restarting. */
+  function changeMicVol(v: number) {
+    patch({ micVol: v });
+    if (micGainRef.current && !micMuted) micGainRef.current.gain.value = v;
+  }
+  function changeTabVol(v: number) {
+    patch({ tabVol: v });
+    const g = displayAudioNodesRef.current?.gain;
+    if (g) g.gain.value = v;
+  }
+
+  /** Pause / resume without ending the session (break time). */
+  function togglePause() {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    if (rec.state === "recording") {
+      try {
+        rec.pause();
+      } catch {
+        return;
+      }
+      pausedAtRef.current = Date.now();
+      patch({ paused: true });
+      toast.info("Recording paused.");
+    } else if (rec.state === "paused") {
+      try {
+        rec.resume();
+      } catch {
+        return;
+      }
+      if (pausedAtRef.current) startedAtRef.current += Date.now() - pausedAtRef.current;
+      pausedAtRef.current = 0;
+      patch({ paused: false });
+      toast.success("Recording resumed.");
+    }
+  }
+
+  // Keyboard shortcut: Ctrl/Cmd+Shift+S stops & saves, Ctrl/Cmd+Shift+P pauses.
+  useEffect(() => {
+    if (!recording || !isOwner) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey) || !e.shiftKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "s") {
+        e.preventDefault();
+        stopRecording();
+      } else if (k === "p") {
+        e.preventDefault();
+        togglePause();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording, isOwner, paused]);
+
+  // Disk-space watchdog: long lectures need free space for the local backup.
+  useEffect(() => {
+    if (!recording) return;
+    let stopped = false;
+    const check = async () => {
+      try {
+        const est = await navigator.storage?.estimate?.();
+        if (stopped || !est?.quota) return;
+        const freeMb = Math.max(0, (est.quota - (est.usage ?? 0)) / (1024 * 1024));
+        if (freeMb < 700) {
+          patch({ lowSpace: `${Math.round(freeMb)} MB free — stop and save soon to avoid losing the lecture.` });
+        } else if (S.state.lowSpace) {
+          patch({ lowSpace: null });
+        }
+      } catch {
+        /* storage estimate unsupported */
+      }
+    };
+    void check();
+    const t = setInterval(() => void check(), 60_000);
+    return () => {
+      stopped = true;
+      clearInterval(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording]);
 
 
   useEffect(() => {
-    if (!recording) return;
+    if (!recording || paused) return;
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000)), 1000);
     return () => clearInterval(t);
-  }, [recording]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording, paused]);
 
   useEffect(() => {
     mountedRef.current = true;
     // Detect an unfinished recording session left behind by a crash / power cut.
     void (async () => {
+      if (S.state.recording) return;
       const backup = await backupRead();
-      if (!mountedRef.current) return;
       if (!backup) return;
       const size = backup.chunks.reduce((sum, c) => sum + c.size, 0);
       if (size < 1000) {
@@ -271,20 +530,12 @@ export function LectureRecorder({
       }
       setUnfinished({ meta: backup.meta, size });
     })();
-    return () => {
-      mountedRef.current = false;
-      const recorder = recorderRef.current;
-      if (recorder?.state === "recording") {
-        try {
-          recorder.requestData();
-          recorder.stop();
-        } catch {
-          cleanupRef.current?.();
-        }
-      }
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    // NOTE: intentionally no stop on unmount — recording continues across page
+    // navigation and only ends when the teacher presses Stop (or the browser/tab
+    // is closed, in which case the IndexedDB backup is recovered next time).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   useEffect(
     () => () => {
@@ -306,6 +557,9 @@ export function LectureRecorder({
   function stopRecording() {
     const recorder = recorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
+    // Show the saving panel immediately: repairing a long WebM can take a while
+    // before the upload percentage starts moving.
+    patch({ saving: true, uploadProgress: 0 });
     try {
       recorder.requestData();
     } catch {
@@ -341,9 +595,13 @@ export function LectureRecorder({
     // can leave Chrome's mixer suspended, producing a video with a silent audio track.
     const Ctx: typeof AudioContext =
       window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    patch({ starting: true, owner: ownerKey, saved: null });
     const ctx = new Ctx();
     const initialResume = ctx.state === "suspended" ? ctx.resume().catch(() => undefined) : Promise.resolve();
     try {
+      // Ask the browser not to evict a multi-hour local backup under storage pressure.
+      // Unsupported browsers simply continue with normal IndexedDB storage.
+      await navigator.storage?.persist?.().catch(() => false);
       // Never silently discard an interrupted session: it must be recovered or deleted first.
       const existing = await backupRead();
       if (existing) {
@@ -352,6 +610,7 @@ export function LectureRecorder({
           if (mountedRef.current) setUnfinished({ meta: existing.meta, size });
           toast.error("An unfinished recording backup exists — recover or delete it before starting a new one.");
           void ctx.close().catch(() => undefined);
+          patch({ starting: false, owner: null });
           return;
         }
         await backupClear();
@@ -362,24 +621,27 @@ export function LectureRecorder({
         setRecovery(null);
       }
       finalizingRef.current = false;
+      const Q = QUALITY[S.state.quality];
 
-      // One Entire Screen permission keeps capture alive while moving between
-      // Meet, YouTube and other tabs. The microphone is captured independently,
-      // so muting the microphone inside Meet does not mute this recording.
+      // Ask Chrome for shared-source audio explicitly. The user must still enable
+      // "Also share tab audio" (or system audio on supported Windows devices) in
+      // Chrome's picker; browsers do not let sites switch that permission on.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 15, max: 20 },
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          frameRate: { ideal: Q.fps, max: Q.fps },
+          width: { ideal: Q.w },
+          height: { ideal: Q.h },
           displaySurface: "monitor",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
         ...({
           systemAudio: "include",
+          windowAudio: "system",
           surfaceSwitching: "exclude",
           monitorTypeSurfaces: "include",
           preferCurrentTab: false,
           selfBrowserSurface: "exclude",
+          suppressLocalAudioPlayback: false,
         } as Record<string, unknown>),
       } as DisplayMediaStreamOptions);
 
@@ -405,21 +667,38 @@ export function LectureRecorder({
         display.getTracks().forEach((track) => track.stop());
         void ctx.close().catch(() => undefined);
         toast.error("No audio permission was granted. Allow the microphone, or share a Chrome tab with tab audio enabled.");
+        patch({ starting: false, owner: null });
         return;
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
       if (!displayHasAudio) {
-        toast.warning(
+        // Do not allow a deceptively successful mic-only lecture: this is exactly
+        // the state that loses students/Meet/YouTube audio.
+        display.getTracks().forEach((track) => track.stop());
+        mic?.getTracks().forEach((track) => track.stop());
+        void ctx.close().catch(() => undefined);
+        toast.error(
           capturedSurface === "browser"
-            ? "Tab audio was not enabled. Enable 'Also share tab audio' in Chrome."
-            : "System audio was not shared. On Windows, select Entire Screen and enable 'Also share system audio'. On macOS, Chrome cannot capture all system audio; share the Meet tab instead.",
+            ? "Shared-tab audio is OFF. Start again, select the Meet/YouTube tab, and tick 'Also share tab audio'."
+            : "Screen audio is OFF. Start again and enable 'Share system audio'; on macOS, select the Meet/YouTube Chrome tab and tick 'Also share tab audio'.",
+          { duration: 12_000 },
         );
+        patch({ starting: false, owner: null });
+        return;
       }
 
       // 3. Mix audio tracks properly (MediaRecorder only supports ONE audio track)
       await initialResume;
       if (ctx.state === "suspended") await ctx.resume().catch(() => undefined);
       const dest = ctx.createMediaStreamDestination();
+      // Keeps the boosted tab/YouTube audio loud without clipping the mix.
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -18;
+      comp.knee.value = 20;
+      comp.ratio.value = 3;
+      comp.attack.value = 0.003;
+      comp.release.value = 0.25;
+      comp.connect(dest);
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 512;
       audioCtxRef.current = ctx;
@@ -433,23 +712,24 @@ export function LectureRecorder({
         const g = ctx.createGain();
         g.gain.value = gain;
         src.connect(g);
-        g.connect(dest);
+        g.connect(comp);
         g.connect(analyser);
         return { src, gain: g };
       };
 
       setMicMuted(false);
       micStreamRef.current = mic;
-      micGainRef.current = micHasAudio && mic ? attach(mic, 1.35)?.gain ?? null : null;
+      micGainRef.current = micHasAudio && mic ? attach(mic, S.state.micVol)?.gain ?? null : null;
 
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      displayAudioNodesRef.current = attach(display, 0.8);
+      displayAudioNodesRef.current = attach(display, S.state.tabVol);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0 || ctx.state === "closed") {
         toast.error("No audio sources available. Allow the microphone or enable 'Also share tab audio'.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
+        patch({ starting: false, owner: null });
         return;
       }
 
@@ -498,15 +778,16 @@ export function LectureRecorder({
         toast.error("MediaRecorder is not supported on this browser.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
+        patch({ starting: false, owner: null });
         return;
       }
       mimeRef.current = mime;
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
-        audioBitsPerSecond: 64_000,
+        audioBitsPerSecond: Q.audio,
         // Slides/screen stay readable at this rate while an hour-long lecture stays
         // around ~300MB, so it uploads reliably and streams on phones.
-        videoBitsPerSecond: 700_000,
+        videoBitsPerSecond: Q.video,
 
       });
 
@@ -596,20 +877,12 @@ export function LectureRecorder({
       };
       document.addEventListener("visibilitychange", onVisible);
 
-      // Watchdog: long lectures can be killed by the OS/tab throttling. Every 10s
-      // we force a flush and, if the recorder died silently, we save what exists
-      // instead of losing the lecture.
+      // Watchdog: detect if the browser/OS killed a long recording. MediaRecorder's
+      // own 3-second timeslice already flushes continuously; extra requestData calls
+      // can create unnecessary WebM boundaries in some Chrome versions.
       const watchdog = window.setInterval(() => {
         const current = recorderRef.current;
         if (!current) return;
-        if (current.state === "recording") {
-          try {
-            current.requestData();
-          } catch {
-            // ignore — the timeslice keeps producing chunks
-          }
-          return;
-        }
         if (current.state === "inactive" && !finalizingRef.current) {
           toast.error("Recording was interrupted by the system — saving what was recorded.");
           void finalize();
@@ -624,7 +897,8 @@ export function LectureRecorder({
 
       startedAtRef.current = Date.now();
       setElapsed(0);
-      setRecording(true);
+      pausedAtRef.current = 0;
+      patch({ starting: false, recording: true, paused: false, owner: ownerKey, lowSpace: null, saved: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -643,6 +917,7 @@ export function LectureRecorder({
           ? "Screen share was cancelled or denied"
           : "Could not start recording. Close any other screen sharing and try again";
       toast.error(message);
+      patch({ starting: false, owner: null });
     }
   }
 
@@ -650,10 +925,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    if (mountedRef.current) {
-      setRecording(false);
-      setSilent(false);
-    }
+    patch({ recording: false, paused: false, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -668,6 +940,7 @@ export function LectureRecorder({
     chunksRef.current = [];
     if (blob.size < 1000) {
       toast.error("No content was recorded");
+      if (mountedRef.current) setSaving(false);
       finalizingRef.current = false;
       return;
     }
@@ -678,63 +951,17 @@ export function LectureRecorder({
       setSaving(true);
       setUploadProgress(0);
     }
-    // Auto-upload with retries so the teacher never has to download + re-upload manually.
-    let lastError: Error | null = null;
-    for (let attempt = 1; attempt <= 4; attempt++) {
-      try {
-        if (mountedRef.current) setAttemptNo(attempt);
-        const file = new File([blob], fileName, { type });
-        const path = await uploadFile("content", file, "recordings", (progress) => {
-          if (mountedRef.current) setUploadProgress(progress);
-        });
-        await saveRecording({
-          data: {
-            title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
-            liveSessionId: liveSessionId || null,
-            sectionId: sectionId || null,
-            videoUrl: path,
-            durationSeconds: duration,
-            status: "ready",
-            isPublished: true,
-          },
-        });
-        await backupClear();
-        URL.revokeObjectURL(recoveryUrl);
-        if (mountedRef.current) {
-          setRecovery(null);
-          setUnfinished(null);
-        }
-        toast.success("Lecture recording uploaded and published automatically");
-        onSaved?.();
-        lastError = null;
-        break;
-      } catch (e) {
-        lastError = e as Error;
-        if (attempt < 4) {
-          toast.warning(`Upload attempt ${attempt} failed — retrying automatically…`);
-          await new Promise((r) => setTimeout(r, attempt * 3000));
-        }
-      }
-    }
-    if (lastError) {
-      // All retries failed: surface the on-device backup so it can be retried or downloaded.
-      const backup = await backupRead();
-      if (backup && mountedRef.current) {
-        setUnfinished({ meta: backup.meta, size: backup.chunks.reduce((s, c) => s + c.size, 0) });
-      }
-      toast.error(
-        `Automatic upload failed. Use "Retry upload" — the recording is safe on this device. ${lastError.message}`,
-      );
-    }
     if (mountedRef.current) {
       setSaving(false);
       setUploadProgress(0);
       setAttemptNo(0);
+      setUnfinished(null);
     }
+    toast.success("Recording is ready. Preview it, then press Save & Publish.");
     finalizingRef.current = false;
   }
 
-  async function recoverBackup() {
+  async function recoverBackup(continueAfter = false) {
     setRecovering(true);
     setUploadProgress(0);
     try {
@@ -759,7 +986,7 @@ export function LectureRecorder({
       const duration = Math.max(1, Math.floor((backup.meta.updatedAt - backup.meta.startedAt) / 1000));
       await saveRecording({
         data: {
-          title: `${backup.meta.title || "Lecture"} (recovered)`,
+          title: recovery ? backup.meta.title || "Lecture" : `${backup.meta.title || "Lecture"} (recovered)`,
           liveSessionId: backup.meta.liveSessionId || null,
           sectionId: backup.meta.sectionId || null,
           videoUrl: path,
@@ -769,9 +996,15 @@ export function LectureRecorder({
         },
       });
       await backupClear();
-      if (mountedRef.current) setUnfinished(null);
-      toast.success("Recovered recording uploaded and published");
+      if (mountedRef.current) {
+        if (recovery) URL.revokeObjectURL(recovery.url);
+        setRecovery(null);
+        setUnfinished(null);
+        patch({ saved: { title: backup.meta.title || "Lecture", duration }, owner: null });
+      }
+      toast.success(recovery ? "Recording saved and published" : "Recovered recording uploaded and published");
       onSaved?.();
+      if (continueAfter) await start();
     } catch (e) {
       toast.error(`Recovery failed: ${(e as Error).message}. The backup was kept — try again.`);
     } finally {
@@ -800,22 +1033,36 @@ export function LectureRecorder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart]);
 
-  if (saving) {
+  if (saving && isOwner) {
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
-          <Loader2 className="h-4 w-4 animate-spin" /> Uploading the recording automatically… {uploadProgress}%
+          <Loader2 className="h-4 w-4 animate-spin" />
+          {uploadProgress > 0
+            ? `Uploading and publishing… ${uploadProgress}%`
+            : "Stop received — preparing the video file (this can take a minute for long lectures)…"}
           {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full bg-primary transition-[width]" style={{ width: `${uploadProgress}%` }} />
         </div>
-        <p className="text-xs text-muted-foreground">Do not close the page until the upload completes.</p>
+        {recovery && (
+          <video
+            src={recovery.url}
+            controls
+            className="w-full rounded-lg border bg-black"
+            preload="metadata"
+          />
+        )}
+        <p className="text-xs text-muted-foreground">
+          Preview the recording above (audio + quality) while it uploads. Do not close the page until the upload
+          completes.
+        </p>
       </div>
     );
   }
 
-  return recording ? (
+  return recording && isOwner ? (
     <div className="w-full space-y-3">
       <div className="rounded-xl border bg-muted/40 p-3 space-y-2">
         <div className="flex items-center justify-between gap-2">
@@ -826,7 +1073,7 @@ export function LectureRecorder({
               <MicOff className="h-4 w-4 text-muted-foreground" />
             )}
             {hasMic ? "Microphone connected" : "Microphone not connected"} ·{" "}
-            {hasSystemAudio ? "Screen audio connected" : "Screen audio unavailable"}
+            {hasSystemAudio ? "Meet / tab audio connected" : "Shared audio unavailable"}
           </span>
           <span className="text-[11px] font-bold text-muted-foreground">
             Level: {Math.min(100, Math.round(level * 160))}%
@@ -846,13 +1093,40 @@ export function LectureRecorder({
           </Button>
         )}
 
+        <div className="grid gap-2 sm:grid-cols-2">
+          <label className="text-[11px] font-bold space-y-1">
+            <span>My mic volume: {Math.round(micVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={3}
+              step={0.1}
+              value={micVol}
+              onChange={(e) => changeMicVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+          <label className="text-[11px] font-bold space-y-1">
+            <span>Meet / YouTube volume: {Math.round(tabVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={5}
+              step={0.1}
+              value={tabVol}
+              onChange={(e) => changeTabVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+        </div>
+
         <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full transition-[width] duration-75 ${level > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
             style={{ width: `${Math.min(100, Math.round(level * 160))}%` }}
           />
         </div>
-        {(!hasSystemAudio || micDenied || silent) && (
+        {(micDenied || silent) && (
           <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs font-bold space-y-1">
             <p className="flex items-center gap-1.5 text-destructive">
               <AlertTriangle className="h-4 w-4" />
@@ -860,13 +1134,13 @@ export function LectureRecorder({
                 ? "Microphone denied — mic audio will not be recorded."
                 : silent
                   ? "No audio input for several seconds."
-                  : "This screen source did not provide system audio; microphone audio is still recording."}
+                  : "No shared audio input is being detected."}
             </p>
             <p>To fix microphone access:</p>
             <p>1) Click the lock icon next to the site URL in the browser.</p>
             <p>2) Enable "Microphone" and choose Allow.</p>
             <p>3) Make sure the mic is not muted in device settings.</p>
-            <p>4) Select the Google Meet Chrome tab — not Entire Screen or Window — and enable "Also share tab audio".</p>
+            <p>4) Select the Google Meet or YouTube Chrome tab and enable "Also share tab audio".</p>
           </div>
         )}
       </div>
@@ -875,19 +1149,44 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-           Select Entire Screen once to move between tabs without new access prompts. The recording microphone stays
-           active even if your microphone is muted inside Google Meet.
+           Meet/tab audio is connected. To capture students, share the Google Meet tab with "Also share tab audio" enabled.
+           On Windows, "Entire Screen" also works only when "Share system audio" is enabled.
         </p>
       </div>
+      {lowSpace && (
+        <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-xs font-bold flex items-center gap-1.5">
+          <AlertTriangle className="h-4 w-4 text-amber-600" /> Low device storage: {lowSpace}
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
+          <Square className="h-4 w-4" /> Stop &amp; save ({fmt(elapsed)}) · Ctrl+Shift+S
+        </Button>
+        <Button size="sm" variant="secondary" className="gap-2" onClick={togglePause}>
+          {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+          {paused ? "Resume" : "Pause"} · Ctrl+Shift+P
         </Button>
       </div>
 
     </div>
   ) : (
     <div className="space-y-2">
+      {saved && (
+        <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-3 space-y-2">
+          <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+            Saved and published: "{saved.title}" ({fmt(saved.duration)}) — students can watch it now from the
+            Recordings page.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" className="gap-1.5">
+              <a href="/recordings">Open Recordings page</a>
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => patch({ saved: null })}>
+              Dismiss
+            </Button>
+          </div>
+        </div>
+      )}
       {unfinished && (
         <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-2">
           <p className="text-xs font-bold flex items-center gap-1.5">
@@ -903,6 +1202,9 @@ export function LectureRecorder({
             <Button size="sm" variant="outline" className="gap-1.5" onClick={() => void downloadBackup()}>
               <Download className="h-4 w-4" /> Download
             </Button>
+            <Button size="sm" variant="secondary" disabled={recovering} onClick={() => void recoverBackup(true)}>
+              Recover, Publish &amp; Start Next Part
+            </Button>
             <Button
               size="sm"
               variant="ghost"
@@ -916,16 +1218,16 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      {recovery && (
-        <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 space-y-2">
+      {recovery && isOwner && (
+        <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
-            Automatic upload did not succeed. Press "Retry upload" to publish it now — the recording is also kept in
-            the on-device backup.
+            Recording ready — check the preview, then save and publish it. The local backup stays safe until saving finishes.
           </p>
+          <video src={recovery.url} controls preload="metadata" className="w-full rounded-lg border bg-black" />
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup()}>
+            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup(false)}>
               {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
-              {recovering ? `Uploading… ${uploadProgress}%` : "Retry upload"}
+              {recovering ? `Saving… ${uploadProgress}%` : "Save & Publish"}
             </Button>
             <Button asChild size="sm" variant="outline" className="gap-2">
               <a href={recovery.url} download={recovery.name}>
@@ -935,8 +1237,29 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture screen
+      <label className="block text-[11px] font-bold space-y-1">
+        <span>Recording quality</span>
+        <select
+          value={quality}
+          onChange={(e) => patch({ quality: e.target.value as RecQuality })}
+          className="w-full rounded-md border bg-background px-2 py-1.5 text-xs font-bold"
+        >
+          {(Object.keys(QUALITY) as RecQuality[]).map((k) => (
+            <option key={k} value={k}>
+              {QUALITY[k].label}
+            </option>
+          ))}
+        </select>
+      </label>
+      <Button
+        size="sm"
+        variant="outline"
+        className="gap-2"
+        disabled={starting || (!!st.owner && !isOwner)}
+        onClick={() => void start()}
+      >
+        <Circle className="h-4 w-4 text-destructive fill-destructive" />
+        {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
       </Button>
     </div>
   );
