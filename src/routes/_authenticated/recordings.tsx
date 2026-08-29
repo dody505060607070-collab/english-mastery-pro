@@ -191,6 +191,7 @@ function RecordingCard({ rec }: { rec: any }) {
             <video
               ref={videoRef}
               src={src}
+              poster={(rec as any).cover_url ?? undefined}
               controls
               playsInline
               className="w-full h-full bg-background object-contain"
