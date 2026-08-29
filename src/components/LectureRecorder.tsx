@@ -930,6 +930,7 @@ export function LectureRecorder({
     chunksRef.current = [];
     if (blob.size < 1000) {
       toast.error("No content was recorded");
+      if (mountedRef.current) setSaving(false);
       finalizingRef.current = false;
       return;
     }
@@ -965,6 +966,7 @@ export function LectureRecorder({
         if (mountedRef.current) {
           setRecovery(null);
           setUnfinished(null);
+          patch({ saved: { title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`, duration } });
         }
         toast.success("Lecture recording uploaded and published automatically");
         onSaved?.();
