@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { PhoneticsPrimer } from "@/components/PhoneticsPrimer";
 import { SpeedControl, snapSpeed } from "@/components/SpeedControl";
-import { patternFor, tierFor } from "@/lib/pronunciation-patterns";
+import { patternFor, selectForLevel, tierFor } from "@/lib/pronunciation-patterns";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -321,15 +321,14 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
     [parsed.focus, body, level],
   );
   const tier = tierFor(level);
+  const picked = useMemo(() => selectForLevel(pattern, level), [pattern, level]);
   const [speed, setSpeed] = useState(() => snapSpeed(rateForLevel(level)));
   const [scores, setScores] = useState<Record<string, number>>({});
 
-  const pairs = parsed.pairs.length ? parsed.pairs : pattern.pairs.slice(0, tier.pairs);
-  const words = (parsed.words.length ? parsed.words : pattern.words).slice(0, tier.words);
-  const sentences = (parsed.sentences.length ? parsed.sentences : pattern.sentences).slice(
-    0,
-    tier.sentences,
-  );
+  const pairs = parsed.pairs.length ? parsed.pairs.slice(0, tier.pairs) : picked.pairs;
+  const words = parsed.words.length ? parsed.words.slice(0, tier.words) : picked.words;
+  const sentences = parsed.sentences.length ? parsed.sentences.slice(0, tier.sentences) : picked.sentences;
+
   const drills = useMemo(() => [...words, ...sentences], [words.join("|"), sentences.join("|")]);
   const attempted = Object.keys(scores).length;
   const average = attempted
@@ -415,7 +414,7 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
           4 · Speaking practice — use the sound in real speech
         </p>
         <ul className="space-y-2">
-          {(parsed.speaking.length ? parsed.speaking : pattern.speaking).map((p, i) => (
+          {(parsed.speaking.length ? parsed.speaking : picked.speaking).map((p, i) => (
             <RepeatDrill
               key={`sp-${i}`}
               target={p}
