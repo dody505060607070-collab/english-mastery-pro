@@ -322,7 +322,7 @@ function stripSections(body: string, pattern: RegExp): string {
     .join("\n");
 }
 
-const READING_STRIP = /^#{1,4}\s*(key\s*words?|keywords?|glossary|before\s+you\s+(read|listen|speak|watch)|كلمات)/i;
+const READING_STRIP = /^#{1,4}\s*(key\s*words?|keywords?|glossary|before\s+you\s+(read|listen|speak|watch)|كلمات|قبل\s+القراءة)/i;
 const VOCAB_STRIP = /^#{1,4}\s*(practice|drills?|exercises?|تدريب|تمارين|تمرين)/i;
 
 function ContentPanel({

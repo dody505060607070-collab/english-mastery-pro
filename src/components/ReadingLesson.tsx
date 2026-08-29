@@ -18,7 +18,11 @@ function readingSections(body: string): ReadingSection[] {
 
 export function ReadingLesson({ body }: { body: string }) {
   const sections = readingSections(body);
-  const passage = sections.find((section) => /^(text|reading|passage|story|article)$/i.test(section.title)) ?? sections[0];
+  const passage = sections.find((section) => /^(text|reading(?:\s+text)?|passage|story|article|النص|النص الإنجليزي)$/i.test(section.title))
+    ?? sections.reduce<ReadingSection | undefined>(
+      (longest, section) => !longest || section.text.length > longest.text.length ? section : longest,
+      undefined,
+    );
   const activities = sections.filter((section) => section !== passage);
 
   if (!passage) return null;
