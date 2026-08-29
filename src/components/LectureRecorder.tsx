@@ -391,6 +391,7 @@ export function LectureRecorder({
     micVol,
     tabVol,
     lowSpace,
+    saved,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
@@ -553,6 +554,9 @@ export function LectureRecorder({
   function stopRecording() {
     const recorder = recorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
+    // Show the saving panel immediately: repairing a long WebM can take a while
+    // before the upload percentage starts moving.
+    patch({ saving: true, uploadProgress: 0 });
     try {
       recorder.requestData();
     } catch {
