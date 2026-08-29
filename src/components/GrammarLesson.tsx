@@ -137,7 +137,15 @@ export function parseGrammar(body: string): Section[] {
       continue;
     }
     const ex = line.match(/^([+\-?])\s+(.*)$/);
-    if (ex && (ex[1] === "+" || ex[1] === "?" || /(positive|negative|question)/i.test(ex[2]!))) {
+    const prevIsExamples = lastBlock()?.kind === "examples";
+    if (
+      ex &&
+      (ex[1] === "+" ||
+        ex[1] === "?" ||
+        prevIsExamples ||
+        /(positive|negative|question)/i.test(ex[2]!) ||
+        /(example|أمثلة|negative|نفي|سؤال)/i.test(current.title))
+    ) {
       flushPara();
       const prev = lastBlock();
       const item = { sign: ex[1] as "+" | "-" | "?", text: ex[2]!.trim() };

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FormattedTextarea } from "@/components/FormattedTextarea";
+import { VisualLessonEditor } from "@/components/admin/VisualLessonEditor";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -198,6 +199,9 @@ function ContentDialog({
   const [type, setType] = useState(content.content_type ?? "grammar");
   const [title, setTitle] = useState(content.title ?? "");
   const [body, setBody] = useState(content.body ?? "");
+  const [editMode, setEditMode] = useState<"visual" | "markdown">("visual");
+  const [visualKey, setVisualKey] = useState(0);
+
   const [mediaUrl, setMediaUrl] = useState(content.media_url ?? "");
   const [published, setPublished] = useState(content.is_published ?? true);
   const [exercise, setExercise] = useState<ExerciseData>(() => {
@@ -264,9 +268,36 @@ function ContentDialog({
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">Explanation / Text</Label>
-            <FormattedTextarea value={body} onChange={setBody} rows={10} />
+            <div className="flex items-center justify-between gap-2">
+              <Label className="font-bold">Explanation / Text</Label>
+              <div className="flex rounded-full border p-0.5">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editMode === "visual" ? "default" : "ghost"}
+                  className="rounded-full h-7 text-xs font-bold"
+                  onClick={() => { setEditMode("visual"); setVisualKey((k) => k + 1); }}
+                >
+                  Visual
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editMode === "markdown" ? "default" : "ghost"}
+                  className="rounded-full h-7 text-xs font-bold"
+                  onClick={() => setEditMode("markdown")}
+                >
+                  Source
+                </Button>
+              </div>
+            </div>
+            {editMode === "visual" ? (
+              <VisualLessonEditor key={visualKey} value={body} onChange={setBody} />
+            ) : (
+              <FormattedTextarea value={body} onChange={setBody} rows={10} />
+            )}
           </div>
+
           <FileUploadField
             label="Media (video / audio / PDF / image)"
             value={mediaUrl}
