@@ -353,6 +353,8 @@ function ContentPanel({
   );
   const lessonBody = useMemo(() => {
     const body = stripAnswers(content.body);
+    // Pronunciation is practice-only: no explanation text, straight to the test.
+    if (content.content_type === "pronunciation") return "";
     if (content.content_type === "reading") return stripSections(body, READING_STRIP);
     if (content.content_type === "vocabulary") {
       const cleaned = stripSections(body, VOCAB_STRIP);
