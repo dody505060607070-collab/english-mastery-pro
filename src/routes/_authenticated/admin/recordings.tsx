@@ -296,6 +296,8 @@ function AdminRecordingsPage() {
                 bucket="content"
                 kind="video"
                 folder="recordings"
+                budgetGuard
+
               />
               <FileUploadField
                 label="Cover photo (optional)"
