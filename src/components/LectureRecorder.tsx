@@ -81,6 +81,7 @@ function getSession(): RecSession {
     g.__lectureRecSession = {
       state: {
         recording: false,
+        paused: false,
         saving: false,
         uploadProgress: 0,
         elapsed: 0,
@@ -94,6 +95,10 @@ function getSession(): RecSession {
         recovering: false,
         attemptNo: 0,
         micMuted: false,
+        quality: "high",
+        micVol: 1,
+        tabVol: 2.2,
+        lowSpace: null,
         owner: null,
       },
       listeners: new Set(),
