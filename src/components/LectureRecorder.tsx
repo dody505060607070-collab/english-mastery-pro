@@ -34,6 +34,7 @@ type RecState = {
   micVol: number;
   tabVol: number;
   lowSpace: string | null;
+  saved: { title: string; duration: number } | null;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
@@ -100,6 +101,7 @@ function getSession(): RecSession {
         micVol: 1,
         tabVol: 2.2,
         lowSpace: null,
+        saved: null,
         owner: null,
       },
       listeners: new Set(),
