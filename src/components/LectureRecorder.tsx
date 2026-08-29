@@ -595,7 +595,7 @@ export function LectureRecorder({
     // can leave Chrome's mixer suspended, producing a video with a silent audio track.
     const Ctx: typeof AudioContext =
       window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    patch({ starting: true, saved: null });
+    patch({ starting: true, owner: ownerKey, saved: null });
     const ctx = new Ctx();
     const initialResume = ctx.state === "suspended" ? ctx.resume().catch(() => undefined) : Promise.resolve();
     try {
@@ -610,7 +610,7 @@ export function LectureRecorder({
           if (mountedRef.current) setUnfinished({ meta: existing.meta, size });
           toast.error("An unfinished recording backup exists — recover or delete it before starting a new one.");
           void ctx.close().catch(() => undefined);
-          patch({ starting: false });
+          patch({ starting: false, owner: null });
           return;
         }
         await backupClear();
@@ -667,7 +667,7 @@ export function LectureRecorder({
         display.getTracks().forEach((track) => track.stop());
         void ctx.close().catch(() => undefined);
         toast.error("No audio permission was granted. Allow the microphone, or share a Chrome tab with tab audio enabled.");
-        patch({ starting: false });
+        patch({ starting: false, owner: null });
         return;
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
@@ -683,7 +683,7 @@ export function LectureRecorder({
             : "Screen audio is OFF. Start again and enable 'Share system audio'; on macOS, select the Meet/YouTube Chrome tab and tick 'Also share tab audio'.",
           { duration: 12_000 },
         );
-        patch({ starting: false });
+        patch({ starting: false, owner: null });
         return;
       }
 
@@ -729,7 +729,7 @@ export function LectureRecorder({
         toast.error("No audio sources available. Allow the microphone or enable 'Also share tab audio'.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
-        patch({ starting: false });
+        patch({ starting: false, owner: null });
         return;
       }
 
@@ -778,7 +778,7 @@ export function LectureRecorder({
         toast.error("MediaRecorder is not supported on this browser.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
-        patch({ starting: false });
+        patch({ starting: false, owner: null });
         return;
       }
       mimeRef.current = mime;
@@ -917,7 +917,7 @@ export function LectureRecorder({
           ? "Screen share was cancelled or denied"
           : "Could not start recording. Close any other screen sharing and try again";
       toast.error(message);
-      patch({ starting: false });
+      patch({ starting: false, owner: null });
     }
   }
 
@@ -925,7 +925,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
+    patch({ recording: false, paused: false, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -1000,7 +1000,7 @@ export function LectureRecorder({
         if (recovery) URL.revokeObjectURL(recovery.url);
         setRecovery(null);
         setUnfinished(null);
-        patch({ saved: { title: backup.meta.title || "Lecture", duration } });
+        patch({ saved: { title: backup.meta.title || "Lecture", duration }, owner: null });
       }
       toast.success(recovery ? "Recording saved and published" : "Recovered recording uploaded and published");
       onSaved?.();
@@ -1202,6 +1202,9 @@ export function LectureRecorder({
             <Button size="sm" variant="outline" className="gap-1.5" onClick={() => void downloadBackup()}>
               <Download className="h-4 w-4" /> Download
             </Button>
+            <Button size="sm" variant="secondary" disabled={recovering} onClick={() => void recoverBackup(true)}>
+              Recover, Publish &amp; Start Next Part
+            </Button>
             <Button
               size="sm"
               variant="ghost"
@@ -1215,7 +1218,7 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      {recovery && (
+      {recovery && isOwner && (
         <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
             Recording ready — check the preview, then save and publish it. The local backup stays safe until saving finishes.
@@ -1252,7 +1255,7 @@ export function LectureRecorder({
         size="sm"
         variant="outline"
         className="gap-2"
-        disabled={starting || (recording && !isOwner)}
+        disabled={starting || (!!st.owner && !isOwner)}
         onClick={() => void start()}
       >
         <Circle className="h-4 w-4 text-destructive fill-destructive" />
