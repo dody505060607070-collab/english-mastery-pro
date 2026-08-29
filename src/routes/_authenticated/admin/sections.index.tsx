@@ -43,6 +43,8 @@ type Section = Awaited<ReturnType<typeof listSections>>[number];
 function SectionsPage() {
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Partial<Section> | null>(null);
+  const [deleting, setDeleting] = useState<Section | null>(null);
+  const [deleteTyped, setDeleteTyped] = useState("");
   const invalidate = () => qc.invalidateQueries({ queryKey: ["admin-sections"] });
 
   const { data: sections = [], isLoading } = useQuery({
@@ -185,7 +187,8 @@ function SectionsPage() {
                     size="sm"
                     variant="destructive"
                     onClick={() => {
-                      if (confirm(`Delete level "${s.name}"?`)) remove.mutate(s.id);
+                      setDeleteTyped("");
+                      setDeleting(s);
                     }}
                   >
                     <Trash2 className="h-4 w-4" />
