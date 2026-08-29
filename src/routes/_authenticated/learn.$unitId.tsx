@@ -397,27 +397,16 @@ function ContentPanel({
 
         {isListening ? (
           <div className="space-y-3">
-            <AudioPlayer
-              path={content.media_url}
-              text={data.transcript ?? lessonBody ?? null}
-              maxPlays={data.max_plays ?? null}
-            />
-            {(data.transcript || lessonBody) && (
-              <div className="space-y-2">
-                <Button variant="outline" size="sm" className="font-bold" onClick={() => setShowTranscript((v) => !v)}>
-                  {showTranscript ? <EyeOff className="h-4 w-4 ml-1" /> : <Eye className="h-4 w-4 ml-1" />}
-                  {showTranscript ? "Hide Text" : "Show Text (Transcript)"}
-                </Button>
-                {showTranscript && (
-                  <div className="rounded-2xl bg-muted/40 p-3">
-                    <InteractiveText
-                      text={(data.transcript ?? lessonBody ?? "") as string}
-                      className="text-sm text-foreground/90"
-                    />
-                  </div>
-                )}
+            {listeningTurns.length > 0 ? (
+              <DialogueLesson body={listeningText} />
+            ) : (
+              <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
+                <InteractiveText text={listeningText} className="text-[15px] leading-8 text-foreground/90" />
               </div>
             )}
+            <p className="text-[11px] font-bold text-muted-foreground">
+              Read the conversation · tap the speaker icon to hear a line
+            </p>
           </div>
         ) : (
           <>
