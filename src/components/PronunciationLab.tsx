@@ -3,6 +3,8 @@ import { CheckCircle2, Ear, Mic, RefreshCw, Square, Trophy, Turtle, Volume2 } fr
 import { toast } from "sonner";
 
 import { PhoneticsPrimer } from "@/components/PhoneticsPrimer";
+import { SpeedControl, snapSpeed } from "@/components/SpeedControl";
+import { patternFor, tierFor } from "@/lib/pronunciation-patterns";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -300,18 +302,26 @@ function EarTraining({ pairs, rate }: { pairs: [string, string][]; rate: number 
 }
 
 /**
- * Practice-only pronunciation trainer: ear training on minimal pairs plus
- * listen-and-repeat drills scored with the browser speech recogniser.
+ * Practice-only pronunciation trainer built on one sound pattern per lesson:
+ * explanation -> ear training -> word drills -> sentence drills -> speaking.
  */
 export function PronunciationLab({ body, level }: { body: string; level?: string | null }) {
   const parsed = useMemo(() => parsePronunciation(body), [body]);
-  const rate = rateForLevel(level);
+  const pattern = useMemo(
+    () => patternFor(`${parsed.focus} ${body}`, `${level ?? ""}|${parsed.focus}`),
+    [parsed.focus, body, level],
+  );
+  const tier = tierFor(level);
+  const [speed, setSpeed] = useState(() => snapSpeed(rateForLevel(level)));
   const [scores, setScores] = useState<Record<string, number>>({});
 
-  const drills = useMemo(
-    () => [...parsed.words, ...parsed.sentences],
-    [parsed.words, parsed.sentences],
+  const pairs = parsed.pairs.length ? parsed.pairs : pattern.pairs.slice(0, tier.pairs);
+  const words = (parsed.words.length ? parsed.words : pattern.words).slice(0, tier.words);
+  const sentences = (parsed.sentences.length ? parsed.sentences : pattern.sentences).slice(
+    0,
+    tier.sentences,
   );
+  const drills = useMemo(() => [...words, ...sentences], [words.join("|"), sentences.join("|")]);
   const attempted = Object.keys(scores).length;
   const average = attempted
     ? Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / attempted)
@@ -322,39 +332,49 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
       <header className="rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-4">
         <div className="flex items-center gap-2">
           <Ear className="h-5 w-5 text-cyan-600" />
-          <h3 className="text-base font-black">Focus: {parsed.focus}</h3>
+          <h3 className="text-base font-black">Focus: {pattern.title}</h3>
           {level && (
             <span className="ml-auto rounded-full bg-background px-2 py-0.5 text-[10px] font-black">
               {level}
             </span>
           )}
         </div>
-        {parsed.tip && <p className="mt-1 text-[13px] font-bold text-muted-foreground">{parsed.tip}</p>}
+        <p className="mt-1 text-[13px] font-bold text-muted-foreground">
+          {parsed.tip || pattern.how}
+        </p>
+        <ul className="mt-2 space-y-1">
+          {pattern.rules.map((r) => (
+            <li key={r} className="text-[12px] font-bold text-foreground/80">
+              • {r}
+            </li>
+          ))}
+        </ul>
+        <SpeedControl value={speed} onChange={setSpeed} className="mt-3" />
       </header>
 
-      <PhoneticsPrimer level={level} rate={rate} />
+      <PhoneticsPrimer level={level} rate={speed} />
 
-      {parsed.pairs.length > 0 && (
+      {pairs.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs font-black uppercase tracking-wide text-muted-foreground">
             1 · Train your ear
           </p>
-          <EarTraining pairs={parsed.pairs} rate={rate} />
+          <EarTraining pairs={pairs} rate={speed} />
         </div>
       )}
 
-      {drills.length > 0 && (
+      {words.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs font-black uppercase tracking-wide text-muted-foreground">
-            2 · Listen, then say it — you get a score
+            2 · Words practice — listen, then say it
           </p>
           <ul className="space-y-2">
-            {drills.map((d, i) => (
+            {words.map((d, i) => (
               <RepeatDrill
-                key={`${i}-${d}`}
+                key={`w-${i}-${d}`}
                 target={d}
                 index={i}
-                rate={rate}
+                rate={speed}
                 onScore={(s) => setScores((prev) => ({ ...prev, [d]: Math.max(prev[d] ?? 0, s) }))}
               />
             ))}
@@ -362,12 +382,51 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
         </div>
       )}
 
+      {sentences.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-black uppercase tracking-wide text-muted-foreground">
+            3 · Sentence practice
+          </p>
+          <ul className="space-y-2">
+            {sentences.map((d, i) => (
+              <RepeatDrill
+                key={`s-${i}-${d}`}
+                target={d}
+                index={words.length + i}
+                rate={speed}
+                onScore={(s) => setScores((prev) => ({ ...prev, [d]: Math.max(prev[d] ?? 0, s) }))}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="space-y-2">
+        <p className="text-xs font-black uppercase tracking-wide text-muted-foreground">
+          4 · Speaking practice — use the sound in real speech
+        </p>
+        <ul className="space-y-2">
+          {(parsed.speaking.length ? parsed.speaking : pattern.speaking).map((p, i) => (
+            <RepeatDrill
+              key={`sp-${i}`}
+              target={p}
+              index={drills.length + i}
+              rate={speed}
+              onScore={(s) => setScores((prev) => ({ ...prev, [p]: Math.max(prev[p] ?? 0, s) }))}
+            />
+          ))}
+        </ul>
+        <p className="text-[11px] font-bold text-muted-foreground">
+          Answer out loud in full sentences — record yourself and keep the target sound clear.
+        </p>
+      </div>
+
       {attempted > 0 && (
         <div className="flex items-center gap-3 rounded-2xl border bg-card p-4">
           <CheckCircle2 className="h-5 w-5 text-emerald-600" />
           <div className="flex-1">
             <p className="text-sm font-black">
-              Your pronunciation score: {average}% ({attempted}/{drills.length} practised)
+              Your pronunciation score: {average}% ({attempted} practised)
             </p>
             <Progress value={average} className="mt-2 h-2" />
           </div>
@@ -376,3 +435,4 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
     </section>
   );
 }
+
