@@ -306,7 +306,7 @@ export const PRON_PATTERNS: PronPattern[] = [
       "very", "west", "water", "work", "love", "video", "seven", "window",
       "arrive", "weekend", "advice", "wonderful", "voice", "always", "believe", "wallet",
       "involve", "overwhelming", "vulnerable", "worthwhile", "wavelength", "voluntary", "worldwide", "innovative",
-      "unavoidable", "overwhelmingly", "vocabulary", "warehouse", "conversation", "ावailability",
+      "unavoidable", "overwhelmingly", "vocabulary", "warehouse", "conversation", "availability",
     ],
     sentences: [
       "The water is very cold.",
@@ -389,7 +389,7 @@ export const PRON_PATTERNS: PronPattern[] = [
       ["ˈconduct", "conˈduct"],
     ],
     words: [
-      "table", "水ater", "record", "present", "object", "before", "hotel", "begin",
+      "table", "water", "record", "present", "object", "before", "hotel", "begin",
       "increase", "produce", "permit", "contrast", "export", "conflict", "progress", "suspect",
       "photograph", "photographer", "economy", "economic", "politics", "political", "analysis", "analytical",
       "characteristic", "administrative", "responsibility", "differentiate", "entrepreneurial", "incomprehensible",
