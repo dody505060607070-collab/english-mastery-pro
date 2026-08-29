@@ -1,13 +1,18 @@
 import { useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, Upload, X } from "lucide-react";
+import { Loader2, Upload, X, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { ACCEPT_MAP, uploadFile, useMediaUrl, type StorageBucket } from "@/lib/storage";
+import { getStorageBudget } from "@/lib/storage-budget.functions";
 
 const MAX_BYTES = 2 * 1024 * 1024 * 1024; // 2GB
+
+const OVER_BUDGET_MSG =
+  "Upload stopped to protect your credits. Please upload this video to YouTube as Unlisted and paste the link here instead.";
 
 export function FileUploadField({
   label,
@@ -17,6 +22,7 @@ export function FileUploadField({
   kind = "any",
   folder = "",
   capture,
+  budgetGuard = false,
 }: {
   label: string;
   value: string;
@@ -25,11 +31,15 @@ export function FileUploadField({
   kind?: keyof typeof ACCEPT_MAP;
   folder?: string;
   capture?: boolean;
+  /** Blocks the upload when the monthly / total Cloud storage budget is used up. */
+  budgetGuard?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
   const preview = useMediaUrl(value, bucket);
+  const checkBudget = useServerFn(getStorageBudget);
 
   async function handleFiles(files: FileList | null) {
     const file = files?.[0];
@@ -37,6 +47,22 @@ export function FileUploadField({
     if (file.size > MAX_BYTES) {
       toast.error("Maximum file size is 2GB");
       return;
+    }
+    setBlockedMsg(null);
+    if (budgetGuard) {
+      try {
+        const b = await checkBudget();
+        const fileMb = file.size / (1024 * 1024);
+        if (b.blocked || fileMb > b.monthlyRemainingMb || fileMb > b.totalRemainingMb) {
+          const msg = `${OVER_BUDGET_MSG} (Used this month: ${b.monthlyUsedMb}MB / ${b.monthlyLimitMb}MB — total: ${b.totalUsedMb}MB / ${b.totalLimitMb}MB)`;
+          setBlockedMsg(msg);
+          toast.error(msg);
+          if (inputRef.current) inputRef.current.value = "";
+          return;
+        }
+      } catch {
+        // budget check unavailable — allow the upload rather than blocking work
+      }
     }
     setBusy(true);
     setProgress(0);
@@ -52,6 +78,7 @@ export function FileUploadField({
       if (inputRef.current) inputRef.current.value = "";
     }
   }
+
 
   return (
     <div className="space-y-2">
