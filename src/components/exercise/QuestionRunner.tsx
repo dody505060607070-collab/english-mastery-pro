@@ -100,6 +100,11 @@ export function QuestionRunner({
   function set(id: string, value: AnswerValue) {
     if (isRevealed) return;
     setAnswers((prev) => ({ ...prev, [id]: value }));
+    // Single-choice questions check themselves the moment the student taps.
+    const current = questions.find((x) => x.id === id);
+    if (current && (current.type === "mcq" || current.type === "truefalse")) {
+      setRevealed((r) => ({ ...r, [id]: true }));
+    }
   }
 
   const resultById = useMemo(() => {
