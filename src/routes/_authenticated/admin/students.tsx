@@ -53,7 +53,9 @@ function StudentsPage() {
   const [status, setStatus] = useState<"all" | "active" | "blocked">("all");
   const [editing, setEditing] = useState<Student | null>(null);
   const [deleting, setDeleting] = useState<Student | null>(null);
+  const [accessFor, setAccessFor] = useState<Student | null>(null);
   const [creating, setCreating] = useState(false);
+
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const studentsQuery = useQuery({
@@ -168,6 +170,11 @@ function StudentsPage() {
                     <Pencil className="h-4 w-4 ml-1" />
                     Edit
                   </Button>
+                  <Button size="sm" variant="secondary" onClick={() => setAccessFor(s)}>
+                    <Layers className="h-4 w-4 ml-1" />
+                    Levels
+                  </Button>
+
                   <Button
                     size="sm"
                     variant={s.is_blocked ? "secondary" : "outline"}
