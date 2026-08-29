@@ -1,8 +1,16 @@
-import { MessageSquare, Play, Square, Volume2 } from "lucide-react";
+import { Gauge, MessageSquare, Play, Square, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InteractiveText } from "@/components/InteractiveText";
-import { isOwnerActive, primeAudio, playText, stopAudio, useAudioState } from "@/lib/audio";
+import {
+  isOwnerActive,
+  primeAudio,
+  playText,
+  rateForLevel,
+  setPlaybackRate,
+  stopAudio,
+  useAudioState,
+} from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 type Turn = { speaker: string; text: string };
@@ -36,13 +44,16 @@ export function parseDialogueTurns(body: string): Turn[] {
 const VOICES = ["alloy", "nova", "echo", "shimmer"];
 
 /** Renders a listening transcript as a readable two-person conversation. */
-export function DialogueLesson({ body }: { body: string }) {
+export function DialogueLesson({ body, level }: { body: string; level?: string | null }) {
   const turns = parseDialogueTurns(body);
   const audio = useAudioState();
   if (!turns.length) return null;
 
   const speakers = Array.from(new Set(turns.map((t) => t.speaker)));
   const playing = isOwnerActive("dialogue-all", audio);
+  // Higher CEFR levels are spoken faster so listening gets harder as students
+  // progress; A1 stays slow and clear, C2 reaches near-native pace.
+  const rate = rateForLevel(level);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-primary/30 bg-card shadow-sm">
@@ -54,6 +65,12 @@ export function DialogueLesson({ body }: { body: string }) {
           <p className="text-[10px] font-black uppercase text-primary">Conversation</p>
           <h3 className="text-base font-black">{speakers.join(" & ")}</h3>
         </div>
+        {level ? (
+          <span className="hidden items-center gap-1 rounded-full bg-card px-2.5 py-1 text-[11px] font-bold text-primary shadow-sm sm:inline-flex">
+            <Gauge className="h-3.5 w-3.5" />
+            {level} · {rate.toFixed(2)}x
+          </span>
+        ) : null}
         <Button
           type="button"
           size="sm"
@@ -65,6 +82,7 @@ export function DialogueLesson({ body }: { body: string }) {
               return;
             }
             primeAudio();
+            setPlaybackRate(rate);
             // playText detects the A:/B: dialogue, strips the labels, and
             // assigns a distinct voice per speaker automatically. Pass a
             // clean reconstructed transcript so markdown noise never breaks
@@ -73,6 +91,7 @@ export function DialogueLesson({ body }: { body: string }) {
             void playText(transcript, "dialogue-all");
           }}
         >
+
           {playing ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
           {playing ? "Stop" : "Play conversation"}
         </Button>
@@ -100,6 +119,7 @@ export function DialogueLesson({ body }: { body: string }) {
                     aria-label={`Listen to ${turn.speaker}`}
                     onClick={() => {
                       primeAudio();
+                      setPlaybackRate(rate);
                       void playText(turn.text, `turn-${i}`, voice);
                     }}
                   >

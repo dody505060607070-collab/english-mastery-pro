@@ -403,7 +403,7 @@ function ContentPanel({
         {isListening ? (
           <div className="space-y-3">
             {listeningTurns.length > 0 ? (
-              <DialogueLesson body={listeningText} />
+              <DialogueLesson body={listeningText} level={(data.unit as any).sections?.name} />
             ) : (
               <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
                 <InteractiveText text={listeningText} className="text-[15px] leading-8 text-foreground/90" />

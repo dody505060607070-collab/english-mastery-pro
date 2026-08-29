@@ -151,12 +151,33 @@ export function seekAudio(t: number) {
   emit({ time: t });
 }
 
+/**
+ * Global playback speed. Listening material gets faster as the CEFR level
+ * rises, so C2 learners hear near-native pace and A1 learners hear slow speech.
+ */
+let playbackRate = 1;
+
+/** Sets the speaking speed used by the next playback (0.7 - 1.4). */
+export function setPlaybackRate(rate: number) {
+  playbackRate = Math.min(1.4, Math.max(0.7, rate));
+}
+
+/** Maps a CEFR level label (e.g. "B2.1") to a natural speaking speed. */
+export function rateForLevel(level?: string | null): number {
+  const m = /^(A1|A2|B1|B2|C1|C2)(?:\.(\d))?/i.exec((level ?? "").trim());
+  if (!m) return 1;
+  const base: Record<string, number> = { a1: 0.82, a2: 0.88, b1: 0.95, b2: 1.02, c1: 1.1, c2: 1.18 };
+  const step = m[2] === "2" ? 0.03 : 0;
+  return (base[m[1]!.toLowerCase()] ?? 1) + step;
+}
+
 async function playUrlInternal(url: string, owner: string, id: number) {
   const a = element();
   if (!a) throw new Error("Audio is not supported in this browser");
   if (id !== requestId) return;
   a.src = url;
   a.volume = state.volume;
+  a.playbackRate = playbackRate;
   a.currentTime = 0;
   emit({ status: "loading", owner, error: null, time: 0, duration: 0 });
   await a.play();
@@ -281,6 +302,7 @@ async function playDialogue(segments: DialogueSegment[], owner: string, id: numb
     chainActive = true;
     a.src = urls[i]!;
     a.volume = state.volume;
+    a.playbackRate = playbackRate;
     a.currentTime = 0;
     const onEnded = () => {
       a.removeEventListener("ended", onEnded);
