@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Search, Ban, CheckCircle2, Trash2, Pencil, UserPlus, Shield } from "lucide-react";
+import { Loader2, Search, Ban, CheckCircle2, Trash2, Pencil, UserPlus, Shield, Layers } from "lucide-react";
+import { StudentLevelAccessDialog } from "@/components/admin/StudentLevelAccessDialog";
+
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -51,7 +53,9 @@ function StudentsPage() {
   const [status, setStatus] = useState<"all" | "active" | "blocked">("all");
   const [editing, setEditing] = useState<Student | null>(null);
   const [deleting, setDeleting] = useState<Student | null>(null);
+  const [accessFor, setAccessFor] = useState<Student | null>(null);
   const [creating, setCreating] = useState(false);
+
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const studentsQuery = useQuery({
@@ -166,6 +170,11 @@ function StudentsPage() {
                     <Pencil className="h-4 w-4 ml-1" />
                     Edit
                   </Button>
+                  <Button size="sm" variant="secondary" onClick={() => setAccessFor(s)}>
+                    <Layers className="h-4 w-4 ml-1" />
+                    Levels
+                  </Button>
+
                   <Button
                     size="sm"
                     variant={s.is_blocked ? "secondary" : "outline"}
@@ -187,6 +196,13 @@ function StudentsPage() {
           ))}
         </div>
       )}
+
+      <StudentLevelAccessDialog
+        student={accessFor}
+        sections={sections as any}
+        onClose={() => setAccessFor(null)}
+      />
+
 
       {editing && (
         <EditStudentDialog

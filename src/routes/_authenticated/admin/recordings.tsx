@@ -38,6 +38,8 @@ import {
   deleteRecording,
 } from "@/lib/recordings.functions";
 import { listSections } from "@/lib/admin-manage.functions";
+import { isYouTubeUrl, youTubeEmbedUrl, youTubeThumbnail } from "@/lib/youtube";
+
 
 export const Route = createFileRoute("/_authenticated/admin/recordings")({
   component: AdminRecordingsPage,
@@ -134,7 +136,10 @@ function AdminRecordingsPage() {
         </Button>
       </div>
 
+      <YouTubeLinkCard sections={sectionsQuery.data ?? []} onSaved={invalidate} />
+
       <LectureUploadCard onSaved={invalidate} />
+
 
       <Card className="border-destructive/30">
         <CardContent className="p-4 flex flex-col md:flex-row md:items-end gap-3">
@@ -241,15 +246,29 @@ function AdminRecordingsPage() {
               </CardContent>
               {watching === r.id && r.playback_url && (
                 <CardContent className="pt-0 pb-4">
-                  <video
-                    src={r.playback_url}
-                    poster={r.cover_url ?? undefined}
-                    controls
-                    preload="metadata"
-                    className="w-full rounded-xl bg-black aspect-video"
-                  />
+                  {isYouTubeUrl(r.video_url) ? (
+                    <iframe
+                      src={youTubeEmbedUrl(r.video_url) ?? ""}
+                      title={r.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full rounded-xl bg-black aspect-video border-0"
+                    />
+                  ) : (
+                    <video
+                      src={r.playback_url}
+                      poster={r.cover_url ?? undefined}
+                      controls
+                      controlsList="nodownload noplaybackrate"
+                      disablePictureInPicture
+                      onContextMenu={(event) => event.preventDefault()}
+                      preload="metadata"
+                      className="w-full rounded-xl bg-black aspect-video"
+                    />
+                  )}
                 </CardContent>
               )}
+
             </Card>
           ))}
         </div>
@@ -352,3 +371,96 @@ function AdminRecordingsPage() {
     </div>
   );
 }
+
+/** Publish a lecture straight from a YouTube (unlisted) link — costs no storage. */
+function YouTubeLinkCard({ sections, onSaved }: { sections: any[]; onSaved: () => void }) {
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [sectionId, setSectionId] = useState("all");
+
+  const embed = youTubeEmbedUrl(url);
+  const valid = !!embed && title.trim().length >= 2;
+
+  const save = useMutation({
+    mutationFn: () =>
+      saveRecording({
+        data: {
+          title: title.trim(),
+          videoUrl: url.trim(),
+          thumbnailUrl: youTubeThumbnail(url),
+          sectionId: sectionId === "all" ? null : sectionId,
+          isPublished: true,
+          status: "ready",
+        },
+      }),
+    onSuccess: () => {
+      toast.success("YouTube lecture published");
+      setTitle("");
+      setUrl("");
+      setSectionId("all");
+      onSaved();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <Card className="border-primary/30">
+      <CardContent className="p-4 space-y-3">
+        <div>
+          <h2 className="font-black">Add a YouTube lecture link (unlisted)</h2>
+          <p className="text-sm text-muted-foreground">
+            Upload the lecture to YouTube as <strong>Unlisted</strong>, then paste the link here. It plays inside the
+            site, uses no storage space, and students cannot download it.
+          </p>
+        </div>
+        <div className="grid gap-3 md:grid-cols-3">
+          <div className="space-y-1.5">
+            <Label>Lecture title</Label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Live session - Unit 1" />
+          </div>
+          <div className="space-y-1.5">
+            <Label>YouTube link</Label>
+            <Input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://youtu.be/XXXXXXXXXXX"
+              dir="ltr"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Level</Label>
+            <Select value={sectionId} onValueChange={setSectionId}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Students</SelectItem>
+                {sections.map((s: any) => (
+                  <SelectItem key={s.id} value={s.id}>
+                    {s.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        {url && !embed && (
+          <p className="text-xs font-bold text-destructive">This is not a valid YouTube link.</p>
+        )}
+        {embed && (
+          <iframe
+            src={embed}
+            title="YouTube preview"
+            allowFullScreen
+            className="w-full max-w-md rounded-xl bg-black aspect-video border-0"
+          />
+        )}
+        <Button onClick={() => save.mutate()} disabled={!valid || save.isPending} className="gap-2">
+          {save.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+          Publish YouTube lecture
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+

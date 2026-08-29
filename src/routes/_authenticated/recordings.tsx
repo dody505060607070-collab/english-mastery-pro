@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Download, Loader2, Pause, Play, PlaySquare, RotateCcw, RotateCw, VideoOff, Volume2, VolumeX } from "lucide-react";
+import { Loader2, Pause, Play, PlaySquare, RotateCcw, RotateCw, VideoOff, Volume2, VolumeX } from "lucide-react";
+import { youTubeEmbedUrl } from "@/lib/youtube";
+
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -68,7 +70,9 @@ function RecordingCard({ rec }: { rec: any }) {
   const playAfterSeekRef = useRef(false);
   const pendingSeekRef = useRef<number | null>(null);
   const path = rec.video_url ?? "";
+  const ytEmbed = youTubeEmbedUrl(rec.video_url);
   const isImage = /\.(png|jpe?g|webp|gif|heic)$/i.test(path);
+
   const isPdf = /\.pdf$/i.test(path);
   const isWebm = /\.webm$/i.test(path);
   const unsupported = isWebm && !canPlayWebm();
@@ -213,7 +217,7 @@ function RecordingCard({ rec }: { rec: any }) {
 
   return (
     <Card className="overflow-hidden">
-      {src && !isImage && !isPdf && !hasDuration && (
+      {src && !isImage && !isPdf && !hasDuration && !ytEmbed && (
         <video
           src={src}
           preload="metadata"
@@ -243,7 +247,15 @@ function RecordingCard({ rec }: { rec: any }) {
       )}
 
       <div className="aspect-video bg-black">
-        {src && isImage ? (
+        {ytEmbed ? (
+          <iframe
+            src={ytEmbed}
+            title={rec.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full border-0"
+          />
+        ) : src && isImage ? (
           <img src={src} alt={rec.title} className="w-full h-full object-contain" loading="lazy" />
         ) : src && isPdf ? (
           <a
@@ -258,21 +270,21 @@ function RecordingCard({ rec }: { rec: any }) {
           <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-center p-4">
             <VideoOff className="h-10 w-10 text-muted-foreground" />
             <p className="text-sm font-bold text-muted-foreground">
-              This recording format is not supported on your phone browser.
+              This recording cannot play on your current browser. Try another browser or contact the administration.
             </p>
-            <Button asChild size="sm" className="gap-2 font-black">
-              <a href={src} target="_blank" rel="noreferrer" download>
-                <Download className="h-4 w-4" /> Download / Open Lecture
-              </a>
-            </Button>
           </div>
         ) : src && started ? (
+
           <div ref={playerShellRef} className="relative w-full h-full">
             <video
               ref={videoRef}
               src={src}
               poster={(rec as any).cover_url ?? undefined}
               playsInline
+              controlsList="nodownload noplaybackrate"
+              disablePictureInPicture
+              onContextMenu={(event) => event.preventDefault()}
+
               className="w-full h-full bg-background object-contain"
               preload="auto"
               onClick={togglePlayback}
@@ -339,7 +351,7 @@ function RecordingCard({ rec }: { rec: any }) {
         )}
       </div>
 
-      {started && !failed && !unsupported && !isImage && !isPdf && (
+      {started && !failed && !unsupported && !isImage && !isPdf && !ytEmbed && (
         <div className="space-y-3 border-b bg-muted/40 px-4 py-3">
           <div className="flex items-center gap-3">
             <span className="w-14 shrink-0 text-right text-xs font-black tabular-nums">
@@ -452,14 +464,8 @@ function RecordingCard({ rec }: { rec: any }) {
         {rec.description && (
           <p className="text-sm text-muted-foreground whitespace-pre-line">{rec.description}</p>
         )}
-        {src && !isImage && !isPdf && (
-          <Button asChild variant="outline" size="sm" className="gap-2 font-black">
-            <a href={src} target="_blank" rel="noreferrer" download>
-              <Download className="h-4 w-4" /> Download Lecture to Phone
-            </a>
-          </Button>
-        )}
       </CardContent>
+
     </Card>
   );
 }

@@ -6,9 +6,10 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export const getStudentRecordings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const [{ data: profile }, { data: roles }] = await Promise.all([
-      context.supabase.from("profiles").select("section_id").eq("id", context.userId).maybeSingle(),
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: roles }, allowedSectionIds] = await Promise.all([
       context.supabase.from("user_roles").select("role").eq("user_id", context.userId),
+      getAccessibleSectionIds(context.supabase, context.userId),
     ]);
     const isStaff = (roles ?? []).some((r) =>
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
@@ -21,12 +22,13 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
       )
       .eq("is_published", true)
       .order("recorded_at", { ascending: false });
-    // Students only see recordings for the level they were granted (or global ones).
+    // Students only see recordings for the levels they were granted (or global ones).
     if (!isStaff) {
-      query = profile?.section_id
-        ? query.or(`section_id.is.null,section_id.eq.${profile.section_id}`)
+      query = allowedSectionIds.length
+        ? query.or(`section_id.is.null,section_id.in.(${allowedSectionIds.join(",")})`)
         : query.is("section_id", null);
     }
+
     const { data, error } = await query;
     if (error) throw new Error(error.message);
     const recordings = data ?? [];

@@ -100,9 +100,11 @@ export const getUnitDetail = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: profile }, { data: roles }] = await Promise.all([
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: profile }, { data: roles }, allowedSectionIds] = await Promise.all([
       supabase.from("profiles").select("section_id, is_blocked").eq("id", userId).maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", userId),
+      getAccessibleSectionIds(supabase, userId),
     ]);
 
     const isStaff = (roles ?? []).some((r) =>
@@ -121,16 +123,17 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     const section = (unit as any).sections as
       | { id: string; name: string; is_visible: boolean; is_locked: boolean }
       | null;
-    // A student may only open units of the level the admin assigned to them,
+    // A student may only open units of the levels the admin granted them,
     // and only while that level is visible and unlocked.
     if (!isStaff) {
       if (!section || section.is_visible === false || section.is_locked === true) {
         throw new Error("This level is currently locked, contact the administration to unlock it");
       }
-      if (!profile?.section_id || profile.section_id !== (unit as any).section_id) {
+      if (!allowedSectionIds.includes((unit as any).section_id)) {
         throw new Error("You do not have permission to access this content");
       }
     }
+
 
     let query = supabase
       .from("unit_contents")
@@ -360,12 +363,15 @@ export const getLevels = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: roles }, { data: profile }, { data: sections }, { data: units }] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("section_id").eq("id", userId).maybeSingle(),
-      supabase.from("sections").select("id, name, description, order_index, is_visible, is_locked").order("order_index"),
-      supabase.from("units").select("id, section_id, is_active"),
-    ]);
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: roles }, { data: profile }, { data: sections }, { data: units }, allowedSectionIds] =
+      await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("profiles").select("section_id").eq("id", userId).maybeSingle(),
+        supabase.from("sections").select("id, name, description, order_index, is_visible, is_locked").order("order_index"),
+        supabase.from("units").select("id, section_id, is_active"),
+        getAccessibleSectionIds(supabase, userId),
+      ]);
 
     const isStaff = (roles ?? []).some((r) =>
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
@@ -376,13 +382,15 @@ export const getLevels = createServerFn({ method: "GET" })
     return {
       isStaff,
       myLevelId: profile?.section_id ?? null,
+      myLevelIds: isStaff ? visible.map((s) => s.id) : allowedSectionIds,
       levels: visible.map((s) => ({
         ...s,
         unitCount: (units ?? []).filter((u) => u.section_id === s.id && (isStaff || u.is_active)).length,
-        locked: !isStaff && s.is_locked,
+        locked: !isStaff && (s.is_locked || !allowedSectionIds.includes(s.id)),
       })),
     };
   });
+
 
 /** Units + personal progress of ONE level, independent of every other level. */
 export const getLevelUnits = createServerFn({ method: "GET" })
@@ -391,13 +399,15 @@ export const getLevelUnits = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: roles }, { data: section }] = await Promise.all([
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: roles }, { data: section }, allowedSectionIds] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase
         .from("sections")
         .select("id, name, description, is_visible, is_locked")
         .eq("id", data.sectionId)
         .maybeSingle(),
+      getAccessibleSectionIds(supabase, userId),
     ]);
 
     const isStaff = (roles ?? []).some((r) =>
@@ -405,9 +415,10 @@ export const getLevelUnits = createServerFn({ method: "GET" })
     );
 
     if (!section) throw new Error("Level not found");
-    if (!isStaff && (!section.is_visible || section.is_locked)) {
+    if (!isStaff && (!section.is_visible || section.is_locked || !allowedSectionIds.includes(section.id))) {
       return { section, locked: true, units: [], totalContents: 0, completedCount: 0, overallProgress: 0 };
     }
+
 
     let unitsQuery = supabase
       .from("units")
