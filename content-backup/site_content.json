@@ -1,0 +1,14 @@
+[
+ {
+  "key": "teacher.permissions",
+  "value": {
+   "fe515fc7-5db2-48ba-a38d-8116327d7ff5": [
+    "content",
+    "recordings",
+    "live",
+    "vocabulary"
+   ]
+  },
+  "updated_at": "2026-08-29T10:23:12.334138+00:00"
+ }
+]
