@@ -339,7 +339,11 @@ function ContentPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [content.id],
   );
-  const lessonBody = useMemo(() => stripAnswers(content.body), [content.id, content.body]);
+  const lessonBody = useMemo(() => {
+    const body = stripAnswers(content.body);
+    if (content.content_type !== "reading") return body;
+    return stripKeyWordsSection(body);
+  }, [content.id, content.body, content.content_type]);
   const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
 
