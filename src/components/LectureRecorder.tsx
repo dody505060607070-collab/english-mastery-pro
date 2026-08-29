@@ -41,6 +41,9 @@ function pickMime() {
  */
 async function repairBlob(blob: Blob, type: string): Promise<Blob> {
   if (!type.includes("webm")) return blob;
+  // Rewriting metadata loads the whole file in memory. Above ~700MB (≈2h) that
+  // can crash the tab and lose the lecture, so the raw blob is kept instead.
+  if (blob.size > 700 * 1024 * 1024) return blob;
   try {
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
@@ -49,6 +52,7 @@ async function repairBlob(blob: Blob, type: string): Promise<Blob> {
     return blob;
   }
 }
+
 
 
 
