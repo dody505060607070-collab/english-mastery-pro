@@ -107,6 +107,7 @@ export function primeAudio() {
 }
 
 export function stopAudio() {
+  chainActive = false;
   const a = element();
   if (a) {
     a.pause();
