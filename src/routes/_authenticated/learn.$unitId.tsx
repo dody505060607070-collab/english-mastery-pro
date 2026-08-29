@@ -361,10 +361,14 @@ function ContentPanel({
     }
     return body;
   }, [content.id, content.body, content.content_type, words.length]);
-  const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
 
   const isListening = content.content_type === "listening";
+  const listeningText = ((data.transcript ?? lessonBody ?? "") as string).trim();
+  const listeningTurns = useMemo(
+    () => (isListening ? parseDialogueTurns(listeningText) : []),
+    [isListening, listeningText],
+  );
 
   const color = contentColor(content.content_type);
 
