@@ -129,8 +129,8 @@ function pickMime() {
   // multi-hour screen captures. VP8/WebM is the proven long-session path; its
   // seek metadata is repaired before upload.
   const candidates = [
-    "video/webm;codecs=vp8,opus",
     "video/webm;codecs=vp9,opus",
+    "video/webm;codecs=vp8,opus",
     "video/webm",
     "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
     "video/mp4;codecs=avc1,mp4a.40.2",
@@ -387,7 +387,7 @@ export function LectureRecorder({
   function toggleMicMute() {
     const next = !micMuted;
     setMicMuted(next);
-    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.35;
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.0;
     micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
@@ -505,9 +505,9 @@ export function LectureRecorder({
       // Chrome's picker; browsers do not let sites switch that permission on.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 15, max: 20 },
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          frameRate: { ideal: 24, max: 30 },
+          width: { ideal: 1600 },
+          height: { ideal: 900 },
           displaySurface: "monitor",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
@@ -566,6 +566,14 @@ export function LectureRecorder({
       await initialResume;
       if (ctx.state === "suspended") await ctx.resume().catch(() => undefined);
       const dest = ctx.createMediaStreamDestination();
+      // Keeps the boosted tab/YouTube audio loud without clipping the mix.
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -18;
+      comp.knee.value = 20;
+      comp.ratio.value = 3;
+      comp.attack.value = 0.003;
+      comp.release.value = 0.25;
+      comp.connect(dest);
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 512;
       audioCtxRef.current = ctx;
@@ -579,17 +587,17 @@ export function LectureRecorder({
         const g = ctx.createGain();
         g.gain.value = gain;
         src.connect(g);
-        g.connect(dest);
+        g.connect(comp);
         g.connect(analyser);
         return { src, gain: g };
       };
 
       setMicMuted(false);
       micStreamRef.current = mic;
-      micGainRef.current = micHasAudio && mic ? attach(mic, 1.35)?.gain ?? null : null;
+      micGainRef.current = micHasAudio && mic ? attach(mic, 1.0)?.gain ?? null : null;
 
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      displayAudioNodesRef.current = attach(display, 0.8);
+      displayAudioNodesRef.current = attach(display, 2.2);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0 || ctx.state === "closed") {
@@ -649,10 +657,10 @@ export function LectureRecorder({
       mimeRef.current = mime;
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
-        audioBitsPerSecond: 64_000,
+        audioBitsPerSecond: 128_000,
         // Slides/screen stay readable at this rate while an hour-long lecture stays
         // around ~300MB, so it uploads reliably and streams on phones.
-        videoBitsPerSecond: 700_000,
+        videoBitsPerSecond: 1_800_000,
 
       });
 
