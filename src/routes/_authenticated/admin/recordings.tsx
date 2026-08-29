@@ -18,6 +18,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { FileUploadField } from "@/components/FileUploadField";
 import { LectureRecorder } from "@/components/LectureRecorder";
 import { LectureUploadCard } from "@/components/LectureUploadCard";
@@ -26,83 +36,8 @@ import {
   saveRecording,
   setRecordingPublished,
   deleteRecording,
-  listOrphanRecordingFiles,
-  adoptRecordingFile,
 } from "@/lib/recordings.functions";
 import { listSections } from "@/lib/admin-manage.functions";
-
-function OrphanFilesCard({ onAdopted }: { onAdopted: () => void }) {
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["orphan-recording-files"],
-    queryFn: () => listOrphanRecordingFiles(),
-  });
-
-  const adopt = useMutation({
-    mutationFn: (v: { path: string; title: string }) => adoptRecordingFile({ data: v }),
-    onSuccess: () => {
-      toast.success("Lecture recovered and published");
-      refetch();
-      onAdopted();
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
-  const files = data ?? [];
-
-  return (
-    <Card className="border-amber-500/40 bg-amber-500/5">
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div>
-            <p className="font-black">Uploaded files not linked to a lecture</p>
-            <p className="text-xs text-muted-foreground">
-              If an old recording is not visible to students, click "Recover" next to the file with its size and time.
-            </p>
-          </div>
-          <Button size="sm" variant="outline" onClick={() => refetch()} disabled={isLoading}>
-            Refresh
-          </Button>
-        </div>
-        {isLoading ? (
-          <Loader2 className="h-5 w-5 animate-spin text-primary" />
-        ) : files.length === 0 ? (
-          <p className="text-sm font-bold text-muted-foreground">No unlinked files.</p>
-        ) : (
-          <div className="space-y-2">
-            {files.map((f: any) => (
-              <div key={f.path} className="flex items-center gap-2 flex-wrap rounded-lg border bg-background p-2">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold truncate" dir="ltr">
-                    {f.name}
-                  </p>
-                  <p className="text-[11px] text-muted-foreground">
-                    {(f.size / (1024 * 1024)).toFixed(1)} MB ·{" "}
-                    {f.created_at ? new Date(f.created_at).toLocaleString("en-US") : "—"}
-                  </p>
-                </div>
-                <Button
-                  size="sm"
-                  className="font-black"
-                  disabled={adopt.isPending}
-                  onClick={() =>
-                    adopt.mutate({
-                      path: f.path,
-                      title: `Lecture ${
-                        f.created_at ? new Date(f.created_at).toLocaleDateString("en-US") : f.name
-                      }`,
-                    })
-                  }
-                >
-                  Recover & Publish
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
 
 export const Route = createFileRoute("/_authenticated/admin/recordings")({
   component: AdminRecordingsPage,
@@ -132,6 +67,7 @@ function AdminRecordingsPage() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [quickTitle, setQuickTitle] = useState("");
   const [watching, setWatching] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<{ id: string; title: string } | null>(null);
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const { data, isLoading } = useQuery({
@@ -175,7 +111,8 @@ function AdminRecordingsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteRecording({ data: { id } }),
     onSuccess: () => {
-      toast.success("Recording deleted");
+      toast.success("Recording and its stored file were permanently deleted");
+      setDeleting(null);
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -198,8 +135,6 @@ function AdminRecordingsPage() {
       </div>
 
       <LectureUploadCard onSaved={invalidate} />
-
-      <OrphanFilesCard onAdopted={invalidate} />
 
       <Card className="border-destructive/30">
         <CardContent className="p-4 flex flex-col md:flex-row md:items-end gap-3">
@@ -294,7 +229,12 @@ function AdminRecordingsPage() {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => remove.mutate(r.id)}>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    aria-label={`Delete ${r.title}`}
+                    onClick={() => setDeleting({ id: r.id, title: r.title })}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -383,6 +323,32 @@ function AdminRecordingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!deleting} onOpenChange={(open) => !open && setDeleting(null)}>
+        <AlertDialogContent dir="ltr">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Permanently delete this recording?</AlertDialogTitle>
+            <AlertDialogDescription>
+              “{deleting?.title}” and its video file will be deleted permanently. It will not appear under Recover &amp;
+              Publish and this action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={remove.isPending}>No, keep it</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={remove.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={(event) => {
+                event.preventDefault();
+                if (deleting) remove.mutate(deleting.id);
+              }}
+            >
+              {remove.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Yes, delete permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

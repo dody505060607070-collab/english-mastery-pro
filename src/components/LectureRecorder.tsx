@@ -15,6 +15,7 @@ const QUALITY: Record<RecQuality, { w: number; h: number; fps: number; video: nu
 };
 
 type RecState = {
+  starting: boolean;
   recording: boolean;
   paused: boolean;
   saving: boolean;
@@ -82,6 +83,7 @@ function getSession(): RecSession {
   if (!g.__lectureRecSession) {
     g.__lectureRecSession = {
       state: {
+        starting: false,
         recording: false,
         paused: false,
         saving: false,
@@ -372,6 +374,7 @@ export function LectureRecorder({
 
   const st = S.state;
   const {
+    starting,
     recording,
     saving,
     uploadProgress,
@@ -592,6 +595,7 @@ export function LectureRecorder({
     // can leave Chrome's mixer suspended, producing a video with a silent audio track.
     const Ctx: typeof AudioContext =
       window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    patch({ starting: true, owner: ownerKey, saved: null });
     const ctx = new Ctx();
     const initialResume = ctx.state === "suspended" ? ctx.resume().catch(() => undefined) : Promise.resolve();
     try {
@@ -606,6 +610,7 @@ export function LectureRecorder({
           if (mountedRef.current) setUnfinished({ meta: existing.meta, size });
           toast.error("An unfinished recording backup exists — recover or delete it before starting a new one.");
           void ctx.close().catch(() => undefined);
+          patch({ starting: false, owner: null });
           return;
         }
         await backupClear();
@@ -662,6 +667,7 @@ export function LectureRecorder({
         display.getTracks().forEach((track) => track.stop());
         void ctx.close().catch(() => undefined);
         toast.error("No audio permission was granted. Allow the microphone, or share a Chrome tab with tab audio enabled.");
+        patch({ starting: false, owner: null });
         return;
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
@@ -677,6 +683,7 @@ export function LectureRecorder({
             : "Screen audio is OFF. Start again and enable 'Share system audio'; on macOS, select the Meet/YouTube Chrome tab and tick 'Also share tab audio'.",
           { duration: 12_000 },
         );
+        patch({ starting: false, owner: null });
         return;
       }
 
@@ -722,6 +729,7 @@ export function LectureRecorder({
         toast.error("No audio sources available. Allow the microphone or enable 'Also share tab audio'.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
+        patch({ starting: false, owner: null });
         return;
       }
 
@@ -770,6 +778,7 @@ export function LectureRecorder({
         toast.error("MediaRecorder is not supported on this browser.");
         display.getTracks().forEach((t) => t.stop());
         void ctx.close();
+        patch({ starting: false, owner: null });
         return;
       }
       mimeRef.current = mime;
@@ -889,7 +898,7 @@ export function LectureRecorder({
       startedAtRef.current = Date.now();
       setElapsed(0);
       pausedAtRef.current = 0;
-      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null, saved: null });
+      patch({ starting: false, recording: true, paused: false, owner: ownerKey, lowSpace: null, saved: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -908,6 +917,7 @@ export function LectureRecorder({
           ? "Screen share was cancelled or denied"
           : "Could not start recording. Close any other screen sharing and try again";
       toast.error(message);
+      patch({ starting: false, owner: null });
     }
   }
 
@@ -915,7 +925,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
+    patch({ recording: false, paused: false, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -941,64 +951,17 @@ export function LectureRecorder({
       setSaving(true);
       setUploadProgress(0);
     }
-    // Auto-upload with retries so the teacher never has to download + re-upload manually.
-    let lastError: Error | null = null;
-    for (let attempt = 1; attempt <= 4; attempt++) {
-      try {
-        if (mountedRef.current) setAttemptNo(attempt);
-        const file = new File([blob], fileName, { type });
-        const path = await uploadFile("content", file, "recordings", (progress) => {
-          if (mountedRef.current) setUploadProgress(progress);
-        });
-        await saveRecording({
-          data: {
-            title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`,
-            liveSessionId: liveSessionId || null,
-            sectionId: sectionId || null,
-            videoUrl: path,
-            durationSeconds: duration,
-            status: "ready",
-            isPublished: true,
-          },
-        });
-        await backupClear();
-        URL.revokeObjectURL(recoveryUrl);
-        if (mountedRef.current) {
-          setRecovery(null);
-          setUnfinished(null);
-          patch({ saved: { title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`, duration } });
-        }
-        toast.success("Lecture recording uploaded and published automatically");
-        onSaved?.();
-        lastError = null;
-        break;
-      } catch (e) {
-        lastError = e as Error;
-        if (attempt < 4) {
-          toast.warning(`Upload attempt ${attempt} failed — retrying automatically…`);
-          await new Promise((r) => setTimeout(r, attempt * 3000));
-        }
-      }
-    }
-    if (lastError) {
-      // All retries failed: surface the on-device backup so it can be retried or downloaded.
-      const backup = await backupRead();
-      if (backup && mountedRef.current) {
-        setUnfinished({ meta: backup.meta, size: backup.chunks.reduce((s, c) => s + c.size, 0) });
-      }
-      toast.error(
-        `Automatic upload failed. Use "Retry upload" — the recording is safe on this device. ${lastError.message}`,
-      );
-    }
     if (mountedRef.current) {
       setSaving(false);
       setUploadProgress(0);
       setAttemptNo(0);
+      setUnfinished(null);
     }
+    toast.success("Recording is ready. Preview it, then press Save & Publish.");
     finalizingRef.current = false;
   }
 
-  async function recoverBackup() {
+  async function recoverBackup(continueAfter = false) {
     setRecovering(true);
     setUploadProgress(0);
     try {
@@ -1023,7 +986,7 @@ export function LectureRecorder({
       const duration = Math.max(1, Math.floor((backup.meta.updatedAt - backup.meta.startedAt) / 1000));
       await saveRecording({
         data: {
-          title: `${backup.meta.title || "Lecture"} (recovered)`,
+          title: recovery ? backup.meta.title || "Lecture" : `${backup.meta.title || "Lecture"} (recovered)`,
           liveSessionId: backup.meta.liveSessionId || null,
           sectionId: backup.meta.sectionId || null,
           videoUrl: path,
@@ -1033,9 +996,15 @@ export function LectureRecorder({
         },
       });
       await backupClear();
-      if (mountedRef.current) setUnfinished(null);
-      toast.success("Recovered recording uploaded and published");
+      if (mountedRef.current) {
+        if (recovery) URL.revokeObjectURL(recovery.url);
+        setRecovery(null);
+        setUnfinished(null);
+        patch({ saved: { title: backup.meta.title || "Lecture", duration }, owner: null });
+      }
+      toast.success(recovery ? "Recording saved and published" : "Recovered recording uploaded and published");
       onSaved?.();
+      if (continueAfter) await start();
     } catch (e) {
       toast.error(`Recovery failed: ${(e as Error).message}. The backup was kept — try again.`);
     } finally {
@@ -1070,7 +1039,7 @@ export function LectureRecorder({
         <p className="flex items-center gap-2 text-sm font-bold">
           <Loader2 className="h-4 w-4 animate-spin" />
           {uploadProgress > 0
-            ? `Uploading the recording automatically… ${uploadProgress}%`
+            ? `Uploading and publishing… ${uploadProgress}%`
             : "Stop received — preparing the video file (this can take a minute for long lectures)…"}
           {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
@@ -1233,6 +1202,9 @@ export function LectureRecorder({
             <Button size="sm" variant="outline" className="gap-1.5" onClick={() => void downloadBackup()}>
               <Download className="h-4 w-4" /> Download
             </Button>
+            <Button size="sm" variant="secondary" disabled={recovering} onClick={() => void recoverBackup(true)}>
+              Recover, Publish &amp; Start Next Part
+            </Button>
             <Button
               size="sm"
               variant="ghost"
@@ -1246,16 +1218,16 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      {recovery && (
-        <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 space-y-2">
+      {recovery && isOwner && (
+        <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
-            Automatic upload did not succeed. Press "Retry upload" to publish it now — the recording is also kept in
-            the on-device backup.
+            Recording ready — check the preview, then save and publish it. The local backup stays safe until saving finishes.
           </p>
+          <video src={recovery.url} controls preload="metadata" className="w-full rounded-lg border bg-black" />
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup()}>
+            <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup(false)}>
               {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
-              {recovering ? `Uploading… ${uploadProgress}%` : "Retry upload"}
+              {recovering ? `Saving… ${uploadProgress}%` : "Save & Publish"}
             </Button>
             <Button asChild size="sm" variant="outline" className="gap-2">
               <a href={recovery.url} download={recovery.name}>
@@ -1283,11 +1255,11 @@ export function LectureRecorder({
         size="sm"
         variant="outline"
         className="gap-2"
-        disabled={recording && !isOwner}
+        disabled={starting || (!!st.owner && !isOwner)}
         onClick={() => void start()}
       >
         <Circle className="h-4 w-4 text-destructive fill-destructive" />
-        {recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
+        {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
       </Button>
     </div>
   );
