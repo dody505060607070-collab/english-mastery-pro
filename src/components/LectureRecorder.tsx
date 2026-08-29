@@ -500,9 +500,9 @@ export function LectureRecorder({
       }
       finalizingRef.current = false;
 
-      // One Entire Screen permission keeps capture alive while moving between
-      // Meet, YouTube and other tabs. The microphone is captured independently,
-      // so muting the microphone inside Meet does not mute this recording.
+      // Ask Chrome for shared-source audio explicitly. The user must still enable
+      // "Also share tab audio" (or system audio on supported Windows devices) in
+      // Chrome's picker; browsers do not let sites switch that permission on.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
           frameRate: { ideal: 15, max: 20 },
@@ -513,10 +513,12 @@ export function LectureRecorder({
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
         ...({
           systemAudio: "include",
+          windowAudio: "system",
           surfaceSwitching: "exclude",
           monitorTypeSurfaces: "include",
           preferCurrentTab: false,
           selfBrowserSurface: "exclude",
+          suppressLocalAudioPlayback: false,
         } as Record<string, unknown>),
       } as DisplayMediaStreamOptions);
 
@@ -546,11 +548,18 @@ export function LectureRecorder({
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
       if (!displayHasAudio) {
-        toast.warning(
+        // Do not allow a deceptively successful mic-only lecture: this is exactly
+        // the state that loses students/Meet/YouTube audio.
+        display.getTracks().forEach((track) => track.stop());
+        mic?.getTracks().forEach((track) => track.stop());
+        void ctx.close().catch(() => undefined);
+        toast.error(
           capturedSurface === "browser"
-            ? "Tab audio was not enabled. Enable 'Also share tab audio' in Chrome."
-            : "System audio was not shared. On Windows, select Entire Screen and enable 'Also share system audio'. On macOS, Chrome cannot capture all system audio; share the Meet tab instead.",
+            ? "Shared-tab audio is OFF. Start again, select the Meet/YouTube tab, and tick 'Also share tab audio'."
+            : "Screen audio is OFF. Start again and enable 'Share system audio'; on macOS, select the Meet/YouTube Chrome tab and tick 'Also share tab audio'.",
+          { duration: 12_000 },
         );
+        return;
       }
 
       // 3. Mix audio tracks properly (MediaRecorder only supports ONE audio track)
@@ -952,7 +961,7 @@ export function LectureRecorder({
               <MicOff className="h-4 w-4 text-muted-foreground" />
             )}
             {hasMic ? "Microphone connected" : "Microphone not connected"} ·{" "}
-            {hasSystemAudio ? "Screen audio connected" : "Screen audio unavailable"}
+            {hasSystemAudio ? "Meet / tab audio connected" : "Shared audio unavailable"}
           </span>
           <span className="text-[11px] font-bold text-muted-foreground">
             Level: {Math.min(100, Math.round(level * 160))}%
@@ -978,7 +987,7 @@ export function LectureRecorder({
             style={{ width: `${Math.min(100, Math.round(level * 160))}%` }}
           />
         </div>
-        {(!hasSystemAudio || micDenied || silent) && (
+        {(micDenied || silent) && (
           <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs font-bold space-y-1">
             <p className="flex items-center gap-1.5 text-destructive">
               <AlertTriangle className="h-4 w-4" />
@@ -986,13 +995,13 @@ export function LectureRecorder({
                 ? "Microphone denied — mic audio will not be recorded."
                 : silent
                   ? "No audio input for several seconds."
-                  : "This screen source did not provide system audio; microphone audio is still recording."}
+                  : "No shared audio input is being detected."}
             </p>
             <p>To fix microphone access:</p>
             <p>1) Click the lock icon next to the site URL in the browser.</p>
             <p>2) Enable "Microphone" and choose Allow.</p>
             <p>3) Make sure the mic is not muted in device settings.</p>
-            <p>4) Select the Google Meet Chrome tab — not Entire Screen or Window — and enable "Also share tab audio".</p>
+            <p>4) Select the Google Meet or YouTube Chrome tab and enable "Also share tab audio".</p>
           </div>
         )}
       </div>
@@ -1001,8 +1010,8 @@ export function LectureRecorder({
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
         <p className="mt-1 text-muted-foreground">
-           Select Entire Screen once to move between tabs without new access prompts. The recording microphone stays
-           active even if your microphone is muted inside Google Meet.
+           Meet/tab audio is connected. To capture students, share the Google Meet tab with "Also share tab audio" enabled.
+           On Windows, "Entire Screen" also works only when "Share system audio" is enabled.
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
