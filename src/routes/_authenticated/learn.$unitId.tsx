@@ -19,6 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import { InteractiveText } from "@/components/InteractiveText";
 import { GrammarLesson, parseGrammar } from "@/components/GrammarLesson";
 import { ReadingLesson } from "@/components/ReadingLesson";
+import { DialogueLesson, parseDialogueTurns } from "@/components/DialogueLesson";
 import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
