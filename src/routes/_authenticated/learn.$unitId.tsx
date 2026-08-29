@@ -331,8 +331,14 @@ function ContentPanel({
 }) {
   const meta = contentMeta(content.content_type);
   const data = parseData(content.data);
-  const questions = (data.questions ?? []) as Question[];
   const words = (data.words ?? []) as VocabWord[];
+  const stored = (data.questions ?? []) as Question[];
+  const questions = useMemo(
+    () => (stored.length ? stored : buildAutoQuestions(content.content_type, content.body, words)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [content.id],
+  );
+  const lessonBody = useMemo(() => stripAnswers(content.body), [content.id, content.body]);
   const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
 
