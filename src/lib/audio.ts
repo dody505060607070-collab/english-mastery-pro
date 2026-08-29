@@ -64,7 +64,11 @@ function element(): HTMLAudioElement | null {
   a.addEventListener("pause", () => {
     if (!a.ended && state.status === "playing") emit({ status: "paused" });
   });
-  a.addEventListener("ended", () => emit({ status: "idle", owner: null, time: 0 }));
+  a.addEventListener("ended", () => {
+    // During a dialogue chain the chain handler advances to the next segment.
+    if (chainActive) return;
+    emit({ status: "idle", owner: null, time: 0 });
+  });
   el = a;
   return a;
 }
