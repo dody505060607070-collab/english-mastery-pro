@@ -34,6 +34,7 @@ type RecState = {
   micVol: number;
   tabVol: number;
   lowSpace: string | null;
+  saved: { title: string; duration: number } | null;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
@@ -100,6 +101,7 @@ function getSession(): RecSession {
         micVol: 1,
         tabVol: 2.2,
         lowSpace: null,
+        saved: null,
         owner: null,
       },
       listeners: new Set(),
@@ -389,6 +391,7 @@ export function LectureRecorder({
     micVol,
     tabVol,
     lowSpace,
+    saved,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
@@ -551,6 +554,9 @@ export function LectureRecorder({
   function stopRecording() {
     const recorder = recorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
+    // Show the saving panel immediately: repairing a long WebM can take a while
+    // before the upload percentage starts moving.
+    patch({ saving: true, uploadProgress: 0 });
     try {
       recorder.requestData();
     } catch {
@@ -883,7 +889,7 @@ export function LectureRecorder({
       startedAtRef.current = Date.now();
       setElapsed(0);
       pausedAtRef.current = 0;
-      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null });
+      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null, saved: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -909,7 +915,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null });
+    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -924,6 +930,7 @@ export function LectureRecorder({
     chunksRef.current = [];
     if (blob.size < 1000) {
       toast.error("No content was recorded");
+      if (mountedRef.current) setSaving(false);
       finalizingRef.current = false;
       return;
     }
@@ -959,6 +966,7 @@ export function LectureRecorder({
         if (mountedRef.current) {
           setRecovery(null);
           setUnfinished(null);
+          patch({ saved: { title: title?.trim() || `Lecture ${new Date().toLocaleDateString()}`, duration } });
         }
         toast.success("Lecture recording uploaded and published automatically");
         onSaved?.();
@@ -1060,7 +1068,10 @@ export function LectureRecorder({
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
-          <Loader2 className="h-4 w-4 animate-spin" /> Uploading the recording automatically… {uploadProgress}%
+          <Loader2 className="h-4 w-4 animate-spin" />
+          {uploadProgress > 0
+            ? `Uploading the recording automatically… ${uploadProgress}%`
+            : "Stop received — preparing the video file (this can take a minute for long lectures)…"}
           {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
@@ -1191,6 +1202,22 @@ export function LectureRecorder({
     </div>
   ) : (
     <div className="space-y-2">
+      {saved && (
+        <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-3 space-y-2">
+          <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+            Saved and published: "{saved.title}" ({fmt(saved.duration)}) — students can watch it now from the
+            Recordings page.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" className="gap-1.5">
+              <a href="/recordings">Open Recordings page</a>
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => patch({ saved: null })}>
+              Dismiss
+            </Button>
+          </div>
+        </div>
+      )}
       {unfinished && (
         <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-2">
           <p className="text-xs font-bold flex items-center gap-1.5">
