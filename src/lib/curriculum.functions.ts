@@ -100,9 +100,11 @@ export const getUnitDetail = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: profile }, { data: roles }] = await Promise.all([
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: profile }, { data: roles }, allowedSectionIds] = await Promise.all([
       supabase.from("profiles").select("section_id, is_blocked").eq("id", userId).maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", userId),
+      getAccessibleSectionIds(supabase, userId),
     ]);
 
     const isStaff = (roles ?? []).some((r) =>
@@ -121,16 +123,17 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     const section = (unit as any).sections as
       | { id: string; name: string; is_visible: boolean; is_locked: boolean }
       | null;
-    // A student may only open units of the level the admin assigned to them,
+    // A student may only open units of the levels the admin granted them,
     // and only while that level is visible and unlocked.
     if (!isStaff) {
       if (!section || section.is_visible === false || section.is_locked === true) {
         throw new Error("This level is currently locked, contact the administration to unlock it");
       }
-      if (!profile?.section_id || profile.section_id !== (unit as any).section_id) {
+      if (!allowedSectionIds.includes((unit as any).section_id)) {
         throw new Error("You do not have permission to access this content");
       }
     }
+
 
     let query = supabase
       .from("unit_contents")
