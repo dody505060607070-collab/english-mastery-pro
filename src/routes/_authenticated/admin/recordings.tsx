@@ -38,6 +38,8 @@ import {
   deleteRecording,
 } from "@/lib/recordings.functions";
 import { listSections } from "@/lib/admin-manage.functions";
+import { isYouTubeUrl, youTubeEmbedUrl, youTubeThumbnail } from "@/lib/youtube";
+
 
 export const Route = createFileRoute("/_authenticated/admin/recordings")({
   component: AdminRecordingsPage,
