@@ -74,16 +74,21 @@ export function ReadingLesson({ body }: { body: string }) {
             disabled={loading}
           >
             {loading ? <Loader2 className="ml-1 h-4 w-4 animate-spin" /> : <Languages className="ml-1 h-4 w-4" />}
-            {showArabic ? "English" : "Translate to Arabic"}
+            {showArabic ? "Hide Arabic" : "Translate to Arabic"}
           </Button>
 
-          {showArabic && arabic ? (
-            <p dir="rtl" className="whitespace-pre-line text-[17px] leading-9 text-foreground">
-              {arabic}
-            </p>
-          ) : (
+          {/* English always stays; Arabic appears as a small caption below it. */}
+          <div className="space-y-3">
             <InteractiveText text={passage.text} className="text-[17px] leading-9 text-foreground" />
-          )}
+            {showArabic && arabic && (
+              <p
+                dir="rtl"
+                className="whitespace-pre-line border-t border-border/60 pt-3 text-[13px] leading-7 text-muted-foreground"
+              >
+                {arabic}
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
