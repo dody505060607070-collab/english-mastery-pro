@@ -113,6 +113,7 @@ type Draft = {
   title: string;
   description: string;
   videoUrl: string;
+  thumbnailUrl: string;
   sectionId: string;
   isPublished: boolean;
 };
@@ -121,6 +122,7 @@ const emptyDraft: Draft = {
   title: "",
   description: "",
   videoUrl: "",
+  thumbnailUrl: "",
   sectionId: "all",
   isPublished: true,
 };
@@ -129,6 +131,7 @@ function AdminRecordingsPage() {
   const qc = useQueryClient();
   const [draft, setDraft] = useState<Draft | null>(null);
   const [quickTitle, setQuickTitle] = useState("");
+  const [watching, setWatching] = useState<string | null>(null);
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const { data, isLoading } = useQuery({
@@ -149,6 +152,7 @@ function AdminRecordingsPage() {
           title: d.title,
           description: d.description || null,
           videoUrl: d.videoUrl || null,
+          thumbnailUrl: d.thumbnailUrl || null,
           sectionId: d.sectionId === "all" ? null : d.sectionId,
           isPublished: d.isPublished,
           status: d.videoUrl ? "ready" : "recording",
@@ -226,6 +230,18 @@ function AdminRecordingsPage() {
           {data.map((r: any) => (
             <Card key={r.id}>
               <CardContent className="p-4 flex flex-col md:flex-row md:items-center gap-3">
+                {r.cover_url ? (
+                  <img
+                    src={r.cover_url}
+                    alt={`Cover for ${r.title}`}
+                    loading="lazy"
+                    className="h-16 w-28 shrink-0 rounded-lg object-cover border"
+                  />
+                ) : (
+                  <div className="h-16 w-28 shrink-0 rounded-lg border border-dashed grid place-items-center text-[10px] font-bold text-muted-foreground">
+                    No cover
+                  </div>
+                )}
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-black truncate">{r.title}</p>
@@ -241,6 +257,17 @@ function AdminRecordingsPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
+                  {r.playback_url && (
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="gap-1"
+                      onClick={() => setWatching(watching === r.id ? null : r.id)}
+                    >
+                      <PlaySquare className="h-4 w-4" />
+                      {watching === r.id ? "Close" : "Watch"}
+                    </Button>
+                  )}
                   <Button
                     size="sm"
                     variant="secondary"
@@ -259,6 +286,7 @@ function AdminRecordingsPage() {
                         title: r.title,
                         description: r.description ?? "",
                         videoUrl: r.video_url ?? "",
+                        thumbnailUrl: r.thumbnail_url ?? "",
                         sectionId: r.section_id ?? "all",
                         isPublished: r.is_published,
                       })
@@ -271,6 +299,17 @@ function AdminRecordingsPage() {
                   </Button>
                 </div>
               </CardContent>
+              {watching === r.id && r.playback_url && (
+                <CardContent className="pt-0 pb-4">
+                  <video
+                    src={r.playback_url}
+                    poster={r.cover_url ?? undefined}
+                    controls
+                    preload="metadata"
+                    className="w-full rounded-xl bg-black aspect-video"
+                  />
+                </CardContent>
+              )}
             </Card>
           ))}
         </div>
@@ -298,6 +337,14 @@ function AdminRecordingsPage() {
                 bucket="content"
                 kind="video"
                 folder="recordings"
+              />
+              <FileUploadField
+                label="Cover photo (optional)"
+                value={draft.thumbnailUrl}
+                onChange={(v) => setDraft({ ...draft, thumbnailUrl: v })}
+                bucket="content"
+                kind="image"
+                folder="recording-covers"
               />
               <div className="space-y-1.5">
                 <Label>Level (optional)</Label>
