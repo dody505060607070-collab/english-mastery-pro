@@ -1,5 +1,5 @@
-import { useEffect, useReducer } from "react";
-import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square } from "lucide-react";
+import { useEffect, useReducer, useRef, useState } from "react";
+import { AlertTriangle, Check, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -369,6 +369,9 @@ export function LectureRecorder({
   const pausedAtRef = R.pausedAt;
 
   const [, force] = useReducer((n: number) => n + 1, 0);
+  const [micTestOn, setMicTestOn] = useState(false);
+  const [micTestLevel, setMicTestLevel] = useState(0);
+  const micTestRef = useRef<{ stop: () => void } | null>(null);
   useEffect(() => {
     S.listeners.add(force);
     return () => {
@@ -1028,6 +1031,50 @@ export function LectureRecorder({
       }
     }
   }
+
+  /** Mic tester: shows a live moving level bar before recording starts. */
+  function stopMicTest() {
+    micTestRef.current?.stop();
+    micTestRef.current = null;
+    setMicTestOn(false);
+    setMicTestLevel(0);
+  }
+
+  async function startMicTest() {
+    if (micTestRef.current) {
+      stopMicTest();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ctx = new AudioContext();
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 512;
+      ctx.createMediaStreamSource(stream).connect(analyser);
+      const buf = new Uint8Array(analyser.fftSize);
+      let raf = 0;
+      const tick = () => {
+        analyser.getByteTimeDomainData(buf);
+        let peak = 0;
+        for (let i = 0; i < buf.length; i++) peak = Math.max(peak, Math.abs((buf[i] ?? 128) - 128) / 128);
+        setMicTestLevel(peak);
+        raf = requestAnimationFrame(tick);
+      };
+      tick();
+      micTestRef.current = {
+        stop: () => {
+          cancelAnimationFrame(raf);
+          stream.getTracks().forEach((t) => t.stop());
+          void ctx.close();
+        },
+      };
+      setMicTestOn(true);
+    } catch {
+      toast.error("Microphone blocked — click the lock icon next to the URL and allow Microphone.");
+    }
+  }
+
+  useEffect(() => () => stopMicTest(), []);
 
   async function downloadBackup() {
 
