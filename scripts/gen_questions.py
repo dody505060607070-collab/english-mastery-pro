@@ -145,10 +145,12 @@ def build(content_type: str, body: str) -> list[dict]:
     if content_type == "pronunciation":
         focus = next((k for k in s if k.startswith("Focus sound")), None)
         words = bullets(s.get("Listen and repeat", []))
-        words = [re.split(r"\s[-–—/]", w)[0].strip() for w in words if w.strip()]
+        words = [re.split(r"\s[-\u2013\u2014/]", w)[0].strip() for w in words if w.strip()]
         if focus and len(words) >= 4:
+            sound = focus.split(":", 1)[-1].strip()
             for i, w in enumerate(words[:5]):
-                item = mcq(f"Which word below is pronounced /{w}/-style with {focus.split(':',1)[-1].strip()}? Choose: {w}", w, words, 500 + i)
+                item = mcq(f"You hear this word with {sound}. Which word is it?  \u201c{w[:2]}\u2026\u201d",
+                           w, words, 500 + i)
                 if item:
                     qs.append(item)
         for i, prompt in enumerate(numbered(s.get("Practice questions", [])).values()):
