@@ -175,7 +175,7 @@ def strip_answers(body: str) -> str:
 
 def main():
     raw = q(
-        "select id || E'\\t' || content_type || E'\\t' || replace(coalesce(body,''), E'\\n', '\\\\n') "
+        "select id || chr(9) || content_type || chr(9) || replace(coalesce(body,''), chr(10), '<<NL>>') "
         "from unit_contents where jsonb_array_length(coalesce(data->'questions','[]'::jsonb)) = 0;"
     )
     updates = []
@@ -183,7 +183,7 @@ def main():
         if not line.strip():
             continue
         cid, ctype, body = line.split("\t", 2)
-        body = body.replace("\\n", "\n")
+        body = body.replace("<<NL>>", "\n")
         qs = build(ctype, body)
         if not qs:
             continue
