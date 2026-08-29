@@ -83,7 +83,7 @@ function Example({ text, word }: { text: string; word: string }) {
   );
 }
 
-function WordCard({
+export function WordCard({
   word,
   isLearned,
   onToggle,

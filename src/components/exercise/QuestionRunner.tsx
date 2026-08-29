@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils";
 import {
   gradeAll,
+  gradeQuestion,
   OPTION_LETTERS,
   type AnswerValue,
   type Question,
