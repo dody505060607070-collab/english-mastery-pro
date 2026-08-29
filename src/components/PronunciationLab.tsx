@@ -316,8 +316,6 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
     ? Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / attempted)
     : 0;
 
-  if (!drills.length && !parsed.pairs.length) return null;
-
   return (
     <section className="space-y-4">
       <header className="rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-4">
@@ -332,6 +330,8 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
         </div>
         {parsed.tip && <p className="mt-1 text-[13px] font-bold text-muted-foreground">{parsed.tip}</p>}
       </header>
+
+      <PhoneticsPrimer level={level} rate={rate} />
 
       {parsed.pairs.length > 0 && (
         <div className="space-y-2">
