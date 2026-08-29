@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { PhoneticsPrimer } from "@/components/PhoneticsPrimer";
 import { SpeedControl, snapSpeed } from "@/components/SpeedControl";
-import { patternFor, tierFor } from "@/lib/pronunciation-patterns";
+import { patternFor, selectForLevel, tierFor } from "@/lib/pronunciation-patterns";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -414,7 +414,7 @@ export function PronunciationLab({ body, level }: { body: string; level?: string
           4 · Speaking practice — use the sound in real speech
         </p>
         <ul className="space-y-2">
-          {(parsed.speaking.length ? parsed.speaking : pattern.speaking).map((p, i) => (
+          {(parsed.speaking.length ? parsed.speaking : picked.speaking).map((p, i) => (
             <RepeatDrill
               key={`sp-${i}`}
               target={p}
