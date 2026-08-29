@@ -7,8 +7,6 @@ import {
   ArrowLeft,
   Clock,
   Loader2,
-  Eye,
-  EyeOff,
   Trophy,
 } from "lucide-react";
 
