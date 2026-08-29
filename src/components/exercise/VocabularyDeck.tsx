@@ -32,7 +32,7 @@ export function VocabularyDeck({
   words: VocabWord[];
   learned: string[];
   onToggle?: (word: string, isLearned: boolean) => void;
-  level?: string | null;
+  level?: string | null | undefined;
 }) {
   const learnedSet = new Set(learned.map((w) => w.toLowerCase()));
   const progress = words.length

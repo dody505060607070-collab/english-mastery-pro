@@ -408,7 +408,7 @@ function ContentPanel({
         {isListening ? (
           <div className="space-y-3">
             {listeningTurns.length > 0 ? (
-              <DialogueLesson body={listeningText} level={levelName ?? undefined} />
+              <DialogueLesson body={listeningText} level={levelName ?? null} />
             ) : (
               <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
                 <InteractiveText text={listeningText} className="text-[15px] leading-8 text-foreground/90" />
@@ -449,7 +449,7 @@ function ContentPanel({
         )}
 
         {isVocab && words.length > 0 && (
-          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} level={levelName} />
+          <VocabularyDeck words={words} learned={learnedWords} onToggle={onToggleWord} level={levelName ?? null} />
         )}
 
         {questions.length > 0 && (
