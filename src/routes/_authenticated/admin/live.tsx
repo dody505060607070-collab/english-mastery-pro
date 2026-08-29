@@ -199,7 +199,7 @@ function AdminLivePage() {
       )}
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
-        <DialogContent className="font-['Outfit']" dir="ltr">
+        <DialogContent className="font-['Outfit'] max-h-[85vh] overflow-y-auto" dir="ltr">
           <DialogHeader>
             <DialogTitle>{draft?.id ? "Edit Stream" : "New Stream"}</DialogTitle>
           </DialogHeader>
