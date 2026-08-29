@@ -347,7 +347,7 @@ function RecordingCard({ rec }: { rec: any }) {
         )}
       </div>
 
-      {started && !failed && !unsupported && !isImage && !isPdf && (
+      {started && !failed && !unsupported && !isImage && !isPdf && !ytEmbed && (
         <div className="space-y-3 border-b bg-muted/40 px-4 py-3">
           <div className="flex items-center gap-3">
             <span className="w-14 shrink-0 text-right text-xs font-black tabular-nums">
@@ -460,13 +460,8 @@ function RecordingCard({ rec }: { rec: any }) {
         {rec.description && (
           <p className="text-sm text-muted-foreground whitespace-pre-line">{rec.description}</p>
         )}
-        {src && !isImage && !isPdf && (
-          <Button asChild variant="outline" size="sm" className="gap-2 font-black">
-            <a href={src} target="_blank" rel="noreferrer" download>
-              <Download className="h-4 w-4" /> Download Lecture to Phone
-            </a>
-          </Button>
-        )}
+      </CardContent>
+
       </CardContent>
     </Card>
   );
