@@ -1,4 +1,5 @@
-import { Check, Volume2, Loader2, Tag } from "lucide-react";
+import { useState } from "react";
+import { Check, Volume2, Loader2, Tag, Languages } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -92,7 +93,7 @@ export function WordCard({
   isLearned: boolean;
   onToggle?: ((word: string, isLearned: boolean) => void) | undefined;
 }) {
-  
+  const [showTranslation, setShowTranslation] = useState(false);
   const img = useMediaUrl(word.image_url);
   const wordAudio = useMediaUrl(word.word_audio);
   const sentenceAudio = useMediaUrl(word.sentence_audio);
@@ -228,7 +229,19 @@ export function WordCard({
         </div>
       )}
 
-      {(
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="w-fit font-bold"
+        onClick={() => setShowTranslation((visible) => !visible)}
+        aria-expanded={showTranslation}
+      >
+        <Languages className="mr-1.5 h-4 w-4" />
+        {showTranslation ? "Hide translation" : "Translate"}
+      </Button>
+
+      {showTranslation && (
         <div className={cn("space-y-2 rounded-xl border px-3 py-2.5", hue.chip)}>
           <div dir="rtl" className="space-y-1 text-right">
             <span className="block text-[9px] font-black uppercase tracking-[0.18em] opacity-70">معنى الكلمة</span>

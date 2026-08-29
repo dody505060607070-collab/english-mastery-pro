@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { InteractiveText } from "@/components/InteractiveText";
 import { GrammarLesson, parseGrammar } from "@/components/GrammarLesson";
+import { ReadingLesson } from "@/components/ReadingLesson";
 import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
@@ -423,7 +424,9 @@ function ContentPanel({
             {lessonBody && (
               <div className="space-y-3">
                 <AudioPlayer text={lessonBody} />
-                {content.content_type === "grammar" || parseGrammar(lessonBody).length > 1 ? (
+                {content.content_type === "reading" ? (
+                  <ReadingLesson body={lessonBody} />
+                ) : content.content_type === "grammar" || parseGrammar(lessonBody).length > 1 ? (
                   <>
                     <GrammarLesson body={lessonBody} />
                     <p className="text-[11px] font-bold text-muted-foreground">
