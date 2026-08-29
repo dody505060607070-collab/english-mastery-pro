@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Check, Volume2, Languages, Loader2, Tag } from "lucide-react";
+import { Check, Volume2, Loader2, Tag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
