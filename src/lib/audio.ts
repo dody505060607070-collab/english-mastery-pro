@@ -302,6 +302,24 @@ async function playDialogue(segments: DialogueSegment[], owner: string, id: numb
  * Call `primeAudio()` synchronously in the click handler before awaiting this.
  */
 export async function playText(text: string, owner = "tts", voice?: string) {
+  const dialogue = parseDialogue(text);
+  if (dialogue && !voice) {
+    const id = ++requestId;
+    stopSpeech();
+    emit({ status: "loading", owner, error: null });
+    try {
+      await playDialogue(dialogue, owner, id);
+    } catch (e) {
+      if (id !== requestId) return;
+      chainActive = false;
+      // Fall back to one-voice playback of the stripped text below.
+      const flat = dialogue.map((s) => s.text).join(" ");
+      if (browserSpeak(flat, owner)) return;
+      emit({ status: "error", owner, error: (e as Error).message || "Could not play the audio" });
+    }
+    return;
+  }
+
   const clean = text.replace(/\s+/g, " ").trim();
   if (!clean) return;
   const id = ++requestId;
