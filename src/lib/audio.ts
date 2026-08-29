@@ -47,6 +47,8 @@ function emit(patch: Partial<AudioState>) {
 let el: HTMLAudioElement | null = null;
 let unlocked = false;
 let requestId = 0;
+/** True while a multi-segment dialogue is being played back-to-back. */
+let chainActive = false;
 
 function element(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
