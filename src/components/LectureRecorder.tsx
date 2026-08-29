@@ -557,17 +557,55 @@ export function LectureRecorder({
         toast.error("Recording error occurred — saved chunks are safe in the backup");
         stopRecording();
       };
-      rec.start(5000);
+      // 3s slices: less data at risk, smaller memory spikes, and Chrome keeps
+      // flushing even when the tab is in the background.
+      rec.start(3000);
       recorderRef.current = rec;
       backupFailedRef.current = false;
-      if ("wakeLock" in navigator) {
-        void (navigator as Navigator & { wakeLock: { request: (type: "screen") => Promise<{ release: () => Promise<void> }> } }).wakeLock
+      const requestWakeLock = () => {
+        if (!("wakeLock" in navigator) || wakeLockRef.current) return;
+        void (navigator as Navigator & { wakeLock: { request: (type: "screen") => Promise<{ release: () => Promise<void> } & { addEventListener?: (t: string, cb: () => void) => void }> } }).wakeLock
           .request("screen")
           .then((lock) => {
             wakeLockRef.current = lock;
+            lock.addEventListener?.("release", () => {
+              wakeLockRef.current = null;
+            });
           })
           .catch(() => undefined);
-      }
+      };
+      requestWakeLock();
+      const onVisible = () => {
+        if (document.visibilityState === "visible") requestWakeLock();
+      };
+      document.addEventListener("visibilitychange", onVisible);
+
+      // Watchdog: long lectures can be killed by the OS/tab throttling. Every 10s
+      // we force a flush and, if the recorder died silently, we save what exists
+      // instead of losing the lecture.
+      const watchdog = window.setInterval(() => {
+        const current = recorderRef.current;
+        if (!current) return;
+        if (current.state === "recording") {
+          try {
+            current.requestData();
+          } catch {
+            // ignore — the timeslice keeps producing chunks
+          }
+          return;
+        }
+        if (current.state === "inactive" && !finalizingRef.current) {
+          toast.error("Recording was interrupted by the system — saving what was recorded.");
+          void finalize();
+        }
+      }, 10_000);
+      const prevCleanup = cleanupRef.current;
+      cleanupRef.current = () => {
+        window.clearInterval(watchdog);
+        document.removeEventListener("visibilitychange", onVisible);
+        prevCleanup?.();
+      };
+
       startedAtRef.current = Date.now();
       setElapsed(0);
       setRecording(true);
