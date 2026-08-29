@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { getStorageBudget } from "@/lib/storage-budget.functions";
 import {
   Dialog,
   DialogContent,
@@ -468,3 +469,37 @@ function YouTubeLinkCard({ sections, onSaved }: { sections: any[]; onSaved: () =
   );
 }
 
+
+function StorageBudgetBar() {
+  const { data } = useQuery({
+    queryKey: ["storage-budget"],
+    queryFn: () => getStorageBudget(),
+    staleTime: 60_000,
+  });
+  if (!data) return null;
+  const pct = Math.min(100, Math.round((data.monthlyUsedMb / data.monthlyLimitMb) * 100));
+  return (
+    <Card className={data.blocked ? "border-destructive/50" : ""}>
+      <CardContent className="p-4 space-y-2">
+        <div className="flex items-center justify-between text-sm font-bold">
+          <span>Cloud video storage this month</span>
+          <span>
+            {data.monthlyUsedMb}MB / {data.monthlyLimitMb}MB
+          </span>
+        </div>
+        <div className="h-2 w-full rounded-full bg-muted">
+          <div
+            className={`h-2 rounded-full ${data.blocked ? "bg-destructive" : "bg-primary"}`}
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Total stored: {data.totalUsedMb}MB / {data.totalLimitMb}MB.{" "}
+          {data.blocked
+            ? "Budget reached — uploads are blocked. Upload the video to YouTube as Unlisted and paste the link below."
+            : "To keep credits near zero, prefer unlisted YouTube links for long lectures."}
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
