@@ -129,7 +129,7 @@ function getSession(): RecSession {
         audioDest: box<MediaStreamAudioDestinationNode | null>(null),
         analyser: box<AnalyserNode | null>(null),
         display: box<MediaStream | null>(null),
-        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null),
+        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode } | null>(null),
         backupChain: box<Promise<void>>(Promise.resolve()),
         backupFailed: box(false),
         meterTimer: box<number | null>(null),
@@ -140,7 +140,9 @@ function getSession(): RecSession {
       },
     };
   }
-  return g.__lectureRecSession;
+  const session = g.__lectureRecSession;
+  if (!session) throw new Error("Could not initialize lecture recorder session");
+  return session;
 }
 
 
