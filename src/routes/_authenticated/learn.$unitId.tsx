@@ -22,6 +22,7 @@ import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
 import { VocabularyDeck } from "@/components/exercise/VocabularyDeck";
+import { buildAutoQuestions, stripAnswers } from "@/lib/auto-questions";
 import { getUnitDetail, setContentProgress, submitExercise, setVocabLearned } from "@/lib/curriculum.functions";
 import { contentMeta, contentColor } from "@/lib/content-types";
 import type { ExerciseData, Question, VocabWord } from "@/lib/exercise-types";
@@ -378,10 +379,10 @@ function ContentPanel({
           <div className="space-y-3">
             <AudioPlayer
               path={content.media_url}
-              text={data.transcript ?? content.body ?? null}
+              text={data.transcript ?? lessonBody ?? null}
               maxPlays={data.max_plays ?? null}
             />
-            {(data.transcript || content.body) && (
+            {(data.transcript || lessonBody) && (
               <div className="space-y-2">
                 <Button variant="outline" size="sm" className="font-bold" onClick={() => setShowTranscript((v) => !v)}>
                   {showTranscript ? <EyeOff className="h-4 w-4 ml-1" /> : <Eye className="h-4 w-4 ml-1" />}
@@ -390,7 +391,7 @@ function ContentPanel({
                 {showTranscript && (
                   <div className="rounded-2xl bg-muted/40 p-3">
                     <InteractiveText
-                      text={(data.transcript ?? content.body ?? "") as string}
+                      text={(data.transcript ?? lessonBody ?? "") as string}
                       className="text-sm text-foreground/90"
                     />
                   </div>
@@ -400,19 +401,19 @@ function ContentPanel({
           </div>
         ) : (
           <>
-            {content.body && (
+            {lessonBody && (
               <div className="space-y-3">
-                <AudioPlayer text={content.body} />
-                {content.content_type === "grammar" || parseGrammar(content.body).length > 1 ? (
+                <AudioPlayer text={lessonBody} />
+                {content.content_type === "grammar" || parseGrammar(lessonBody).length > 1 ? (
                   <>
-                    <GrammarLesson body={content.body} />
+                    <GrammarLesson body={lessonBody} />
                     <p className="text-[11px] font-bold text-muted-foreground">
                       Tap a word to hear it · double-tap to save it
                     </p>
                   </>
                 ) : (
                   <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/[0.14] to-transparent p-4">
-                    <InteractiveText text={content.body} className="text-[15px] text-foreground/90 leading-8" />
+                    <InteractiveText text={lessonBody} className="text-[15px] text-foreground/90 leading-8" />
                     <p className="mt-2 text-[11px] font-bold text-muted-foreground">
                       Tap a word to hear it · double-tap to save it
                     </p>
