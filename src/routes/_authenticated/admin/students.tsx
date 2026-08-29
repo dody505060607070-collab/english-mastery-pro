@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Search, Ban, CheckCircle2, Trash2, Pencil, UserPlus, Shield } from "lucide-react";
+import { Loader2, Search, Ban, CheckCircle2, Trash2, Pencil, UserPlus, Shield, Layers } from "lucide-react";
+import { StudentLevelAccessDialog } from "@/components/admin/StudentLevelAccessDialog";
+
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
