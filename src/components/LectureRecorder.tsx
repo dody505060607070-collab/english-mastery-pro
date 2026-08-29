@@ -6,8 +6,17 @@ import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
 
+export type RecQuality = "normal" | "high" | "max";
+
+const QUALITY: Record<RecQuality, { w: number; h: number; fps: number; video: number; audio: number; label: string }> = {
+  normal: { w: 1280, h: 720, fps: 20, video: 1_100_000, audio: 96_000, label: "Normal (720p) — smallest files" },
+  high: { w: 1600, h: 900, fps: 24, video: 1_800_000, audio: 128_000, label: "High (900p) — balanced" },
+  max: { w: 1920, h: 1080, fps: 30, video: 3_200_000, audio: 160_000, label: "Max (1080p) — sharpest text" },
+};
+
 type RecState = {
   recording: boolean;
+  paused: boolean;
   saving: boolean;
   uploadProgress: number;
   elapsed: number;
@@ -21,12 +30,17 @@ type RecState = {
   recovering: boolean;
   attemptNo: number;
   micMuted: boolean;
+  quality: RecQuality;
+  micVol: number;
+  tabVol: number;
+  lowSpace: string | null;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
 
 type Box<T> = { current: T };
 const box = <T,>(v: T): Box<T> => ({ current: v });
+
 
 type RecSession = {
   state: RecState;
