@@ -197,6 +197,13 @@ function StudentsPage() {
         </div>
       )}
 
+      <StudentLevelAccessDialog
+        student={accessFor}
+        sections={sections as any}
+        onClose={() => setAccessFor(null)}
+      />
+
+
       {editing && (
         <EditStudentDialog
           student={editing}
