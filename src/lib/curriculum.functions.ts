@@ -183,7 +183,6 @@ export const getUnitDetail = createServerFn({ method: "GET" })
       ? await supabase
           .from("vocabulary")
           .select("word, translation, phonetic, phonetic_uk, example, example_ar, audio_url, audio_url_uk, category")
-          .in("word", Array.from(new Set(unitWords)))
       : { data: [] };
     const dictionary = new Map(
       (dictionaryWords ?? []).map((word) => [word.word.trim().toLowerCase(), word]),
