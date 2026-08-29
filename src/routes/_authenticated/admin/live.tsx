@@ -132,7 +132,8 @@ function AdminLivePage() {
         <div className="space-y-3">
           {data.map((s: any) => (
             <Card key={s.id}>
-              <CardContent className="p-4 flex flex-col md:flex-row md:items-center gap-3">
+              <CardContent className="p-4 space-y-3">
+                <div className="flex flex-col md:flex-row md:items-center gap-3">
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-black truncate">{s.title}</p>
@@ -160,12 +161,6 @@ function AdminLivePage() {
                     {s.is_live ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                     {s.is_live ? "Stop" : "Start"}
                   </Button>
-                  <LectureRecorder
-                    title={s.title}
-                    liveSessionId={s.id}
-                    sectionId={s.section_id}
-                    onSaved={invalidate}
-                  />
                   <Button
                     size="sm"
                     variant="outline"
@@ -187,14 +182,24 @@ function AdminLivePage() {
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
+                </div>
+                <div className="w-full rounded-xl border bg-muted/30 p-3">
+                  <LectureRecorder
+                    title={s.title}
+                    liveSessionId={s.id}
+                    sectionId={s.section_id}
+                    onSaved={invalidate}
+                  />
+                </div>
               </CardContent>
             </Card>
+
           ))}
         </div>
       )}
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
-        <DialogContent className="font-['Outfit']" dir="ltr">
+        <DialogContent className="font-['Outfit'] max-h-[85vh] overflow-y-auto" dir="ltr">
           <DialogHeader>
             <DialogTitle>{draft?.id ? "Edit Stream" : "New Stream"}</DialogTitle>
           </DialogHeader>
