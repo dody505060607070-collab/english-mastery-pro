@@ -357,7 +357,6 @@ function ContentPanel({
   const image = useMediaUrl(data.image_url ?? null);
 
   const isListening = content.content_type === "listening";
-  const isVocab = content.content_type === "vocabulary";
 
   const color = contentColor(content.content_type);
 
