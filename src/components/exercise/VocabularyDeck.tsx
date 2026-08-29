@@ -172,14 +172,31 @@ export function WordCard({
       </div>
 
       <div className="space-y-1.5">
-        <h4
-          className={cn(
-            "font-serif text-2xl font-bold leading-tight tracking-tight",
-            highlight && HIGHLIGHT_CLASSES[highlight],
-          )}
-        >
-          {word.word}
-        </h4>
+        <div className="flex items-center gap-2">
+          <h4
+            className={cn(
+              "font-serif text-2xl font-bold leading-tight tracking-tight",
+              highlight && HIGHLIGHT_CLASSES[highlight],
+            )}
+          >
+            {word.word}
+          </h4>
+          <Button
+            size="sm"
+            variant="secondary"
+            title="Pronounce the word"
+            className={cn("h-7 shrink-0 rounded-full px-2.5 text-[10px] font-black", active(wordOwner) && "bg-primary/20 text-primary")}
+            onClick={() => play(wordOwner, wordAudio, word.word)}
+            aria-label={`Listen to the word ${word.word}`}
+          >
+            {busy(wordOwner) ? (
+              <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Volume2 className="mr-1 h-3.5 w-3.5" />
+            )}
+            Word
+          </Button>
+        </div>
         {word.phonetic && <p className="text-sm font-medium text-primary">/{word.phonetic.replace(/^\/|\/$/g, "")}/</p>}
         {word.category && (
           <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider", hue.chip)}>
@@ -190,21 +207,46 @@ export function WordCard({
       </div>
 
       {word.example && (
-        <p className="text-[13px] leading-6 text-foreground/85">
-          <Example text={word.example} word={word.word} />
-        </p>
+        <div className="flex items-start gap-2">
+          <p className="text-[13px] leading-6 text-foreground/85">
+            <Example text={word.example} word={word.word} />
+          </p>
+          <Button
+            size="sm"
+            variant="secondary"
+            title="Pronounce the sentence"
+            className={cn("h-7 shrink-0 rounded-full px-2.5 text-[10px] font-black", active(sentenceOwner) && "bg-primary/20 text-primary")}
+            onClick={() => play(sentenceOwner, sentenceAudio, word.example ?? undefined)}
+            aria-label="Listen to the example sentence"
+          >
+            {busy(sentenceOwner) ? (
+              <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Volume2 className="mr-1 h-3.5 w-3.5" />
+            )}
+            Sentence
+          </Button>
+        </div>
       )}
 
       {showTranslation && (
-        <div className={cn("space-y-1.5 rounded-xl border px-3 py-2.5", hue.chip)}>
-          <span className="text-[9px] font-black uppercase tracking-[0.18em] opacity-70">Meaning in Arabic</span>
-          <div dir="rtl" className="text-right">
-            {word.translation && <p className="text-sm font-bold">{word.translation}</p>}
-            {word.example_ar && <p className="text-[11px] leading-6 opacity-80">{word.example_ar.split(/\s+/).slice(0, 8).join(" ")}</p>}
-            {!word.translation && !word.example_ar && (
+        <div className={cn("space-y-2 rounded-xl border px-3 py-2.5", hue.chip)}>
+          <div dir="rtl" className="space-y-1 text-right">
+            <span className="block text-[9px] font-black uppercase tracking-[0.18em] opacity-70">معنى الكلمة</span>
+            {word.translation ? (
+              <p className="text-sm font-bold">{word.translation}</p>
+            ) : (
               <p className="text-[11px] opacity-70">لا يوجد معنى متاح</p>
             )}
           </div>
+          {word.example && (
+            <div dir="rtl" className="space-y-1 border-t border-current/20 pt-2 text-right">
+              <span className="block text-[9px] font-black uppercase tracking-[0.18em] opacity-70">ترجمة الجملة</span>
+              <p className="text-[12px] font-semibold leading-6 opacity-90">
+                {word.example_ar || "لا توجد ترجمة للجملة"}
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -219,35 +261,6 @@ export function WordCard({
           <Languages className="mr-1 h-3.5 w-3.5" />
           Translate
         </Button>
-        <Button
-          size="sm"
-          variant="secondary"
-          className={cn("h-8 rounded-lg px-3 text-xs font-bold", active(wordOwner) && "bg-primary/20 text-primary")}
-          onClick={() => play(wordOwner, wordAudio, word.word)}
-          aria-label={`Listen to ${word.word}`}
-        >
-          {busy(wordOwner) ? (
-            <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <Volume2 className="mr-1 h-3.5 w-3.5" />
-          )}
-          Listen
-        </Button>
-        {word.example && (
-          <Button
-            size="sm"
-            variant="ghost"
-            className={cn("h-8 rounded-lg px-2 text-xs font-bold", active(sentenceOwner) && "text-primary")}
-            onClick={() => play(sentenceOwner, sentenceAudio, word.example ?? undefined)}
-            aria-label="Listen to the example sentence"
-          >
-            {busy(sentenceOwner) ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            ) : (
-              <Volume2 className="h-3.5 w-3.5" />
-            )}
-          </Button>
-        )}
         <SaveWordBookmark
           word={word.word}
           translation={word.translation ?? null}
@@ -257,6 +270,7 @@ export function WordCard({
           className="ml-auto h-8 w-8 border-transparent bg-transparent"
         />
       </div>
+
     </article>
   );
 }
