@@ -353,8 +353,9 @@ function ContentPanel({
   );
   const lessonBody = useMemo(() => {
     const body = stripAnswers(content.body);
-    if (content.content_type !== "reading") return body;
-    return stripKeyWordsSection(body);
+    if (content.content_type === "reading") return stripSections(body, READING_STRIP);
+    if (content.content_type === "vocabulary") return stripSections(body, VOCAB_STRIP);
+    return body;
   }, [content.id, content.body, content.content_type]);
   const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
