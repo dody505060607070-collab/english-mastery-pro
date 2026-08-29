@@ -389,6 +389,7 @@ export function LectureRecorder({
     uploadProgress,
     elapsed,
     level,
+    tabLevel,
     hasMic,
     hasSystemAudio,
     micDenied,
@@ -1233,6 +1234,24 @@ export function LectureRecorder({
             style={{ width: `${Math.min(100, Math.round(level * 160))}%` }}
           />
         </div>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-[11px] font-bold">
+            <span>Meet / YouTube audio input</span>
+            <span>{hasSystemAudio ? `${Math.min(100, Math.round(tabLevel * 160))}%` : "Not connected"}</span>
+          </div>
+          <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full bg-primary transition-[width] duration-75"
+              style={{ width: `${Math.min(100, Math.round(tabLevel * 160))}%` }}
+            />
+          </div>
+        </div>
+        {!hasSystemAudio && (
+          <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-xs font-bold text-destructive">
+            Tab audio is NOT being recorded. Stop and start again, choose the YouTube/Meet tab (not Window or Entire
+            Screen), then enable “Also share tab audio” before pressing Share.
+          </div>
+        )}
         {(micDenied || silent) && (
           <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs font-bold space-y-1">
             <p className="flex items-center gap-1.5 text-destructive">
@@ -1420,7 +1439,9 @@ export function LectureRecorder({
             <MonitorUp className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs font-black">Meet / YouTube audio</p>
-              <p className="text-[11px] text-muted-foreground">Enable “Also share tab audio”</p>
+              <p className="text-[11px] text-muted-foreground">
+                Choose the Chrome Tab category, select the playing tab, then enable “Also share tab audio”.
+              </p>
             </div>
           </div>
         </div>
