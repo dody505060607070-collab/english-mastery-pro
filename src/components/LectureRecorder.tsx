@@ -1,10 +1,117 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, RotateCcw, Square } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+
+type RecState = {
+  recording: boolean;
+  saving: boolean;
+  uploadProgress: number;
+  elapsed: number;
+  level: number;
+  hasMic: boolean;
+  hasSystemAudio: boolean;
+  micDenied: boolean;
+  silent: boolean;
+  recovery: { url: string; name: string } | null;
+  unfinished: { meta: BackupMeta; size: number } | null;
+  recovering: boolean;
+  attemptNo: number;
+  micMuted: boolean;
+  /** Which recorder card owns the running session. */
+  owner: string | null;
+};
+
+type Box<T> = { current: T };
+const box = <T,>(v: T): Box<T> => ({ current: v });
+
+type RecSession = {
+  state: RecState;
+  listeners: Set<() => void>;
+  refs: {
+    recorder: Box<MediaRecorder | null>;
+    chunks: Box<Blob[]>;
+    startedAt: Box<number>;
+    mime: Box<string>;
+    cleanup: Box<(() => void) | null>;
+    raf: Box<number | null>;
+    finalizing: Box<boolean>;
+    mounted: Box<boolean>;
+    canvas: Box<HTMLCanvasElement | null>;
+    loudAt: Box<number>;
+    shareEnd: Box<(() => void) | null>;
+    audioCtx: Box<AudioContext | null>;
+    audioDest: Box<MediaStreamAudioDestinationNode | null>;
+    analyser: Box<AnalyserNode | null>;
+    display: Box<MediaStream | null>;
+    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>;
+    backupChain: Box<Promise<void>>;
+    backupFailed: Box<boolean>;
+    meterTimer: Box<number | null>;
+    wakeLock: Box<{ release: () => Promise<void> } | null>;
+    micGain: Box<GainNode | null>;
+    micStream: Box<MediaStream | null>;
+  };
+};
+
+/**
+ * One module-level recording session shared by every mount of the recorder, so
+ * the lecture keeps recording while the admin navigates between pages.
+ */
+function getSession(): RecSession {
+  const g = globalThis as unknown as { __lectureRecSession?: RecSession };
+  if (!g.__lectureRecSession) {
+    g.__lectureRecSession = {
+      state: {
+        recording: false,
+        saving: false,
+        uploadProgress: 0,
+        elapsed: 0,
+        level: 0,
+        hasMic: true,
+        hasSystemAudio: false,
+        micDenied: false,
+        silent: false,
+        recovery: null,
+        unfinished: null,
+        recovering: false,
+        attemptNo: 0,
+        micMuted: false,
+        owner: null,
+      },
+      listeners: new Set(),
+      refs: {
+        recorder: box<MediaRecorder | null>(null),
+        chunks: box<Blob[]>([]),
+        startedAt: box(0),
+        mime: box("video/webm"),
+        cleanup: box<(() => void) | null>(null),
+        raf: box<number | null>(null),
+        finalizing: box(false),
+        mounted: box(true),
+        canvas: box<HTMLCanvasElement | null>(null),
+        loudAt: box(0),
+        shareEnd: box<(() => void) | null>(null),
+        audioCtx: box<AudioContext | null>(null),
+        audioDest: box<MediaStreamAudioDestinationNode | null>(null),
+        analyser: box<AnalyserNode | null>(null),
+        display: box<MediaStream | null>(null),
+        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null),
+        backupChain: box<Promise<void>>(Promise.resolve()),
+        backupFailed: box(false),
+        meterTimer: box<number | null>(null),
+        wakeLock: box<{ release: () => Promise<void> } | null>(null),
+        micGain: box<GainNode | null>(null),
+        micStream: box<MediaStream | null>(null),
+      },
+    };
+  }
+  return g.__lectureRecSession;
+}
+
 
 function fmt(sec: number) {
   const m = Math.floor(sec / 60)
@@ -203,43 +310,79 @@ export function LectureRecorder({
   onSaved?: () => void;
   autoStart?: boolean;
 }) {
-  const recorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const startedAtRef = useRef<number>(0);
-  const mimeRef = useRef<string>("video/webm");
-  const cleanupRef = useRef<(() => void) | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const finalizingRef = useRef(false);
-  const mountedRef = useRef(true);
-  const [recording, setRecording] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const [level, setLevel] = useState(0);
-  const [hasMic, setHasMic] = useState(true);
-  const [hasSystemAudio, setHasSystemAudio] = useState(false);
-  const [micDenied, setMicDenied] = useState(false);
-  const [silent, setSilent] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const loudAtRef = useRef<number>(0);
-  const [recovery, setRecovery] = useState<{ url: string; name: string } | null>(null);
-  const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
-  const [recovering, setRecovering] = useState(false);
-  const [attemptNo, setAttemptNo] = useState(0);
-  const shareEndCleanupRef = useRef<(() => void) | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const displayRef = useRef<MediaStream | null>(null);
-  const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
-  const backupWriteChainRef = useRef<Promise<void>>(Promise.resolve());
-  const backupFailedRef = useRef(false);
-  const meterTimerRef = useRef<number | null>(null);
-  const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
-  // Mutes only the teacher's own microphone; shared tab/system audio keeps recording.
-  const micGainRef = useRef<GainNode | null>(null);
-  const micStreamRef = useRef<MediaStream | null>(null);
-  const [micMuted, setMicMuted] = useState(false);
+  // ---- Cross-page session -------------------------------------------------
+  // Everything mutable lives in one module-level session so navigating to another
+  // admin page (or unmounting this component) never stops an ongoing recording.
+  const S = getSession();
+  const R = S.refs;
+  const recorderRef = R.recorder;
+  const chunksRef = R.chunks;
+  const startedAtRef = R.startedAt;
+  const mimeRef = R.mime;
+  const cleanupRef = R.cleanup;
+  const rafRef = R.raf;
+  const finalizingRef = R.finalizing;
+  const mountedRef = R.mounted;
+  const canvasRef = R.canvas;
+  const loudAtRef = R.loudAt;
+  const shareEndCleanupRef = R.shareEnd;
+  const audioCtxRef = R.audioCtx;
+  const audioDestRef = R.audioDest;
+  const analyserRef = R.analyser;
+  const displayRef = R.display;
+  const displayAudioNodesRef = R.displayAudioNodes;
+  const backupWriteChainRef = R.backupChain;
+  const backupFailedRef = R.backupFailed;
+  const meterTimerRef = R.meterTimer;
+  const wakeLockRef = R.wakeLock;
+  const micGainRef = R.micGain;
+  const micStreamRef = R.micStream;
+
+  const [, force] = useReducer((n: number) => n + 1, 0);
+  useEffect(() => {
+    S.listeners.add(force);
+    return () => {
+      S.listeners.delete(force);
+    };
+  }, [S]);
+
+  const st = S.state;
+  const {
+    recording,
+    saving,
+    uploadProgress,
+    elapsed,
+    level,
+    hasMic,
+    hasSystemAudio,
+    micDenied,
+    silent,
+    recovery,
+    unfinished,
+    recovering,
+    attemptNo,
+    micMuted,
+  } = st;
+  const patch = (p: Partial<RecState>) => {
+    Object.assign(S.state, p);
+    S.listeners.forEach((l) => l());
+  };
+  const ownerKey = liveSessionId ?? "default";
+  const isOwner = !st.owner || st.owner === ownerKey;
+  const setRecording = (v: boolean) => patch({ recording: v });
+  const setSaving = (v: boolean) => patch({ saving: v });
+  const setUploadProgress = (v: number) => patch({ uploadProgress: v });
+  const setElapsed = (v: number) => patch({ elapsed: v });
+  const setLevel = (v: number) => patch({ level: v });
+  const setHasMic = (v: boolean) => patch({ hasMic: v });
+  const setHasSystemAudio = (v: boolean) => patch({ hasSystemAudio: v });
+  const setMicDenied = (v: boolean) => patch({ micDenied: v });
+  const setSilent = (v: boolean) => patch({ silent: v });
+  const setRecovery = (v: RecState["recovery"]) => patch({ recovery: v });
+  const setUnfinished = (v: RecState["unfinished"]) => patch({ unfinished: v });
+  const setRecovering = (v: boolean) => patch({ recovering: v });
+  const setAttemptNo = (v: number) => patch({ attemptNo: v });
+  const setMicMuted = (v: boolean) => patch({ micMuted: v });
 
   function toggleMicMute() {
     const next = !micMuted;
@@ -249,20 +392,19 @@ export function LectureRecorder({
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
 
-
-
   useEffect(() => {
     if (!recording) return;
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000)), 1000);
     return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recording]);
 
   useEffect(() => {
     mountedRef.current = true;
     // Detect an unfinished recording session left behind by a crash / power cut.
     void (async () => {
+      if (S.state.recording) return;
       const backup = await backupRead();
-      if (!mountedRef.current) return;
       if (!backup) return;
       const size = backup.chunks.reduce((sum, c) => sum + c.size, 0);
       if (size < 1000) {
@@ -271,20 +413,12 @@ export function LectureRecorder({
       }
       setUnfinished({ meta: backup.meta, size });
     })();
-    return () => {
-      mountedRef.current = false;
-      const recorder = recorderRef.current;
-      if (recorder?.state === "recording") {
-        try {
-          recorder.requestData();
-          recorder.stop();
-        } catch {
-          cleanupRef.current?.();
-        }
-      }
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    // NOTE: intentionally no stop on unmount — recording continues across page
+    // navigation and only ends when the teacher presses Stop (or the browser/tab
+    // is closed, in which case the IndexedDB backup is recovered next time).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   useEffect(
     () => () => {
@@ -624,7 +758,7 @@ export function LectureRecorder({
 
       startedAtRef.current = Date.now();
       setElapsed(0);
-      setRecording(true);
+      patch({ recording: true, owner: ownerKey });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -650,10 +784,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    if (mountedRef.current) {
-      setRecording(false);
-      setSilent(false);
-    }
+    patch({ recording: false, owner: null, silent: false });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -800,7 +931,7 @@ export function LectureRecorder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart]);
 
-  if (saving) {
+  if (saving && isOwner) {
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
@@ -815,7 +946,7 @@ export function LectureRecorder({
     );
   }
 
-  return recording ? (
+  return recording && isOwner ? (
     <div className="w-full space-y-3">
       <div className="rounded-xl border bg-muted/40 p-3 space-y-2">
         <div className="flex items-center justify-between gap-2">
@@ -935,8 +1066,15 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture screen
+      <Button
+        size="sm"
+        variant="outline"
+        className="gap-2"
+        disabled={recording && !isOwner}
+        onClick={() => void start()}
+      >
+        <Circle className="h-4 w-4 text-destructive fill-destructive" />
+        {recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
       </Button>
     </div>
   );
