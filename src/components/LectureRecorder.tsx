@@ -681,19 +681,16 @@ export function LectureRecorder({
       }
       if (!micHasAudio) toast.warning("Microphone denied — recording shared audio only.");
       if (!displayHasAudio) {
-        // Do not allow a deceptively successful mic-only lecture: this is exactly
-        // the state that loses students/Meet/YouTube audio.
-        display.getTracks().forEach((track) => track.stop());
-        mic?.getTracks().forEach((track) => track.stop());
-        void ctx.close().catch(() => undefined);
-        toast.error(
+        // Keep recording the selected screen and microphone. Some Chrome/OS
+        // combinations do not expose a shared-audio track even after the user
+        // successfully selects a screen, and aborting here made the UI appear as
+        // though Record had done nothing. Warn clearly instead of cancelling.
+        toast.warning(
           capturedSurface === "browser"
-            ? "Shared-tab audio is OFF. Start again, select the Meet/YouTube tab, and tick 'Also share tab audio'."
-            : "Screen audio is OFF. Start again and enable 'Share system audio'; on macOS, select the Meet/YouTube Chrome tab and tick 'Also share tab audio'.",
+            ? "Recording started, but shared-tab audio is OFF. Your screen and microphone are recording. Enable 'Also share tab audio' next time to capture Meet/YouTube audio."
+            : "Recording started, but screen audio is OFF. Your screen and microphone are recording. Enable 'Share system audio' next time to capture computer sound.",
           { duration: 12_000 },
         );
-        patch({ starting: false, owner: null });
-        return;
       }
 
       // 3. Mix audio tracks properly (MediaRecorder only supports ONE audio track)
@@ -916,7 +913,7 @@ export function LectureRecorder({
         displayHasAudio && micHasAudio
           ? "Recording started with microphone and shared audio"
           : micHasAudio
-            ? "Recording started with microphone audio"
+            ? "Screen recording started with microphone audio"
             : "Recording started with Google Meet tab audio",
       );
     } catch (error) {
@@ -1238,10 +1235,11 @@ export function LectureRecorder({
         <p className="flex items-center gap-1.5">
           <MonitorUp className="h-4 w-4 text-primary" /> Recording now — a local backup is saved automatically.
         </p>
-        <p className="mt-1 text-muted-foreground">
-           Meet/tab audio is connected. To capture students, share the Google Meet tab with "Also share tab audio" enabled.
-           On Windows, "Entire Screen" also works only when "Share system audio" is enabled.
-        </p>
+         <p className="mt-1 text-muted-foreground">
+           {hasSystemAudio
+             ? "Meet/tab audio is connected and being recorded."
+             : "Your screen and microphone are recording, but Meet/tab audio is not connected. To capture students next time, share the Google Meet tab with “Also share tab audio” enabled."}
+         </p>
       </div>
       {lowSpace && (
         <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-xs font-bold flex items-center gap-1.5">
@@ -1249,8 +1247,8 @@ export function LectureRecorder({
         </div>
       )}
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-          <Square className="h-4 w-4" /> Stop &amp; save ({fmt(elapsed)}) · Ctrl+Shift+S
+        <Button type="button" size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
+          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)}) · Ctrl+Shift+S
         </Button>
         <Button size="sm" variant="secondary" className="gap-2" onClick={togglePause}>
           {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
@@ -1450,6 +1448,7 @@ export function LectureRecorder({
         </label>
 
         <Button
+          type="button"
           size="sm"
           variant="outline"
           className="w-full gap-2"
