@@ -40,30 +40,59 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
-      <WordsInContext words={words} />
-
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
           <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
         ))}
       </div>
+
+      <WordsInContext words={words} />
     </div>
   );
 }
 
 /**
- * A short reading text (about four sentences) that puts the unit's words in
- * context, built from each word's own example sentence.
+ * A short closing text (~3 sentences) that puts as many of the unit's words
+ * as possible in context. Sentences are chosen greedily from the words' own
+ * examples so the final set covers the most distinct vocabulary words.
  */
 function WordsInContext({ words }: { words: VocabWord[] }) {
-  const sentences = words
-    .map((w) => (w.example ?? "").trim())
-    .filter((s) => s.length > 0)
-    .map((s) => (/[.!?]$/.test(s) ? s : `${s}.`))
-    .slice(0, 5);
+  const pool = words
+    .map((w) => ({ word: w.word, example: (w.example ?? "").trim() }))
+    .filter((x) => x.example.length > 0)
+    .map((x) => ({ ...x, example: /[.!?]$/.test(x.example) ? x.example : `${x.example}.` }));
 
-  if (sentences.length < 3) return null;
-  const text = sentences.join(" ");
+  if (pool.length < 3) return null;
+
+  const stems = words.map((w) => w.word.replace(/[^A-Za-z]/g, "").toLowerCase()).filter(Boolean);
+  const covered = new Set<string>();
+  const picked: string[] = [];
+  const remaining = [...pool];
+
+  while (picked.length < 3 && remaining.length) {
+    let bestIdx = 0;
+    let bestGain = -1;
+    for (let i = 0; i < remaining.length; i++) {
+      const item = remaining[i]!;
+      const lower = item.example.toLowerCase();
+      let gain = 0;
+      for (const stem of stems) {
+        if (!covered.has(stem) && (lower.includes(stem) || item.word.toLowerCase() === stem)) gain++;
+      }
+      if (gain > bestGain) {
+        bestGain = gain;
+        bestIdx = i;
+      }
+    }
+    const [item] = remaining.splice(bestIdx, 1);
+    const lower = item!.example.toLowerCase();
+    for (const stem of stems) {
+      if (lower.includes(stem) || item!.word.toLowerCase() === stem) covered.add(stem);
+    }
+    picked.push(item!.example);
+  }
+
+  const text = picked.join(" ");
 
   return (
     <section className="rounded-2xl border border-primary/25 bg-primary/[0.06] p-4 md:p-5" dir="ltr">
