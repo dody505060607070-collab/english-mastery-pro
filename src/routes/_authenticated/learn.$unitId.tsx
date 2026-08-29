@@ -18,6 +18,7 @@ import { InteractiveText } from "@/components/InteractiveText";
 import { GrammarLesson, parseGrammar } from "@/components/GrammarLesson";
 import { ReadingLesson } from "@/components/ReadingLesson";
 import { DialogueLesson, parseDialogueTurns } from "@/components/DialogueLesson";
+import { PronunciationLab } from "@/components/PronunciationLab";
 import { MediaBlock } from "@/components/MediaBlock";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { QuestionRunner, type RunnerSubmitPayload } from "@/components/exercise/QuestionRunner";
@@ -405,7 +406,9 @@ function ContentPanel({
           />
         )}
 
-        {isListening ? (
+        {content.content_type === "pronunciation" ? (
+          <PronunciationLab body={content.body ?? ""} level={levelName ?? null} />
+        ) : isListening ? (
           <div className="space-y-3">
             {listeningTurns.length > 0 ? (
               <DialogueLesson body={listeningText} level={levelName ?? null} />
