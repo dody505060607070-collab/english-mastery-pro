@@ -1,13 +1,22 @@
 import { useEffect, useReducer } from "react";
-import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, RotateCcw, Square } from "lucide-react";
+import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
 
+export type RecQuality = "normal" | "high" | "max";
+
+const QUALITY: Record<RecQuality, { w: number; h: number; fps: number; video: number; audio: number; label: string }> = {
+  normal: { w: 1280, h: 720, fps: 20, video: 1_100_000, audio: 96_000, label: "Normal (720p) — smallest files" },
+  high: { w: 1600, h: 900, fps: 24, video: 1_800_000, audio: 128_000, label: "High (900p) — balanced" },
+  max: { w: 1920, h: 1080, fps: 30, video: 3_200_000, audio: 160_000, label: "Max (1080p) — sharpest text" },
+};
+
 type RecState = {
   recording: boolean;
+  paused: boolean;
   saving: boolean;
   uploadProgress: number;
   elapsed: number;
@@ -21,12 +30,17 @@ type RecState = {
   recovering: boolean;
   attemptNo: number;
   micMuted: boolean;
+  quality: RecQuality;
+  micVol: number;
+  tabVol: number;
+  lowSpace: string | null;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
 
 type Box<T> = { current: T };
 const box = <T,>(v: T): Box<T> => ({ current: v });
+
 
 type RecSession = {
   state: RecState;
@@ -54,6 +68,7 @@ type RecSession = {
     wakeLock: Box<{ release: () => Promise<void> } | null>;
     micGain: Box<GainNode | null>;
     micStream: Box<MediaStream | null>;
+    pausedAt: Box<number>;
   };
 };
 
@@ -67,6 +82,7 @@ function getSession(): RecSession {
     g.__lectureRecSession = {
       state: {
         recording: false,
+        paused: false,
         saving: false,
         uploadProgress: 0,
         elapsed: 0,
@@ -80,6 +96,10 @@ function getSession(): RecSession {
         recovering: false,
         attemptNo: 0,
         micMuted: false,
+        quality: "high",
+        micVol: 1,
+        tabVol: 2.2,
+        lowSpace: null,
         owner: null,
       },
       listeners: new Set(),
@@ -106,6 +126,7 @@ function getSession(): RecSession {
         wakeLock: box<{ release: () => Promise<void> } | null>(null),
         micGain: box<GainNode | null>(null),
         micStream: box<MediaStream | null>(null),
+        pausedAt: box(0),
       },
     };
   }
@@ -337,6 +358,7 @@ export function LectureRecorder({
   const wakeLockRef = R.wakeLock;
   const micGainRef = R.micGain;
   const micStreamRef = R.micStream;
+  const pausedAtRef = R.pausedAt;
 
   const [, force] = useReducer((n: number) => n + 1, 0);
   useEffect(() => {
@@ -362,6 +384,11 @@ export function LectureRecorder({
     recovering,
     attemptNo,
     micMuted,
+    paused,
+    quality,
+    micVol,
+    tabVol,
+    lowSpace,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
@@ -387,17 +414,101 @@ export function LectureRecorder({
   function toggleMicMute() {
     const next = !micMuted;
     setMicMuted(next);
-    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.0;
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : micVol;
     micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
 
+  /** Live mixing controls: fix low YouTube/Meet volume without restarting. */
+  function changeMicVol(v: number) {
+    patch({ micVol: v });
+    if (micGainRef.current && !micMuted) micGainRef.current.gain.value = v;
+  }
+  function changeTabVol(v: number) {
+    patch({ tabVol: v });
+    const g = displayAudioNodesRef.current?.gain;
+    if (g) g.gain.value = v;
+  }
+
+  /** Pause / resume without ending the session (break time). */
+  function togglePause() {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    if (rec.state === "recording") {
+      try {
+        rec.pause();
+      } catch {
+        return;
+      }
+      pausedAtRef.current = Date.now();
+      patch({ paused: true });
+      toast.info("Recording paused.");
+    } else if (rec.state === "paused") {
+      try {
+        rec.resume();
+      } catch {
+        return;
+      }
+      if (pausedAtRef.current) startedAtRef.current += Date.now() - pausedAtRef.current;
+      pausedAtRef.current = 0;
+      patch({ paused: false });
+      toast.success("Recording resumed.");
+    }
+  }
+
+  // Keyboard shortcut: Ctrl/Cmd+Shift+S stops & saves, Ctrl/Cmd+Shift+P pauses.
+  useEffect(() => {
+    if (!recording || !isOwner) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey) || !e.shiftKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "s") {
+        e.preventDefault();
+        stopRecording();
+      } else if (k === "p") {
+        e.preventDefault();
+        togglePause();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording, isOwner, paused]);
+
+  // Disk-space watchdog: long lectures need free space for the local backup.
   useEffect(() => {
     if (!recording) return;
+    let stopped = false;
+    const check = async () => {
+      try {
+        const est = await navigator.storage?.estimate?.();
+        if (stopped || !est?.quota) return;
+        const freeMb = Math.max(0, (est.quota - (est.usage ?? 0)) / (1024 * 1024));
+        if (freeMb < 700) {
+          patch({ lowSpace: `${Math.round(freeMb)} MB free — stop and save soon to avoid losing the lecture.` });
+        } else if (S.state.lowSpace) {
+          patch({ lowSpace: null });
+        }
+      } catch {
+        /* storage estimate unsupported */
+      }
+    };
+    void check();
+    const t = setInterval(() => void check(), 60_000);
+    return () => {
+      stopped = true;
+      clearInterval(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording]);
+
+
+  useEffect(() => {
+    if (!recording || paused) return;
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000)), 1000);
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recording]);
+  }, [recording, paused]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -499,15 +610,16 @@ export function LectureRecorder({
         setRecovery(null);
       }
       finalizingRef.current = false;
+      const Q = QUALITY[S.state.quality];
 
       // Ask Chrome for shared-source audio explicitly. The user must still enable
       // "Also share tab audio" (or system audio on supported Windows devices) in
       // Chrome's picker; browsers do not let sites switch that permission on.
       const display = await navigator.mediaDevices.getDisplayMedia({
         video: {
-          frameRate: { ideal: 24, max: 30 },
-          width: { ideal: 1600 },
-          height: { ideal: 900 },
+          frameRate: { ideal: Q.fps, max: Q.fps },
+          width: { ideal: Q.w },
+          height: { ideal: Q.h },
           displaySurface: "monitor",
         },
         audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
@@ -594,10 +706,10 @@ export function LectureRecorder({
 
       setMicMuted(false);
       micStreamRef.current = mic;
-      micGainRef.current = micHasAudio && mic ? attach(mic, 1.0)?.gain ?? null : null;
+      micGainRef.current = micHasAudio && mic ? attach(mic, S.state.micVol)?.gain ?? null : null;
 
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
-      displayAudioNodesRef.current = attach(display, 2.2);
+      displayAudioNodesRef.current = attach(display, S.state.tabVol);
 
       const mixed = dest.stream.getAudioTracks();
       if (mixed.length === 0 || ctx.state === "closed") {
@@ -657,10 +769,10 @@ export function LectureRecorder({
       mimeRef.current = mime;
       const rec = new MediaRecorder(stream, {
         mimeType: mime,
-        audioBitsPerSecond: 128_000,
+        audioBitsPerSecond: Q.audio,
         // Slides/screen stay readable at this rate while an hour-long lecture stays
         // around ~300MB, so it uploads reliably and streams on phones.
-        videoBitsPerSecond: 1_800_000,
+        videoBitsPerSecond: Q.video,
 
       });
 
@@ -770,7 +882,8 @@ export function LectureRecorder({
 
       startedAtRef.current = Date.now();
       setElapsed(0);
-      patch({ recording: true, owner: ownerKey });
+      pausedAtRef.current = 0;
+      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -796,7 +909,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, owner: null, silent: false });
+    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -953,7 +1066,18 @@ export function LectureRecorder({
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full bg-primary transition-[width]" style={{ width: `${uploadProgress}%` }} />
         </div>
-        <p className="text-xs text-muted-foreground">Do not close the page until the upload completes.</p>
+        {recovery && (
+          <video
+            src={recovery.url}
+            controls
+            className="w-full rounded-lg border bg-black"
+            preload="metadata"
+          />
+        )}
+        <p className="text-xs text-muted-foreground">
+          Preview the recording above (audio + quality) while it uploads. Do not close the page until the upload
+          completes.
+        </p>
       </div>
     );
   }
@@ -989,6 +1113,33 @@ export function LectureRecorder({
           </Button>
         )}
 
+        <div className="grid gap-2 sm:grid-cols-2">
+          <label className="text-[11px] font-bold space-y-1">
+            <span>My mic volume: {Math.round(micVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={3}
+              step={0.1}
+              value={micVol}
+              onChange={(e) => changeMicVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+          <label className="text-[11px] font-bold space-y-1">
+            <span>Meet / YouTube volume: {Math.round(tabVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={5}
+              step={0.1}
+              value={tabVol}
+              onChange={(e) => changeTabVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+        </div>
+
         <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full transition-[width] duration-75 ${level > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
@@ -1022,9 +1173,18 @@ export function LectureRecorder({
            On Windows, "Entire Screen" also works only when "Share system audio" is enabled.
         </p>
       </div>
+      {lowSpace && (
+        <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-xs font-bold flex items-center gap-1.5">
+          <AlertTriangle className="h-4 w-4 text-amber-600" /> Low device storage: {lowSpace}
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
+          <Square className="h-4 w-4" /> Stop &amp; save ({fmt(elapsed)}) · Ctrl+Shift+S
+        </Button>
+        <Button size="sm" variant="secondary" className="gap-2" onClick={togglePause}>
+          {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+          {paused ? "Resume" : "Pause"} · Ctrl+Shift+P
         </Button>
       </div>
 
@@ -1078,6 +1238,20 @@ export function LectureRecorder({
           </div>
         </div>
       )}
+      <label className="block text-[11px] font-bold space-y-1">
+        <span>Recording quality</span>
+        <select
+          value={quality}
+          onChange={(e) => patch({ quality: e.target.value as RecQuality })}
+          className="w-full rounded-md border bg-background px-2 py-1.5 text-xs font-bold"
+        >
+          {(Object.keys(QUALITY) as RecQuality[]).map((k) => (
+            <option key={k} value={k}>
+              {QUALITY[k].label}
+            </option>
+          ))}
+        </select>
+      </label>
       <Button
         size="sm"
         variant="outline"
