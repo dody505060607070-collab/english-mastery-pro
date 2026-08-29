@@ -381,6 +381,11 @@ export function LectureRecorder({
     recovering,
     attemptNo,
     micMuted,
+    paused,
+    quality,
+    micVol,
+    tabVol,
+    lowSpace,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
@@ -406,10 +411,94 @@ export function LectureRecorder({
   function toggleMicMute() {
     const next = !micMuted;
     setMicMuted(next);
-    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.0;
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : micVol;
     micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
+
+  /** Live mixing controls: fix low YouTube/Meet volume without restarting. */
+  function changeMicVol(v: number) {
+    patch({ micVol: v });
+    if (micGainRef.current && !micMuted) micGainRef.current.gain.value = v;
+  }
+  function changeTabVol(v: number) {
+    patch({ tabVol: v });
+    const g = displayAudioNodesRef.current?.gain;
+    if (g) g.gain.value = v;
+  }
+
+  /** Pause / resume without ending the session (break time). */
+  function togglePause() {
+    const rec = recorderRef.current;
+    if (!rec) return;
+    if (rec.state === "recording") {
+      try {
+        rec.pause();
+      } catch {
+        return;
+      }
+      pausedAtRef.current = Date.now();
+      patch({ paused: true });
+      toast.info("Recording paused.");
+    } else if (rec.state === "paused") {
+      try {
+        rec.resume();
+      } catch {
+        return;
+      }
+      if (pausedAtRef.current) startedAtRef.current += Date.now() - pausedAtRef.current;
+      pausedAtRef.current = 0;
+      patch({ paused: false });
+      toast.success("Recording resumed.");
+    }
+  }
+
+  // Keyboard shortcut: Ctrl/Cmd+Shift+S stops & saves, Ctrl/Cmd+Shift+P pauses.
+  useEffect(() => {
+    if (!recording || !isOwner) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey) || !e.shiftKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "s") {
+        e.preventDefault();
+        stopRecording();
+      } else if (k === "p") {
+        e.preventDefault();
+        togglePause();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording, isOwner, paused]);
+
+  // Disk-space watchdog: long lectures need free space for the local backup.
+  useEffect(() => {
+    if (!recording) return;
+    let stopped = false;
+    const check = async () => {
+      try {
+        const est = await navigator.storage?.estimate?.();
+        if (stopped || !est?.quota) return;
+        const freeMb = Math.max(0, (est.quota - (est.usage ?? 0)) / (1024 * 1024));
+        if (freeMb < 700) {
+          patch({ lowSpace: `${Math.round(freeMb)} MB free — stop and save soon to avoid losing the lecture.` });
+        } else if (S.state.lowSpace) {
+          patch({ lowSpace: null });
+        }
+      } catch {
+        /* storage estimate unsupported */
+      }
+    };
+    void check();
+    const t = setInterval(() => void check(), 60_000);
+    return () => {
+      stopped = true;
+      clearInterval(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recording]);
+
 
   useEffect(() => {
     if (!recording) return;
