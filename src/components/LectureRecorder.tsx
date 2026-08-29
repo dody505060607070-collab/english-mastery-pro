@@ -1,10 +1,114 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, RotateCcw, Square } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+
+type RecState = {
+  recording: boolean;
+  saving: boolean;
+  uploadProgress: number;
+  elapsed: number;
+  level: number;
+  hasMic: boolean;
+  hasSystemAudio: boolean;
+  micDenied: boolean;
+  silent: boolean;
+  recovery: { url: string; name: string } | null;
+  unfinished: { meta: BackupMeta; size: number } | null;
+  recovering: boolean;
+  attemptNo: number;
+  micMuted: boolean;
+};
+
+type Box<T> = { current: T };
+const box = <T,>(v: T): Box<T> => ({ current: v });
+
+type RecSession = {
+  state: RecState;
+  listeners: Set<() => void>;
+  refs: {
+    recorder: Box<MediaRecorder | null>;
+    chunks: Box<Blob[]>;
+    startedAt: Box<number>;
+    mime: Box<string>;
+    cleanup: Box<(() => void) | null>;
+    raf: Box<number | null>;
+    finalizing: Box<boolean>;
+    mounted: Box<boolean>;
+    canvas: Box<HTMLCanvasElement | null>;
+    loudAt: Box<number>;
+    shareEnd: Box<(() => void) | null>;
+    audioCtx: Box<AudioContext | null>;
+    audioDest: Box<MediaStreamAudioDestinationNode | null>;
+    analyser: Box<AnalyserNode | null>;
+    display: Box<MediaStream | null>;
+    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>;
+    backupChain: Box<Promise<void>>;
+    backupFailed: Box<boolean>;
+    meterTimer: Box<number | null>;
+    wakeLock: Box<{ release: () => Promise<void> } | null>;
+    micGain: Box<GainNode | null>;
+    micStream: Box<MediaStream | null>;
+  };
+};
+
+/**
+ * One module-level recording session shared by every mount of the recorder, so
+ * the lecture keeps recording while the admin navigates between pages.
+ */
+function getSession(): RecSession {
+  const g = globalThis as unknown as { __lectureRecSession?: RecSession };
+  if (!g.__lectureRecSession) {
+    g.__lectureRecSession = {
+      state: {
+        recording: false,
+        saving: false,
+        uploadProgress: 0,
+        elapsed: 0,
+        level: 0,
+        hasMic: true,
+        hasSystemAudio: false,
+        micDenied: false,
+        silent: false,
+        recovery: null,
+        unfinished: null,
+        recovering: false,
+        attemptNo: 0,
+        micMuted: false,
+      },
+      listeners: new Set(),
+      refs: {
+        recorder: box<MediaRecorder | null>(null),
+        chunks: box<Blob[]>([]),
+        startedAt: box(0),
+        mime: box("video/webm"),
+        cleanup: box<(() => void) | null>(null),
+        raf: box<number | null>(null),
+        finalizing: box(false),
+        mounted: box(true),
+        canvas: box<HTMLCanvasElement | null>(null),
+        loudAt: box(0),
+        shareEnd: box<(() => void) | null>(null),
+        audioCtx: box<AudioContext | null>(null),
+        audioDest: box<MediaStreamAudioDestinationNode | null>(null),
+        analyser: box<AnalyserNode | null>(null),
+        display: box<MediaStream | null>(null),
+        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null),
+        backupChain: box<Promise<void>>(Promise.resolve()),
+        backupFailed: box(false),
+        meterTimer: box<number | null>(null),
+        wakeLock: box<{ release: () => Promise<void> } | null>(null),
+        micGain: box<GainNode | null>(null),
+        micStream: box<MediaStream | null>(null),
+      },
+    };
+  }
+  return g.__lectureRecSession;
+}
+
 
 function fmt(sec: number) {
   const m = Math.floor(sec / 60)
