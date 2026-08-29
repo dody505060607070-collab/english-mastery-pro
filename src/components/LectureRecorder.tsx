@@ -833,6 +833,19 @@ export function LectureRecorder({
           </span>
         </div>
         <canvas ref={canvasRef} className="w-full h-14 rounded-lg bg-background" />
+        {hasMic && (
+          <Button
+            type="button"
+            size="sm"
+            variant={micMuted ? "destructive" : "secondary"}
+            className="w-full gap-2 font-black"
+            onClick={toggleMicMute}
+          >
+            {micMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {micMuted ? "My mic is muted (screen audio still recording)" : "Mute my mic only"}
+          </Button>
+        )}
+
         <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full transition-[width] duration-75 ${level > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
