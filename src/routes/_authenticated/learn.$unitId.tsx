@@ -313,6 +313,14 @@ function UnitPage() {
   );
 }
 
+/** Removes "Key words" / glossary table sections from reading passages (redundant with Vocabulary). */
+function stripKeyWordsSection(body: string): string {
+  return body
+    .split(/\n(?=#{1,4}\s)/)
+    .filter((chunk) => !/^#{1,4}\s*(key\s*words?|keywords?|glossary|كلمات)/i.test(chunk.trim()))
+    .join("\n");
+}
+
 function ContentPanel({
   content,
   learnedWords,
@@ -339,7 +347,11 @@ function ContentPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [content.id],
   );
-  const lessonBody = useMemo(() => stripAnswers(content.body), [content.id, content.body]);
+  const lessonBody = useMemo(() => {
+    const body = stripAnswers(content.body);
+    if (content.content_type !== "reading") return body;
+    return stripKeyWordsSection(body);
+  }, [content.id, content.body, content.content_type]);
   const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
 
