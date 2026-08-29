@@ -211,8 +211,8 @@ function WordListCards({ rows }: { rows: string[][] }) {
             word={{
               word,
               phonetic: phonetic || null,
-              translation: arabic || undefined,
-              example: example ? shortExample(example, word) : undefined,
+              ...(arabic ? { translation: arabic } : {}),
+              ...(example ? { example: shortExample(example, word) } : {}),
             }}
             isLearned={false}
           />
