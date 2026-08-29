@@ -132,8 +132,9 @@ function AdminVocabulary() {
                       <span>{item.phonetic || "—"}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="max-w-[220px] truncate text-xs text-muted-foreground">
-                    {item.example_ar || "—"}
+                  <TableCell className="max-w-[260px] text-xs text-muted-foreground">
+                    <div dir="ltr" className="truncate">{item.example || "—"}</div>
+                    <div className="truncate">{item.example_ar || "—"}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1">
@@ -171,6 +172,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
   const [phonetic, setPhonetic] = useState(draft.phonetic ?? "");
   const [phoneticUk, setPhoneticUk] = useState(draft.phonetic_uk ?? "");
   const [category, setCategory] = useState(draft.category ?? "");
+  const [example, setExample] = useState(draft.example ?? "");
   const [exampleAr, setExampleAr] = useState(draft.example_ar ?? "");
   const [premium, setPremium] = useState(draft.is_premium ?? false);
 
@@ -181,6 +183,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
       if (d.phonetic) setPhonetic(d.phonetic);
       if (d.phonetic_uk) setPhoneticUk(d.phonetic_uk);
       if (d.category) setCategory(d.category);
+      if (d.example) setExample(d.example);
       if (d.example_ar) setExampleAr(d.example_ar);
       toast.success("Data filled automatically");
     },
@@ -197,6 +200,7 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
           phonetic: phonetic.trim() || null,
           phonetic_uk: phoneticUk.trim() || null,
           category: category.trim() || null,
+          example: example.trim() || null,
           example_ar: exampleAr.trim() || null,
           is_premium: premium,
         },
@@ -256,7 +260,11 @@ function WordDialog({ draft, onClose }: { draft: Draft; onClose: () => void }) {
             <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="food" />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">Example (Arabic)</Label>
+            <Label className="font-bold">Example sentence (English)</Label>
+            <Input dir="ltr" value={example} onChange={(e) => setExample(e.target.value)} placeholder="I eat an apple." />
+          </div>
+          <div className="space-y-2">
+            <Label className="font-bold">Example sentence translation (Arabic)</Label>
             <Input value={exampleAr} onChange={(e) => setExampleAr(e.target.value)} placeholder="Arabic example sentence" />
           </div>
           <div className="flex items-center justify-between rounded-xl border p-3">
