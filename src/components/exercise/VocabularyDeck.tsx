@@ -40,6 +40,8 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
+      <WordsInContext words={words} />
+
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
           <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
