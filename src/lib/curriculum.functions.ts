@@ -164,10 +164,10 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     const unitWords = (contents ?? []).flatMap((content) => {
       if (content.content_type !== "vocabulary") return [];
       const rawData = content.data && typeof content.data === "object" ? content.data as Record<string, unknown> : {};
-      const words = Array.isArray(rawData.words) ? rawData.words : [];
+      const words = Array.isArray(rawData["words"]) ? rawData["words"] : [];
       return words
-        .map((word) => word && typeof word === "object" && typeof (word as Record<string, unknown>).word === "string"
-          ? String((word as Record<string, unknown>).word)
+        .map((word) => word && typeof word === "object" && typeof (word as Record<string, unknown>)["word"] === "string"
+          ? String((word as Record<string, unknown>)["word"])
           : "")
         .filter(Boolean);
     });
@@ -183,15 +183,15 @@ export const getUnitDetail = createServerFn({ method: "GET" })
     const visibleContents = (contents ?? []).map((content) => {
       if (content.content_type !== "vocabulary" || !content.data || typeof content.data !== "object") return content;
       const rawData = content.data as Record<string, unknown>;
-      if (!Array.isArray(rawData.words)) return content;
+      if (!Array.isArray(rawData["words"])) return content;
       return {
         ...content,
         data: {
           ...rawData,
-          words: rawData.words.map((rawWord) => {
+          words: rawData["words"].map((rawWord) => {
             if (!rawWord || typeof rawWord !== "object") return rawWord;
             const word = rawWord as Record<string, unknown>;
-            const current = typeof word.word === "string" ? dictionary.get(word.word.trim().toLowerCase()) : undefined;
+            const current = typeof word["word"] === "string" ? dictionary.get(word["word"].trim().toLowerCase()) : undefined;
             if (!current) return rawWord;
             return {
               ...word,
