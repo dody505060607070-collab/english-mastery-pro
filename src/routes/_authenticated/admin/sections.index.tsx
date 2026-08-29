@@ -201,6 +201,45 @@ function SectionsPage() {
       )}
 
       {editing && <SectionDialog section={editing} onClose={() => setEditing(null)} />}
+
+      <Dialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
+        <DialogContent dir="ltr">
+          <DialogHeader>
+            <DialogTitle className="font-black text-destructive">Delete level "{deleting?.name}"?</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground font-bold">
+              This permanently deletes the level with all its {deleting?.unitCount ?? 0} units and their content.
+              This cannot be undone.
+            </p>
+            <p className="text-sm font-bold">
+              Type <span className="font-black text-destructive">{deleting?.name}</span> to confirm:
+            </p>
+            <Input
+              value={deleteTyped}
+              onChange={(e) => setDeleteTyped(e.target.value)}
+              placeholder={deleting?.name ?? ""}
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleting(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={deleteTyped.trim() !== (deleting?.name ?? "") || remove.isPending}
+              onClick={() => {
+                if (!deleting) return;
+                remove.mutate(deleting.id, { onSuccess: () => setDeleting(null) });
+              }}
+            >
+              {remove.isPending && <Loader2 className="h-4 w-4 animate-spin ml-2" />}
+              Delete permanently
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
