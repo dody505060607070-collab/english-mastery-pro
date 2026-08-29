@@ -236,6 +236,19 @@ export function LectureRecorder({
   const backupFailedRef = useRef(false);
   const meterTimerRef = useRef<number | null>(null);
   const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
+  // Mutes only the teacher's own microphone; shared tab/system audio keeps recording.
+  const micGainRef = useRef<GainNode | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const [micMuted, setMicMuted] = useState(false);
+
+  function toggleMicMute() {
+    const next = !micMuted;
+    setMicMuted(next);
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.35;
+    micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
+    toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
+  }
+
 
 
   useEffect(() => {
@@ -425,7 +438,10 @@ export function LectureRecorder({
         return { src, gain: g };
       };
 
-      if (micHasAudio && mic) attach(mic, 1.35);
+      setMicMuted(false);
+      micStreamRef.current = mic;
+      micGainRef.current = micHasAudio && mic ? attach(mic, 1.35)?.gain ?? null : null;
+
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
       displayAudioNodesRef.current = attach(display, 0.8);
 
@@ -817,6 +833,19 @@ export function LectureRecorder({
           </span>
         </div>
         <canvas ref={canvasRef} className="w-full h-14 rounded-lg bg-background" />
+        {hasMic && (
+          <Button
+            type="button"
+            size="sm"
+            variant={micMuted ? "destructive" : "secondary"}
+            className="w-full gap-2 font-black"
+            onClick={toggleMicMute}
+          >
+            {micMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {micMuted ? "My mic is muted (screen audio still recording)" : "Mute my mic only"}
+          </Button>
+        )}
+
         <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full transition-[width] duration-75 ${level > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
