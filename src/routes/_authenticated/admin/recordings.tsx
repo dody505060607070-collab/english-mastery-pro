@@ -122,6 +122,8 @@ function AdminRecordingsPage() {
 
   return (
     <div className="space-y-6" dir="ltr">
+      <StorageBudgetBar />
+
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl font-black flex items-center gap-2">
