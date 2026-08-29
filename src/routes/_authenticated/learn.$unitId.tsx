@@ -313,16 +313,16 @@ function UnitPage() {
   );
 }
 
-/** Removes "Before you read" and "Key words" / glossary sections from reading passages (redundant with Vocabulary). */
-function stripKeyWordsSection(body: string): string {
+/** Removes sections by heading pattern (e.g. "Key words" from reading, "Practice" from vocabulary). */
+function stripSections(body: string, pattern: RegExp): string {
   return body
     .split(/\n(?=#{1,4}\s)/)
-    .filter(
-      (chunk) =>
-        !/^#{1,4}\s*(key\s*words?|keywords?|glossary|before\s+you\s+(read|listen|speak|watch)|كلمات)/i.test(chunk.trim()),
-    )
+    .filter((chunk) => !pattern.test(chunk.trim()))
     .join("\n");
 }
+
+const READING_STRIP = /^#{1,4}\s*(key\s*words?|keywords?|glossary|before\s+you\s+(read|listen|speak|watch)|كلمات)/i;
+const VOCAB_STRIP = /^#{1,4}\s*(practice|drills?|exercises?|تدريب|تمارين|تمرين)/i;
 
 function ContentPanel({
   content,
@@ -353,8 +353,9 @@ function ContentPanel({
   );
   const lessonBody = useMemo(() => {
     const body = stripAnswers(content.body);
-    if (content.content_type !== "reading") return body;
-    return stripKeyWordsSection(body);
+    if (content.content_type === "reading") return stripSections(body, READING_STRIP);
+    if (content.content_type === "vocabulary") return stripSections(body, VOCAB_STRIP);
+    return body;
   }, [content.id, content.body, content.content_type]);
   const [showTranscript, setShowTranscript] = useState(false);
   const image = useMediaUrl(data.image_url ?? null);
