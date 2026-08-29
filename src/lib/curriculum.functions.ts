@@ -363,12 +363,15 @@ export const getLevels = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
 
-    const [{ data: roles }, { data: profile }, { data: sections }, { data: units }] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("section_id").eq("id", userId).maybeSingle(),
-      supabase.from("sections").select("id, name, description, order_index, is_visible, is_locked").order("order_index"),
-      supabase.from("units").select("id, section_id, is_active"),
-    ]);
+    const { getAccessibleSectionIds } = await import("@/lib/level-access.server");
+    const [{ data: roles }, { data: profile }, { data: sections }, { data: units }, allowedSectionIds] =
+      await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("profiles").select("section_id").eq("id", userId).maybeSingle(),
+        supabase.from("sections").select("id, name, description, order_index, is_visible, is_locked").order("order_index"),
+        supabase.from("units").select("id, section_id, is_active"),
+        getAccessibleSectionIds(supabase, userId),
+      ]);
 
     const isStaff = (roles ?? []).some((r) =>
       ["admin", "super_admin", "teacher", "instructor", "editor"].includes(r.role as string),
@@ -379,13 +382,15 @@ export const getLevels = createServerFn({ method: "GET" })
     return {
       isStaff,
       myLevelId: profile?.section_id ?? null,
+      myLevelIds: isStaff ? visible.map((s) => s.id) : allowedSectionIds,
       levels: visible.map((s) => ({
         ...s,
         unitCount: (units ?? []).filter((u) => u.section_id === s.id && (isStaff || u.is_active)).length,
-        locked: !isStaff && s.is_locked,
+        locked: !isStaff && (s.is_locked || !allowedSectionIds.includes(s.id)),
       })),
     };
   });
+
 
 /** Units + personal progress of ONE level, independent of every other level. */
 export const getLevelUnits = createServerFn({ method: "GET" })
