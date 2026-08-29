@@ -462,7 +462,6 @@ function RecordingCard({ rec }: { rec: any }) {
         )}
       </CardContent>
 
-      </CardContent>
     </Card>
   );
 }
