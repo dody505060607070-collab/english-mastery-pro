@@ -64,8 +64,26 @@ export function ReadingLesson({ body }: { body: string }) {
             <h3 className="text-base font-black">{passage.title || "Text"}</h3>
           </div>
         </header>
-        <div className="px-5 py-5 md:px-7 md:py-6">
-          <InteractiveText text={passage.text} className="text-[17px] leading-9 text-foreground" />
+        <div className="space-y-4 px-5 py-5 md:px-7 md:py-6">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="font-bold"
+            onClick={() => void toggleTranslation()}
+            disabled={loading}
+          >
+            {loading ? <Loader2 className="ml-1 h-4 w-4 animate-spin" /> : <Languages className="ml-1 h-4 w-4" />}
+            {showArabic ? "English" : "Translate to Arabic"}
+          </Button>
+
+          {showArabic && arabic ? (
+            <p dir="rtl" className="whitespace-pre-line text-[17px] leading-9 text-foreground">
+              {arabic}
+            </p>
+          ) : (
+            <InteractiveText text={passage.text} className="text-[17px] leading-9 text-foreground" />
+          )}
         </div>
       </section>
 
