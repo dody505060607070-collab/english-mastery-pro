@@ -12,14 +12,27 @@ import { wordEmoji } from "@/lib/word-emoji";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
+/** Longer "words in context" text as the CEFR level rises. */
+function sentencesForLevel(level?: string | null) {
+  const l = (level ?? "").toUpperCase();
+  if (l.startsWith("C2")) return 8;
+  if (l.startsWith("C1")) return 7;
+  if (l.startsWith("B2")) return 6;
+  if (l.startsWith("B1")) return 5;
+  if (l.startsWith("A2")) return 4;
+  return 3;
+}
+
 export function VocabularyDeck({
   words,
   learned,
   onToggle,
+  level,
 }: {
   words: VocabWord[];
   learned: string[];
   onToggle?: (word: string, isLearned: boolean) => void;
+  level?: string | null;
 }) {
   const learnedSet = new Set(learned.map((w) => w.toLowerCase()));
   const progress = words.length
