@@ -236,6 +236,19 @@ export function LectureRecorder({
   const backupFailedRef = useRef(false);
   const meterTimerRef = useRef<number | null>(null);
   const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
+  // Mutes only the teacher's own microphone; shared tab/system audio keeps recording.
+  const micGainRef = useRef<GainNode | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const [micMuted, setMicMuted] = useState(false);
+
+  function toggleMicMute() {
+    const next = !micMuted;
+    setMicMuted(next);
+    if (micGainRef.current) micGainRef.current.gain.value = next ? 0 : 1.35;
+    micStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = !next));
+    toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
+  }
+
 
 
   useEffect(() => {
