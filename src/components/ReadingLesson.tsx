@@ -1,6 +1,10 @@
-import { BookOpen, CircleHelp } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, CircleHelp, Languages, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
 import { InteractiveText } from "@/components/InteractiveText";
+import { translatePassage } from "@/lib/translate.functions";
 
 type ReadingSection = { title: string; text: string };
 
