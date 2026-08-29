@@ -29,6 +29,24 @@ export function LectureUploadCard({
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState("");
 
+  function readVideoDuration(file: File): Promise<number | null> {
+    if (!file.type.startsWith("video/")) return Promise.resolve(null);
+    return new Promise((resolve) => {
+      const video = document.createElement("video");
+      const url = URL.createObjectURL(file);
+      const done = (value: number | null) => {
+        URL.revokeObjectURL(url);
+        video.removeAttribute("src");
+        resolve(value);
+      };
+      video.preload = "metadata";
+      video.onloadedmetadata = () =>
+        done(Number.isFinite(video.duration) && video.duration > 0 ? Math.round(video.duration) : null);
+      video.onerror = () => done(null);
+      video.src = url;
+    });
+  }
+
   async function handle(files: FileList | null) {
     const file = files?.[0];
     if (!file) return;
@@ -40,12 +58,14 @@ export function LectureUploadCard({
     setProgress(0);
     setFileName(file.name);
     try {
+      const durationSeconds = await readVideoDuration(file);
       const path = await uploadFile("content", file, "recordings", setProgress);
       await saveRecording({
         data: {
           title: title.trim() || file.name.replace(/\.[^.]+$/, ""),
           description: null,
           videoUrl: path,
+          durationSeconds,
           sectionId: sectionId ?? null,
           isPublished: true,
           status: "ready",

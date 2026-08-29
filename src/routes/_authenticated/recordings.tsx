@@ -27,10 +27,12 @@ export const Route = createFileRoute("/_authenticated/recordings")({
 });
 
 function fmtDuration(sec?: number | null) {
-  if (!sec) return null;
+  if (!sec || !Number.isFinite(sec)) return null;
   const h = Math.floor(sec / 3600);
   const m = Math.floor((sec % 3600) / 60);
-  return h > 0 ? `${h}h ${m}m` : `${m} minutes`;
+  const s = Math.floor(sec % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${m}:${String(s).padStart(2, "0")}`;
 }
 
 function canPlayWebm() {
@@ -48,6 +50,7 @@ function RecordingCard({ rec }: { rec: any }) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const [autoSound, setAutoSound] = useState(true);
+  const [mediaDuration, setMediaDuration] = useState<number | null>(null);
   const path = rec.video_url ?? "";
   const isImage = /\.(png|jpe?g|webp|gif|heic)$/i.test(path);
   const isPdf = /\.pdf$/i.test(path);
@@ -145,6 +148,10 @@ function RecordingCard({ rec }: { rec: any }) {
               playsInline
               className="w-full h-full bg-background object-contain"
               preload="metadata"
+              onLoadedMetadata={(event) => {
+                const seconds = event.currentTarget.duration;
+                if (Number.isFinite(seconds) && seconds > 0) setMediaDuration(Math.round(seconds));
+              }}
               onCanPlay={() => setWaiting(false)}
               onPlaying={() => setWaiting(false)}
               onError={() => { setWaiting(false); setFailed(true); }}
@@ -203,8 +210,8 @@ function RecordingCard({ rec }: { rec: any }) {
       <CardContent className="p-5 space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
           {rec.sections?.name && <Badge variant="secondary">{rec.sections.name}</Badge>}
-          {fmtDuration(rec.duration_seconds) && (
-            <Badge variant="outline">{fmtDuration(rec.duration_seconds)}</Badge>
+          {fmtDuration(mediaDuration ?? rec.duration_seconds) && (
+            <Badge variant="outline">Duration {fmtDuration(mediaDuration ?? rec.duration_seconds)}</Badge>
           )}
           <span className="text-xs text-muted-foreground">
             {new Date(rec.recorded_at).toLocaleDateString("en-US")}
