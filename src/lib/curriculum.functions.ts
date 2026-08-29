@@ -159,9 +159,59 @@ export const getUnitDetail = createServerFn({ method: "GET" })
         .order("created_at", { ascending: false }),
     ]);
 
+    // Unit vocabulary was historically stored as a snapshot in unit_contents.data.
+    // Overlay the editable vocabulary dictionary so admin changes are visible to students immediately.
+    const unitWords = (contents ?? []).flatMap((content) => {
+      if (content.content_type !== "vocabulary") return [];
+      const rawData = content.data && typeof content.data === "object" ? content.data as Record<string, unknown> : {};
+      const words = Array.isArray(rawData.words) ? rawData.words : [];
+      return words
+        .map((word) => word && typeof word === "object" && typeof (word as Record<string, unknown>).word === "string"
+          ? String((word as Record<string, unknown>).word)
+          : "")
+        .filter(Boolean);
+    });
+    const { data: dictionaryWords } = unitWords.length
+      ? await supabase
+          .from("vocabulary")
+          .select("word, translation, phonetic, phonetic_uk, example, example_ar, audio_url, audio_url_uk, category")
+          .in("word", Array.from(new Set(unitWords)))
+      : { data: [] };
+    const dictionary = new Map(
+      (dictionaryWords ?? []).map((word) => [word.word.trim().toLowerCase(), word]),
+    );
+    const visibleContents = (contents ?? []).map((content) => {
+      if (content.content_type !== "vocabulary" || !content.data || typeof content.data !== "object") return content;
+      const rawData = content.data as Record<string, unknown>;
+      if (!Array.isArray(rawData.words)) return content;
+      return {
+        ...content,
+        data: {
+          ...rawData,
+          words: rawData.words.map((rawWord) => {
+            if (!rawWord || typeof rawWord !== "object") return rawWord;
+            const word = rawWord as Record<string, unknown>;
+            const current = typeof word.word === "string" ? dictionary.get(word.word.trim().toLowerCase()) : undefined;
+            if (!current) return rawWord;
+            return {
+              ...word,
+              translation: current.translation,
+              phonetic: current.phonetic,
+              phonetic_uk: current.phonetic_uk,
+              example: current.example,
+              example_ar: current.example_ar,
+              word_audio: current.audio_url,
+              word_audio_uk: current.audio_url_uk,
+              category: current.category,
+            };
+          }),
+        },
+      };
+    });
+
     return {
       unit,
-      contents: contents ?? [],
+      contents: visibleContents,
       completedIds: (progress ?? []).filter((p) => p.is_completed).map((p) => p.content_id),
       learnedWords: (vocab ?? []).filter((v) => v.learned),
       attempts: attempts ?? [],
