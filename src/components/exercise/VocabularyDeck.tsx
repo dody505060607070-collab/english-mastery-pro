@@ -266,12 +266,6 @@ export function WordCard({
           </Button>
         </div>
         {word.phonetic && <p className="text-sm font-medium text-primary">/{word.phonetic.replace(/^\/|\/$/g, "")}/</p>}
-        {word.category && (
-          <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider", hue.chip)}>
-            <Tag className="h-3 w-3" />
-            {word.category}
-          </span>
-        )}
       </div>
 
       {word.example && (
