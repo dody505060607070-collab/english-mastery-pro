@@ -66,8 +66,11 @@ export function DialogueLesson({ body }: { body: string }) {
             }
             primeAudio();
             // playText detects the A:/B: dialogue, strips the labels, and
-            // assigns a distinct voice per speaker automatically.
-            void playText(body, "dialogue-all");
+            // assigns a distinct voice per speaker automatically. Pass a
+            // clean reconstructed transcript so markdown noise never breaks
+            // the parser.
+            const transcript = turns.map((t) => `${t.speaker}: ${t.text}`).join("\n");
+            void playText(transcript, "dialogue-all");
           }}
         >
           {playing ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
