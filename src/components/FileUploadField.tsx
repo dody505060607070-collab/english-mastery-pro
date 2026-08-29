@@ -115,9 +115,16 @@ export function FileUploadField({
         {...(capture ? { capture: "environment" as const } : {})}
         onChange={(e) => handleFiles(e.target.files)}
       />
+      {blockedMsg && (
+        <div className="flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-xs font-bold text-destructive">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>{blockedMsg}</span>
+        </div>
+      )}
       {preview && kind === "image" && (
         <img src={preview} alt="preview" className="h-28 w-28 rounded-xl object-cover border" />
       )}
+
     </div>
   );
 }
