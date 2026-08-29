@@ -375,18 +375,20 @@ function ContentPanel({
     <Card className="overflow-hidden">
       <div className={cn("h-1.5 w-full", color.bar)} />
       <CardContent className="p-4 md:p-6 space-y-5">
-        <div className="flex items-center gap-3">
-          <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", color.tile)}>
-            <meta.icon className="h-5 w-5" />
+        {content.content_type !== "vocabulary" && (
+          <div className="flex items-center gap-3">
+            <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl", color.tile)}>
+              <meta.icon className="h-5 w-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="font-black text-lg leading-6 break-words">{content.title}</h2>
+              <span className={cn("mt-1 inline-block rounded-full border px-2 py-0.5 text-[10px] font-black", color.soft)}>
+                {meta.label}
+              </span>
+            </div>
+            {isDone && <Trophy className="h-5 w-5 text-amber-500" />}
           </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="font-black text-lg leading-6 break-words">{content.title}</h2>
-            <span className={cn("mt-1 inline-block rounded-full border px-2 py-0.5 text-[10px] font-black", color.soft)}>
-              {meta.label}
-            </span>
-          </div>
-          {isDone && <Trophy className="h-5 w-5 text-amber-500" />}
-        </div>
+        )}
 
 
         {image && (
