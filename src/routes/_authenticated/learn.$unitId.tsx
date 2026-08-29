@@ -313,6 +313,14 @@ function UnitPage() {
   );
 }
 
+/** Removes "Key words" / glossary table sections from reading passages (redundant with Vocabulary). */
+function stripKeyWordsSection(body: string): string {
+  return body
+    .split(/\n(?=#{1,4}\s)/)
+    .filter((chunk) => !/^#{1,4}\s*(key\s*words?|keywords?|glossary|كلمات)/i.test(chunk.trim()))
+    .join("\n");
+}
+
 function ContentPanel({
   content,
   learnedWords,
