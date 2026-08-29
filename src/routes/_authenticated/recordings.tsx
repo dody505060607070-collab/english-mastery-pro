@@ -70,7 +70,9 @@ function RecordingCard({ rec }: { rec: any }) {
   const playAfterSeekRef = useRef(false);
   const pendingSeekRef = useRef<number | null>(null);
   const path = rec.video_url ?? "";
+  const ytEmbed = youTubeEmbedUrl(rec.video_url);
   const isImage = /\.(png|jpe?g|webp|gif|heic)$/i.test(path);
+
   const isPdf = /\.pdf$/i.test(path);
   const isWebm = /\.webm$/i.test(path);
   const unsupported = isWebm && !canPlayWebm();
@@ -245,7 +247,15 @@ function RecordingCard({ rec }: { rec: any }) {
       )}
 
       <div className="aspect-video bg-black">
-        {src && isImage ? (
+        {ytEmbed ? (
+          <iframe
+            src={ytEmbed}
+            title={rec.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full border-0"
+          />
+        ) : src && isImage ? (
           <img src={src} alt={rec.title} className="w-full h-full object-contain" loading="lazy" />
         ) : src && isPdf ? (
           <a
@@ -260,15 +270,11 @@ function RecordingCard({ rec }: { rec: any }) {
           <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-center p-4">
             <VideoOff className="h-10 w-10 text-muted-foreground" />
             <p className="text-sm font-bold text-muted-foreground">
-              This recording format is not supported on your phone browser.
+              This recording cannot play on your current browser. Try another browser or contact the administration.
             </p>
-            <Button asChild size="sm" className="gap-2 font-black">
-              <a href={src} target="_blank" rel="noreferrer" download>
-                <Download className="h-4 w-4" /> Download / Open Lecture
-              </a>
-            </Button>
           </div>
         ) : src && started ? (
+
           <div ref={playerShellRef} className="relative w-full h-full">
             <video
               ref={videoRef}
