@@ -180,11 +180,6 @@ export function buildAutoQuestions(
 
   // 5) Speaking -> choose a useful phrase + open answers
   if (contentType === "speaking") {
-    const phrases = bullets(s["Useful phrases"]);
-    phrases.slice(0, 3).forEach((p, i) => {
-      const q = mcq(`s${i}`, "Which phrase can you use to continue the conversation here?", p, phrases);
-      if (q) qs.push(q);
-    });
     [...numbered(s["Talk about it"]).values()].slice(0, 5).forEach((prompt, i) => {
       qs.push({ id: `t${i}`, type: "text", prompt, points: 2 });
     });
