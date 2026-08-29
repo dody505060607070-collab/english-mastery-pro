@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, RotateCcw, Square } from "lucide-react";
+import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -1066,7 +1066,18 @@ export function LectureRecorder({
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full bg-primary transition-[width]" style={{ width: `${uploadProgress}%` }} />
         </div>
-        <p className="text-xs text-muted-foreground">Do not close the page until the upload completes.</p>
+        {recovery && (
+          <video
+            src={recovery.url}
+            controls
+            className="w-full rounded-lg border bg-black"
+            preload="metadata"
+          />
+        )}
+        <p className="text-xs text-muted-foreground">
+          Preview the recording above (audio + quality) while it uploads. Do not close the page until the upload
+          completes.
+        </p>
       </div>
     );
   }
@@ -1102,6 +1113,33 @@ export function LectureRecorder({
           </Button>
         )}
 
+        <div className="grid gap-2 sm:grid-cols-2">
+          <label className="text-[11px] font-bold space-y-1">
+            <span>My mic volume: {Math.round(micVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={3}
+              step={0.1}
+              value={micVol}
+              onChange={(e) => changeMicVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+          <label className="text-[11px] font-bold space-y-1">
+            <span>Meet / YouTube volume: {Math.round(tabVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={5}
+              step={0.1}
+              value={tabVol}
+              onChange={(e) => changeTabVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+        </div>
+
         <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full transition-[width] duration-75 ${level > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
@@ -1135,9 +1173,18 @@ export function LectureRecorder({
            On Windows, "Entire Screen" also works only when "Share system audio" is enabled.
         </p>
       </div>
+      {lowSpace && (
+        <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-xs font-bold flex items-center gap-1.5">
+          <AlertTriangle className="h-4 w-4 text-amber-600" /> Low device storage: {lowSpace}
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="destructive" className="gap-2" onClick={stopRecording}>
-          <Square className="h-4 w-4" /> Stop recording ({fmt(elapsed)})
+          <Square className="h-4 w-4" /> Stop &amp; save ({fmt(elapsed)}) · Ctrl+Shift+S
+        </Button>
+        <Button size="sm" variant="secondary" className="gap-2" onClick={togglePause}>
+          {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+          {paused ? "Resume" : "Pause"} · Ctrl+Shift+P
         </Button>
       </div>
 
@@ -1191,6 +1238,20 @@ export function LectureRecorder({
           </div>
         </div>
       )}
+      <label className="block text-[11px] font-bold space-y-1">
+        <span>Recording quality</span>
+        <select
+          value={quality}
+          onChange={(e) => patch({ quality: e.target.value as RecQuality })}
+          className="w-full rounded-md border bg-background px-2 py-1.5 text-xs font-bold"
+        >
+          {(Object.keys(QUALITY) as RecQuality[]).map((k) => (
+            <option key={k} value={k}>
+              {QUALITY[k].label}
+            </option>
+          ))}
+        </select>
+      </label>
       <Button
         size="sm"
         variant="outline"
