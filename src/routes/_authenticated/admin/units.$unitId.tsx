@@ -198,6 +198,10 @@ function ContentDialog({
   const [type, setType] = useState(content.content_type ?? "grammar");
   const [title, setTitle] = useState(content.title ?? "");
   const [body, setBody] = useState(content.body ?? "");
+  const [editMode, setEditMode] = useState<"visual" | "markdown">("visual");
+  const [visualKey, setVisualKey] = useState(0);
+  void setVisualKey;
+
   const [mediaUrl, setMediaUrl] = useState(content.media_url ?? "");
   const [published, setPublished] = useState(content.is_published ?? true);
   const [exercise, setExercise] = useState<ExerciseData>(() => {
