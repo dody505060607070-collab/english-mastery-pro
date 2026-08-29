@@ -115,7 +115,7 @@ function SoundRow({ sound, rate }: { sound: Sound; rate: number }) {
   );
 }
 
-export function PhoneticsPrimer({ level, rate }: { level?: string | null; rate: number }) {
+export function PhoneticsPrimer({ level, rate }: { level?: string | null | undefined; rate: number }) {
   const band = bandOf(level);
   const sounds = useMemo(() => {
     const idx = ORDER.indexOf(band);
