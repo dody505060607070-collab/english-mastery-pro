@@ -221,7 +221,23 @@ export const deleteRecording = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { assertCan } = await import("@/lib/staff.server");
     await assertCan(context.supabase, context.userId, "recordings");
+    const { data: recording, error: readError } = await context.supabase
+      .from("lecture_recordings")
+      .select("video_url, thumbnail_url")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (readError) throw new Error(readError.message);
+
     const { error } = await context.supabase.from("lecture_recordings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
+
+    const storedPaths = [recording?.video_url, recording?.thumbnail_url].filter(
+      (path): path is string => Boolean(path && !path.startsWith("http")),
+    );
+    if (storedPaths.length > 0) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error: storageError } = await supabaseAdmin.storage.from("content").remove(storedPaths);
+      if (storageError) throw new Error(`The recording was deleted, but its stored file could not be removed: ${storageError.message}`);
+    }
     return { success: true };
   });

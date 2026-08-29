@@ -18,6 +18,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { FileUploadField } from "@/components/FileUploadField";
 import { LectureRecorder } from "@/components/LectureRecorder";
 import { LectureUploadCard } from "@/components/LectureUploadCard";
@@ -132,6 +142,7 @@ function AdminRecordingsPage() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [quickTitle, setQuickTitle] = useState("");
   const [watching, setWatching] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<{ id: string; title: string } | null>(null);
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const { data, isLoading } = useQuery({
@@ -175,7 +186,8 @@ function AdminRecordingsPage() {
   const remove = useMutation({
     mutationFn: (id: string) => deleteRecording({ data: { id } }),
     onSuccess: () => {
-      toast.success("Recording deleted");
+      toast.success("Recording and its stored file were permanently deleted");
+      setDeleting(null);
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -294,7 +306,12 @@ function AdminRecordingsPage() {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => remove.mutate(r.id)}>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    aria-label={`Delete ${r.title}`}
+                    onClick={() => setDeleting({ id: r.id, title: r.title })}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -383,6 +400,32 @@ function AdminRecordingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!deleting} onOpenChange={(open) => !open && setDeleting(null)}>
+        <AlertDialogContent dir="ltr">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Permanently delete this recording?</AlertDialogTitle>
+            <AlertDialogDescription>
+              “{deleting?.title}” and its video file will be deleted permanently. It will not appear under Recover &amp;
+              Publish and this action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={remove.isPending}>No, keep it</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={remove.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={(event) => {
+                event.preventDefault();
+                if (deleting) remove.mutate(deleting.id);
+              }}
+            >
+              {remove.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Yes, delete permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
