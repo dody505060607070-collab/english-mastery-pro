@@ -405,7 +405,9 @@ function ContentPanel({
           />
         )}
 
-        {isListening ? (
+        {content.content_type === "pronunciation" ? (
+          <PronunciationLab body={content.body ?? ""} level={levelName ?? null} />
+        ) : isListening ? (
           <div className="space-y-3">
             {listeningTurns.length > 0 ? (
               <DialogueLesson body={listeningText} level={levelName ?? null} />
