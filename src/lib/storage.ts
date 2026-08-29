@@ -40,9 +40,9 @@ async function uploadResumable(
         bucketName: bucket,
         objectName: path,
         contentType: file.type || "application/octet-stream",
-        cacheControl: "31536000",
+        cacheControl: "3600",
       },
-      chunkSize: 24 * 1024 * 1024,
+      chunkSize: 6 * 1024 * 1024,
       onError: (err) => reject(err instanceof Error ? err : new Error(String(err))),
       onProgress: (sent, total) => onProgress?.(Math.round((sent / total) * 100)),
       onSuccess: () => resolve(),
@@ -72,7 +72,7 @@ export async function uploadFile(
 
   onProgress?.(10);
   const { error } = await supabase.storage.from(bucket).upload(path, file, {
-    cacheControl: "31536000",
+    cacheControl: "3600",
     upsert: false,
     ...(file.type ? { contentType: file.type } : {}),
   });

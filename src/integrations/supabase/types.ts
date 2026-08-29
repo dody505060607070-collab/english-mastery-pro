@@ -351,7 +351,6 @@ export type Database = {
           recorded_at: string
           section_id: string | null
           status: string
-          thumbnail_url: string | null
           title: string
           updated_at: string
           video_url: string | null
@@ -367,7 +366,6 @@ export type Database = {
           recorded_at?: string
           section_id?: string | null
           status?: string
-          thumbnail_url?: string | null
           title: string
           updated_at?: string
           video_url?: string | null
@@ -383,7 +381,6 @@ export type Database = {
           recorded_at?: string
           section_id?: string | null
           status?: string
-          thumbnail_url?: string | null
           title?: string
           updated_at?: string
           video_url?: string | null

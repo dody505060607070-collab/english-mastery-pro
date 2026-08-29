@@ -16,9 +16,7 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
 
     let query = context.supabase
       .from("lecture_recordings")
-      .select(
-        "id, title, description, video_url, thumbnail_url, duration_seconds, recorded_at, section_id, sections:section_id (name)",
-      )
+      .select("id, title, description, video_url, duration_seconds, recorded_at, section_id, sections:section_id (name)")
       .eq("is_published", true)
       .order("recorded_at", { ascending: false });
     // Students only see recordings for the level they were granted (or global ones).
@@ -30,13 +28,9 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
     const { data, error } = await query;
     if (error) throw new Error(error.message);
     const recordings = data ?? [];
-    const paths = recordings.flatMap((recording) => {
-      const list: string[] = [];
-      if (recording.video_url && !recording.video_url.startsWith("http")) list.push(recording.video_url);
-      const thumb = (recording as any).thumbnail_url as string | null;
-      if (thumb && !thumb.startsWith("http")) list.push(thumb);
-      return list;
-    });
+    const paths = recordings.flatMap((recording) =>
+      recording.video_url && !recording.video_url.startsWith("http") ? [recording.video_url] : [],
+    );
     const signedByPath = new Map<string, string>();
     if (paths.length > 0) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -52,11 +46,6 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
         : recording.video_url
           ? signedByPath.get(recording.video_url) ?? null
           : null,
-      cover_url: (recording as any).thumbnail_url?.startsWith("http")
-        ? (recording as any).thumbnail_url
-        : (recording as any).thumbnail_url
-          ? signedByPath.get((recording as any).thumbnail_url) ?? null
-          : null,
     }));
   });
 
@@ -70,27 +59,11 @@ export const listRecordings = createServerFn({ method: "GET" })
     const { data, error } = await context.supabase
       .from("lecture_recordings")
       .select(
-        "id, title, description, video_url, thumbnail_url, duration_seconds, status, is_published, recorded_at, section_id, live_session_id, sections:section_id (name)",
+        "id, title, description, video_url, duration_seconds, status, is_published, recorded_at, section_id, live_session_id, sections:section_id (name)",
       )
       .order("recorded_at", { ascending: false });
     if (error) throw new Error(error.message);
-    const rows = data ?? [];
-    const paths = rows.flatMap((r) => {
-      const list: string[] = [];
-      if (r.video_url && !r.video_url.startsWith("http")) list.push(r.video_url);
-      if (r.thumbnail_url && !r.thumbnail_url.startsWith("http")) list.push(r.thumbnail_url);
-      return list;
-    });
-    const signedByPath = new Map<string, string>();
-    if (paths.length > 0) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { data: signed } = await supabaseAdmin.storage.from("content").createSignedUrls(paths, 60 * 60 * 6);
-      signed?.forEach((item) => {
-        if (item.path && item.signedUrl) signedByPath.set(item.path, item.signedUrl);
-      });
-    }
-    const resolve = (v: string | null) => (!v ? null : v.startsWith("http") ? v : signedByPath.get(v) ?? null);
-    return rows.map((r) => ({ ...r, playback_url: resolve(r.video_url), cover_url: resolve(r.thumbnail_url) }));
+    return data ?? [];
   });
 
 /** Files sitting in storage that were uploaded but never linked to a recording row. */
@@ -161,7 +134,6 @@ export const saveRecording = createServerFn({ method: "POST" })
       title: z.string().trim().min(2).max(180),
       description: z.string().trim().max(2000).optional().nullable(),
       videoUrl: z.string().trim().max(1000).optional().nullable(),
-      thumbnailUrl: z.string().trim().max(1000).optional().nullable(),
       durationSeconds: z.number().int().min(0).max(60 * 60 * 12).optional().nullable(),
       status: z.enum(["recording", "ready", "failed"]).optional(),
       isPublished: z.boolean().optional(),
@@ -175,7 +147,6 @@ export const saveRecording = createServerFn({ method: "POST" })
       title: data.title,
       description: data.description ?? null,
       video_url: data.videoUrl || null,
-      thumbnail_url: data.thumbnailUrl ?? null,
       duration_seconds: data.durationSeconds ?? null,
       section_id: data.sectionId || null,
       live_session_id: data.liveSessionId || null,
@@ -221,23 +192,7 @@ export const deleteRecording = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { assertCan } = await import("@/lib/staff.server");
     await assertCan(context.supabase, context.userId, "recordings");
-    const { data: recording, error: readError } = await context.supabase
-      .from("lecture_recordings")
-      .select("video_url, thumbnail_url")
-      .eq("id", data.id)
-      .maybeSingle();
-    if (readError) throw new Error(readError.message);
-
     const { error } = await context.supabase.from("lecture_recordings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
-
-    const storedPaths = [recording?.video_url, recording?.thumbnail_url].filter(
-      (path): path is string => Boolean(path && !path.startsWith("http")),
-    );
-    if (storedPaths.length > 0) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { error: storageError } = await supabaseAdmin.storage.from("content").remove(storedPaths);
-      if (storageError) throw new Error(`The recording was deleted, but its stored file could not be removed: ${storageError.message}`);
-    }
     return { success: true };
   });
