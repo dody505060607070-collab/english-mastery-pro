@@ -438,7 +438,10 @@ export function LectureRecorder({
         return { src, gain: g };
       };
 
-      if (micHasAudio && mic) attach(mic, 1.35);
+      setMicMuted(false);
+      micStreamRef.current = mic;
+      micGainRef.current = micHasAudio && mic ? attach(mic, 1.35)?.gain ?? null : null;
+
       // Attach the shared tab/system audio (Google Meet tab sound) if it exists.
       displayAudioNodesRef.current = attach(display, 0.8);
 
