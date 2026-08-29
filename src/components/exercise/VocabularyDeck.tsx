@@ -8,6 +8,7 @@ import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { SaveWordBookmark } from "@/components/SaveWordBookmark";
 import { HIGHLIGHT_CLASSES, useHighlight } from "@/lib/highlights";
+import { wordEmoji } from "@/lib/word-emoji";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
@@ -39,7 +40,7 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
           <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
         ))}
@@ -208,7 +209,7 @@ export function WordCard({
       )}
 
 
-      <div className="mt-auto flex items-center gap-2 pt-1">
+      <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         <Button
           size="sm"
           variant="secondary"
