@@ -157,12 +157,15 @@ export function WordCard({
         <Check className="h-4 w-4" />
       </button>
 
-      <div className={cn("h-11 w-11 overflow-hidden rounded-xl border-2", hue.ring)}>
+      <div className={cn("h-12 w-12 overflow-hidden rounded-xl border-2", hue.ring)}>
         {img ? (
           <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
         ) : (
-          <span className={cn("grid h-full w-full place-items-center text-base font-black", hue.chip)}>
-            {word.word.slice(0, 1).toUpperCase()}
+          <span
+            aria-hidden
+            className={cn("grid h-full w-full place-items-center text-xl font-black", hue.chip)}
+          >
+            {wordEmoji(word.word, word.category) ?? word.word.slice(0, 1).toUpperCase()}
           </span>
         )}
       </div>
