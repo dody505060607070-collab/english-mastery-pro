@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Download, Loader2, Play, PlaySquare, VideoOff, Volume2, VolumeX } from "lucide-react";
+import { Download, Loader2, Pause, Play, PlaySquare, RotateCcw, RotateCw, VideoOff, Volume2, VolumeX } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +51,8 @@ function RecordingCard({ rec }: { rec: any }) {
   const [muted, setMuted] = useState(false);
   const [autoSound, setAutoSound] = useState(true);
   const [mediaDuration, setMediaDuration] = useState<number | null>(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playing, setPlaying] = useState(false);
   const path = rec.video_url ?? "";
   const isImage = /\.(png|jpe?g|webp|gif|heic)$/i.test(path);
   const isPdf = /\.pdf$/i.test(path);
@@ -113,6 +115,23 @@ function RecordingCard({ rec }: { rec: any }) {
     localStorage.setItem("rec-auto-sound", on ? "1" : "0");
   }
 
+  const totalDuration = mediaDuration ?? rec.duration_seconds ?? 0;
+
+  function seekTo(seconds: number) {
+    const el = videoRef.current;
+    if (!el || !Number.isFinite(seconds)) return;
+    const bounded = Math.max(0, Math.min(totalDuration || seconds, seconds));
+    el.currentTime = bounded;
+    setCurrentTime(bounded);
+  }
+
+  function togglePlayback() {
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.paused) void el.play();
+    else el.pause();
+  }
+
   return (
     <Card className="overflow-hidden">
       <div className="aspect-video bg-black">
@@ -152,8 +171,15 @@ function RecordingCard({ rec }: { rec: any }) {
                 const seconds = event.currentTarget.duration;
                 if (Number.isFinite(seconds) && seconds > 0) setMediaDuration(Math.round(seconds));
               }}
+              onDurationChange={(event) => {
+                const seconds = event.currentTarget.duration;
+                if (Number.isFinite(seconds) && seconds > 0) setMediaDuration(Math.round(seconds));
+              }}
+              onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
               onCanPlay={() => setWaiting(false)}
-              onPlaying={() => setWaiting(false)}
+              onPlaying={() => { setWaiting(false); setPlaying(true); }}
+              onPause={() => setPlaying(false)}
+              onEnded={() => setPlaying(false)}
               onError={() => { setWaiting(false); setFailed(true); }}
               onStalled={() => setWaiting(true)}
             />
@@ -178,7 +204,35 @@ function RecordingCard({ rec }: { rec: any }) {
       </div>
 
       {started && !failed && !unsupported && !isImage && !isPdf && (
-        <div className="flex items-center gap-3 border-b bg-muted/40 px-4 py-3 flex-wrap">
+        <div className="space-y-3 border-b bg-muted/40 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="w-14 shrink-0 text-right text-xs font-black tabular-nums">
+              {fmtDuration(currentTime) ?? "0:00"}
+            </span>
+            <Slider
+              className="min-w-0 flex-1"
+              value={[Math.min(currentTime, totalDuration || currentTime)]}
+              max={Math.max(1, totalDuration)}
+              step={1}
+              onValueChange={(value) => seekTo(value[0] ?? 0)}
+              aria-label="Lecture timeline"
+            />
+            <span className="w-14 shrink-0 text-xs font-black tabular-nums">
+              {fmtDuration(totalDuration) ?? "0:00"}
+            </span>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <Button type="button" size="icon" variant="secondary" onClick={() => seekTo(currentTime - 10)} aria-label="Back 10 seconds" title="Back 10 seconds">
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+            <Button type="button" size="icon" onClick={togglePlayback} aria-label={playing ? "Pause" : "Play"} title={playing ? "Pause" : "Play"}>
+              {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-current" />}
+            </Button>
+            <Button type="button" size="icon" variant="secondary" onClick={() => seekTo(currentTime + 10)} aria-label="Forward 10 seconds" title="Forward 10 seconds">
+              <RotateCw className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex items-center gap-3 flex-wrap">
           <Button
             type="button"
             size="icon"
@@ -203,6 +257,7 @@ function RecordingCard({ rec }: { rec: any }) {
             <Label htmlFor={`auto-${rec.id}`} className="text-xs font-bold">
               Autoplay sound
             </Label>
+          </div>
           </div>
         </div>
       )}
