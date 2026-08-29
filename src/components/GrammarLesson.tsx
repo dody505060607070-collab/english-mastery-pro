@@ -202,7 +202,7 @@ function shortExample(text: string, word: string, maxWords = 8) {
 function WordListCards({ rows }: { rows: string[][] }) {
   const body = rows.filter((r) => /^\/.+\/$/.test((r[1] ?? "").trim()));
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-5 p-1 sm:grid-cols-2 xl:grid-cols-3">
       {body.map((row, i) => {
         const [word = "", phonetic = "", arabic = "", example = ""] = row;
         return (

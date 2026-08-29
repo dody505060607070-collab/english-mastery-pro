@@ -8,6 +8,8 @@ import {
   Sparkles,
   BookOpenCheck,
   Target,
+  Mic,
+  AudioLines,
   type LucideIcon,
 } from "lucide-react";
 
@@ -17,6 +19,8 @@ export const CONTENT_TYPES: { value: string; label: string; icon: LucideIcon }[]
   { value: "video", label: "Video", icon: Video },
   { value: "listening", label: "Listening", icon: Headphones },
   { value: "reading", label: "Reading", icon: BookOpenCheck },
+  { value: "speaking", label: "Speaking", icon: Mic },
+  { value: "pronunciation", label: "Pronunciation", icon: AudioLines },
   { value: "writing", label: "Writing", icon: PenLine },
   { value: "pdf", label: "PDF", icon: FileText },
   { value: "practice", label: "Practice", icon: Target },
@@ -39,6 +43,8 @@ export const CONTENT_COLORS: Record<string, { tile: string; soft: string; bar: s
   practice: { tile: "bg-pink-500/12 text-pink-600", soft: "bg-pink-500/10 text-pink-700 border-pink-500/25", bar: "bg-pink-500" },
   task: { tile: "bg-orange-500/12 text-orange-600", soft: "bg-orange-500/10 text-orange-700 border-orange-500/25", bar: "bg-orange-500" },
   test: { tile: "bg-rose-500/12 text-rose-600", soft: "bg-rose-500/10 text-rose-700 border-rose-500/25", bar: "bg-rose-500" },
+  speaking: { tile: "bg-fuchsia-500/12 text-fuchsia-600", soft: "bg-fuchsia-500/10 text-fuchsia-700 border-fuchsia-500/25", bar: "bg-fuchsia-500" },
+  pronunciation: { tile: "bg-cyan-500/12 text-cyan-600", soft: "bg-cyan-500/10 text-cyan-700 border-cyan-500/25", bar: "bg-cyan-500" },
   video: { tile: "bg-indigo-500/12 text-indigo-600", soft: "bg-indigo-500/10 text-indigo-700 border-indigo-500/25", bar: "bg-indigo-500" },
   writing: { tile: "bg-teal-500/12 text-teal-600", soft: "bg-teal-500/10 text-teal-700 border-teal-500/25", bar: "bg-teal-500" },
   pdf: { tile: "bg-slate-500/12 text-slate-600", soft: "bg-slate-500/10 text-slate-700 border-slate-500/25", bar: "bg-slate-500" },

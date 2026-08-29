@@ -8,6 +8,7 @@ import { useMediaUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { SaveWordBookmark } from "@/components/SaveWordBookmark";
 import { HIGHLIGHT_CLASSES, useHighlight } from "@/lib/highlights";
+import { wordEmoji } from "@/lib/word-emoji";
 
 import type { VocabWord } from "@/lib/exercise-types";
 
@@ -39,7 +40,7 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
           <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
         ))}
@@ -157,12 +158,15 @@ export function WordCard({
         <Check className="h-4 w-4" />
       </button>
 
-      <div className={cn("h-11 w-11 overflow-hidden rounded-xl border-2", hue.ring)}>
+      <div className={cn("h-12 w-12 overflow-hidden rounded-xl border-2", hue.ring)}>
         {img ? (
           <img src={img} alt={word.word} className="h-full w-full object-cover" loading="lazy" />
         ) : (
-          <span className={cn("grid h-full w-full place-items-center text-base font-black", hue.chip)}>
-            {word.word.slice(0, 1).toUpperCase()}
+          <span
+            aria-hidden
+            className={cn("grid h-full w-full place-items-center text-xl font-black", hue.chip)}
+          >
+            {wordEmoji(word.word, word.category) ?? word.word.slice(0, 1).toUpperCase()}
           </span>
         )}
       </div>
@@ -205,7 +209,7 @@ export function WordCard({
       )}
 
 
-      <div className="mt-auto flex items-center gap-2 pt-1">
+      <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         <Button
           size="sm"
           variant="secondary"

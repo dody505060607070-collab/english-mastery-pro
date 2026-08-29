@@ -41,10 +41,13 @@ type ContentRow = {
   data?: unknown;
 };
 
-const TYPE_ORDER = ["reading", "listening", "grammar", "vocabulary", "practice", "task", "test"];
+const TYPE_ORDER = ["vocabulary", "reading", "listening", "speaking", "grammar", "pronunciation", "practice", "task", "tasks", "test"];
 
 const TYPE_INFO: Record<string, { desc: string; min: number }> = {
   reading: { desc: "Text, glossary and comprehension questions", min: 12 },
+  speaking: { desc: "Discussion questions and a mini talk", min: 10 },
+  pronunciation: { desc: "Sound focus, drills and practice questions", min: 8 },
+  tasks: { desc: "Productive writing and speaking output", min: 20 },
   listening: { desc: "Audio, transcript and listening tasks", min: 8 },
   grammar: { desc: "Explanation, form, mistakes and drills", min: 12 },
   vocabulary: { desc: "Word cards, pronunciation and collocations", min: 10 },
