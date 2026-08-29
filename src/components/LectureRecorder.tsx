@@ -889,7 +889,7 @@ export function LectureRecorder({
       startedAtRef.current = Date.now();
       setElapsed(0);
       pausedAtRef.current = 0;
-      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null });
+      patch({ recording: true, paused: false, owner: ownerKey, lowSpace: null, saved: null });
 
       // Listen for screen share ending to auto-stop, except during intentional tab switching.
       listenForShareEnd(display);
@@ -915,7 +915,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null });
+    patch({ recording: false, paused: false, owner: null, silent: false, lowSpace: null, saving: true, uploadProgress: 0 });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
