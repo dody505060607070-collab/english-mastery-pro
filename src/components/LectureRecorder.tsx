@@ -1214,7 +1214,7 @@ export function LectureRecorder({
 
     </div>
   ) : (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {saved && (
         <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-3 space-y-2">
           <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
@@ -1281,30 +1281,90 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      <label className="block text-[11px] font-bold space-y-1">
-        <span>Recording quality</span>
-        <select
-          value={quality}
-          onChange={(e) => patch({ quality: e.target.value as RecQuality })}
-          className="w-full rounded-md border bg-background px-2 py-1.5 text-xs font-bold"
+      <div className="rounded-lg border bg-background p-3 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="flex items-center gap-2 text-sm font-black">
+            {starting ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> : <MonitorUp className="h-4 w-4 text-primary" />}
+            {starting ? "Opening screen and microphone…" : "Lecture recording setup"}
+          </p>
+          <span className="rounded-full border bg-muted px-2 py-1 text-[11px] font-bold text-muted-foreground">
+            {starting ? "Waiting for browser permission" : "Ready"}
+          </span>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-2.5">
+            <Mic className="h-4 w-4 text-primary" />
+            <div>
+              <p className="text-xs font-black">Microphone</p>
+              <p className="text-[11px] text-muted-foreground">Checked when recording starts</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-2.5">
+            <MonitorUp className="h-4 w-4 text-primary" />
+            <div>
+              <p className="text-xs font-black">Meet / YouTube audio</p>
+              <p className="text-[11px] text-muted-foreground">Enable “Also share tab audio”</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="text-[11px] font-bold space-y-1">
+            <span>My mic volume: {Math.round(micVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={3}
+              step={0.1}
+              value={micVol}
+              onChange={(e) => changeMicVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+          <label className="text-[11px] font-bold space-y-1">
+            <span>Meet / YouTube volume: {Math.round(tabVol * 100)}%</span>
+            <input
+              type="range"
+              min={0}
+              max={5}
+              step={0.1}
+              value={tabVol}
+              onChange={(e) => changeTabVol(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+        </div>
+
+        <label className="block text-[11px] font-bold space-y-1">
+          <span>Recording quality</span>
+          <select
+            value={quality}
+            onChange={(e) => patch({ quality: e.target.value as RecQuality })}
+            className="w-full rounded-md border bg-background px-2 py-1.5 text-xs font-bold"
+          >
+            {(Object.keys(QUALITY) as RecQuality[]).map((k) => (
+              <option key={k} value={k}>
+                {QUALITY[k].label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="w-full gap-2"
+          disabled={starting || (!!st.owner && !isOwner)}
+          onClick={() => void start()}
         >
-          {(Object.keys(QUALITY) as RecQuality[]).map((k) => (
-            <option key={k} value={k}>
-              {QUALITY[k].label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <Button
-        size="sm"
-        variant="outline"
-        className="gap-2"
-        disabled={starting || (!!st.owner && !isOwner)}
-        onClick={() => void start()}
-      >
-        <Circle className="h-4 w-4 text-destructive fill-destructive" />
-        {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
-      </Button>
+          {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Circle className="h-4 w-4 fill-destructive text-destructive" />}
+          {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
+        </Button>
+        <p className="text-[11px] text-muted-foreground">
+          After Stop, the preview appears here and the lecture saves and publishes automatically.
+        </p>
+      </div>
     </div>
   );
 }
