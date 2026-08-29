@@ -40,12 +40,51 @@ export function VocabularyDeck({
         <Progress value={progress} className="h-2" />
       </div>
 
+      <WordsInContext words={words} />
+
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {words.map((w) => (
           <WordCard key={w.word} word={w} isLearned={learnedSet.has(w.word.toLowerCase())} onToggle={onToggle} />
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * A short reading text (about four sentences) that puts the unit's words in
+ * context, built from each word's own example sentence.
+ */
+function WordsInContext({ words }: { words: VocabWord[] }) {
+  const sentences = words
+    .map((w) => (w.example ?? "").trim())
+    .filter((s) => s.length > 0)
+    .map((s) => (/[.!?]$/.test(s) ? s : `${s}.`))
+    .slice(0, 5);
+
+  if (sentences.length < 3) return null;
+  const text = sentences.join(" ");
+
+  return (
+    <section className="rounded-2xl border border-primary/25 bg-primary/[0.06] p-4 md:p-5" dir="ltr">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <h3 className="text-sm font-black text-primary">Words in context</h3>
+        <Button
+          type="button"
+          size="icon"
+          variant="ghost"
+          className="h-8 w-8"
+          aria-label="Listen to the text"
+          onClick={() => {
+            primeAudio();
+            void playText(text, "vocab-context");
+          }}
+        >
+          <Volume2 className="h-4 w-4" />
+        </Button>
+      </div>
+      <p className="text-[15px] leading-8 text-foreground/90">{text}</p>
+    </section>
   );
 }
 
