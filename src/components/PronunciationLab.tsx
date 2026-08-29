@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { CheckCircle2, Ear, Mic, RefreshCw, Square, Trophy, Turtle, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { PhoneticsPrimer } from "@/components/PhoneticsPrimer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
