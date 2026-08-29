@@ -1,5 +1,5 @@
-import { useEffect, useReducer } from "react";
-import { AlertTriangle, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square } from "lucide-react";
+import { useEffect, useReducer, useRef, useState } from "react";
+import { AlertTriangle, Check, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,8 @@ type RecState = {
   tabVol: number;
   lowSpace: string | null;
   saved: { title: string; duration: number } | null;
+  pendingDuration: number;
+  confirmDelete: boolean;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
@@ -104,6 +106,8 @@ function getSession(): RecSession {
         tabVol: 2.2,
         lowSpace: null,
         saved: null,
+        pendingDuration: 0,
+        confirmDelete: false,
         owner: null,
       },
       listeners: new Set(),
@@ -365,6 +369,9 @@ export function LectureRecorder({
   const pausedAtRef = R.pausedAt;
 
   const [, force] = useReducer((n: number) => n + 1, 0);
+  const [micTestOn, setMicTestOn] = useState(false);
+  const [micTestLevel, setMicTestLevel] = useState(0);
+  const micTestRef = useRef<{ stop: () => void } | null>(null);
   useEffect(() => {
     S.listeners.add(force);
     return () => {
@@ -395,6 +402,8 @@ export function LectureRecorder({
     tabVol,
     lowSpace,
     saved,
+    pendingDuration,
+    confirmDelete,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
@@ -948,60 +957,24 @@ export function LectureRecorder({
     const recoveryUrl = URL.createObjectURL(blob);
     if (mountedRef.current) {
       setRecovery({ url: recoveryUrl, name: fileName });
-      setSaving(true);
-      setUploadProgress(0);
-    }
-
-    // Auto save & publish right after Stop (as before) — with 3 attempts.
-    let uploaded = false;
-    for (let attempt = 1; attempt <= 3 && !uploaded; attempt++) {
-      if (mountedRef.current) setAttemptNo(attempt);
-      try {
-        const file = new File([blob], fileName, { type });
-        const path = await uploadFile("content", file, "recordings", (p) => {
-          if (mountedRef.current) setUploadProgress(p);
-        });
-        await saveRecording({
-          data: {
-            title: title || "Lecture",
-            liveSessionId: liveSessionId || null,
-            sectionId: sectionId || null,
-            videoUrl: path,
-            durationSeconds: Math.max(1, duration),
-            status: "ready",
-            isPublished: true,
-          },
-        });
-        uploaded = true;
-      } catch (e) {
-        if (attempt === 3) {
-          toast.error(
-            `Automatic saving failed: ${(e as Error).message}. The recording is kept below — press Save & Publish to retry.`,
-          );
-        } else {
-          await new Promise((r) => setTimeout(r, 2000 * attempt));
-        }
-      }
-    }
-
-    if (uploaded) {
-      await backupClear();
-      if (mountedRef.current) {
-        URL.revokeObjectURL(recoveryUrl);
-        setRecovery(null);
-        patch({ saved: { title: title || "Lecture", duration }, owner: null });
-      }
-      toast.success("Recording saved and published");
-      onSaved?.();
-    }
-
-    if (mountedRef.current) {
+      setUnfinished(null);
       setSaving(false);
       setUploadProgress(0);
       setAttemptNo(0);
-      setUnfinished(null);
+      patch({ owner: null, pendingDuration: Math.max(1, duration) });
     }
+    toast.info("Recording stopped — choose: Save & publish, Continue, or Delete.");
     finalizingRef.current = false;
+  }
+
+  /** Discard the just-finished recording (with confirmation in the UI). */
+  async function discardRecording() {
+    if (recovery) URL.revokeObjectURL(recovery.url);
+    setRecovery(null);
+    setUnfinished(null);
+    await backupClear();
+    patch({ confirmDelete: false, pendingDuration: 0 });
+    toast.success("Recording deleted — nothing was published.");
   }
 
 
@@ -1059,6 +1032,50 @@ export function LectureRecorder({
     }
   }
 
+  /** Mic tester: shows a live moving level bar before recording starts. */
+  function stopMicTest() {
+    micTestRef.current?.stop();
+    micTestRef.current = null;
+    setMicTestOn(false);
+    setMicTestLevel(0);
+  }
+
+  async function startMicTest() {
+    if (micTestRef.current) {
+      stopMicTest();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ctx = new AudioContext();
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 512;
+      ctx.createMediaStreamSource(stream).connect(analyser);
+      const buf = new Uint8Array(analyser.fftSize);
+      let raf = 0;
+      const tick = () => {
+        analyser.getByteTimeDomainData(buf);
+        let peak = 0;
+        for (let i = 0; i < buf.length; i++) peak = Math.max(peak, Math.abs((buf[i] ?? 128) - 128) / 128);
+        setMicTestLevel(peak);
+        raf = requestAnimationFrame(tick);
+      };
+      tick();
+      micTestRef.current = {
+        stop: () => {
+          cancelAnimationFrame(raf);
+          stream.getTracks().forEach((t) => t.stop());
+          void ctx.close();
+        },
+      };
+      setMicTestOn(true);
+    } catch {
+      toast.error("Microphone blocked — click the lock icon next to the URL and allow Microphone.");
+    }
+  }
+
+  useEffect(() => () => stopMicTest(), []);
+
   async function downloadBackup() {
 
     const backup = await backupRead();
@@ -1108,6 +1125,15 @@ export function LectureRecorder({
 
   return recording && isOwner ? (
     <div className="w-full space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-destructive/50 bg-destructive/10 p-3">
+        <span className="flex items-center gap-2 text-sm font-black text-destructive">
+          <span className="inline-block h-3 w-3 animate-pulse rounded-full bg-destructive" />
+          {paused ? "Screen recording paused" : "Screen recording in progress"}
+        </span>
+        <span className="rounded-lg bg-background px-3 py-1 font-mono text-lg font-black tabular-nums">
+          {fmt(elapsed)}
+        </span>
+      </div>
       <div className="rounded-xl border bg-muted/40 p-3 space-y-2">
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs font-black flex items-center gap-1.5">
@@ -1265,14 +1291,44 @@ export function LectureRecorder({
       {recovery && isOwner && (
         <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
-            Recording ready — check the preview, then save and publish it. The local backup stays safe until saving finishes.
+            Recording finished{pendingDuration ? ` (${fmt(pendingDuration)})` : ""} — nothing is published yet. Choose
+            what to do: save it, continue with a next part, or delete it.
           </p>
           <video src={recovery.url} controls preload="metadata" className="w-full rounded-lg border bg-black" />
           <div className="flex flex-wrap gap-2">
             <Button size="sm" className="gap-2" disabled={recovering} onClick={() => void recoverBackup(false)}>
-              {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
+              {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
               {recovering ? `Saving… ${uploadProgress}%` : "Save & Publish"}
             </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="gap-2"
+              disabled={recovering}
+              onClick={() => void recoverBackup(true)}
+            >
+              <RotateCcw className="h-4 w-4" /> Save &amp; Continue recording
+            </Button>
+            {confirmDelete ? (
+              <>
+                <Button size="sm" variant="destructive" className="gap-2" onClick={() => void discardRecording()}>
+                  <Trash2 className="h-4 w-4" /> Yes, delete permanently
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => patch({ confirmDelete: false })}>
+                  No, keep it
+                </Button>
+              </>
+            ) : (
+              <Button
+                size="sm"
+                variant="destructive"
+                className="gap-2"
+                disabled={recovering}
+                onClick={() => patch({ confirmDelete: true })}
+              >
+                <Trash2 className="h-4 w-4" /> Delete this video
+              </Button>
+            )}
             <Button asChild size="sm" variant="outline" className="gap-2">
               <a href={recovery.url} download={recovery.name}>
                 <Download className="h-4 w-4" /> Download backup copy
@@ -1293,12 +1349,34 @@ export function LectureRecorder({
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2">
-          <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-2.5">
-            <Mic className="h-4 w-4 text-primary" />
-            <div>
-              <p className="text-xs font-black">Microphone</p>
-              <p className="text-[11px] text-muted-foreground">Checked when recording starts</p>
+          <div className="space-y-2 rounded-md border bg-muted/30 p-2.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="flex items-center gap-2 text-xs font-black">
+                <Mic className="h-4 w-4 text-primary" /> Microphone
+              </span>
+              <Button
+                type="button"
+                size="sm"
+                variant={micTestOn ? "destructive" : "secondary"}
+                className="h-7 px-2 text-[11px] font-black"
+                onClick={() => void startMicTest()}
+              >
+                {micTestOn ? "Stop mic test" : "Test my mic"}
+              </Button>
             </div>
+            <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className={`h-full transition-[width] duration-75 ${micTestLevel > 0.6 ? "bg-destructive" : "bg-emerald-500"}`}
+                style={{ width: `${Math.min(100, Math.round(micTestLevel * 160))}%` }}
+              />
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              {micTestOn
+                ? micTestLevel > 0.03
+                  ? `Mic is working — level ${Math.min(100, Math.round(micTestLevel * 160))}%`
+                  : "Speak now — the bar should move."
+                : "Press “Test my mic” and speak to check it works."}
+            </p>
           </div>
           <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-2.5">
             <MonitorUp className="h-4 w-4 text-primary" />
@@ -1356,13 +1434,16 @@ export function LectureRecorder({
           variant="outline"
           className="w-full gap-2"
           disabled={starting || (!!st.owner && !isOwner)}
-          onClick={() => void start()}
+          onClick={() => {
+            stopMicTest();
+            void start();
+          }}
         >
           {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Circle className="h-4 w-4 fill-destructive text-destructive" />}
           {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
         </Button>
         <p className="text-[11px] text-muted-foreground">
-          After Stop, the preview appears here and the lecture saves and publishes automatically.
+          After Stop you get a preview with three choices: Save & publish, Save & continue, or Delete.
         </p>
       </div>
     </div>
