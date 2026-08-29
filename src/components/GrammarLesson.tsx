@@ -399,7 +399,7 @@ export function GrammarLesson({ body }: { body: string }) {
         const tone = style.tone;
         const rtlTitle = isRtlText(s.title);
         const collapsible = !!s.title && sections.length > 1;
-        const isOpen = collapsible ? (open[i] ?? i === 0) : true;
+        const isOpen = collapsible ? (open[i] ?? true) : true;
         return (
           <section
             key={i}

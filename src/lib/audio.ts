@@ -47,6 +47,8 @@ function emit(patch: Partial<AudioState>) {
 let el: HTMLAudioElement | null = null;
 let unlocked = false;
 let requestId = 0;
+/** True while a multi-segment dialogue is being played back-to-back. */
+let chainActive = false;
 
 function element(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
@@ -64,7 +66,11 @@ function element(): HTMLAudioElement | null {
   a.addEventListener("pause", () => {
     if (!a.ended && state.status === "playing") emit({ status: "paused" });
   });
-  a.addEventListener("ended", () => emit({ status: "idle", owner: null, time: 0 }));
+  a.addEventListener("ended", () => {
+    // During a dialogue chain the chain handler advances to the next segment.
+    if (chainActive) return;
+    emit({ status: "idle", owner: null, time: 0 });
+  });
   el = a;
   return a;
 }
@@ -101,6 +107,7 @@ export function primeAudio() {
 }
 
 export function stopAudio() {
+  chainActive = false;
   const a = element();
   if (a) {
     a.pause();
@@ -195,12 +202,131 @@ function browserSpeak(text: string, owner: string): boolean {
 
 const urlCache = new Map<string, string>();
 
+type DialogueSegment = { speaker: string; text: string };
+
+/**
+ * Detects "A: ... / B: ..." dialogue transcripts. Speaker labels are stripped
+ * from what is spoken and each speaker gets a distinct voice, so listening
+ * passages sound like two people talking instead of one voice reading "A, B".
+ */
+function parseDialogue(raw: string): DialogueSegment[] | null {
+  const lines = raw.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+  const parts: DialogueSegment[] = [];
+  let labelled = 0;
+  for (const line of lines) {
+    // Markdown headings are section boundaries: ignore ones before the
+    // dialogue ("## Before you listen") and stop at ones after it
+    // ("## Key phrases", "## Comprehension").
+    if (/^#{1,4}\s/.test(line)) {
+      if (parts.length) break;
+      continue;
+    }
+    const m = line.match(/^([A-Za-z][A-Za-z ]{0,18})\s*[:：]\s*(.+)$/);
+    if (m) {
+      labelled++;
+      const speaker = m[1]!.trim();
+      const last = parts[parts.length - 1];
+      if (last && last.speaker === speaker) last.text += " " + m[2]!.trim();
+      else parts.push({ speaker, text: m[2]!.trim() });
+    } else if (parts.length) {
+      parts[parts.length - 1]!.text += " " + line;
+    }
+  }
+  if (labelled < 2) return null;
+  if (new Set(parts.map((p) => p.speaker)).size < 2) return null;
+  return parts;
+}
+
+const DIALOGUE_VOICES = ["alloy", "nova", "echo", "shimmer"];
+
+/** Synthesizes each dialogue turn with its speaker's voice and plays them in order. */
+async function playDialogue(segments: DialogueSegment[], owner: string, id: number) {
+  const voiceOf = new Map<string, string>();
+  for (const seg of segments) {
+    if (!voiceOf.has(seg.speaker)) {
+      voiceOf.set(seg.speaker, DIALOGUE_VOICES[voiceOf.size % DIALOGUE_VOICES.length]!);
+    }
+  }
+
+  const urls: string[] = [];
+  for (const seg of segments) {
+    if (id !== requestId) return;
+    const voice = voiceOf.get(seg.speaker)!;
+    const clean = seg.text.replace(/\s+/g, " ").trim();
+    if (!clean) continue;
+    const key = `${voice}::${clean}`;
+    let url = urlCache.get(key);
+    if (!url) {
+      const res = await synthesizeSpeech({ data: { text: clean, voice } });
+      if (id !== requestId) return;
+      url = res.url;
+      urlCache.set(key, url);
+    }
+    urls.push(url);
+  }
+  if (!urls.length || id !== requestId) return;
+
+  const a = element();
+  if (!a) throw new Error("Audio is not supported in this browser");
+
+  let i = 0;
+  const playNext = async () => {
+    if (id !== requestId || i >= urls.length) {
+      if (id === requestId) {
+        chainActive = false;
+        emit({ status: "idle", owner: null, time: 0 });
+      }
+      return;
+    }
+    chainActive = true;
+    a.src = urls[i]!;
+    a.volume = state.volume;
+    a.currentTime = 0;
+    const onEnded = () => {
+      a.removeEventListener("ended", onEnded);
+      i++;
+      void playNext();
+    };
+    a.addEventListener("ended", onEnded);
+    try {
+      await a.play();
+    } catch (e) {
+      a.removeEventListener("ended", onEnded);
+      chainActive = false;
+      if (id === requestId) {
+        emit({ status: "error", owner, error: (e as Error).message || "Could not play the audio" });
+      }
+    }
+  };
+
+  emit({ status: "playing", owner, error: null });
+  await playNext();
+}
+
 /**
  * Speaks text using a real generated MP3 (works everywhere), falling back to
  * the browser speech engine only when generation is unavailable.
  * Call `primeAudio()` synchronously in the click handler before awaiting this.
  */
 export async function playText(text: string, owner = "tts", voice?: string) {
+  const dialogue = parseDialogue(text);
+  if (dialogue && !voice) {
+    const id = ++requestId;
+    stopSpeech();
+    emit({ status: "loading", owner, error: null });
+    try {
+      await playDialogue(dialogue, owner, id);
+    } catch (e) {
+      if (id !== requestId) return;
+      chainActive = false;
+      // Fall back to one-voice playback of the stripped text below.
+      const flat = dialogue.map((s) => s.text).join(" ");
+      if (browserSpeak(flat, owner)) return;
+      emit({ status: "error", owner, error: (e as Error).message || "Could not play the audio" });
+    }
+    return;
+  }
+
   const clean = text.replace(/\s+/g, " ").trim();
   if (!clean) return;
   const id = ++requestId;
