@@ -119,6 +119,7 @@ export function DialogueLesson({ body, level }: { body: string; level?: string |
                     aria-label={`Listen to ${turn.speaker}`}
                     onClick={() => {
                       primeAudio();
+                      setPlaybackRate(rate);
                       void playText(turn.text, `turn-${i}`, voice);
                     }}
                   >
