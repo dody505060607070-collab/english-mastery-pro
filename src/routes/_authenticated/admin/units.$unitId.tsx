@@ -264,9 +264,36 @@ function ContentDialog({
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold">Explanation / Text</Label>
-            <FormattedTextarea value={body} onChange={setBody} rows={10} />
+            <div className="flex items-center justify-between gap-2">
+              <Label className="font-bold">Explanation / Text</Label>
+              <div className="flex rounded-full border p-0.5">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editMode === "visual" ? "default" : "ghost"}
+                  className="rounded-full h-7 text-xs font-bold"
+                  onClick={() => setEditMode("visual")}
+                >
+                  Visual
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editMode === "markdown" ? "default" : "ghost"}
+                  className="rounded-full h-7 text-xs font-bold"
+                  onClick={() => setEditMode("markdown")}
+                >
+                  Source
+                </Button>
+              </div>
+            </div>
+            {editMode === "visual" ? (
+              <VisualLessonEditor key={visualKey} value={body} onChange={setBody} />
+            ) : (
+              <FormattedTextarea value={body} onChange={setBody} rows={10} />
+            )}
           </div>
+
           <FileUploadField
             label="Media (video / audio / PDF / image)"
             value={mediaUrl}
