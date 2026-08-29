@@ -784,10 +784,7 @@ export function LectureRecorder({
     if (finalizingRef.current) return;
     finalizingRef.current = true;
     recorderRef.current = null;
-    if (mountedRef.current) {
-      setRecording(false);
-      setSilent(false);
-    }
+    patch({ recording: false, owner: null, silent: false });
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
@@ -1069,8 +1066,15 @@ export function LectureRecorder({
           </div>
         </div>
       )}
-      <Button size="sm" variant="outline" className="gap-2" onClick={() => void start()}>
-        <Circle className="h-4 w-4 text-destructive fill-destructive" /> Record lecture screen
+      <Button
+        size="sm"
+        variant="outline"
+        className="gap-2"
+        disabled={recording && !isOwner}
+        onClick={() => void start()}
+      >
+        <Circle className="h-4 w-4 text-destructive fill-destructive" />
+        {recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
       </Button>
     </div>
   );
