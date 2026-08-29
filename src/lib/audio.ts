@@ -159,7 +159,7 @@ let playbackRate = 1;
 
 /** Sets the speaking speed used by the next playback (0.7 - 1.4). */
 export function setPlaybackRate(rate: number) {
-  playbackRate = Math.min(1.4, Math.max(0.7, rate));
+  playbackRate = Math.min(2.5, Math.max(0.5, rate));
 }
 
 /** Maps a CEFR level label (e.g. "B2.1") to a natural speaking speed. */
