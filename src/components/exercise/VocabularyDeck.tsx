@@ -229,7 +229,7 @@ export function WordCard({
         </div>
       )}
 
-      {showTranslation && (
+      {(
         <div className={cn("space-y-2 rounded-xl border px-3 py-2.5", hue.chip)}>
           <div dir="rtl" className="space-y-1 text-right">
             <span className="block text-[9px] font-black uppercase tracking-[0.18em] opacity-70">معنى الكلمة</span>
@@ -252,15 +252,6 @@ export function WordCard({
 
 
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-        <Button
-          size="sm"
-          variant="secondary"
-          className="h-8 rounded-lg bg-primary/10 px-3 text-xs font-bold text-primary hover:bg-primary/20"
-          onClick={() => setShowTranslation((v) => !v)}
-        >
-          <Languages className="mr-1 h-3.5 w-3.5" />
-          Translate
-        </Button>
         <SaveWordBookmark
           word={word.word}
           translation={word.translation ?? null}
