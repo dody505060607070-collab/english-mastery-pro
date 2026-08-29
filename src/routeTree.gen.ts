@@ -52,7 +52,6 @@ import { Route as AuthenticatedPracticeFlashcardsRouteImport } from './routes/_a
 import { Route as AuthenticatedPracticeFreeRouteImport } from './routes/_authenticated/practice/free'
 import { Route as AuthenticatedPracticePremiumRouteImport } from './routes/_authenticated/practice/premium'
 import { Route as AuthenticatedQuizQuizIdRouteImport } from './routes/_authenticated/quiz/$quizId'
-import { Route as ApiPublicApplyVocabExamplesRouteImport } from './routes/api/public/apply-vocab-examples'
 import { Route as AuthenticatedAdminCoursesIndexRouteImport } from './routes/_authenticated/admin/courses.index'
 import { Route as AuthenticatedAdminSectionsIndexRouteImport } from './routes/_authenticated/admin/sections.index'
 import { Route as AuthenticatedAdminSectionsSectionIdRouteImport } from './routes/_authenticated/admin/sections.$sectionId'
@@ -292,12 +291,6 @@ const AuthenticatedQuizQuizIdRoute = AuthenticatedQuizQuizIdRouteImport.update({
   path: '/quiz/$quizId',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiPublicApplyVocabExamplesRoute =
-  ApiPublicApplyVocabExamplesRouteImport.update({
-    id: '/api/public/apply-vocab-examples',
-    path: '/api/public/apply-vocab-examples',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AuthenticatedAdminCoursesIndexRoute =
   AuthenticatedAdminCoursesIndexRouteImport.update({
     id: '/courses/',
@@ -369,7 +362,6 @@ export interface FileRoutesByFullPath {
   '/practice/free': typeof AuthenticatedPracticeFreeRoute
   '/practice/premium': typeof AuthenticatedPracticePremiumRoute
   '/quiz/$quizId': typeof AuthenticatedQuizQuizIdRoute
-  '/api/public/apply-vocab-examples': typeof ApiPublicApplyVocabExamplesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/practice/': typeof AuthenticatedPracticeIndexRoute
@@ -417,7 +409,6 @@ export interface FileRoutesByTo {
   '/practice/free': typeof AuthenticatedPracticeFreeRoute
   '/practice/premium': typeof AuthenticatedPracticePremiumRoute
   '/quiz/$quizId': typeof AuthenticatedQuizQuizIdRoute
-  '/api/public/apply-vocab-examples': typeof ApiPublicApplyVocabExamplesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/practice': typeof AuthenticatedPracticeIndexRoute
@@ -469,7 +460,6 @@ export interface FileRoutesById {
   '/_authenticated/practice/free': typeof AuthenticatedPracticeFreeRoute
   '/_authenticated/practice/premium': typeof AuthenticatedPracticePremiumRoute
   '/_authenticated/quiz/$quizId': typeof AuthenticatedQuizQuizIdRoute
-  '/api/public/apply-vocab-examples': typeof ApiPublicApplyVocabExamplesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/practice/': typeof AuthenticatedPracticeIndexRoute
@@ -521,7 +511,6 @@ export interface FileRouteTypes {
     | '/practice/free'
     | '/practice/premium'
     | '/quiz/$quizId'
-    | '/api/public/apply-vocab-examples'
     | '/admin/'
     | '/learn/'
     | '/practice/'
@@ -569,7 +558,6 @@ export interface FileRouteTypes {
     | '/practice/free'
     | '/practice/premium'
     | '/quiz/$quizId'
-    | '/api/public/apply-vocab-examples'
     | '/admin'
     | '/learn'
     | '/practice'
@@ -620,7 +608,6 @@ export interface FileRouteTypes {
     | '/_authenticated/practice/free'
     | '/_authenticated/practice/premium'
     | '/_authenticated/quiz/$quizId'
-    | '/api/public/apply-vocab-examples'
     | '/_authenticated/admin/'
     | '/_authenticated/learn/'
     | '/_authenticated/practice/'
@@ -641,7 +628,6 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
-  ApiPublicApplyVocabExamplesRoute: typeof ApiPublicApplyVocabExamplesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -947,13 +933,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedQuizQuizIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/public/apply-vocab-examples': {
-      id: '/api/public/apply-vocab-examples'
-      path: '/api/public/apply-vocab-examples'
-      fullPath: '/api/public/apply-vocab-examples'
-      preLoaderRoute: typeof ApiPublicApplyVocabExamplesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/admin/courses/': {
       id: '/_authenticated/admin/courses/'
       path: '/courses'
@@ -1109,7 +1088,6 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
-  ApiPublicApplyVocabExamplesRoute: ApiPublicApplyVocabExamplesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
