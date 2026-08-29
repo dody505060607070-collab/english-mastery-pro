@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Download, Loader2, Pause, Play, PlaySquare, RotateCcw, RotateCw, VideoOff, Volume2, VolumeX } from "lucide-react";
+import { Loader2, Pause, Play, PlaySquare, RotateCcw, RotateCw, VideoOff, Volume2, VolumeX } from "lucide-react";
+import { youTubeEmbedUrl } from "@/lib/youtube";
+
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
