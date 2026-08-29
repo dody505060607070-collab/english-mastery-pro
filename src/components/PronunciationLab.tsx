@@ -24,6 +24,7 @@ type Parsed = {
   pairs: [string, string][];
   words: string[];
   sentences: string[];
+  speaking: string[];
 };
 
 /** Removes IPA stress marks so speech + comparison use plain spelling. */
@@ -85,7 +86,15 @@ export function parsePronunciation(body: string): Parsed {
     .filter((p) => p.length === 2 && p[0] && p[1]) as [string, string][];
   const words = find("word").filter(Boolean);
   const sentences = find("sentence").filter(Boolean);
-  return { focus: focus.charAt(0).toUpperCase() + focus.slice(1), tip, pairs, words, sentences };
+  const speaking = find("speaking").filter(Boolean);
+  return {
+    focus: focus.charAt(0).toUpperCase() + focus.slice(1),
+    tip,
+    pairs,
+    words,
+    sentences,
+    speaking,
+  };
 }
 
 function scoreLabel(score: number) {

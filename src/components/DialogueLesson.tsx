@@ -1,7 +1,9 @@
-import { Gauge, MessageSquare, Play, Square, Volume2 } from "lucide-react";
+import { useState } from "react";
+import { MessageSquare, Play, Square, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InteractiveText } from "@/components/InteractiveText";
+import { SpeedControl, snapSpeed } from "@/components/SpeedControl";
 import {
   isOwnerActive,
   primeAudio,
@@ -47,13 +49,12 @@ const VOICES = ["alloy", "nova", "echo", "shimmer"];
 export function DialogueLesson({ body, level }: { body: string; level?: string | null }) {
   const turns = parseDialogueTurns(body);
   const audio = useAudioState();
+  // Students control the pace: the CEFR level only sets the starting speed.
+  const [rate, setRate] = useState(() => snapSpeed(rateForLevel(level)));
   if (!turns.length) return null;
 
   const speakers = Array.from(new Set(turns.map((t) => t.speaker)));
   const playing = isOwnerActive("dialogue-all", audio);
-  // Higher CEFR levels are spoken faster so listening gets harder as students
-  // progress; A1 stays slow and clear, C2 reaches near-native pace.
-  const rate = rateForLevel(level);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-primary/30 bg-card shadow-sm">
@@ -65,12 +66,6 @@ export function DialogueLesson({ body, level }: { body: string; level?: string |
           <p className="text-[10px] font-black uppercase text-primary">Conversation</p>
           <h3 className="text-base font-black">{speakers.join(" & ")}</h3>
         </div>
-        {level ? (
-          <span className="hidden items-center gap-1 rounded-full bg-card px-2.5 py-1 text-[11px] font-bold text-primary shadow-sm sm:inline-flex">
-            <Gauge className="h-3.5 w-3.5" />
-            {level} · {rate.toFixed(2)}x
-          </span>
-        ) : null}
         <Button
           type="button"
           size="sm"
@@ -96,6 +91,10 @@ export function DialogueLesson({ body, level }: { body: string; level?: string |
           {playing ? "Stop" : "Play conversation"}
         </Button>
       </header>
+
+      <div className="border-b bg-muted/30 px-4 py-2">
+        <SpeedControl value={rate} onChange={setRate} />
+      </div>
 
       <div className="space-y-3 px-4 py-5 md:px-6" dir="ltr">
         {turns.map((turn, i) => {
