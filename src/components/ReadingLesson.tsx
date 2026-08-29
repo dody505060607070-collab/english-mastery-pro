@@ -28,6 +28,27 @@ export function ReadingLesson({ body }: { body: string }) {
       undefined,
     );
   const activities = sections.filter((section) => section !== passage);
+  const [arabic, setArabic] = useState<string | null>(null);
+  const [showArabic, setShowArabic] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function toggleTranslation() {
+    if (arabic) {
+      setShowArabic((v) => !v);
+      return;
+    }
+    if (!passage) return;
+    setLoading(true);
+    try {
+      const res = await translatePassage({ data: { text: passage.text } });
+      setArabic(res.arabic);
+      setShowArabic(true);
+    } catch (e) {
+      toast.error((e as Error).message || "Could not translate the text");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   if (!passage) return null;
 
