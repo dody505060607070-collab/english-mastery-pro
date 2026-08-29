@@ -383,13 +383,86 @@ function BlockView({ block, tone }: { block: Block; tone: Tone }) {
   );
 }
 
+/** Keep only the first sentences of the intro; teacher-style filler is dropped. */
+function trimIntro(text: string, max = 2) {
+  const parts = text.match(/[^.!?]+[.!?]+/g);
+  if (!parts) return text;
+  return parts.slice(0, max).join(" ").trim();
+}
+
+/**
+ * Reshapes a grammar lesson into compact tables: a one-line rule, the form
+ * table, then Positive / Negative / Question tables and a "When to use" table.
+ * Long teacher-facing paragraphs are removed so the learner sees structure.
+ */
+function tableize(sections: Section[]): Section[] {
+  const out: Section[] = [];
+  let introDone = false;
+
+  for (const s of sections) {
+    const title = s.title;
+
+    if (/(example|أمثلة)/i.test(title)) {
+      const ex = s.blocks.find((b) => b.kind === "examples") as
+        | Extract<Block, { kind: "examples" }>
+        | undefined;
+      if (ex) {
+        const groups: { sign: "+" | "-" | "?"; label: string }[] = [
+          { sign: "+", label: "Positive (+)" },
+          { sign: "-", label: "Negative (−)" },
+          { sign: "?", label: "Question (?)" },
+        ];
+        let added = false;
+        for (const g of groups) {
+          const items = ex.items.filter((it) => it.sign === g.sign);
+          if (!items.length) continue;
+          added = true;
+          out.push({
+            title: g.label,
+            blocks: [
+              {
+                kind: "table",
+                rows: [["Form", "Example"], ...items.map((it, i) => [`${g.sign} ${i + 1}`, it.text])],
+              },
+            ],
+          });
+        }
+        if (added) continue;
+      }
+    }
+
+    const blocks: Block[] = [];
+    for (const b of s.blocks) {
+      if (b.kind === "para") {
+        // Only one short intro paragraph survives; the rest is filler prose.
+        if (!introDone && b.text.length > 40) {
+          blocks.push({ kind: "para", text: trimIntro(b.text) });
+          introDone = true;
+        }
+        continue;
+      }
+      if (b.kind === "bullets" && /(use|when|rule|قاعدة|استخدم)/i.test(title)) {
+        blocks.push({
+          kind: "table",
+          rows: [["When", "Rule"], ...b.items.map((it, i) => [`${i + 1}`, it])],
+        });
+        continue;
+      }
+      blocks.push(b);
+    }
+    if (blocks.length) out.push({ title: title === "Why it matters" ? "Quick rule" : title, blocks });
+  }
+  return out;
+}
+
 export function GrammarLesson({ body }: { body: string }) {
-  const parsed = parseGrammar(body);
+  const parsed = tableize(parseGrammar(body));
   // Keep the study flow simple: answer keys / extra notes always sit at the end.
   const isExtra = (t: string) => /(answer|key|solution|note|extra|إجاب|الحل|ملاحظ)/i.test(t);
   const sections = [...parsed.filter((s) => !isExtra(s.title)), ...parsed.filter((s) => isExtra(s.title))];
   const [open, setOpen] = useState<Record<number, boolean>>({});
   if (!sections.length) return null;
+
 
   return (
     <div className="space-y-3">
