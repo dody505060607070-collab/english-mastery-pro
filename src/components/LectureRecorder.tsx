@@ -948,60 +948,24 @@ export function LectureRecorder({
     const recoveryUrl = URL.createObjectURL(blob);
     if (mountedRef.current) {
       setRecovery({ url: recoveryUrl, name: fileName });
-      setSaving(true);
-      setUploadProgress(0);
-    }
-
-    // Auto save & publish right after Stop (as before) — with 3 attempts.
-    let uploaded = false;
-    for (let attempt = 1; attempt <= 3 && !uploaded; attempt++) {
-      if (mountedRef.current) setAttemptNo(attempt);
-      try {
-        const file = new File([blob], fileName, { type });
-        const path = await uploadFile("content", file, "recordings", (p) => {
-          if (mountedRef.current) setUploadProgress(p);
-        });
-        await saveRecording({
-          data: {
-            title: title || "Lecture",
-            liveSessionId: liveSessionId || null,
-            sectionId: sectionId || null,
-            videoUrl: path,
-            durationSeconds: Math.max(1, duration),
-            status: "ready",
-            isPublished: true,
-          },
-        });
-        uploaded = true;
-      } catch (e) {
-        if (attempt === 3) {
-          toast.error(
-            `Automatic saving failed: ${(e as Error).message}. The recording is kept below — press Save & Publish to retry.`,
-          );
-        } else {
-          await new Promise((r) => setTimeout(r, 2000 * attempt));
-        }
-      }
-    }
-
-    if (uploaded) {
-      await backupClear();
-      if (mountedRef.current) {
-        URL.revokeObjectURL(recoveryUrl);
-        setRecovery(null);
-        patch({ saved: { title: title || "Lecture", duration }, owner: null });
-      }
-      toast.success("Recording saved and published");
-      onSaved?.();
-    }
-
-    if (mountedRef.current) {
+      setUnfinished(null);
       setSaving(false);
       setUploadProgress(0);
       setAttemptNo(0);
-      setUnfinished(null);
+      patch({ owner: null, pendingDuration: Math.max(1, duration) });
     }
+    toast.info("Recording stopped — choose: Save & publish, Continue, or Delete.");
     finalizingRef.current = false;
+  }
+
+  /** Discard the just-finished recording (with confirmation in the UI). */
+  async function discardRecording() {
+    if (recovery) URL.revokeObjectURL(recovery.url);
+    setRecovery(null);
+    setUnfinished(null);
+    await backupClear();
+    patch({ confirmDelete: false, pendingDuration: 0 });
+    toast.success("Recording deleted — nothing was published.");
   }
 
 
