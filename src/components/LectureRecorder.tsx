@@ -36,6 +36,8 @@ type RecState = {
   tabVol: number;
   lowSpace: string | null;
   saved: { title: string; duration: number } | null;
+  pendingDuration: number;
+  confirmDelete: boolean;
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
@@ -104,6 +106,8 @@ function getSession(): RecSession {
         tabVol: 2.2,
         lowSpace: null,
         saved: null,
+        pendingDuration: 0,
+        confirmDelete: false,
         owner: null,
       },
       listeners: new Set(),
@@ -395,6 +399,8 @@ export function LectureRecorder({
     tabVol,
     lowSpace,
     saved,
+    pendingDuration,
+    confirmDelete,
   } = st;
   const patch = (p: Partial<RecState>) => {
     Object.assign(S.state, p);
