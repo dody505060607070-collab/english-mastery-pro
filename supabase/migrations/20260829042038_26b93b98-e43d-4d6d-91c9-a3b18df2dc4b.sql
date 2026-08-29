@@ -1,0 +1,1 @@
+ALTER TABLE public.lecture_recordings ADD COLUMN IF NOT EXISTS thumbnail_url text;
