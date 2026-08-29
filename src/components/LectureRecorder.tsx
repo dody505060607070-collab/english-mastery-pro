@@ -203,43 +203,77 @@ export function LectureRecorder({
   onSaved?: () => void;
   autoStart?: boolean;
 }) {
-  const recorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const startedAtRef = useRef<number>(0);
-  const mimeRef = useRef<string>("video/webm");
-  const cleanupRef = useRef<(() => void) | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const finalizingRef = useRef(false);
-  const mountedRef = useRef(true);
-  const [recording, setRecording] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const [level, setLevel] = useState(0);
-  const [hasMic, setHasMic] = useState(true);
-  const [hasSystemAudio, setHasSystemAudio] = useState(false);
-  const [micDenied, setMicDenied] = useState(false);
-  const [silent, setSilent] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const loudAtRef = useRef<number>(0);
-  const [recovery, setRecovery] = useState<{ url: string; name: string } | null>(null);
-  const [unfinished, setUnfinished] = useState<{ meta: BackupMeta; size: number } | null>(null);
-  const [recovering, setRecovering] = useState(false);
-  const [attemptNo, setAttemptNo] = useState(0);
-  const shareEndCleanupRef = useRef<(() => void) | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const displayRef = useRef<MediaStream | null>(null);
-  const displayAudioNodesRef = useRef<{ src: MediaStreamAudioSourceNode; gain: GainNode } | null>(null);
-  const backupWriteChainRef = useRef<Promise<void>>(Promise.resolve());
-  const backupFailedRef = useRef(false);
-  const meterTimerRef = useRef<number | null>(null);
-  const wakeLockRef = useRef<{ release: () => Promise<void> } | null>(null);
-  // Mutes only the teacher's own microphone; shared tab/system audio keeps recording.
-  const micGainRef = useRef<GainNode | null>(null);
-  const micStreamRef = useRef<MediaStream | null>(null);
-  const [micMuted, setMicMuted] = useState(false);
+  // ---- Cross-page session -------------------------------------------------
+  // Everything mutable lives in one module-level session so navigating to another
+  // admin page (or unmounting this component) never stops an ongoing recording.
+  const S = getSession();
+  const R = S.refs;
+  const recorderRef = R.recorder;
+  const chunksRef = R.chunks;
+  const startedAtRef = R.startedAt;
+  const mimeRef = R.mime;
+  const cleanupRef = R.cleanup;
+  const rafRef = R.raf;
+  const finalizingRef = R.finalizing;
+  const mountedRef = R.mounted;
+  const canvasRef = R.canvas;
+  const loudAtRef = R.loudAt;
+  const shareEndCleanupRef = R.shareEnd;
+  const audioCtxRef = R.audioCtx;
+  const audioDestRef = R.audioDest;
+  const analyserRef = R.analyser;
+  const displayRef = R.display;
+  const displayAudioNodesRef = R.displayAudioNodes;
+  const backupWriteChainRef = R.backupChain;
+  const backupFailedRef = R.backupFailed;
+  const meterTimerRef = R.meterTimer;
+  const wakeLockRef = R.wakeLock;
+  const micGainRef = R.micGain;
+  const micStreamRef = R.micStream;
+
+  const [, force] = useReducer((n: number) => n + 1, 0);
+  useEffect(() => {
+    S.listeners.add(force);
+    return () => {
+      S.listeners.delete(force);
+    };
+  }, [S]);
+
+  const st = S.state;
+  const {
+    recording,
+    saving,
+    uploadProgress,
+    elapsed,
+    level,
+    hasMic,
+    hasSystemAudio,
+    micDenied,
+    silent,
+    recovery,
+    unfinished,
+    recovering,
+    attemptNo,
+    micMuted,
+  } = st;
+  const patch = (p: Partial<RecState>) => {
+    Object.assign(S.state, p);
+    S.listeners.forEach((l) => l());
+  };
+  const setRecording = (v: boolean) => patch({ recording: v });
+  const setSaving = (v: boolean) => patch({ saving: v });
+  const setUploadProgress = (v: number) => patch({ uploadProgress: v });
+  const setElapsed = (v: number) => patch({ elapsed: v });
+  const setLevel = (v: number) => patch({ level: v });
+  const setHasMic = (v: boolean) => patch({ hasMic: v });
+  const setHasSystemAudio = (v: boolean) => patch({ hasSystemAudio: v });
+  const setMicDenied = (v: boolean) => patch({ micDenied: v });
+  const setSilent = (v: boolean) => patch({ silent: v });
+  const setRecovery = (v: RecState["recovery"]) => patch({ recovery: v });
+  const setUnfinished = (v: RecState["unfinished"]) => patch({ unfinished: v });
+  const setRecovering = (v: boolean) => patch({ recovering: v });
+  const setAttemptNo = (v: number) => patch({ attemptNo: v });
+  const setMicMuted = (v: boolean) => patch({ micMuted: v });
 
   function toggleMicMute() {
     const next = !micMuted;
@@ -249,20 +283,19 @@ export function LectureRecorder({
     toast.info(next ? "Your microphone is muted — screen/tab audio is still recording." : "Your microphone is on again.");
   }
 
-
-
   useEffect(() => {
     if (!recording) return;
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000)), 1000);
     return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recording]);
 
   useEffect(() => {
     mountedRef.current = true;
     // Detect an unfinished recording session left behind by a crash / power cut.
     void (async () => {
+      if (S.state.recording) return;
       const backup = await backupRead();
-      if (!mountedRef.current) return;
       if (!backup) return;
       const size = backup.chunks.reduce((sum, c) => sum + c.size, 0);
       if (size < 1000) {
@@ -271,20 +304,12 @@ export function LectureRecorder({
       }
       setUnfinished({ meta: backup.meta, size });
     })();
-    return () => {
-      mountedRef.current = false;
-      const recorder = recorderRef.current;
-      if (recorder?.state === "recording") {
-        try {
-          recorder.requestData();
-          recorder.stop();
-        } catch {
-          cleanupRef.current?.();
-        }
-      }
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    // NOTE: intentionally no stop on unmount — recording continues across page
+    // navigation and only ends when the teacher presses Stop (or the browser/tab
+    // is closed, in which case the IndexedDB backup is recovered next time).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   useEffect(
     () => () => {
