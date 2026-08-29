@@ -1068,7 +1068,10 @@ export function LectureRecorder({
     return (
       <div className="w-full space-y-2 rounded-lg border bg-muted/40 p-3">
         <p className="flex items-center gap-2 text-sm font-bold">
-          <Loader2 className="h-4 w-4 animate-spin" /> Uploading the recording automatically… {uploadProgress}%
+          <Loader2 className="h-4 w-4 animate-spin" />
+          {uploadProgress > 0
+            ? `Uploading the recording automatically… ${uploadProgress}%`
+            : "Stop received — preparing the video file (this can take a minute for long lectures)…"}
           {attemptNo > 1 ? ` (retry ${attemptNo - 1})` : ""}
         </p>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
@@ -1199,6 +1202,22 @@ export function LectureRecorder({
     </div>
   ) : (
     <div className="space-y-2">
+      {saved && (
+        <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-3 space-y-2">
+          <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+            Saved and published: "{saved.title}" ({fmt(saved.duration)}) — students can watch it now from the
+            Recordings page.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" className="gap-1.5">
+              <a href="/recordings">Open Recordings page</a>
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => patch({ saved: null })}>
+              Dismiss
+            </Button>
+          </div>
+        </div>
+      )}
       {unfinished && (
         <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-2">
           <p className="text-xs font-bold flex items-center gap-1.5">
