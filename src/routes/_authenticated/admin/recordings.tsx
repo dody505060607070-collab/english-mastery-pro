@@ -136,7 +136,10 @@ function AdminRecordingsPage() {
         </Button>
       </div>
 
+      <YouTubeLinkCard sections={sectionsQuery.data ?? []} onSaved={invalidate} />
+
       <LectureUploadCard onSaved={invalidate} />
+
 
       <Card className="border-destructive/30">
         <CardContent className="p-4 flex flex-col md:flex-row md:items-end gap-3">
@@ -243,15 +246,29 @@ function AdminRecordingsPage() {
               </CardContent>
               {watching === r.id && r.playback_url && (
                 <CardContent className="pt-0 pb-4">
-                  <video
-                    src={r.playback_url}
-                    poster={r.cover_url ?? undefined}
-                    controls
-                    preload="metadata"
-                    className="w-full rounded-xl bg-black aspect-video"
-                  />
+                  {isYouTubeUrl(r.video_url) ? (
+                    <iframe
+                      src={youTubeEmbedUrl(r.video_url) ?? ""}
+                      title={r.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full rounded-xl bg-black aspect-video border-0"
+                    />
+                  ) : (
+                    <video
+                      src={r.playback_url}
+                      poster={r.cover_url ?? undefined}
+                      controls
+                      controlsList="nodownload noplaybackrate"
+                      disablePictureInPicture
+                      onContextMenu={(event) => event.preventDefault()}
+                      preload="metadata"
+                      className="w-full rounded-xl bg-black aspect-video"
+                    />
+                  )}
                 </CardContent>
               )}
+
             </Card>
           ))}
         </div>
