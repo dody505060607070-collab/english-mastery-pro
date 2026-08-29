@@ -92,7 +92,7 @@ export function WordCard({
   isLearned: boolean;
   onToggle?: ((word: string, isLearned: boolean) => void) | undefined;
 }) {
-  const [showTranslation, setShowTranslation] = useState(false);
+  
   const img = useMediaUrl(word.image_url);
   const wordAudio = useMediaUrl(word.word_audio);
   const sentenceAudio = useMediaUrl(word.sentence_audio);
