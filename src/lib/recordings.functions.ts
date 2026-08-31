@@ -90,10 +90,11 @@ export const listRecordings = createServerFn({ method: "GET" })
       .order("recorded_at", { ascending: false });
     if (error) throw new Error(error.message);
     const rows = data ?? [];
+    const isR2 = (v?: string | null) => !!v && v.startsWith("r2:");
     const paths = rows.flatMap((r) => {
       const list: string[] = [];
-      if (r.video_url && !r.video_url.startsWith("http")) list.push(r.video_url);
-      if (r.thumbnail_url && !r.thumbnail_url.startsWith("http")) list.push(r.thumbnail_url);
+      if (r.video_url && !r.video_url.startsWith("http") && !isR2(r.video_url)) list.push(r.video_url);
+      if (r.thumbnail_url && !r.thumbnail_url.startsWith("http") && !isR2(r.thumbnail_url)) list.push(r.thumbnail_url);
       return list;
     });
     const signedByPath = new Map<string, string>();
@@ -104,8 +105,24 @@ export const listRecordings = createServerFn({ method: "GET" })
         if (item.path && item.signedUrl) signedByPath.set(item.path, item.signedUrl);
       });
     }
-    const resolve = (v: string | null) => (!v ? null : v.startsWith("http") ? v : signedByPath.get(v) ?? null);
+    const r2Map = new Map<string, string>();
+    const r2Values = [...new Set(rows.flatMap((r) => [r.video_url, r.thumbnail_url]).filter((v): v is string => isR2(v)))];
+    if (r2Values.length > 0) {
+      const { r2PlaybackUrl } = await import("@/lib/r2.server");
+      await Promise.all(
+        r2Values.map(async (v) => {
+          try {
+            r2Map.set(v, await r2PlaybackUrl(v.slice(3)));
+          } catch {
+            /* R2 not configured */
+          }
+        }),
+      );
+    }
+    const resolve = (v: string | null) =>
+      !v ? null : v.startsWith("http") ? v : isR2(v) ? r2Map.get(v) ?? null : signedByPath.get(v) ?? null;
     return rows.map((r) => ({ ...r, playback_url: resolve(r.video_url), cover_url: resolve(r.thumbnail_url) }));
+
   });
 
 /** Files sitting in storage that were uploaded but never linked to a recording row. */
