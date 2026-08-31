@@ -321,27 +321,36 @@ export function QuestionRunner({
             {stepResult && (
               <div
                 className={cn(
-                  "flex items-center gap-2 rounded-2xl border-2 px-4 py-3 text-sm font-black",
+                  "space-y-1.5 rounded-2xl border-2 px-4 py-3 text-sm font-black",
                   stepResult.correct === true && "border-emerald-500/50 bg-emerald-500/10 text-emerald-700",
                   stepResult.correct === false && "border-destructive/50 bg-destructive/10 text-destructive",
                   stepResult.correct === null && "border-amber-500/50 bg-amber-500/10 text-amber-700",
                 )}
               >
-                {stepResult.correct === true ? (
-                  <>
-                    <CheckCircle2 className="h-5 w-5" /> Correct!
-                  </>
-                ) : stepResult.correct === false ? (
-                  <>
-                    <XCircle className="h-5 w-5" /> Wrong — correct answer: {stepResult.correctAnswer}
-                  </>
-                ) : (
-                  <>
-                    <HelpCircle className="h-5 w-5" /> Saved — your teacher will review it
-                  </>
+                <div className="flex items-center gap-2">
+                  {stepResult.correct === true ? (
+                    <>
+                      <CheckCircle2 className="h-5 w-5" /> Correct!
+                    </>
+                  ) : stepResult.correct === false ? (
+                    <>
+                      <XCircle className="h-5 w-5" /> Wrong — correct answer: {stepResult.correctAnswer}
+                    </>
+                  ) : (
+                    <>
+                      <HelpCircle className="h-5 w-5" /> Saved — your teacher will review it
+                    </>
+                  )}
+                </div>
+                {aiById[q.id]?.feedback && (
+                  <p className="flex items-start gap-2 text-[13px] font-bold leading-6 opacity-90">
+                    <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    {aiById[q.id]?.feedback}
+                  </p>
                 )}
               </div>
             )}
+
 
             {isRevealed && q.explanation && (
               <div dir="auto" className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7">
