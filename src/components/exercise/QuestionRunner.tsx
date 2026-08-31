@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils";
 import { gradeAnswerWithAI, type AiGrade } from "@/lib/ai-grade.functions";
 import {
-  gradeAll,
+  
   gradeQuestion,
   OPTION_LETTERS,
   type AnswerValue,
