@@ -293,15 +293,15 @@ function AdminRecordingsPage() {
                 />
               </div>
               <FileUploadField
-                label="Video file from device (or external link)"
+                label="Video file from device — stored on Cloudflare R2 (or paste a YouTube/external link)"
                 value={draft.videoUrl}
                 onChange={(v) => setDraft({ ...draft, videoUrl: v })}
                 bucket="content"
                 kind="video"
                 folder="recordings"
-                budgetGuard
-
+                r2
               />
+
               <FileUploadField
                 label="Cover photo (optional)"
                 value={draft.thumbnailUrl}
