@@ -56,6 +56,8 @@ export function QuestionRunner({
 }) {
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
   const [revealed, setRevealed] = useState<Record<string, true>>({});
+  const [aiById, setAiById] = useState<Record<string, AiGrade>>({});
+  const [aiLoadingId, setAiLoadingId] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [checked, setChecked] = useState<RunnerSubmitPayload | null>(null);
   const [attemptKey, setAttemptKey] = useState(0);
@@ -67,19 +69,60 @@ export function QuestionRunner({
   const q = questions[Math.min(index, Math.max(total - 1, 0))];
   const isRevealed = q ? !!revealed[q.id] : false;
 
+  /** Local grading, overridden by the AI verdict when we have one. */
+  function resultFor(question: Question, value: AnswerValue): QuestionResult {
+    const base = gradeQuestion(question, value);
+    const ai = aiById[question.id];
+    if (!ai) return base;
+    return {
+      ...base,
+      correct: ai.correct,
+      earned: ai.correct ? base.points : 0,
+      correctAnswer: ai.correctAnswer || base.correctAnswer,
+    };
+  }
+
   function finish() {
-    const graded = gradeAll(questions, answers);
+    const results = questions.map((qq) => resultFor(qq, answers[qq.id]));
+    const maxScore = results.reduce((s, r) => s + r.points, 0);
+    const score = results.reduce((s, r) => s + r.earned, 0);
+    const autoMax = results.filter((r) => r.correct !== null).reduce((s, r) => s + r.points, 0);
     const payload: RunnerSubmitPayload = {
       answers,
-      results: graded.results,
-      score: graded.score,
-      maxScore: graded.maxScore,
-      percentage: graded.percentage,
-      needsReview: graded.needsReview,
+      results,
+      score,
+      maxScore,
+      percentage: autoMax ? Math.round((score / autoMax) * 100) : 0,
+      needsReview: results.some((r) => r.correct === null),
     };
     setChecked(payload);
     onSubmit?.(payload);
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /** Reveal the answer — open-ended questions are graded by the AI first. */
+  async function checkCurrent() {
+    if (!q) return;
+    const value = answers[q.id];
+    if (AI_TYPES.has(q.type) && typeof value === "string" && value.trim()) {
+      setAiLoadingId(q.id);
+      try {
+        const grade = await gradeAnswerWithAI({
+          data: {
+            prompt: q.prompt,
+            studentAnswer: value,
+            expectedAnswer: Array.isArray(q.answer) ? q.answer.join(" | ") : (q.answer ?? null),
+            kind: q.type === "fill" ? "fill" : "text",
+          },
+        });
+        setAiById((prev) => ({ ...prev, [q.id]: grade }));
+      } catch {
+        // fall back to local grading if the AI is unreachable
+      } finally {
+        setAiLoadingId(null);
+      }
+    }
+    setRevealed((r) => ({ ...r, [q.id]: true }));
   }
 
   useEffect(() => {
@@ -96,6 +139,7 @@ export function QuestionRunner({
   function retry() {
     setAnswers({});
     setRevealed({});
+    setAiById({});
     setIndex(0);
     setChecked(null);
     setSecondsLeft(timeLimitMinutes ? timeLimitMinutes * 60 : null);
@@ -111,6 +155,7 @@ export function QuestionRunner({
       setRevealed((r) => ({ ...r, [id]: true }));
     }
   }
+
 
   const resultById = useMemo(() => {
     const map = new Map<string, QuestionResult>();
