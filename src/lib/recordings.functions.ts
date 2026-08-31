@@ -246,13 +246,18 @@ export const deleteRecording = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("lecture_recordings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
 
-    const storedPaths = [recording?.video_url, recording?.thumbnail_url].filter(
-      (path): path is string => Boolean(path && !path.startsWith("http")),
-    );
+    const all = [recording?.video_url, recording?.thumbnail_url].filter((v): v is string => Boolean(v));
+    const r2Keys = all.filter((v) => v.startsWith("r2:")).map((v) => v.slice(3));
+    const storedPaths = all.filter((v) => !v.startsWith("http") && !v.startsWith("r2:"));
     if (storedPaths.length > 0) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { error: storageError } = await supabaseAdmin.storage.from("content").remove(storedPaths);
       if (storageError) throw new Error(`The recording was deleted, but its stored file could not be removed: ${storageError.message}`);
     }
+    if (r2Keys.length > 0) {
+      const { deleteR2Object } = await import("@/lib/r2.server");
+      await Promise.all(r2Keys.map((k) => deleteR2Object(k).catch(() => undefined)));
+    }
+
     return { success: true };
   });
