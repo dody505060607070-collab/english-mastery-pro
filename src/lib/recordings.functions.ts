@@ -32,11 +32,13 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
     const { data, error } = await query;
     if (error) throw new Error(error.message);
     const recordings = data ?? [];
+    const isR2 = (v?: string | null) => !!v && v.startsWith("r2:");
+    const isStored = (v?: string | null) => !!v && !v.startsWith("http") && !isR2(v);
     const paths = recordings.flatMap((recording) => {
       const list: string[] = [];
-      if (recording.video_url && !recording.video_url.startsWith("http")) list.push(recording.video_url);
+      if (isStored(recording.video_url)) list.push(recording.video_url as string);
       const thumb = (recording as any).thumbnail_url as string | null;
-      if (thumb && !thumb.startsWith("http")) list.push(thumb);
+      if (isStored(thumb)) list.push(thumb as string);
       return list;
     });
     const signedByPath = new Map<string, string>();
@@ -47,20 +49,31 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
         if (item.path && item.signedUrl) signedByPath.set(item.path, item.signedUrl);
       });
     }
+    const r2Map = new Map<string, string>();
+    const r2Keys = recordings
+      .flatMap((r) => [r.video_url, (r as any).thumbnail_url as string | null])
+      .filter((v): v is string => isR2(v));
+    if (r2Keys.length > 0) {
+      const { r2PlaybackUrl } = await import("@/lib/r2.server");
+      await Promise.all(
+        [...new Set(r2Keys)].map(async (v) => {
+          try {
+            r2Map.set(v, await r2PlaybackUrl(v.slice(3)));
+          } catch {
+            /* R2 not configured */
+          }
+        }),
+      );
+    }
+    const resolve = (v?: string | null) =>
+      !v ? null : v.startsWith("http") ? v : isR2(v) ? r2Map.get(v) ?? null : signedByPath.get(v) ?? null;
     return recordings.map((recording) => ({
       ...recording,
-      playback_url: recording.video_url?.startsWith("http")
-        ? recording.video_url
-        : recording.video_url
-          ? signedByPath.get(recording.video_url) ?? null
-          : null,
-      cover_url: (recording as any).thumbnail_url?.startsWith("http")
-        ? (recording as any).thumbnail_url
-        : (recording as any).thumbnail_url
-          ? signedByPath.get((recording as any).thumbnail_url) ?? null
-          : null,
+      playback_url: resolve(recording.video_url),
+      cover_url: resolve((recording as any).thumbnail_url),
     }));
   });
+
 
 /** Admin view: every recording. */
 export const listRecordings = createServerFn({ method: "GET" })
