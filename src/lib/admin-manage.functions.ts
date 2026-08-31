@@ -581,7 +581,8 @@ export const saveUnitContent = createServerFn({ method: "POST" })
       media_url: data.media_url || null,
       data: data.data ?? null,
       order_index: (last?.order_index ?? 0) + 1,
-      is_published: data.is_published ?? false,
+      // New pages are visible to students by default; staff can unpublish explicitly.
+      is_published: data.is_published ?? true,
     });
     if (error) throw new Error(error.message);
     return { success: true };
