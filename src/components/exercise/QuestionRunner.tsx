@@ -397,7 +397,7 @@ export function QuestionRunner({
       <div className="flex flex-wrap gap-1.5">
         {questions.map((qq, i) => {
           const done = !!revealed[qq.id];
-          const ok = done ? gradeQuestion(qq, answers[qq.id]).correct : undefined;
+          const ok = done ? resultFor(qq, answers[qq.id]).correct : undefined;
           return (
             <button
               key={qq.id}
