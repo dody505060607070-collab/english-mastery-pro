@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,8 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { gradeAnswerWithAI, type AiGrade } from "@/lib/ai-grade.functions";
 import {
-  gradeAll,
+  
   gradeQuestion,
   OPTION_LETTERS,
   type AnswerValue,
@@ -19,9 +20,13 @@ import {
   type QuestionResult,
 } from "@/lib/exercise-types";
 
+/** Types the AI grades instead of plain string matching. */
+const AI_TYPES = new Set(["text", "fill"]);
+
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
+
 
 export interface RunnerSubmitPayload {
   answers: Record<string, AnswerValue>;
@@ -51,6 +56,8 @@ export function QuestionRunner({
 }) {
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
   const [revealed, setRevealed] = useState<Record<string, true>>({});
+  const [aiById, setAiById] = useState<Record<string, AiGrade>>({});
+  const [aiLoadingId, setAiLoadingId] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [checked, setChecked] = useState<RunnerSubmitPayload | null>(null);
   const [attemptKey, setAttemptKey] = useState(0);
@@ -62,19 +69,60 @@ export function QuestionRunner({
   const q = questions[Math.min(index, Math.max(total - 1, 0))];
   const isRevealed = q ? !!revealed[q.id] : false;
 
+  /** Local grading, overridden by the AI verdict when we have one. */
+  function resultFor(question: Question, value: AnswerValue): QuestionResult {
+    const base = gradeQuestion(question, value);
+    const ai = aiById[question.id];
+    if (!ai) return base;
+    return {
+      ...base,
+      correct: ai.correct,
+      earned: ai.correct ? base.points : 0,
+      correctAnswer: ai.correctAnswer || base.correctAnswer,
+    };
+  }
+
   function finish() {
-    const graded = gradeAll(questions, answers);
+    const results = questions.map((qq) => resultFor(qq, answers[qq.id]));
+    const maxScore = results.reduce((s, r) => s + r.points, 0);
+    const score = results.reduce((s, r) => s + r.earned, 0);
+    const autoMax = results.filter((r) => r.correct !== null).reduce((s, r) => s + r.points, 0);
     const payload: RunnerSubmitPayload = {
       answers,
-      results: graded.results,
-      score: graded.score,
-      maxScore: graded.maxScore,
-      percentage: graded.percentage,
-      needsReview: graded.needsReview,
+      results,
+      score,
+      maxScore,
+      percentage: autoMax ? Math.round((score / autoMax) * 100) : 0,
+      needsReview: results.some((r) => r.correct === null),
     };
     setChecked(payload);
     onSubmit?.(payload);
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /** Reveal the answer — open-ended questions are graded by the AI first. */
+  async function checkCurrent() {
+    if (!q) return;
+    const value = answers[q.id];
+    if (AI_TYPES.has(q.type) && typeof value === "string" && value.trim()) {
+      setAiLoadingId(q.id);
+      try {
+        const grade = await gradeAnswerWithAI({
+          data: {
+            prompt: q.prompt,
+            studentAnswer: value,
+            expectedAnswer: Array.isArray(q.answer) ? q.answer.join(" | ") : (q.answer ?? null),
+            kind: q.type === "fill" ? "fill" : "text",
+          },
+        });
+        setAiById((prev) => ({ ...prev, [q.id]: grade }));
+      } catch {
+        // fall back to local grading if the AI is unreachable
+      } finally {
+        setAiLoadingId(null);
+      }
+    }
+    setRevealed((r) => ({ ...r, [q.id]: true }));
   }
 
   useEffect(() => {
@@ -91,6 +139,7 @@ export function QuestionRunner({
   function retry() {
     setAnswers({});
     setRevealed({});
+    setAiById({});
     setIndex(0);
     setChecked(null);
     setSecondsLeft(timeLimitMinutes ? timeLimitMinutes * 60 : null);
@@ -106,6 +155,7 @@ export function QuestionRunner({
       setRevealed((r) => ({ ...r, [id]: true }));
     }
   }
+
 
   const resultById = useMemo(() => {
     const map = new Map<string, QuestionResult>();
@@ -123,7 +173,15 @@ export function QuestionRunner({
 
   // ---------- Result screen ----------
   if (checked) {
-    const graded = gradeAll(questions, checked.answers);
+    const graded = {
+      score: checked.score,
+      maxScore: checked.maxScore,
+      percentage: checked.percentage,
+      correctCount: checked.results.filter((r) => r.correct === true).length,
+      wrongCount: checked.results.filter((r) => r.correct === false).length,
+      needsReview: checked.needsReview,
+    };
+
     const passed = graded.percentage >= (passScore ?? 50);
     return (
       <div className="space-y-4" key={attemptKey}>
@@ -204,7 +262,7 @@ export function QuestionRunner({
 
   // ---------- One question at a time ----------
   const answeredCount = Object.keys(revealed).length;
-  const stepResult = isRevealed ? gradeQuestion(q, answers[q.id]) : null;
+  const stepResult = isRevealed ? resultFor(q, answers[q.id]) : null;
   const hasAnswer = (() => {
     const v = answers[q.id];
     if (Array.isArray(v)) return v.length > 0;
@@ -263,27 +321,36 @@ export function QuestionRunner({
             {stepResult && (
               <div
                 className={cn(
-                  "flex items-center gap-2 rounded-2xl border-2 px-4 py-3 text-sm font-black",
+                  "space-y-1.5 rounded-2xl border-2 px-4 py-3 text-sm font-black",
                   stepResult.correct === true && "border-emerald-500/50 bg-emerald-500/10 text-emerald-700",
                   stepResult.correct === false && "border-destructive/50 bg-destructive/10 text-destructive",
                   stepResult.correct === null && "border-amber-500/50 bg-amber-500/10 text-amber-700",
                 )}
               >
-                {stepResult.correct === true ? (
-                  <>
-                    <CheckCircle2 className="h-5 w-5" /> Correct!
-                  </>
-                ) : stepResult.correct === false ? (
-                  <>
-                    <XCircle className="h-5 w-5" /> Wrong — correct answer: {stepResult.correctAnswer}
-                  </>
-                ) : (
-                  <>
-                    <HelpCircle className="h-5 w-5" /> Saved — your teacher will review it
-                  </>
+                <div className="flex items-center gap-2">
+                  {stepResult.correct === true ? (
+                    <>
+                      <CheckCircle2 className="h-5 w-5" /> Correct!
+                    </>
+                  ) : stepResult.correct === false ? (
+                    <>
+                      <XCircle className="h-5 w-5" /> Wrong — correct answer: {stepResult.correctAnswer}
+                    </>
+                  ) : (
+                    <>
+                      <HelpCircle className="h-5 w-5" /> Saved — your teacher will review it
+                    </>
+                  )}
+                </div>
+                {aiById[q.id]?.feedback && (
+                  <p className="flex items-start gap-2 text-[13px] font-bold leading-6 opacity-90">
+                    <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    {aiById[q.id]?.feedback}
+                  </p>
                 )}
               </div>
             )}
+
 
             {isRevealed && q.explanation && (
               <div dir="auto" className="flex gap-2 rounded-xl border border-sky-500/35 bg-sky-500/[0.08] px-3 py-2.5 text-[13px] leading-7">
@@ -305,11 +372,18 @@ export function QuestionRunner({
               {!isRevealed ? (
                 <Button
                   className="font-black min-w-32"
-                  disabled={!hasAnswer}
-                  onClick={() => setRevealed((r) => ({ ...r, [q.id]: true }))}
+                  disabled={!hasAnswer || aiLoadingId === q.id}
+                  onClick={() => void checkCurrent()}
                 >
-                  Check
+                  {aiLoadingId === q.id ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" /> Checking...
+                    </>
+                  ) : (
+                    "Check"
+                  )}
                 </Button>
+
               ) : index < total - 1 ? (
                 <Button className="font-black min-w-32" onClick={() => setIndex((i) => i + 1)}>
                   Next <ChevronRight className="h-4 w-4 ml-1" />
@@ -339,7 +413,7 @@ export function QuestionRunner({
       <div className="flex flex-wrap gap-1.5">
         {questions.map((qq, i) => {
           const done = !!revealed[qq.id];
-          const ok = done ? gradeQuestion(qq, answers[qq.id]).correct : undefined;
+          const ok = done ? resultFor(qq, answers[qq.id]).correct : undefined;
           return (
             <button
               key={qq.id}
