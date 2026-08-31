@@ -262,7 +262,7 @@ export function QuestionRunner({
 
   // ---------- One question at a time ----------
   const answeredCount = Object.keys(revealed).length;
-  const stepResult = isRevealed ? gradeQuestion(q, answers[q.id]) : null;
+  const stepResult = isRevealed ? resultFor(q, answers[q.id]) : null;
   const hasAnswer = (() => {
     const v = answers[q.id];
     if (Array.isArray(v)) return v.length > 0;
