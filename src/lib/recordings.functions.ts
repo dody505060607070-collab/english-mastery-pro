@@ -32,11 +32,13 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
     const { data, error } = await query;
     if (error) throw new Error(error.message);
     const recordings = data ?? [];
+    const isR2 = (v?: string | null) => !!v && v.startsWith("r2:");
+    const isStored = (v?: string | null) => !!v && !v.startsWith("http") && !isR2(v);
     const paths = recordings.flatMap((recording) => {
       const list: string[] = [];
-      if (recording.video_url && !recording.video_url.startsWith("http")) list.push(recording.video_url);
+      if (isStored(recording.video_url)) list.push(recording.video_url as string);
       const thumb = (recording as any).thumbnail_url as string | null;
-      if (thumb && !thumb.startsWith("http")) list.push(thumb);
+      if (isStored(thumb)) list.push(thumb as string);
       return list;
     });
     const signedByPath = new Map<string, string>();
@@ -47,20 +49,31 @@ export const getStudentRecordings = createServerFn({ method: "GET" })
         if (item.path && item.signedUrl) signedByPath.set(item.path, item.signedUrl);
       });
     }
+    const r2Map = new Map<string, string>();
+    const r2Keys = recordings
+      .flatMap((r) => [r.video_url, (r as any).thumbnail_url as string | null])
+      .filter((v): v is string => isR2(v));
+    if (r2Keys.length > 0) {
+      const { r2PlaybackUrl } = await import("@/lib/r2.server");
+      await Promise.all(
+        [...new Set(r2Keys)].map(async (v) => {
+          try {
+            r2Map.set(v, await r2PlaybackUrl(v.slice(3)));
+          } catch {
+            /* R2 not configured */
+          }
+        }),
+      );
+    }
+    const resolve = (v?: string | null) =>
+      !v ? null : v.startsWith("http") ? v : isR2(v) ? r2Map.get(v) ?? null : signedByPath.get(v) ?? null;
     return recordings.map((recording) => ({
       ...recording,
-      playback_url: recording.video_url?.startsWith("http")
-        ? recording.video_url
-        : recording.video_url
-          ? signedByPath.get(recording.video_url) ?? null
-          : null,
-      cover_url: (recording as any).thumbnail_url?.startsWith("http")
-        ? (recording as any).thumbnail_url
-        : (recording as any).thumbnail_url
-          ? signedByPath.get((recording as any).thumbnail_url) ?? null
-          : null,
+      playback_url: resolve(recording.video_url),
+      cover_url: resolve((recording as any).thumbnail_url),
     }));
   });
+
 
 /** Admin view: every recording. */
 export const listRecordings = createServerFn({ method: "GET" })
@@ -77,10 +90,11 @@ export const listRecordings = createServerFn({ method: "GET" })
       .order("recorded_at", { ascending: false });
     if (error) throw new Error(error.message);
     const rows = data ?? [];
+    const isR2 = (v?: string | null) => !!v && v.startsWith("r2:");
     const paths = rows.flatMap((r) => {
       const list: string[] = [];
-      if (r.video_url && !r.video_url.startsWith("http")) list.push(r.video_url);
-      if (r.thumbnail_url && !r.thumbnail_url.startsWith("http")) list.push(r.thumbnail_url);
+      if (r.video_url && !r.video_url.startsWith("http") && !isR2(r.video_url)) list.push(r.video_url);
+      if (r.thumbnail_url && !r.thumbnail_url.startsWith("http") && !isR2(r.thumbnail_url)) list.push(r.thumbnail_url);
       return list;
     });
     const signedByPath = new Map<string, string>();
@@ -91,8 +105,24 @@ export const listRecordings = createServerFn({ method: "GET" })
         if (item.path && item.signedUrl) signedByPath.set(item.path, item.signedUrl);
       });
     }
-    const resolve = (v: string | null) => (!v ? null : v.startsWith("http") ? v : signedByPath.get(v) ?? null);
+    const r2Map = new Map<string, string>();
+    const r2Values = [...new Set(rows.flatMap((r) => [r.video_url, r.thumbnail_url]).filter((v): v is string => isR2(v)))];
+    if (r2Values.length > 0) {
+      const { r2PlaybackUrl } = await import("@/lib/r2.server");
+      await Promise.all(
+        r2Values.map(async (v) => {
+          try {
+            r2Map.set(v, await r2PlaybackUrl(v.slice(3)));
+          } catch {
+            /* R2 not configured */
+          }
+        }),
+      );
+    }
+    const resolve = (v: string | null) =>
+      !v ? null : v.startsWith("http") ? v : isR2(v) ? r2Map.get(v) ?? null : signedByPath.get(v) ?? null;
     return rows.map((r) => ({ ...r, playback_url: resolve(r.video_url), cover_url: resolve(r.thumbnail_url) }));
+
   });
 
 /** Files sitting in storage that were uploaded but never linked to a recording row. */
@@ -233,13 +263,18 @@ export const deleteRecording = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("lecture_recordings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
 
-    const storedPaths = [recording?.video_url, recording?.thumbnail_url].filter(
-      (path): path is string => Boolean(path && !path.startsWith("http")),
-    );
+    const all = [recording?.video_url, recording?.thumbnail_url].filter((v): v is string => Boolean(v));
+    const r2Keys = all.filter((v) => v.startsWith("r2:")).map((v) => v.slice(3));
+    const storedPaths = all.filter((v) => !v.startsWith("http") && !v.startsWith("r2:"));
     if (storedPaths.length > 0) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { error: storageError } = await supabaseAdmin.storage.from("content").remove(storedPaths);
       if (storageError) throw new Error(`The recording was deleted, but its stored file could not be removed: ${storageError.message}`);
     }
+    if (r2Keys.length > 0) {
+      const { deleteR2Object } = await import("@/lib/r2.server");
+      await Promise.all(r2Keys.map((k) => deleteR2Object(k).catch(() => undefined)));
+    }
+
     return { success: true };
   });

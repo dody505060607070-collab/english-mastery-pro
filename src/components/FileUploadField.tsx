@@ -8,6 +8,7 @@ import { Loader2, Upload, X, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { ACCEPT_MAP, uploadFile, useMediaUrl, type StorageBucket } from "@/lib/storage";
 import { getStorageBudget } from "@/lib/storage-budget.functions";
+import { createR2UploadUrl } from "@/lib/r2.functions";
 
 const MAX_BYTES = 2 * 1024 * 1024 * 1024; // 2GB
 
@@ -23,6 +24,7 @@ export function FileUploadField({
   folder = "",
   capture,
   budgetGuard = false,
+  r2 = false,
 }: {
   label: string;
   value: string;
@@ -33,6 +35,8 @@ export function FileUploadField({
   capture?: boolean;
   /** Blocks the upload when the monthly / total Cloud storage budget is used up. */
   budgetGuard?: boolean;
+  /** Sends the file to Cloudflare R2 instead of Cloud storage (lecture videos). */
+  r2?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -40,6 +44,25 @@ export function FileUploadField({
   const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
   const preview = useMediaUrl(value, bucket);
   const checkBudget = useServerFn(getStorageBudget);
+  const requestR2Url = useServerFn(createR2UploadUrl);
+
+  /** Direct browser → R2 upload with real progress. */
+  function putToR2(url: string, file: File) {
+    return new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", url, true);
+      if (file.type) xhr.setRequestHeader("Content-Type", file.type);
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) setProgress(Math.round((e.loaded / e.total) * 100));
+      };
+      xhr.onload = () =>
+        xhr.status >= 200 && xhr.status < 300
+          ? resolve()
+          : reject(new Error(`Upload failed (${xhr.status})`));
+      xhr.onerror = () => reject(new Error("Network error while uploading"));
+      xhr.send(file);
+    });
+  }
 
   async function handleFiles(files: FileList | null) {
     const file = files?.[0];
@@ -49,7 +72,7 @@ export function FileUploadField({
       return;
     }
     setBlockedMsg(null);
-    if (budgetGuard) {
+    if (budgetGuard && !r2) {
       try {
         const b = await checkBudget();
         const fileMb = file.size / (1024 * 1024);
@@ -67,9 +90,18 @@ export function FileUploadField({
     setBusy(true);
     setProgress(0);
     try {
-      const path = await uploadFile(bucket, file, folder, setProgress);
-      onChange(path);
-      toast.success("File uploaded");
+      if (r2) {
+        const { uploadUrl, storedValue } = await requestR2Url({
+          data: { filename: file.name, contentType: file.type || null },
+        });
+        await putToR2(uploadUrl, file);
+        onChange(storedValue);
+        toast.success("Video uploaded to R2");
+      } else {
+        const path = await uploadFile(bucket, file, folder, setProgress);
+        onChange(path);
+        toast.success("File uploaded");
+      }
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -78,6 +110,7 @@ export function FileUploadField({
       if (inputRef.current) inputRef.current.value = "";
     }
   }
+
 
 
   return (
