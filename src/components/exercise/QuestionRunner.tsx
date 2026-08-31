@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Clock, Loader2, HelpCircle, Lightbulb, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { gradeAnswerWithAI, type AiGrade } from "@/lib/ai-grade.functions";
 import {
   gradeAll,
   gradeQuestion,
@@ -19,9 +20,13 @@ import {
   type QuestionResult,
 } from "@/lib/exercise-types";
 
+/** Types the AI grades instead of plain string matching. */
+const AI_TYPES = new Set(["text", "fill"]);
+
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
+
 
 export interface RunnerSubmitPayload {
   answers: Record<string, AnswerValue>;
