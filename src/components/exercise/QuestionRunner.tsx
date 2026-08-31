@@ -173,7 +173,15 @@ export function QuestionRunner({
 
   // ---------- Result screen ----------
   if (checked) {
-    const graded = gradeAll(questions, checked.answers);
+    const graded = {
+      score: checked.score,
+      maxScore: checked.maxScore,
+      percentage: checked.percentage,
+      correctCount: checked.results.filter((r) => r.correct === true).length,
+      wrongCount: checked.results.filter((r) => r.correct === false).length,
+      needsReview: checked.needsReview,
+    };
+
     const passed = graded.percentage >= (passScore ?? 50);
     return (
       <div className="space-y-4" key={attemptKey}>
