@@ -103,16 +103,11 @@ export async function r2PlaybackUrl(key: string, expiresIn = 60 * 60 * 6): Promi
 }
 
 export async function deleteR2Object(key: string): Promise<void> {
-  const url = await presignR2("PUT", key, 300); // presign shape reused for DELETE below
-  void url;
-  const cfg = readR2Config();
-  const signed = await presignR2("GET", key, 300, cfg);
-  void signed;
-  // DELETE needs its own signature.
-  const del = await presignDelete(key, cfg);
+  const del = await presignDelete(key, readR2Config());
   const res = await fetch(del, { method: "DELETE" });
   if (!res.ok && res.status !== 404) throw new Error(`Could not delete the video file (${res.status})`);
 }
+
 
 async function presignDelete(key: string, cfg: R2Config): Promise<string> {
   // Same algorithm with the DELETE verb.
