@@ -363,11 +363,18 @@ export function QuestionRunner({
               {!isRevealed ? (
                 <Button
                   className="font-black min-w-32"
-                  disabled={!hasAnswer}
-                  onClick={() => setRevealed((r) => ({ ...r, [q.id]: true }))}
+                  disabled={!hasAnswer || aiLoadingId === q.id}
+                  onClick={() => void checkCurrent()}
                 >
-                  Check
+                  {aiLoadingId === q.id ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" /> Checking...
+                    </>
+                  ) : (
+                    "Check"
+                  )}
                 </Button>
+
               ) : index < total - 1 ? (
                 <Button className="font-black min-w-32" onClick={() => setIndex((i) => i + 1)}>
                   Next <ChevronRight className="h-4 w-4 ml-1" />
