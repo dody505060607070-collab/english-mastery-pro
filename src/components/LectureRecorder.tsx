@@ -1374,8 +1374,9 @@ export function LectureRecorder({
       {recovery && isOwner && (
         <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
-            Recording finished{pendingDuration ? ` (${fmt(pendingDuration)})` : ""} — nothing is published yet. Choose
-            what to do: save it, continue with a next part, or delete it.
+            Recording finished{pendingDuration ? ` (${fmt(pendingDuration)})` : ""} — nothing is published yet. Save
+            uploads the video to Cloudflare R2; Continue uploads then starts the next part; Delete removes the local
+            copy.
           </p>
           <video src={recovery.url} controls preload="metadata" className="w-full rounded-lg border bg-black" />
           <div className="flex flex-wrap gap-2">
