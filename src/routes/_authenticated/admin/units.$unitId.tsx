@@ -412,6 +412,7 @@ function ContentDialog({
                     }}
                     bucket="content"
                     kind="image"
+                    r2
                     folder={`units/${unitId}/vocab`}
                   />
                   <FileUploadField
@@ -424,6 +425,7 @@ function ContentDialog({
                     }}
                     bucket="content"
                     kind="audio"
+                    r2
                     folder={`units/${unitId}/vocab`}
                   />
                   <FileUploadField
@@ -436,6 +438,7 @@ function ContentDialog({
                     }}
                     bucket="content"
                     kind="audio"
+                    r2
                     folder={`units/${unitId}/vocab`}
                   />
                   <VocabAudioButton

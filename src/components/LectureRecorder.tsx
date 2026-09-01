@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { saveRecording } from "@/lib/recordings.functions";
 import { createR2UploadUrl } from "@/lib/r2.functions";
+import { getStorageBudget } from "@/lib/storage-budget.functions";
 
 export type RecQuality = "normal" | "high" | "max";
 
@@ -396,6 +397,7 @@ export function LectureRecorder({
   const [micTestLevel, setMicTestLevel] = useState(0);
   const micTestRef = useRef<{ stop: () => void } | null>(null);
   const requestR2Url = useServerFn(createR2UploadUrl);
+  const checkBudget = useServerFn(getStorageBudget);
   useEffect(() => {
     S.listeners.add(force);
     return () => {
@@ -1037,8 +1039,20 @@ export function LectureRecorder({
       }
       const fileName = `lecture-recovered-${Date.now()}.${ext}`;
       const file = new File([blob], fileName, { type });
+      try {
+        const budget = await checkBudget();
+        const fileMb = file.size / (1024 * 1024);
+        if (budget.available && (budget.blocked || fileMb > budget.totalRemainingMb)) {
+          toast.error(
+            "Your free 10GB of Cloudflare storage is full. Download this recording and upload it to YouTube as Unlisted, then paste the link in Recordings.",
+          );
+          return;
+        }
+      } catch {
+        /* budget unavailable — continue */
+      }
       const { uploadUrl, storedValue } = await requestR2Url({
-        data: { filename: file.name, contentType: file.type || null },
+        data: { filename: file.name, contentType: file.type || null, folder: "recordings" },
       });
       await putToR2(uploadUrl, file, (progress) => {
         if (mountedRef.current) setUploadProgress(progress);
