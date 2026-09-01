@@ -992,13 +992,14 @@ export function LectureRecorder({
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
-    const duration = Math.floor((Date.now() - startedAtRef.current) / 1000);
+    const durationMs = Date.now() - startedAtRef.current;
+    const duration = Math.floor(durationMs / 1000);
     const mime = mimeRef.current;
     const savedBackup = await backupRead();
     const persistedChunks = savedBackup?.chunks ?? [];
     const allChunks = persistedChunks.length > 0 ? [...persistedChunks, ...chunksRef.current] : chunksRef.current;
     const { blob: rawBlob, type, ext } = backupBlob(allChunks, mime);
-    const blob = await repairBlob(rawBlob, type);
+    const blob = await repairBlob(rawBlob, type, durationMs);
 
     chunksRef.current = [];
     if (blob.size < 1000) {
@@ -1043,7 +1044,11 @@ export function LectureRecorder({
         return;
       }
       const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
-      const blob = await repairBlob(rawBlob, type);
+      const blob = await repairBlob(
+        rawBlob,
+        type,
+        Math.max(1000, backup.meta.updatedAt - backup.meta.startedAt),
+      );
 
       if (blob.size < 1000) {
         toast.error("The backup is empty");
