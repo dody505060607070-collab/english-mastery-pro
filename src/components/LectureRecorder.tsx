@@ -1529,7 +1529,7 @@ export function LectureRecorder({
           {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
         </Button>
         <p className="text-[11px] text-muted-foreground">
-          After Stop you get a preview with three choices: Save & publish, Save & continue, or Delete.
+          After Stop you get a preview. Save & publish uploads the video to Cloudflare R2 (not site storage).
         </p>
       </div>
     </div>
