@@ -1534,18 +1534,27 @@ export function LectureRecorder({
           size="sm"
           variant="outline"
           className="w-full gap-2"
-          disabled={starting || (!!st.owner && !isOwner)}
+          disabled={starting || !!unfinished || (!!st.owner && !isOwner)}
           onClick={() => {
             stopMicTest();
             void start();
           }}
         >
           {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Circle className="h-4 w-4 fill-destructive text-destructive" />}
-          {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
+          {starting
+            ? "Opening screen and microphone…"
+            : unfinished
+              ? "Finish the unfinished recording above first"
+              : recording && !isOwner
+                ? "Another lecture is recording…"
+                : "Record lecture screen"}
         </Button>
         <p className="text-[11px] text-muted-foreground">
-          After Stop you get a preview. Save & publish uploads the video to Cloudflare R2 (not site storage).
+          {unfinished
+            ? "There is an unfinished recording backup above — choose Recover & Publish, Download, or Delete Backup to unlock recording."
+            : "After Stop you get a preview. Save & publish uploads the video to Cloudflare R2 (not site storage)."}
         </p>
+
       </div>
     </div>
   );
