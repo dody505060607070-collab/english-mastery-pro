@@ -25,6 +25,7 @@ import {
   deleteLiveSession,
 } from "@/lib/live.functions";
 import { listSections } from "@/lib/admin-manage.functions";
+import { getMyCapabilities } from "@/lib/teacher-perms.functions";
 import { detectPlatform, platformLabel, watchUrl, type StreamPlatform } from "@/lib/stream";
 import { LectureRecorder } from "@/components/LectureRecorder";
 
@@ -54,6 +55,12 @@ const emptyDraft: Draft = {
 function AdminLivePage() {
   const qc = useQueryClient();
   const [draft, setDraft] = useState<Draft | null>(null);
+
+  const { data: myCaps } = useQuery({
+    queryKey: ["my-capabilities"],
+    queryFn: () => getMyCapabilities(),
+  });
+  const canRecord = !!myCaps && (myCaps.isAdmin || myCaps.caps.includes("recordings"));
 
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const { data, isLoading } = useQuery({
@@ -183,6 +190,7 @@ function AdminLivePage() {
                   </Button>
                 </div>
                 </div>
+                {canRecord && (
                 <div className="w-full rounded-xl border bg-muted/30 p-3">
                   <LectureRecorder
                     title={s.title}
@@ -191,6 +199,7 @@ function AdminLivePage() {
                     onSaved={invalidate}
                   />
                 </div>
+                )}
               </CardContent>
             </Card>
 

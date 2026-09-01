@@ -186,7 +186,40 @@ function AdminLayout() {
 
 
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
-          <Outlet />
+          {(() => {
+            if (!account?.isAdmin && !myCaps) {
+              return (
+                <div className="flex justify-center py-24">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                </div>
+              );
+            }
+            const matched = menuItems
+              .filter((i) => i.href !== "/admin")
+              .find((i) => location.pathname.startsWith(i.href));
+            const allowed =
+              !matched ||
+              (matched.adminOnly
+                ? !!account?.isAdmin
+                : account?.isAdmin || myCaps?.isAdmin || !matched.cap
+                  ? true
+                  : (myCaps?.caps ?? []).includes(matched.cap));
+            if (!allowed) {
+              return (
+                <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
+                  <ShieldAlert className="h-10 w-10 text-destructive" />
+                  <h3 className="text-xl font-black">You do not have access to this section</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Ask an administrator to grant you the “{matched?.title}” permission.
+                  </p>
+                  <Button asChild variant="outline" className="mt-2">
+                    <Link to="/admin">Back to Admin Panel</Link>
+                  </Button>
+                </div>
+              );
+            }
+            return <Outlet />;
+          })()}
         </div>
       </main>
     </div>
