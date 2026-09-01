@@ -1,10 +1,11 @@
 import { useEffect, useReducer, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Check, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+import { createR2UploadUrl } from "@/lib/r2.functions";
 
 export type RecQuality = "normal" | "high" | "max";
 
@@ -154,6 +155,24 @@ function fmt(sec: number) {
     .toString()
     .padStart(2, "0");
   return `${m}:${s}`;
+}
+
+/** Direct browser → Cloudflare R2 upload with real progress. */
+function putToR2(url: string, file: File, onProgress?: (pct: number) => void) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url, true);
+    if (file.type) xhr.setRequestHeader("Content-Type", file.type);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress?.(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve()
+        : reject(new Error(`Upload failed (${xhr.status})`));
+    xhr.onerror = () => reject(new Error("Network error while uploading"));
+    xhr.send(file);
+  });
 }
 
 /** Picks the best container/codec the current browser can actually record. */
@@ -376,6 +395,7 @@ export function LectureRecorder({
   const [micTestOn, setMicTestOn] = useState(false);
   const [micTestLevel, setMicTestLevel] = useState(0);
   const micTestRef = useRef<{ stop: () => void } | null>(null);
+  const requestR2Url = useServerFn(createR2UploadUrl);
   useEffect(() => {
     S.listeners.add(force);
     return () => {
@@ -983,7 +1003,7 @@ export function LectureRecorder({
       setAttemptNo(0);
       patch({ owner: null, pendingDuration: Math.max(1, duration) });
     }
-    toast.info("Recording stopped — choose: Save & publish, Continue, or Delete.");
+    toast.info("Recording stopped — choose: Save & publish to Cloudflare R2, Continue, or Delete.");
     finalizingRef.current = false;
   }
 
@@ -1017,9 +1037,13 @@ export function LectureRecorder({
       }
       const fileName = `lecture-recovered-${Date.now()}.${ext}`;
       const file = new File([blob], fileName, { type });
-      const path = await uploadFile("content", file, "recordings", (progress) => {
+      const { uploadUrl, storedValue } = await requestR2Url({
+        data: { filename: file.name, contentType: file.type || null },
+      });
+      await putToR2(uploadUrl, file, (progress) => {
         if (mountedRef.current) setUploadProgress(progress);
       });
+      const path = storedValue;
       const duration = Math.max(1, Math.floor((backup.meta.updatedAt - backup.meta.startedAt) / 1000));
       await saveRecording({
         data: {
@@ -1039,7 +1063,7 @@ export function LectureRecorder({
         setUnfinished(null);
         patch({ saved: { title: backup.meta.title || "Lecture", duration }, owner: null });
       }
-      toast.success(recovery ? "Recording saved and published" : "Recovered recording uploaded and published");
+      toast.success(recovery ? "Recording saved and published to Cloudflare R2" : "Recovered recording uploaded and published to Cloudflare R2");
       onSaved?.();
       if (continueAfter) await start();
     } catch (e) {
@@ -1350,8 +1374,9 @@ export function LectureRecorder({
       {recovery && isOwner && (
         <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-3">
           <p className="text-xs font-bold">
-            Recording finished{pendingDuration ? ` (${fmt(pendingDuration)})` : ""} — nothing is published yet. Choose
-            what to do: save it, continue with a next part, or delete it.
+            Recording finished{pendingDuration ? ` (${fmt(pendingDuration)})` : ""} — nothing is published yet. Save
+            uploads the video to Cloudflare R2; Continue uploads then starts the next part; Delete removes the local
+            copy.
           </p>
           <video src={recovery.url} controls preload="metadata" className="w-full rounded-lg border bg-black" />
           <div className="flex flex-wrap gap-2">
@@ -1505,7 +1530,7 @@ export function LectureRecorder({
           {starting ? "Opening screen and microphone…" : recording && !isOwner ? "Another lecture is recording…" : "Record lecture screen"}
         </Button>
         <p className="text-[11px] text-muted-foreground">
-          After Stop you get a preview with three choices: Save & publish, Save & continue, or Delete.
+          After Stop you get a preview. Save & publish uploads the video to Cloudflare R2 (not site storage).
         </p>
       </div>
     </div>
