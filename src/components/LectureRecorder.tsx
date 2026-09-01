@@ -1003,7 +1003,7 @@ export function LectureRecorder({
       setAttemptNo(0);
       patch({ owner: null, pendingDuration: Math.max(1, duration) });
     }
-    toast.info("Recording stopped — choose: Save & publish, Continue, or Delete.");
+    toast.info("Recording stopped — choose: Save & publish to Cloudflare R2, Continue, or Delete.");
     finalizingRef.current = false;
   }
 
