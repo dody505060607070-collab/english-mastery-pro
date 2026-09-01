@@ -196,15 +196,26 @@ function pickMime() {
 }
 
 /**
- * MediaRecorder WebM files have no duration/Cues, so players buffer forever a few
- * minutes in. This rewrites the metadata so long recordings stream and seek fine.
+ * MediaRecorder WebM files carry no duration in their header, so most players
+ * (and Chrome itself) report only the first few minutes of a long lecture and
+ * refuse to seek past it. We patch the real duration (measured by our own timer)
+ * straight into the header — a cheap, streaming-safe operation that works for
+ * multi-GB files, unlike full re-muxing which silently fails on long lectures.
  */
-async function repairBlob(blob: Blob, type: string): Promise<Blob> {
+async function repairBlob(blob: Blob, type: string, durationMs?: number): Promise<Blob> {
   if (!type.includes("webm")) return blob;
+  if (durationMs && durationMs > 1000) {
+    try {
+      const { default: fixDuration } = await import("fix-webm-duration");
+      const fixed = await fixDuration(new Blob([blob], { type }), Math.round(durationMs));
+      if (fixed && fixed.size >= blob.size) return fixed;
+    } catch {
+      /* fall through to the re-muxing repair below */
+    }
+  }
   try {
-    // This implementation streams the source blob and supports files beyond 2GB.
-    // Always repair it: an unfinalized WebM commonly reports only the first few
-    // seconds and then buffers forever even though every recorded chunk exists.
+    // Fallback: full re-mux (slower, memory heavy — only used when the duration
+    // header patch is unavailable).
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
     return fixed.size >= blob.size * 0.98 ? fixed : blob;
@@ -212,6 +223,7 @@ async function repairBlob(blob: Blob, type: string): Promise<Blob> {
     return blob;
   }
 }
+
 
 
 
