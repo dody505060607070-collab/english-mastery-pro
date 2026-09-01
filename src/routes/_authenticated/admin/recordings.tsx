@@ -309,6 +309,7 @@ function AdminRecordingsPage() {
                 bucket="content"
                 kind="image"
                 folder="recording-covers"
+                r2
               />
               <div className="space-y-1.5">
                 <Label>Level (optional)</Label>
@@ -476,16 +477,15 @@ function StorageBudgetBar() {
     queryFn: () => getStorageBudget(),
     staleTime: 60_000,
   });
-  if (!data) return null;
-  const pct = Math.min(100, Math.round((data.monthlyUsedMb / data.monthlyLimitMb) * 100));
+  if (!data || !data.available) return null;
+  const pct = Math.min(100, Math.round((data.totalUsedMb / data.totalLimitMb) * 100));
+  const usedGb = Math.round((data.totalUsedMb / 1024) * 100) / 100;
   return (
     <Card className={data.blocked ? "border-destructive/50" : ""}>
       <CardContent className="p-4 space-y-2">
         <div className="flex items-center justify-between text-sm font-bold">
-          <span>Cloud video storage this month</span>
-          <span>
-            {data.monthlyUsedMb}MB / {data.monthlyLimitMb}MB
-          </span>
+          <span>Cloudflare R2 storage (free 10GB)</span>
+          <span>{usedGb}GB / 10GB</span>
         </div>
         <div className="h-2 w-full rounded-full bg-muted">
           <div
@@ -494,10 +494,9 @@ function StorageBudgetBar() {
           />
         </div>
         <p className="text-xs text-muted-foreground">
-          Total stored: {data.totalUsedMb}MB / {data.totalLimitMb}MB.{" "}
           {data.blocked
-            ? "Budget reached — uploads are blocked. Upload the video to YouTube as Unlisted and paste the link below."
-            : "To keep credits near zero, prefer unlisted YouTube links for long lectures."}
+            ? "Your 10GB of Cloudflare storage is full — uploads are blocked. Upload the video to YouTube as Unlisted and paste the link below."
+            : "Videos are stored on Cloudflare R2, so no site credits are used."}
         </p>
       </CardContent>
     </Card>
