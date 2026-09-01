@@ -25,6 +25,7 @@ import {
   deleteLiveSession,
 } from "@/lib/live.functions";
 import { listSections } from "@/lib/admin-manage.functions";
+import { getMyCapabilities } from "@/lib/teacher-perms.functions";
 import { detectPlatform, platformLabel, watchUrl, type StreamPlatform } from "@/lib/stream";
 import { LectureRecorder } from "@/components/LectureRecorder";
 
@@ -189,6 +190,7 @@ function AdminLivePage() {
                   </Button>
                 </div>
                 </div>
+                {canRecord && (
                 <div className="w-full rounded-xl border bg-muted/30 p-3">
                   <LectureRecorder
                     title={s.title}
@@ -197,6 +199,7 @@ function AdminLivePage() {
                     onSaved={invalidate}
                   />
                 </div>
+                )}
               </CardContent>
             </Card>
 
