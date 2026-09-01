@@ -1037,9 +1037,13 @@ export function LectureRecorder({
       }
       const fileName = `lecture-recovered-${Date.now()}.${ext}`;
       const file = new File([blob], fileName, { type });
-      const path = await uploadFile("content", file, "recordings", (progress) => {
+      const { uploadUrl, storedValue } = await requestR2Url({
+        data: { filename: file.name, contentType: file.type || null },
+      });
+      await putToR2(uploadUrl, file, (progress) => {
         if (mountedRef.current) setUploadProgress(progress);
       });
+      const path = storedValue;
       const duration = Math.max(1, Math.floor((backup.meta.updatedAt - backup.meta.startedAt) / 1000));
       await saveRecording({
         data: {
