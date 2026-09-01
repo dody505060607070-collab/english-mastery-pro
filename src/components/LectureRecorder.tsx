@@ -395,6 +395,7 @@ export function LectureRecorder({
   const [micTestOn, setMicTestOn] = useState(false);
   const [micTestLevel, setMicTestLevel] = useState(0);
   const micTestRef = useRef<{ stop: () => void } | null>(null);
+  const requestR2Url = useServerFn(createR2UploadUrl);
   useEffect(() => {
     S.listeners.add(force);
     return () => {
