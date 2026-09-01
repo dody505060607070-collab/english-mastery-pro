@@ -1,10 +1,11 @@
 import { useEffect, useReducer, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Check, Circle, Download, Loader2, Mic, MicOff, MonitorUp, Pause, Play, RotateCcw, Square, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+import { createR2UploadUrl } from "@/lib/r2.functions";
 
 export type RecQuality = "normal" | "high" | "max";
 
