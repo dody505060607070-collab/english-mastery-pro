@@ -178,7 +178,7 @@ export async function r2UsedBytes(): Promise<number> {
     const truncated = /<IsTruncated>true<\/IsTruncated>/.test(xml);
     const next = xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/);
     if (!truncated || !next) break;
-    token = next[1].replace(/&amp;/g, "&");
+    token = (next[1] ?? "").replace(/&amp;/g, "&");
   }
   return total;
 }
