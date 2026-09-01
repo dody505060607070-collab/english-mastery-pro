@@ -187,6 +187,13 @@ function AdminLayout() {
 
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
           {(() => {
+            if (!account?.isAdmin && !myCaps) {
+              return (
+                <div className="flex justify-center py-24">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                </div>
+              );
+            }
             const matched = menuItems
               .filter((i) => i.href !== "/admin")
               .find((i) => location.pathname.startsWith(i.href));
