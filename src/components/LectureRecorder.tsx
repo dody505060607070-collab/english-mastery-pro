@@ -299,6 +299,10 @@ async function repairBlob(blob: Blob, type: string, durationMs?: number): Promis
       /* fall through to the re-muxing repair below */
     }
   }
+  // A full browser-side re-mux can exhaust memory and appear to freeze when
+  // recovering a long lecture. The original WebM is still playable/uploadable,
+  // so only use the expensive fallback for smaller recordings.
+  if (blob.size > 64 * 1024 * 1024) return blob;
   try {
     // Fallback: full re-mux (slower, memory heavy — only used when the duration
     // header patch is unavailable).
@@ -497,6 +501,7 @@ export function LectureRecorder({
   const [micTestLevel, setMicTestLevel] = useState(0);
   const micTestRef = useRef<{ stop: () => void } | null>(null);
   const requestR2Url = useServerFn(createR2UploadUrl);
+  const persistRecording = useServerFn(saveRecording);
   const checkBudget = useServerFn(getStorageBudget);
   useEffect(() => {
     S.listeners.add(force);
@@ -1217,7 +1222,7 @@ export function LectureRecorder({
       });
       const path = storedValue;
       const duration = Math.max(1, Math.floor((backup.meta.updatedAt - backup.meta.startedAt) / 1000));
-      await saveRecording({
+      await persistRecording({
         data: {
           title: recovery ? backup.meta.title || "Lecture" : `${backup.meta.title || "Lecture"} (recovered)`,
           liveSessionId: backup.meta.liveSessionId || null,
