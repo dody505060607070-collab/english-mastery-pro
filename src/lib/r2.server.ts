@@ -134,3 +134,51 @@ async function presignDelete(key: string, cfg: R2Config): Promise<string> {
   const signature = hex(await hmac(kSigning, stringToSign));
   return `https://${host}${path}?${params.toString()}&X-Amz-Signature=${signature}`;
 }
+
+/** Signed GET for a bucket listing page (S3 ListObjectsV2). */
+async function presignList(cfg: R2Config, extra: Record<string, string>): Promise<string> {
+  const host = `${cfg.accountId}.r2.cloudflarestorage.com`;
+  const path = `/${cfg.bucket}`;
+  const now = new Date();
+  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, "");
+  const dateStamp = amzDate.slice(0, 8);
+  const scope = `${dateStamp}/auto/s3/aws4_request`;
+  const params = new URLSearchParams({
+    "list-type": "2",
+    "max-keys": "1000",
+    ...extra,
+    "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+    "X-Amz-Credential": `${cfg.accessKeyId}/${scope}`,
+    "X-Amz-Date": amzDate,
+    "X-Amz-Expires": "300",
+    "X-Amz-SignedHeaders": "host",
+  });
+  params.sort();
+  const canonicalRequest = ["GET", path, params.toString(), `host:${host}\n`, "host", "UNSIGNED-PAYLOAD"].join("\n");
+  const stringToSign = ["AWS4-HMAC-SHA256", amzDate, scope, await sha256Hex(canonicalRequest)].join("\n");
+  const kDate = await hmac(enc.encode(`AWS4${cfg.secretAccessKey}`), dateStamp);
+  const kRegion = await hmac(kDate, "auto");
+  const kService = await hmac(kRegion, "s3");
+  const kSigning = await hmac(kService, "aws4_request");
+  const signature = hex(await hmac(kSigning, stringToSign));
+  return `https://${host}${path}?${params.toString()}&X-Amz-Signature=${signature}`;
+}
+
+/** Total bytes currently stored in the R2 bucket (all objects). */
+export async function r2UsedBytes(): Promise<number> {
+  const cfg = readR2Config();
+  let token: string | undefined;
+  let total = 0;
+  for (let page = 0; page < 50; page++) {
+    const url = await presignList(cfg, token ? { "continuation-token": token } : {});
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Could not read R2 usage (${res.status})`);
+    const xml = await res.text();
+    for (const m of xml.matchAll(/<Size>(\d+)<\/Size>/g)) total += Number(m[1]);
+    const truncated = /<IsTruncated>true<\/IsTruncated>/.test(xml);
+    const next = xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/);
+    if (!truncated || !next) break;
+    token = (next[1] ?? "").replace(/&amp;/g, "&");
+  }
+  return total;
+}

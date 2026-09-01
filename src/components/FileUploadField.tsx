@@ -13,7 +13,7 @@ import { createR2UploadUrl } from "@/lib/r2.functions";
 const MAX_BYTES = 2 * 1024 * 1024 * 1024; // 2GB
 
 const OVER_BUDGET_MSG =
-  "Upload stopped to protect your credits. Please upload this video to YouTube as Unlisted and paste the link here instead.";
+  "Your free 10GB of Cloudflare R2 storage is full. Please upload this video to YouTube as Unlisted and paste the link here instead.";
 
 export function FileUploadField({
   label,
@@ -72,12 +72,12 @@ export function FileUploadField({
       return;
     }
     setBlockedMsg(null);
-    if (budgetGuard && !r2) {
+    if (budgetGuard || r2) {
       try {
         const b = await checkBudget();
         const fileMb = file.size / (1024 * 1024);
-        if (b.blocked || fileMb > b.monthlyRemainingMb || fileMb > b.totalRemainingMb) {
-          const msg = `${OVER_BUDGET_MSG} (Used this month: ${b.monthlyUsedMb}MB / ${b.monthlyLimitMb}MB — total: ${b.totalUsedMb}MB / ${b.totalLimitMb}MB)`;
+        if (b.available && (b.blocked || fileMb > b.totalRemainingMb)) {
+          const msg = `${OVER_BUDGET_MSG} (Used: ${b.totalUsedMb}MB / ${b.totalLimitMb}MB)`;
           setBlockedMsg(msg);
           toast.error(msg);
           if (inputRef.current) inputRef.current.value = "";
@@ -92,11 +92,11 @@ export function FileUploadField({
     try {
       if (r2) {
         const { uploadUrl, storedValue } = await requestR2Url({
-          data: { filename: file.name, contentType: file.type || null },
+          data: { filename: file.name, contentType: file.type || null, folder: folder || "media" },
         });
         await putToR2(uploadUrl, file);
         onChange(storedValue);
-        toast.success("Video uploaded to R2");
+        toast.success("Uploaded to Cloudflare R2");
       } else {
         const path = await uploadFile(bucket, file, folder, setProgress);
         onChange(path);
