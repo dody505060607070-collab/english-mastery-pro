@@ -1063,7 +1063,7 @@ export function LectureRecorder({
         setUnfinished(null);
         patch({ saved: { title: backup.meta.title || "Lecture", duration }, owner: null });
       }
-      toast.success(recovery ? "Recording saved and published" : "Recovered recording uploaded and published");
+      toast.success(recovery ? "Recording saved and published to Cloudflare R2" : "Recovered recording uploaded and published to Cloudflare R2");
       onSaved?.();
       if (continueAfter) await start();
     } catch (e) {
