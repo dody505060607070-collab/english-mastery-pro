@@ -55,6 +55,12 @@ function AdminLivePage() {
   const qc = useQueryClient();
   const [draft, setDraft] = useState<Draft | null>(null);
 
+  const { data: myCaps } = useQuery({
+    queryKey: ["my-capabilities"],
+    queryFn: () => getMyCapabilities(),
+  });
+  const canRecord = !!myCaps && (myCaps.isAdmin || myCaps.caps.includes("recordings"));
+
   const sectionsQuery = useQuery({ queryKey: ["admin-sections"], queryFn: () => listSections() });
   const { data, isLoading } = useQuery({
     queryKey: ["admin-live"],
