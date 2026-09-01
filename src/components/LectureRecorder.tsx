@@ -157,6 +157,24 @@ function fmt(sec: number) {
   return `${m}:${s}`;
 }
 
+/** Direct browser → Cloudflare R2 upload with real progress. */
+function putToR2(url: string, file: File, onProgress?: (pct: number) => void) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url, true);
+    if (file.type) xhr.setRequestHeader("Content-Type", file.type);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress?.(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve()
+        : reject(new Error(`Upload failed (${xhr.status})`));
+    xhr.onerror = () => reject(new Error("Network error while uploading"));
+    xhr.send(file);
+  });
+}
+
 /** Picks the best container/codec the current browser can actually record. */
 function pickMime() {
   // Chromium's MP4 MediaRecorder implementation is still less reliable during
