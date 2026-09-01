@@ -34,6 +34,10 @@ type RecState = {
   recovering: boolean;
   attemptNo: number;
   micMuted: boolean;
+  /** True while the browser's "share another screen/tab" picker is open. */
+  switching: boolean;
+  /** Which surface is currently being captured (screen / window / tab). */
+  surface: string | null;
   quality: RecQuality;
   micVol: number;
   tabVol: number;
@@ -44,6 +48,82 @@ type RecState = {
   /** Which recorder card owns the running session. */
   owner: string | null;
 };
+
+type DisplayAudioNodes = { src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode };
+
+type Compositor = {
+  track: MediaStreamTrack;
+  setSource: (s: MediaStream) => void;
+  stop: () => void;
+};
+
+/**
+ * The lecture is encoded from a canvas instead of the raw capture track, so the
+ * teacher can switch between Entire screen / Window / Chrome tab in the middle of
+ * a recording without ending the file (MediaRecorder cannot swap a live track).
+ * The redraw timer lives in a Web Worker because background tabs throttle normal
+ * timers down to 1 fps, which would freeze the video whenever the teacher moves
+ * to the Meet tab.
+ */
+function createCompositor(source: MediaStream, q: { w: number; h: number; fps: number }): Compositor {
+  const video = document.createElement("video");
+  video.muted = true;
+  video.playsInline = true;
+  video.srcObject = new MediaStream(source.getVideoTracks());
+  void video.play().catch(() => undefined);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = q.w;
+  canvas.height = q.h;
+  const ctx = canvas.getContext("2d", { alpha: false });
+  if (ctx) {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, q.w, q.h);
+  }
+
+  let stopped = false;
+  const draw = () => {
+    if (stopped || !ctx) return;
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh) return;
+    const scale = Math.min(q.w / vw, q.h / vh);
+    const w = vw * scale;
+    const h = vh * scale;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, q.w, q.h);
+    ctx.drawImage(video, (q.w - w) / 2, (q.h - h) / 2, w, h);
+  };
+
+  let worker: Worker | null = null;
+  let fallbackTimer: number | null = null;
+  try {
+    const src = "let id;onmessage=(e)=>{clearInterval(id);if(e.data>0)id=setInterval(()=>postMessage(0),e.data);};";
+    worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+    worker.onmessage = draw;
+    worker.postMessage(Math.max(20, Math.round(1000 / q.fps)));
+  } catch {
+    fallbackTimer = window.setInterval(draw, Math.max(20, Math.round(1000 / q.fps)));
+  }
+
+  const out = canvas.captureStream(q.fps);
+  const track = out.getVideoTracks()[0] as MediaStreamTrack;
+
+  return {
+    track,
+    setSource(s: MediaStream) {
+      video.srcObject = new MediaStream(s.getVideoTracks());
+      void video.play().catch(() => undefined);
+    },
+    stop() {
+      stopped = true;
+      worker?.terminate();
+      if (fallbackTimer) window.clearInterval(fallbackTimer);
+      out.getTracks().forEach((t) => t.stop());
+      video.srcObject = null;
+    },
+  };
+}
 
 type Box<T> = { current: T };
 const box = <T,>(v: T): Box<T> => ({ current: v });
@@ -68,7 +148,7 @@ type RecSession = {
     audioDest: Box<MediaStreamAudioDestinationNode | null>;
     analyser: Box<AnalyserNode | null>;
     display: Box<MediaStream | null>;
-    displayAudioNodes: Box<{ src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode } | null>;
+    displayAudioNodes: Box<DisplayAudioNodes | null>;
     backupChain: Box<Promise<void>>;
     backupFailed: Box<boolean>;
     meterTimer: Box<number | null>;
@@ -76,6 +156,8 @@ type RecSession = {
     micGain: Box<GainNode | null>;
     micStream: Box<MediaStream | null>;
     pausedAt: Box<number>;
+    compositor: Box<Compositor | null>;
+    attachDisplayAudio: Box<((s: MediaStream) => DisplayAudioNodes | null) | null>;
   };
 };
 
@@ -105,6 +187,8 @@ function getSession(): RecSession {
         recovering: false,
         attemptNo: 0,
         micMuted: false,
+        switching: false,
+        surface: null,
         quality: "high",
         micVol: 1,
         tabVol: 2.2,
@@ -131,7 +215,7 @@ function getSession(): RecSession {
         audioDest: box<MediaStreamAudioDestinationNode | null>(null),
         analyser: box<AnalyserNode | null>(null),
         display: box<MediaStream | null>(null),
-        displayAudioNodes: box<{ src: MediaStreamAudioSourceNode; gain: GainNode; analyser: AnalyserNode } | null>(null),
+        displayAudioNodes: box<DisplayAudioNodes | null>(null),
         backupChain: box<Promise<void>>(Promise.resolve()),
         backupFailed: box(false),
         meterTimer: box<number | null>(null),
@@ -139,6 +223,8 @@ function getSession(): RecSession {
         micGain: box<GainNode | null>(null),
         micStream: box<MediaStream | null>(null),
         pausedAt: box(0),
+        compositor: box<Compositor | null>(null),
+        attachDisplayAudio: box<((s: MediaStream) => DisplayAudioNodes | null) | null>(null),
       },
     };
   }
@@ -196,15 +282,26 @@ function pickMime() {
 }
 
 /**
- * MediaRecorder WebM files have no duration/Cues, so players buffer forever a few
- * minutes in. This rewrites the metadata so long recordings stream and seek fine.
+ * MediaRecorder WebM files carry no duration in their header, so most players
+ * (and Chrome itself) report only the first few minutes of a long lecture and
+ * refuse to seek past it. We patch the real duration (measured by our own timer)
+ * straight into the header — a cheap, streaming-safe operation that works for
+ * multi-GB files, unlike full re-muxing which silently fails on long lectures.
  */
-async function repairBlob(blob: Blob, type: string): Promise<Blob> {
+async function repairBlob(blob: Blob, type: string, durationMs?: number): Promise<Blob> {
   if (!type.includes("webm")) return blob;
+  if (durationMs && durationMs > 1000) {
+    try {
+      const { default: fixDuration } = await import("fix-webm-duration");
+      const fixed = await fixDuration(new Blob([blob], { type }), Math.round(durationMs));
+      if (fixed && fixed.size >= blob.size) return fixed;
+    } catch {
+      /* fall through to the re-muxing repair below */
+    }
+  }
   try {
-    // This implementation streams the source blob and supports files beyond 2GB.
-    // Always repair it: an unfinalized WebM commonly reports only the first few
-    // seconds and then buffers forever even though every recorded chunk exists.
+    // Fallback: full re-mux (slower, memory heavy — only used when the duration
+    // header patch is unavailable).
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
     return fixed.size >= blob.size * 0.98 ? fixed : blob;
@@ -212,6 +309,7 @@ async function repairBlob(blob: Blob, type: string): Promise<Blob> {
     return blob;
   }
 }
+
 
 
 
@@ -391,6 +489,8 @@ export function LectureRecorder({
   const micGainRef = R.micGain;
   const micStreamRef = R.micStream;
   const pausedAtRef = R.pausedAt;
+  const compositorRef = R.compositor;
+  const attachDisplayAudioRef = R.attachDisplayAudio;
 
   const [, force] = useReducer((n: number) => n + 1, 0);
   const [micTestOn, setMicTestOn] = useState(false);
@@ -789,7 +889,11 @@ export function LectureRecorder({
             : "Audio mixer was blocked by Chrome — recording microphone audio directly.",
         );
       }
-      const stream = new MediaStream([...display.getVideoTracks(), ...recorderAudio]);
+      const compositor = createCompositor(display, Q);
+      compositorRef.current = compositor;
+      attachDisplayAudioRef.current = (s: MediaStream) => attach(s, S.state.tabVol, true);
+      patch({ surface: capturedSurface ?? null });
+      const stream = new MediaStream([compositor.track, ...recorderAudio]);
 
        // A low-frequency meter confirms audio without a 60fps animation competing
        // with Meet/video playback and the encoder.
@@ -844,6 +948,9 @@ export function LectureRecorder({
       chunksRef.current = [];
 
       cleanupRef.current = () => {
+        compositorRef.current?.stop();
+        compositorRef.current = null;
+        attachDisplayAudioRef.current = null;
         shareEndCleanupRef.current?.();
         shareEndCleanupRef.current = null;
         displayRef.current?.getTracks().forEach((t) => t.stop());
@@ -972,6 +1079,52 @@ export function LectureRecorder({
     }
   }
 
+  /** Change the captured screen / window / tab WITHOUT stopping the recording. */
+  async function switchShare() {
+    const compositor = compositorRef.current;
+    if (!compositor || !S.state.recording || S.state.switching) return;
+    patch({ switching: true });
+    const Q = QUALITY[S.state.quality];
+    try {
+      const next = await navigator.mediaDevices.getDisplayMedia({
+        video: { frameRate: { ideal: Q.fps, max: Q.fps }, width: { ideal: Q.w }, height: { ideal: Q.h } },
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        ...({
+          systemAudio: "include",
+          windowAudio: "system",
+          surfaceSwitching: "include",
+          monitorTypeSurfaces: "include",
+          selfBrowserSurface: "exclude",
+          suppressLocalAudioPlayback: false,
+        } as Record<string, unknown>),
+      } as DisplayMediaStreamOptions);
+
+      const previous = displayRef.current;
+      compositor.setSource(next);
+
+      // Swap the shared-audio branch of the mixer over to the new surface.
+      const nodes = displayAudioNodesRef.current;
+      try {
+        nodes?.gain.disconnect();
+        nodes?.src.disconnect();
+      } catch {
+        /* already disconnected */
+      }
+      displayAudioNodesRef.current = attachDisplayAudioRef.current?.(next) ?? null;
+      setHasSystemAudio(next.getAudioTracks().some((t) => t.readyState === "live"));
+
+      previous?.getTracks().forEach((t) => t.stop());
+      displayRef.current = next;
+      patch({ surface: next.getVideoTracks()[0]?.getSettings().displaySurface ?? null });
+      listenForShareEnd(next);
+      toast.success("Switched — the recording continues on the newly selected screen.");
+    } catch {
+      toast.info("Screen switch cancelled — still recording the previous screen.");
+    } finally {
+      patch({ switching: false });
+    }
+  }
+
   async function finalize() {
     if (finalizingRef.current) return;
     finalizingRef.current = true;
@@ -980,13 +1133,14 @@ export function LectureRecorder({
     cleanupRef.current?.();
     cleanupRef.current = null;
     await backupWriteChainRef.current;
-    const duration = Math.floor((Date.now() - startedAtRef.current) / 1000);
+    const durationMs = Date.now() - startedAtRef.current;
+    const duration = Math.floor(durationMs / 1000);
     const mime = mimeRef.current;
     const savedBackup = await backupRead();
     const persistedChunks = savedBackup?.chunks ?? [];
     const allChunks = persistedChunks.length > 0 ? [...persistedChunks, ...chunksRef.current] : chunksRef.current;
     const { blob: rawBlob, type, ext } = backupBlob(allChunks, mime);
-    const blob = await repairBlob(rawBlob, type);
+    const blob = await repairBlob(rawBlob, type, durationMs);
 
     chunksRef.current = [];
     if (blob.size < 1000) {
@@ -1031,7 +1185,11 @@ export function LectureRecorder({
         return;
       }
       const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
-      const blob = await repairBlob(rawBlob, type);
+      const blob = await repairBlob(
+        rawBlob,
+        type,
+        Math.max(1000, backup.meta.updatedAt - backup.meta.startedAt),
+      );
 
       if (blob.size < 1000) {
         toast.error("The backup is empty");
@@ -1333,7 +1491,22 @@ export function LectureRecorder({
           {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
           {paused ? "Resume" : "Pause"} · Ctrl+Shift+P
         </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          className="gap-2"
+          onClick={() => void switchShare()}
+          disabled={st.switching}
+        >
+          {st.switching ? <Loader2 className="h-4 w-4 animate-spin" /> : <MonitorUp className="h-4 w-4" />}
+          Change screen / tab
+        </Button>
       </div>
+      <p className="text-[11px] font-bold text-muted-foreground">
+        Currently recording:{" "}
+        {st.surface === "browser" ? "a Chrome tab" : st.surface === "window" ? "an app window" : "the entire screen"} —
+        use “Change screen / tab” to switch source without stopping the recording.
+      </p>
 
     </div>
   ) : (
