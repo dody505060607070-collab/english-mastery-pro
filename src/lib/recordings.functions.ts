@@ -264,7 +264,18 @@ export const deleteRecording = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
 
     const all = [recording?.video_url, recording?.thumbnail_url].filter((v): v is string => Boolean(v));
-    const r2Keys = all.filter((v) => v.startsWith("r2:")).map((v) => v.slice(3));
+    const { readR2Config } = await import("@/lib/r2.server");
+    let publicBaseUrl: string | null = null;
+    try {
+      publicBaseUrl = readR2Config().publicBaseUrl;
+    } catch {
+      /* legacy non-R2 recordings can still be deleted */
+    }
+    const r2Keys = all.flatMap((value) => {
+      if (value.startsWith("r2:")) return [value.slice(3)];
+      if (publicBaseUrl && value.startsWith(`${publicBaseUrl}/`)) return [decodeURIComponent(value.slice(publicBaseUrl.length + 1))];
+      return [];
+    });
     const storedPaths = all.filter((v) => !v.startsWith("http") && !v.startsWith("r2:"));
     if (storedPaths.length > 0) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

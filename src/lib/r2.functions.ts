@@ -40,9 +40,10 @@ export const createR2UploadUrl = createServerFn({ method: "POST" })
     const folder = (data.folder || "recordings").replace(/[^a-zA-Z0-9/_-]/g, "") || "recordings";
     const key = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const uploadUrl = await presignR2("PUT", key, 60 * 60);
-    const publicBase = readR2Config().publicBaseUrl;
-    // A public custom domain lets us store a plain https URL that works everywhere.
-    const storedValue = publicBase ? `${publicBase}/${key}` : `${R2_PREFIX}${key}`;
+    readR2Config();
+    // Always persist the storage key, never an expiring or public URL. Playback
+    // resolves it later, and deletion can always identify and free the object.
+    const storedValue = `${R2_PREFIX}${key}`;
     return { uploadUrl, storedValue, key, usedBytes, remainingBytes: limitBytes - usedBytes };
   });
 
