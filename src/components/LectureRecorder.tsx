@@ -290,26 +290,28 @@ function pickMime() {
  */
 async function repairBlob(blob: Blob, type: string, durationMs?: number): Promise<Blob> {
   if (!type.includes("webm")) return blob;
-  if (durationMs && durationMs > 1000) {
-    try {
-      const { default: fixDuration } = await import("fix-webm-duration");
-      const fixed = await fixDuration(new Blob([blob], { type }), Math.round(durationMs));
-      if (fixed && fixed.size >= blob.size) return fixed;
-    } catch {
-      /* fall through to the re-muxing repair below */
-    }
-  }
-  // A full browser-side re-mux can exhaust memory and appear to freeze when
-  // recovering a long lecture. The original WebM is still playable/uploadable,
-  // so only use the expensive fallback for smaller recordings.
-  if (blob.size > 64 * 1024 * 1024) return blob;
+  // MediaRecorder's timesliced WebM can already contain a short, non-zero
+  // Duration copied from an early cluster. `fix-webm-duration` deliberately
+  // refuses to replace that value, which made an hour-long file appear to be
+  // only the first 2–5 seconds. This parser scans the clusters and rebuilds the
+  // seek metadata while preserving the media bytes via Blob.slice, so it also
+  // works for long recordings without flattening the whole video into memory.
   try {
-    // Fallback: full re-mux (slower, memory heavy — only used when the duration
-    // header patch is unavailable).
     const { default: fixWebmDuration } = await import("webm-duration-fix");
     const fixed = await fixWebmDuration(new Blob([blob], { type }));
     return fixed.size >= blob.size * 0.98 ? fixed : blob;
   } catch {
+    // Some browser codecs cannot be parsed by the seek-metadata repair. For
+    // those, write our measured duration as a fallback when the header permits.
+    if (durationMs && durationMs > 1000) {
+      try {
+        const { default: fixDuration } = await import("fix-webm-duration");
+        const fixed = await fixDuration(new Blob([blob], { type }), Math.round(durationMs), { logger: false });
+        if (fixed && fixed.size >= blob.size) return fixed;
+      } catch {
+        /* keep the complete original media bytes below */
+      }
+    }
     return blob;
   }
 }
@@ -1318,16 +1320,30 @@ export function LectureRecorder({
   useEffect(() => () => stopMicTest(), []);
 
   async function downloadBackup() {
-
-    const backup = await backupRead();
-    if (!backup) return;
-    const { blob, ext } = backupBlob(backup.chunks, backup.meta.mime);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `lecture-backup-${Date.now()}.${ext}`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    setRecovering(true);
+    try {
+      const backup = await backupRead();
+      if (!backup) {
+        toast.error("No backup found");
+        return;
+      }
+      const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
+      const durationMs = Math.max(1000, backup.meta.updatedAt - backup.meta.startedAt);
+      const blob = await repairBlob(rawBlob, type, durationMs);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `lecture-${backup.meta.title.replace(/[^a-zA-Z0-9-_ ]/g, "").trim() || "recording"}-${Date.now()}.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      toast.success(`Complete recording prepared (${fmt(Math.floor(durationMs / 1000))})`);
+    } catch (e) {
+      toast.error(`Download failed: ${(e as Error).message}. The backup was kept.`);
+    } finally {
+      setRecovering(false);
+    }
   }
 
   useEffect(() => {
@@ -1544,8 +1560,8 @@ export function LectureRecorder({
               {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
               {recovering ? `Recovering… ${uploadProgress}%` : "Recover & Publish"}
             </Button>
-            <Button size="sm" variant="outline" className="gap-1.5" onClick={() => void downloadBackup()}>
-              <Download className="h-4 w-4" /> Download
+            <Button size="sm" variant="outline" className="gap-1.5" disabled={recovering} onClick={() => void downloadBackup()}>
+              {recovering ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} Download full video
             </Button>
             <Button size="sm" variant="secondary" disabled={recovering} onClick={() => void recoverBackup(true)}>
               Recover, Publish &amp; Start Next Part
