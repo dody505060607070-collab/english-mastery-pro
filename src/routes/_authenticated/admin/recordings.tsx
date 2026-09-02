@@ -477,7 +477,16 @@ function StorageBudgetBar() {
     queryFn: () => getStorageBudget(),
     staleTime: 60_000,
   });
-  if (!data || !data.available) return null;
+  if (!data) return null;
+  if (!data.available) {
+    return (
+      <Card className="border-destructive/50">
+        <CardContent className="p-4 text-sm font-bold text-destructive">
+          Cloudflare R2 storage status could not be verified. Uploads are safely blocked; try again before recording or use YouTube Unlisted.
+        </CardContent>
+      </Card>
+    );
+  }
   const pct = Math.min(100, Math.round((data.totalUsedMb / data.totalLimitMb) * 100));
   const usedGb = Math.round((data.totalUsedMb / 1024) * 100) / 100;
   return (

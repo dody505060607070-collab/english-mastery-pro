@@ -34,12 +34,13 @@ export const getStorageBudget = createServerFn({ method: "GET" })
         available: true,
       };
     } catch {
-      // R2 not configured / unreachable — don't block the admin's work.
+      // Fail closed: an unavailable usage check must never let a large upload
+      // bypass the 10 GiB cap. The local recording/download remains untouched.
       return {
         totalUsedMb: 0,
         totalLimitMb: TOTAL_STORAGE_LIMIT_MB,
-        totalRemainingMb: TOTAL_STORAGE_LIMIT_MB,
-        blocked: false,
+        totalRemainingMb: 0,
+        blocked: true,
         available: false,
       };
     }

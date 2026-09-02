@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Camera, ImageIcon, Loader2, Smartphone, Video } from "lucide-react";
 import { toast } from "sonner";
 
@@ -7,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { uploadFile } from "@/lib/storage";
 import { saveRecording } from "@/lib/recordings.functions";
+import { createR2UploadUrl } from "@/lib/r2.functions";
+import { getStorageBudget } from "@/lib/storage-budget.functions";
 
 /**
  * Upload a lecture straight from the phone/computer storage (video or image),
@@ -28,6 +30,26 @@ export function LectureUploadCard({
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState("");
+  const requestR2Url = useServerFn(createR2UploadUrl);
+  const persistRecording = useServerFn(saveRecording);
+  const checkBudget = useServerFn(getStorageBudget);
+
+  function putToR2(url: string, file: File) {
+    return new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", url, true);
+      if (file.type) xhr.setRequestHeader("Content-Type", file.type);
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) setProgress(Math.round((event.loaded / event.total) * 100));
+      };
+      xhr.onload = () =>
+        xhr.status >= 200 && xhr.status < 300
+          ? resolve()
+          : reject(new Error(`Cloudflare R2 upload failed (${xhr.status})`));
+      xhr.onerror = () => reject(new Error("Could not reach Cloudflare R2. Check the connection and try again."));
+      xhr.send(file);
+    });
+  }
 
   function readVideoDuration(file: File): Promise<number | null> {
     if (!file.type.startsWith("video/")) return Promise.resolve(null);
@@ -59,19 +81,28 @@ export function LectureUploadCard({
     setFileName(file.name);
     try {
       const durationSeconds = await readVideoDuration(file);
-      const path = await uploadFile("content", file, "recordings", setProgress);
-      await saveRecording({
+      const budget = await checkBudget();
+      const fileMb = file.size / (1024 * 1024);
+      if (!budget.available) throw new Error("Cloudflare R2 storage could not be verified. Nothing was uploaded; please try again.");
+      if (budget.blocked || fileMb > budget.totalRemainingMb) {
+        throw new Error("Your free 10GB of Cloudflare R2 storage is full. Upload this video to YouTube as Unlisted instead.");
+      }
+      const { uploadUrl, storedValue } = await requestR2Url({
+        data: { filename: file.name, contentType: file.type || null, folder: "recordings", sizeBytes: file.size },
+      });
+      await putToR2(uploadUrl, file);
+      await persistRecording({
         data: {
           title: title.trim() || file.name.replace(/\.[^.]+$/, ""),
           description: null,
-          videoUrl: path,
+          videoUrl: storedValue,
           durationSeconds,
           sectionId: sectionId ?? null,
           isPublished: true,
           status: "ready",
         },
       });
-      toast.success("Lecture uploaded and published to students");
+      toast.success("Lecture uploaded to Cloudflare R2 and published to students");
       setTitle("");
       setFileName("");
       onSaved?.();
@@ -142,7 +173,7 @@ export function LectureUploadCard({
         )}
 
         <p className="text-xs text-muted-foreground">
-          Supports large videos up to 2GB, and resumes automatically if the connection drops.
+          Supports videos up to 2GB. Uploads go directly to Cloudflare R2 and stop when the free 10GB is full.
         </p>
 
         <input

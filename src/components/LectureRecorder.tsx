@@ -389,18 +389,24 @@ function runTx<T>(db: IDBDatabase, stores: string[], mode: IDBTransactionMode, f
 
 /** Append one chunk + refresh the session meta (best-effort, never throws). */
 async function backupAppendChunk(chunk: Blob, meta: BackupMeta): Promise<boolean> {
-  try {
-    const db = await openBackupDb();
-    await runTx(db, ["meta", "chunks"], "readwrite", (tx) => {
-      tx.objectStore("chunks").add(chunk);
-      tx.objectStore("meta").put({ ...meta, updatedAt: Date.now() }, "active");
-    });
-    db.close();
-    return true;
-  } catch {
-    // Backup is best-effort; recording itself must never fail because of it.
-    return false;
+  // IndexedDB transactions can abort transiently when the browser is busy.
+  // Retry before falling back to RAM so a long recording is not left with only
+  // its first few persisted chunks after a later crash.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const db = await openBackupDb();
+      await runTx(db, ["meta", "chunks"], "readwrite", (tx) => {
+        tx.objectStore("chunks").add(chunk);
+        tx.objectStore("meta").put({ ...meta, updatedAt: Date.now() }, "active");
+      });
+      db.close();
+      return true;
+    } catch {
+      if (attempt < 2) await new Promise((resolve) => window.setTimeout(resolve, 150 * (attempt + 1)));
+    }
   }
+  // Recording itself must never fail because local persistence is unavailable.
+  return false;
 }
 
 /** Returns the unfinished session (if any) with all of its saved chunks. */
@@ -662,23 +668,33 @@ export function LectureRecorder({
 
   useEffect(() => {
     mountedRef.current = true;
-    // Detect an unfinished recording session left behind by a crash / power cut.
-    void (async () => {
+    const detectUnfinished = async () => {
       if (S.state.recording) return;
       const backup = await backupRead();
-      if (!backup) return;
+      if (!backup) {
+        setUnfinished(null);
+        return;
+      }
       const size = backup.chunks.reduce((sum, c) => sum + c.size, 0);
       if (size < 1000) {
         await backupClear();
+        setUnfinished(null);
         return;
       }
       setUnfinished({ meta: backup.meta, size });
-    })();
+    };
+    void detectUnfinished();
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void detectUnfinished();
+    };
+    document.addEventListener("visibilitychange", onVisible);
     // NOTE: intentionally no stop on unmount — recording continues across page
     // navigation and only ends when the teacher presses Stop (or the browser/tab
     // is closed, in which case the IndexedDB backup is recovered next time).
+    return () => document.removeEventListener("visibilitychange", onVisible);
+    // Re-check after a recording stops as well as when this page becomes visible.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [recording]);
 
 
   useEffect(
@@ -1145,7 +1161,9 @@ export function LectureRecorder({
     const mime = mimeRef.current;
     const savedBackup = await backupRead();
     const persistedChunks = savedBackup?.chunks ?? [];
-    const allChunks = persistedChunks.length > 0 ? [...persistedChunks, ...chunksRef.current] : chunksRef.current;
+    // A chunk is written either to IndexedDB or, only when that write fails, to
+    // RAM. The two collections are therefore complementary, never duplicates.
+    const allChunks = [...persistedChunks, ...chunksRef.current];
     const { blob: rawBlob, type, ext } = backupBlob(allChunks, mime);
     const blob = await repairBlob(rawBlob, type, durationMs);
 
@@ -1187,8 +1205,8 @@ export function LectureRecorder({
     try {
       const backup = await backupRead();
       if (!backup) {
-        toast.error("No backup found");
-        if (mountedRef.current) setUnfinished(null);
+        toast.error("No recoverable video data was found. The stale recovery notice was removed.");
+        setUnfinished(null);
         return;
       }
       const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
@@ -1199,7 +1217,8 @@ export function LectureRecorder({
       );
 
       if (blob.size < 1000) {
-        toast.error("The backup is empty");
+        toast.error("The backup contains no recoverable video data.");
+        setUnfinished(null);
         return;
       }
       const fileName = `lecture-recovered-${Date.now()}.${ext}`;
@@ -1207,17 +1226,22 @@ export function LectureRecorder({
       try {
         const budget = await checkBudget();
         const fileMb = file.size / (1024 * 1024);
-        if (budget.available && (budget.blocked || fileMb > budget.totalRemainingMb)) {
+        if (!budget.available) {
+          toast.error("Cloudflare R2 storage could not be verified. The backup was kept; please try again.");
+          return;
+        }
+        if (budget.blocked || fileMb > budget.totalRemainingMb) {
           toast.error(
             "Your free 10GB of Cloudflare storage is full. Download this recording and upload it to YouTube as Unlisted, then paste the link in Recordings.",
           );
           return;
         }
       } catch {
-        /* budget unavailable — continue */
+        toast.error("Cloudflare R2 storage could not be verified. The backup was kept; please try again.");
+        return;
       }
       const { uploadUrl, storedValue } = await requestR2Url({
-        data: { filename: file.name, contentType: file.type || null, folder: "recordings" },
+        data: { filename: file.name, contentType: file.type || null, folder: "recordings", sizeBytes: file.size },
       });
       await putToR2(uploadUrl, file, (progress) => {
         if (mountedRef.current) setUploadProgress(progress);
@@ -1324,7 +1348,8 @@ export function LectureRecorder({
     try {
       const backup = await backupRead();
       if (!backup) {
-        toast.error("No backup found");
+        toast.error("No recoverable video data was found. The stale recovery notice was removed.");
+        setUnfinished(null);
         return;
       }
       const { blob: rawBlob, type, ext } = backupBlob(backup.chunks, backup.meta.mime);
