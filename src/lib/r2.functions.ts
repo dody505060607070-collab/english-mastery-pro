@@ -14,13 +14,27 @@ export const createR2UploadUrl = createServerFn({ method: "POST" })
         filename: z.string().trim().min(1).max(200),
         contentType: z.string().trim().max(120).optional().nullable(),
         folder: z.string().trim().max(60).optional().nullable(),
+        sizeBytes: z.number().int().positive().max(10 * 1024 * 1024 * 1024),
       })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
     const { assertCan } = await import("@/lib/staff.server");
     await assertCan(context.supabase, context.userId, "recordings");
-    const { presignR2, readR2Config } = await import("@/lib/r2.server");
+    const { presignR2, readR2Config, r2UsedBytes } = await import("@/lib/r2.server");
+
+    const limitBytes = 10 * 1024 * 1024 * 1024;
+    let usedBytes: number;
+    try {
+      usedBytes = await r2UsedBytes();
+    } catch {
+      throw new Error("Cloudflare R2 storage could not be verified. Nothing was uploaded; please try again.");
+    }
+    if (usedBytes + data.sizeBytes > limitBytes) {
+      throw new Error(
+        "Your free 10GB of Cloudflare R2 storage is full. Upload this video to YouTube as Unlisted instead.",
+      );
+    }
 
     const ext = data.filename.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "mp4";
     const folder = (data.folder || "recordings").replace(/[^a-zA-Z0-9/_-]/g, "") || "recordings";
@@ -29,7 +43,7 @@ export const createR2UploadUrl = createServerFn({ method: "POST" })
     const publicBase = readR2Config().publicBaseUrl;
     // A public custom domain lets us store a plain https URL that works everywhere.
     const storedValue = publicBase ? `${publicBase}/${key}` : `${R2_PREFIX}${key}`;
-    return { uploadUrl, storedValue, key };
+    return { uploadUrl, storedValue, key, usedBytes, remainingBytes: limitBytes - usedBytes };
   });
 
 

@@ -1145,7 +1145,9 @@ export function LectureRecorder({
     const mime = mimeRef.current;
     const savedBackup = await backupRead();
     const persistedChunks = savedBackup?.chunks ?? [];
-    const allChunks = persistedChunks.length > 0 ? [...persistedChunks, ...chunksRef.current] : chunksRef.current;
+    // A chunk is written either to IndexedDB or, only when that write fails, to
+    // RAM. The two collections are therefore complementary, never duplicates.
+    const allChunks = [...persistedChunks, ...chunksRef.current];
     const { blob: rawBlob, type, ext } = backupBlob(allChunks, mime);
     const blob = await repairBlob(rawBlob, type, durationMs);
 
@@ -1207,17 +1209,22 @@ export function LectureRecorder({
       try {
         const budget = await checkBudget();
         const fileMb = file.size / (1024 * 1024);
-        if (budget.available && (budget.blocked || fileMb > budget.totalRemainingMb)) {
+        if (!budget.available) {
+          toast.error("Cloudflare R2 storage could not be verified. The backup was kept; please try again.");
+          return;
+        }
+        if (budget.blocked || fileMb > budget.totalRemainingMb) {
           toast.error(
             "Your free 10GB of Cloudflare storage is full. Download this recording and upload it to YouTube as Unlisted, then paste the link in Recordings.",
           );
           return;
         }
       } catch {
-        /* budget unavailable — continue */
+        toast.error("Cloudflare R2 storage could not be verified. The backup was kept; please try again.");
+        return;
       }
       const { uploadUrl, storedValue } = await requestR2Url({
-        data: { filename: file.name, contentType: file.type || null, folder: "recordings" },
+        data: { filename: file.name, contentType: file.type || null, folder: "recordings", sizeBytes: file.size },
       });
       await putToR2(uploadUrl, file, (progress) => {
         if (mountedRef.current) setUploadProgress(progress);

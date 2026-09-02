@@ -76,15 +76,20 @@ export function FileUploadField({
       try {
         const b = await checkBudget();
         const fileMb = file.size / (1024 * 1024);
-        if (b.available && (b.blocked || fileMb > b.totalRemainingMb)) {
-          const msg = `${OVER_BUDGET_MSG} (Used: ${b.totalUsedMb}MB / ${b.totalLimitMb}MB)`;
+        if (!b.available || b.blocked || fileMb > b.totalRemainingMb) {
+          const msg = b.available
+            ? `${OVER_BUDGET_MSG} (Used: ${b.totalUsedMb}MB / ${b.totalLimitMb}MB)`
+            : "Cloudflare R2 storage could not be verified. Nothing was uploaded; please try again.";
           setBlockedMsg(msg);
           toast.error(msg);
           if (inputRef.current) inputRef.current.value = "";
           return;
         }
       } catch {
-        // budget check unavailable — allow the upload rather than blocking work
+        const msg = "Cloudflare R2 storage could not be verified. Nothing was uploaded; please try again.";
+        setBlockedMsg(msg);
+        toast.error(msg);
+        return;
       }
     }
     setBusy(true);
@@ -92,7 +97,7 @@ export function FileUploadField({
     try {
       if (r2) {
         const { uploadUrl, storedValue } = await requestR2Url({
-          data: { filename: file.name, contentType: file.type || null, folder: folder || "media" },
+          data: { filename: file.name, contentType: file.type || null, folder: folder || "media", sizeBytes: file.size },
         });
         await putToR2(uploadUrl, file);
         onChange(storedValue);
