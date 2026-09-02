@@ -14,7 +14,7 @@ export const createR2UploadUrl = createServerFn({ method: "POST" })
         filename: z.string().trim().min(1).max(200),
         contentType: z.string().trim().max(120).optional().nullable(),
         folder: z.string().trim().max(60).optional().nullable(),
-        sizeBytes: z.number().int().positive().max(10 * 1024 * 1024 * 1024),
+        sizeBytes: z.number().int().positive().max(2 * 1024 * 1024 * 1024),
       })
       .parse(data),
   )
